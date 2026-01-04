@@ -39,6 +39,12 @@ router.get("/:id", async (req, res) => {
 router.post("/", protect, async (req, res) => {
 	try {
 		const course = await Course.create(req.body);
+		
+		// Update students count on creation to 0
+		course.students = 0;
+		course.rating = 0;
+		await course.save();
+		
 		res.status(201).json(course);
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message });

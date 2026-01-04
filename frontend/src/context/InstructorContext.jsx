@@ -17,6 +17,10 @@ export const InstructorProvider = ({ children }) => {
 		const storedInstructor = localStorage.getItem("instructor");
 		if (storedInstructor) {
 			setInstructor(JSON.parse(storedInstructor));
+			// Backfill shared token if it wasn't stored before
+			if (!localStorage.getItem("instructorToken")) {
+				localStorage.setItem("instructorToken", "instructor-admin");
+			}
 		}
 		setLoading(false);
 	}, []);
@@ -32,6 +36,7 @@ export const InstructorProvider = ({ children }) => {
 				role: "instructor",
 			};
 			localStorage.setItem("instructor", JSON.stringify(instructorData));
+			localStorage.setItem("instructorToken", "instructor-admin");
 			setInstructor(instructorData);
 			return { success: true };
 		}
@@ -41,6 +46,7 @@ export const InstructorProvider = ({ children }) => {
 	const logout = () => {
 		setInstructor(null);
 		localStorage.removeItem("instructor");
+		localStorage.removeItem("instructorToken");
 	};
 
 	const value = {

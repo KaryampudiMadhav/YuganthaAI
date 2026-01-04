@@ -78,6 +78,12 @@ router.post("/enroll/:courseId", protect, async (req, res) => {
 
 		await user.save();
 
+		// Increment student count in course
+		const Course = (await import("../models/Course.js")).default;
+		await Course.findByIdAndUpdate(courseId, {
+			$inc: { students: 1 }
+		});
+
 		res.json({
 			message: "Successfully enrolled",
 			enrolledCourses: user.enrolledCourses,
