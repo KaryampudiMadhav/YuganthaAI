@@ -77,7 +77,7 @@ export default function Navbar() {
 									Courses
 								</Link>
 								<Link
-									to='/courses'
+									to='/my-learning'
 									className='block px-4 py-2 hover:bg-gray-700'>
 									Learning Paths
 								</Link>
@@ -198,7 +198,7 @@ export default function Navbar() {
 							Courses
 						</Link>
 						<Link
-							to='/courses'
+							to='/my-learning'
 							className='px-4 py-2 hover:bg-gray-800 rounded-lg'>
 							Learning Paths
 						</Link>
