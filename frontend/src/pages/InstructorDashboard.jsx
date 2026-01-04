@@ -7,21 +7,36 @@ export default function InstructorDashboard() {
 	const [courses, setCourses] = useState([]);
 	const [showAddModal, setShowAddModal] = useState(false);
 	const [editingCourse, setEditingCourse] = useState(null);
+	const [showModuleModal, setShowModuleModal] = useState(false);
+	const [currentCourseForModule, setCurrentCourseForModule] = useState(null);
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
 		instructor: "",
 		duration: "",
 		level: "Beginner",
-		price: "",
+		price: "Free",
 		thumbnail: "",
 		category: "AI & ML",
 		videoUrl: "",
 		videoPublicId: "",
+		modules: [],
+	});
+	const [moduleData, setModuleData] = useState({
+		title: "",
+		description: "",
+		order: 1,
 		videos: [],
 	});
-	const [uploadingVideo, setUploadingVideo] = useState(false);
-	const [uploadProgress, setUploadProgress] = useState(0);
+	const [videoData, setVideoData] = useState({
+		title: "",
+		url: "",
+		publicId: "",
+		duration: "",
+		description: "",
+		order: 1,
+	});
+	const [showAddVideoToModule, setShowAddVideoToModule] = useState(false);
 
 	const { instructor, logout, isAuthenticated } = useInstructor();
 	const navigate = useNavigate();
@@ -53,6 +68,20 @@ export default function InstructorDashboard() {
 		});
 	};
 
+	const handleModuleInputChange = (e) => {
+		setModuleData({
+			...moduleData,
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	const handleVideoInputChange = (e) => {
+		setVideoData({
+			...videoData,
+			[e.target.name]: e.target.value,
+		});
+	};
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 
@@ -61,10 +90,13 @@ export default function InstructorDashboard() {
 				? `http://localhost:5000/api/courses/${editingCourse._id}`
 				: "http://localhost:5000/api/courses";
 
+			const token = localStorage.getItem("instructorToken");
+
 			const response = await fetch(url, {
 				method: editingCourse ? "PUT" : "POST",
 				headers: {
 					"Content-Type": "application/json",
+					Authorization: `Bearer ${token}`,
 				},
 				body: JSON.stringify(formData),
 			});
@@ -72,21 +104,28 @@ export default function InstructorDashboard() {
 			if (response.ok) {
 				setShowAddModal(false);
 				setEditingCourse(null);
-				setFormData({
-					title: "",
-					description: "",
-					instructor: "",
-					duration: "",
-					level: "Beginner",
-					price: "",
-					thumbnail: "",
-					category: "AI & ML",
-				});
+				resetFormData();
 				fetchCourses();
 			}
 		} catch (error) {
 			console.error("Error saving course:", error);
 		}
+	};
+
+	const resetFormData = () => {
+		setFormData({
+			title: "",
+			description: "",
+			instructor: "",
+			duration: "",
+			level: "Beginner",
+			price: "Free",
+			thumbnail: "",
+			category: "AI & ML",
+			videoUrl: "",
+			videoPublicId: "",
+			modules: [],
+		});
 	};
 
 	const handleEdit = (course) => {
@@ -102,7 +141,7 @@ export default function InstructorDashboard() {
 			category: course.category,
 			videoUrl: course.videoUrl || "",
 			videoPublicId: course.videoPublicId || "",
-			videos: course.videos || [],
+			modules: course.modules || [],
 		});
 		setShowAddModal(true);
 	};
@@ -113,10 +152,14 @@ export default function InstructorDashboard() {
 		}
 
 		try {
+			const token = localStorage.getItem("instructorToken");
 			const response = await fetch(
 				`http://localhost:5000/api/courses/${courseId}`,
 				{
 					method: "DELETE",
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
 				}
 			);
 
@@ -126,6 +169,78 @@ export default function InstructorDashboard() {
 		} catch (error) {
 			console.error("Error deleting course:", error);
 		}
+	};
+
+	const handleAddModule = () => {
+		const newModule = {
+			...moduleData,
+			order: (formData.modules?.length || 0) + 1,
+		};
+		setFormData({
+			...formData,
+			modules: [...(formData.modules || []), newModule],
+		});
+		setModuleData({
+			title: "",
+			description: "",
+			order: 1,
+			videos: [],
+		});
+		setShowModuleModal(false);
+	};
+
+	const handleAddVideoToModule = () => {
+		const updatedModules = [...formData.modules];
+		const moduleIndex = updatedModules.findIndex(
+			(m) => m.order === currentCourseForModule
+		);
+		if (moduleIndex !== -1) {
+			const newVideo = {
+				...videoData,
+				order: (updatedModules[moduleIndex].videos?.length || 0) + 1,
+			};
+			updatedModules[moduleIndex].videos = [
+				...(updatedModules[moduleIndex].videos || []),
+				newVideo,
+			];
+			setFormData({
+				...formData,
+				modules: updatedModules,
+			});
+			setVideoData({
+				title: "",
+				url: "",
+				publicId: "",
+				duration: "",
+				description: "",
+				order: 1,
+			});
+			setShowAddVideoToModule(false);
+			setCurrentCourseForModule(null);
+		}
+	};
+
+	const handleRemoveModule = (moduleOrder) => {
+		setFormData({
+			...formData,
+			modules: formData.modules.filter((m) => m.order !== moduleOrder),
+		});
+	};
+
+	const handleRemoveVideoFromModule = (moduleOrder, videoOrder) => {
+		const updatedModules = formData.modules.map((module) => {
+			if (module.order === moduleOrder) {
+				return {
+					...module,
+					videos: module.videos.filter((v) => v.order !== videoOrder),
+				};
+			}
+			return module;
+		});
+		setFormData({
+			...formData,
+			modules: updatedModules,
+		});
 	};
 
 	const handleLogout = () => {
@@ -183,7 +298,7 @@ export default function InstructorDashboard() {
 			</header>
 
 			{/* Main Content */}
-			<div className='max-w-7xl mx-auto px-6 py-8'>
+			<div className='max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8'>
 				{/* Stats */}
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-8'>
 					<div className='bg-gradient-to-r from-blue-600 to-blue-800 rounded-xl p-6 text-white'>
@@ -193,17 +308,27 @@ export default function InstructorDashboard() {
 						<div className='text-blue-100'>Total Courses</div>
 					</div>
 					<div className='bg-gradient-to-r from-purple-600 to-purple-800 rounded-xl p-6 text-white'>
-						<div className='text-3xl font-bold mb-2'>0</div>
-						<div className='text-purple-100'>Total Students</div>
+						<div className='text-3xl font-bold mb-2'>
+							{courses.reduce(
+								(sum, course) => sum + (course.modules?.length || 0),
+								0
+							)}
+						</div>
+						<div className='text-purple-100'>Total Modules</div>
 					</div>
 					<div className='bg-gradient-to-r from-green-600 to-green-800 rounded-xl p-6 text-white'>
 						<div className='text-3xl font-bold mb-2'>
-							{
-								courses.filter((c) => c.level === "Beginner")
-									.length
-							}
+							{courses.reduce(
+								(sum, course) =>
+									sum +
+									(course.modules?.reduce(
+										(s, m) => s + (m.videos?.length || 0),
+										0
+									) || 0),
+								0
+							)}
 						</div>
-						<div className='text-green-100'>Beginner Courses</div>
+						<div className='text-green-100'>Total Videos</div>
 					</div>
 				</div>
 
@@ -240,7 +365,7 @@ export default function InstructorDashboard() {
 									<th className='pb-3 px-4'>Course</th>
 									<th className='pb-3 px-4'>Instructor</th>
 									<th className='pb-3 px-4'>Level</th>
-									<th className='pb-3 px-4'>Duration</th>
+									<th className='pb-3 px-4'>Modules</th>
 									<th className='pb-3 px-4'>Price</th>
 									<th className='pb-3 px-4'>Actions</th>
 								</tr>
@@ -287,7 +412,7 @@ export default function InstructorDashboard() {
 											</span>
 										</td>
 										<td className='py-4 px-4 text-gray-300'>
-											{course.duration}
+											{course.modules?.length || 0} modules
 										</td>
 										<td className='py-4 px-4 text-gray-300'>
 											{course.price === "Free"
@@ -342,10 +467,10 @@ export default function InstructorDashboard() {
 				</div>
 			</div>
 
-			{/* Add/Edit Modal */}
+			{/* Add/Edit Course Modal */}
 			{showAddModal && (
-				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4'>
-					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-2xl w-full max-h-[90vh] overflow-y-auto'>
+				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 overflow-y-auto'>
+					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-4xl w-full my-8'>
 						<div className='flex items-center justify-between mb-6'>
 							<h3 className='text-2xl font-bold text-white'>
 								{editingCourse
@@ -356,19 +481,7 @@ export default function InstructorDashboard() {
 								onClick={() => {
 									setShowAddModal(false);
 									setEditingCourse(null);
-									setFormData({
-										title: "",
-										description: "",
-										instructor: "",
-										duration: "",
-										level: "Beginner",
-										price: "",
-										thumbnail: "",
-										category: "AI & ML",
-										videoUrl: "",
-										videoPublicId: "",
-										videos: [],
-									});
+									resetFormData();
 								}}
 								className='text-gray-400 hover:text-white'>
 								<svg
@@ -387,18 +500,34 @@ export default function InstructorDashboard() {
 						</div>
 
 						<form onSubmit={handleSubmit} className='space-y-4'>
-							<div>
-								<label className='block text-white mb-2 text-sm'>
-									Course Title
-								</label>
-								<input
-									type='text'
-									name='title'
-									value={formData.title}
-									onChange={handleInputChange}
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-									required
-								/>
+							<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+								<div>
+									<label className='block text-white mb-2 text-sm'>
+										Course Title
+									</label>
+									<input
+										type='text'
+										name='title'
+										value={formData.title}
+										onChange={handleInputChange}
+										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+										required
+									/>
+								</div>
+
+								<div>
+									<label className='block text-white mb-2 text-sm'>
+										Instructor
+									</label>
+									<input
+										type='text'
+										name='instructor'
+										value={formData.instructor}
+										onChange={handleInputChange}
+										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+										required
+									/>
+								</div>
 							</div>
 
 							<div>
@@ -414,21 +543,7 @@ export default function InstructorDashboard() {
 									required></textarea>
 							</div>
 
-							<div className='grid grid-cols-2 gap-4'>
-								<div>
-									<label className='block text-white mb-2 text-sm'>
-										Instructor
-									</label>
-									<input
-										type='text'
-										name='instructor'
-										value={formData.instructor}
-										onChange={handleInputChange}
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-										required
-									/>
-								</div>
-
+							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
 								<div>
 									<label className='block text-white mb-2 text-sm'>
 										Duration
@@ -443,9 +558,7 @@ export default function InstructorDashboard() {
 										required
 									/>
 								</div>
-							</div>
 
-							<div className='grid grid-cols-2 gap-4'>
 								<div>
 									<label className='block text-white mb-2 text-sm'>
 										Level
@@ -477,45 +590,132 @@ export default function InstructorDashboard() {
 								</div>
 							</div>
 
-							<div>
-								<label className='block text-white mb-2 text-sm'>
-									Category
-								</label>
-								<input
-									type='text'
-									name='category'
-									value={formData.category}
-									onChange={handleInputChange}
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-									required
-								/>
+						<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+								<div>
+									<label className='block text-white mb-2 text-sm'>
+										Category
+									</label>
+									<input
+										type='text'
+										name='category'
+										value={formData.category}
+										onChange={handleInputChange}
+										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+										required
+									/>
+								</div>
+
+								<div>
+									<label className='block text-white mb-2 text-sm'>
+										Thumbnail URL
+									</label>
+									<input
+										type='url'
+										name='thumbnail'
+										value={formData.thumbnail}
+										onChange={handleInputChange}
+										placeholder='https://example.com/image.jpg'
+										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+									/>
+								</div>
 							</div>
 
-							<div>
-								<label className='block text-white mb-2 text-sm'>
-									Thumbnail URL
-								</label>
-								<input
-									type='url'
-									name='thumbnail'
-									value={formData.thumbnail}
-									onChange={handleInputChange}
-									placeholder='https://example.com/image.jpg'
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-								/>
-							</div>
+							{/* Modules Section */}
+							<div className='border-t border-gray-700 pt-4 mt-6'>
+								<div className='flex items-center justify-between mb-4'>
+									<h4 className='text-xl font-bold text-white'>
+										Course Modules
+									</h4>
+									<button
+										type='button'
+										onClick={() => setShowModuleModal(true)}
+										className='px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm'>
+										+ Add Module
+									</button>
+								</div>
 
-							{/* Video Upload Component */}
-							<VideoUpload
-								existingVideo={formData.videoUrl}
-								onUploadSuccess={(videoData) => {
-									setFormData({
-										...formData,
-										videoUrl: videoData.url,
-										videoPublicId: videoData.publicId,
-									});
-								}}
-							/>
+								{formData.modules && formData.modules.length > 0 ? (
+									<div className='space-y-3'>
+										{formData.modules.map((module, idx) => (
+											<div
+												key={idx}
+												className='bg-gray-900 rounded-lg p-4'>
+												<div className='flex items-start justify-between'>
+													<div className='flex-1'>
+														<h5 className='text-white font-semibold mb-1'>
+															Module {module.order}:{" "}
+															{module.title}
+														</h5>
+														<p className='text-gray-400 text-sm mb-2'>
+															{module.description}
+														</p>
+														<div className='text-blue-400 text-sm'>
+															{module.videos?.length || 0}{" "}
+															video(s)
+														</div>
+														{module.videos &&
+															module.videos.length > 0 && (
+																<div className='mt-2 ml-4 space-y-1'>
+																	{module.videos.map(
+																		(video, vIdx) => (
+																			<div
+																				key={vIdx}
+																				className='flex items-center justify-between text-sm bg-gray-800 p-2 rounded'>
+																				<span className='text-gray-300'>
+																					{video.order}.{" "}
+																					{video.title}
+																				</span>
+																				<button
+																					type='button'
+																					onClick={() =>
+																						handleRemoveVideoFromModule(
+																							module.order,
+																							video.order
+																						)
+																					}
+																					className='text-red-400 hover:text-red-300'>
+																					Remove
+																				</button>
+																			</div>
+																		)
+																	)}
+																</div>
+															)}
+													</div>
+													<div className='flex space-x-2 ml-4'>
+														<button
+															type='button'
+															onClick={() => {
+																setCurrentCourseForModule(
+																	module.order
+																);
+																setShowAddVideoToModule(true);
+															}}
+															className='px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs'>
+															+ Video
+														</button>
+														<button
+															type='button'
+															onClick={() =>
+																handleRemoveModule(
+																	module.order
+																)
+															}
+															className='px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs'>
+															Remove
+														</button>
+													</div>
+												</div>
+											</div>
+										))}
+									</div>
+								) : (
+									<div className='text-center py-8 text-gray-400'>
+										No modules added yet. Click "Add Module" to
+										create one.
+									</div>
+								)}
+							</div>
 
 							<div className='flex space-x-4 pt-4'>
 								<button
@@ -530,12 +730,145 @@ export default function InstructorDashboard() {
 									onClick={() => {
 										setShowAddModal(false);
 										setEditingCourse(null);
+										resetFormData();
 									}}
 									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200'>
 									Cancel
 								</button>
 							</div>
 						</form>
+					</div>
+				</div>
+			)}
+
+			{/* Add Module Modal */}
+			{showModuleModal && (
+				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4'>
+					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-md w-full'>
+						<h3 className='text-2xl font-bold text-white mb-6'>
+							Add Module
+						</h3>
+						<div className='space-y-4'>
+							<div>
+								<label className='block text-white mb-2 text-sm'>
+									Module Title
+								</label>
+								<input
+									type='text'
+									name='title'
+									value={moduleData.title}
+									onChange={handleModuleInputChange}
+									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+									required
+								/>
+							</div>
+							<div>
+								<label className='block text-white mb-2 text-sm'>
+									Description
+								</label>
+								<textarea
+									name='description'
+									value={moduleData.description}
+									onChange={handleModuleInputChange}
+									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+									rows='3'></textarea>
+							</div>
+							<div className='flex space-x-4'>
+								<button
+									onClick={handleAddModule}
+									className='flex-1 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 font-semibold'>
+									Add Module
+								</button>
+								<button
+									onClick={() => {
+										setShowModuleModal(false);
+										setModuleData({
+											title: "",
+											description: "",
+											order: 1,
+											videos: [],
+										});
+									}}
+									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200'>
+									Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* Add Video to Module Modal */}
+			{showAddVideoToModule && (
+				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4'>
+					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-md w-full'>
+						<h3 className='text-2xl font-bold text-white mb-6'>
+							Add Video to Module
+						</h3>
+						<div className='space-y-4'>
+							<div>
+								<label className='block text-white mb-2 text-sm'>
+									Video Title
+								</label>
+								<input
+									type='text'
+									name='title'
+									value={videoData.title}
+									onChange={handleVideoInputChange}
+									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+									required
+								/>
+							</div>
+							<div>
+								<label className='block text-white mb-2 text-sm'>
+									Description
+								</label>
+								<textarea
+									name='description'
+									value={videoData.description}
+									onChange={handleVideoInputChange}
+									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+									rows='2'></textarea>
+							</div>
+
+							{/* Video Upload */}
+							<VideoUpload
+								existingVideo={videoData.url}
+								onUploadSuccess={(uploadedVideoData) => {
+									setVideoData({
+										...videoData,
+										url: uploadedVideoData.url,
+										publicId: uploadedVideoData.publicId,
+										duration: uploadedVideoData.duration || "",
+									});
+								}}
+							/>
+
+							<div className='flex space-x-4'>
+								<button
+									onClick={handleAddVideoToModule}
+									disabled={!videoData.url}
+									className='flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed'>
+									Add Video
+								</button>
+								<button
+									onClick={() => {
+										setShowAddVideoToModule(false);
+										setCurrentCourseForModule(null);
+										setVideoData({
+											title: "",
+											url: "",
+											publicId: "",
+											duration: "",
+											description: "",
+											order: 1,
+										});
+									}}
+									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200'>
+									Cancel
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			)}

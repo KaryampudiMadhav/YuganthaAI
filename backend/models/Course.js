@@ -66,6 +66,50 @@ const courseSchema = new mongoose.Schema({
 			order: Number,
 		},
 	],
+	modules: [
+		{
+			title: {
+				type: String,
+				required: true,
+			},
+			description: {
+				type: String,
+				default: "",
+			},
+			order: {
+				type: Number,
+				required: true,
+			},
+			videos: [
+				{
+					title: {
+						type: String,
+						required: true,
+					},
+					url: {
+						type: String,
+						required: true,
+					},
+					publicId: {
+						type: String,
+						default: "",
+					},
+					duration: {
+						type: String,
+						default: "",
+					},
+					description: {
+						type: String,
+						default: "",
+					},
+					order: {
+						type: Number,
+						required: true,
+					},
+				},
+			],
+		},
+	],
 	price: {
 		type: String,
 		default: "Free",

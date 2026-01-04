@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
 import { AuthProvider } from "./context/AuthContext";
 import { InstructorProvider } from "./context/InstructorContext";
 import Navbar from "./components/Navbar";
@@ -7,7 +8,10 @@ import ProgramSection from "./components/ProgramSection";
 import FreeCourses from "./components/FreeCourses";
 import LearningPaths from "./components/LearningPaths";
 import Footer from "./components/Footer";
+import LoadingSpinner from "./components/LoadingSpinner";
 import CoursesPage from "./pages/CoursesPage";
+import CourseDetailPage from "./pages/CourseDetailPage";
+import MyLearningPage from "./pages/MyLearningPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
@@ -36,6 +40,21 @@ function MainLayout({ children }) {
 }
 
 export default function App() {
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		// Simulate initial loading
+		const timer = setTimeout(() => {
+			setLoading(false);
+		}, 2000);
+
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (loading) {
+		return <LoadingSpinner />;
+	}
+
 	return (
 		<AuthProvider>
 			<InstructorProvider>
@@ -55,6 +74,22 @@ export default function App() {
 								element={
 									<MainLayout>
 										<CoursesPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/courses/:id'
+								element={
+									<MainLayout>
+										<CourseDetailPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/my-learning'
+								element={
+									<MainLayout>
+										<MyLearningPage />
 									</MainLayout>
 								}
 							/>
