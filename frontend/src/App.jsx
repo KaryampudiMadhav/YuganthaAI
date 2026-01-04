@@ -17,6 +17,8 @@ import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import InstructorLoginPage from "./pages/InstructorLoginPage";
 import InstructorDashboard from "./pages/InstructorDashboard";
+import BlogsPage from "./pages/BlogsPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
 
 function HomePage() {
 	return (
@@ -100,6 +102,14 @@ export default function App() {
 										<ProfilePage />
 									</MainLayout>
 								}
+							/>
+							<Route
+								path='/blogs'
+								element={<BlogsPage />}
+							/>
+							<Route
+								path='/blogs/:slug'
+								element={<BlogDetailPage />}
 							/>
 							<Route path='/login' element={<LoginPage />} />
 							<Route path='/signup' element={<SignupPage />} />
