@@ -45,4 +45,42 @@ router.post("/", protect, async (req, res) => {
 	}
 });
 
+// @route   PUT /api/courses/:id
+// @desc    Update a course
+// @access  Private
+router.put("/:id", protect, async (req, res) => {
+	try {
+		const course = await Course.findByIdAndUpdate(
+			req.params.id,
+			req.body,
+			{ new: true, runValidators: true }
+		);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		res.json(course);
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   DELETE /api/courses/:id
+// @desc    Delete a course
+// @access  Private
+router.delete("/:id", protect, async (req, res) => {
+	try {
+		const course = await Course.findByIdAndDelete(req.params.id);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		res.json({ message: "Course deleted successfully" });
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
 export default router;

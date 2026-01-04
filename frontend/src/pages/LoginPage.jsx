@@ -28,15 +28,15 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1a2f4f] to-[#2a4570] flex items-center justify-center px-6 py-20'>
+		<div className='min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1a2f4f] to-[#2a4570] flex items-center justify-center px-4 md:px-6 py-16 md:py-20'>
 			<div className='max-w-md w-full'>
 				{/* Logo */}
-				<div className='text-center mb-8'>
+				<div className='text-center mb-6 md:mb-8'>
 					<Link
 						to='/'
-						className='inline-flex items-center space-x-2 mb-6'>
+						className='inline-flex items-center space-x-2 mb-4 md:mb-6'>
 						<svg
-							className='w-12 h-12'
+							className='w-10 h-10 md:w-12 md:h-12'
 							viewBox='0 0 50 50'
 							fill='none'>
 							<path
@@ -47,21 +47,21 @@ export default function LoginPage() {
 								strokeLinejoin='round'
 							/>
 						</svg>
-						<div className='text-2xl font-bold text-white'>
+						<div className='text-xl md:text-2xl font-bold text-white'>
 							<span>Mero</span>
 							<span className='text-blue-400'>sphere</span>
 						</div>
 					</Link>
-					<h1 className='text-3xl font-bold text-white mb-2'>
+					<h1 className='text-2xl md:text-3xl font-bold text-white mb-2'>
 						Welcome Back
 					</h1>
-					<p className='text-gray-400'>
+					<p className='text-sm md:text-base text-gray-400'>
 						Login to continue your learning journey
 					</p>
 				</div>
 
 				{/* Login Form */}
-				<div className='bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20'>
+				<div className='bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-6 md:p-8 border border-white/20'>
 					{error && (
 						<div className='bg-red-500/20 border border-red-500 text-red-200 px-4 py-3 rounded-lg mb-6'>
 							{error}

@@ -49,15 +49,15 @@ export default function SignupPage() {
 	};
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1a2f4f] to-[#2a4570] flex items-center justify-center px-6 py-20'>
+		<div className='min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1a2f4f] to-[#2a4570] flex items-center justify-center px-4 md:px-6 py-16 md:py-20'>
 			<div className='max-w-md w-full'>
 				{/* Logo */}
-				<div className='text-center mb-8'>
+				<div className='text-center mb-6 md:mb-8'>
 					<Link
 						to='/'
-						className='inline-flex items-center space-x-2 mb-6'>
+						className='inline-flex items-center space-x-2 mb-4 md:mb-6'>
 						<svg
-							className='w-12 h-12'
+							className='w-10 h-10 md:w-12 md:h-12'
 							viewBox='0 0 50 50'
 							fill='none'>
 							<path

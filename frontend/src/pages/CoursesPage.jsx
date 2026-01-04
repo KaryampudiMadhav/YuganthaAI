@@ -1,36 +1,34 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 export default function CoursesPage() {
 	const [selectedTab, setSelectedTab] = useState("all");
 	const [searchQuery, setSearchQuery] = useState("");
+	const [courses, setCourses] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-	// Sample course data
-	const courses = [
-		{
-			id: 1,
-			title: "Introduction to Machine Learning",
-			instructor: "John Doe",
-			rating: 4.5,
-			students: 15000,
-			image: "https://via.placeholder.com/300x200/4A5568/ffffff?text=ML+Course",
-		},
-		{
-			id: 2,
-			title: "Deep Learning Fundamentals",
-			instructor: "Jane Smith",
-			rating: 4.7,
-			students: 12000,
-			image: "https://via.placeholder.com/300x200/4A5568/ffffff?text=DL+Course",
-		},
-		{
-			id: 3,
-			title: "Natural Language Processing",
-			instructor: "Mike Johnson",
-			rating: 4.6,
-			students: 10000,
-			image: "https://via.placeholder.com/300x200/4A5568/ffffff?text=NLP+Course",
-		},
-	];
+	useEffect(() => {
+		fetchCourses();
+	}, []);
+
+	const fetchCourses = async () => {
+		try {
+			const response = await fetch("http://localhost:5000/api/courses");
+			const data = await response.json();
+			setCourses(data);
+			setLoading(false);
+		} catch (error) {
+			console.error("Error fetching courses:", error);
+			setLoading(false);
+		}
+	};
+
+	// Filter courses based on search query
+	const filteredCourses = courses.filter((course) =>
+		course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+		course.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+		course.instructor.toLowerCase().includes(searchQuery.toLowerCase())
+	);
 
 	// Animated images for the slider
 	const sliderImages = [
@@ -44,12 +42,12 @@ export default function CoursesPage() {
 	return (
 		<div className='min-h-screen bg-[#1a1a1a] text-white pt-20'>
 			{/* Hero Section */}
-			<section className='px-6 py-16 relative overflow-hidden'>
-				<div className='max-w-7xl mx-auto'>
-					<div className='flex flex-col lg:flex-row items-center justify-between gap-12'>
-						{/* Left Content */}
-						<div className='flex-1'>
-							<h1 className='text-6xl font-bold mb-6'>
+		<section className='px-4 md:px-6 py-12 md:py-16 relative overflow-hidden'>
+			<div className='max-w-7xl mx-auto'>
+				<div className='flex flex-col lg:flex-row items-center justify-between gap-12'>
+					{/* Left Content */}
+					<div className='flex-1'>
+						<h1 className='text-4xl md:text-6xl font-bold mb-6'>
 								<span className='text-red-500'>Free </span>
 								<span className='bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent'>
 									Courses
@@ -63,9 +61,9 @@ export default function CoursesPage() {
 							</p>
 
 							{/* Statistics */}
-							<div className='flex flex-wrap gap-12 mb-12'>
-								<div>
-									<div className='text-4xl font-bold mb-2'>
+						<div className='flex flex-wrap gap-6 md:gap-12 mb-12'>
+							<div>
+								<div className='text-3xl md:text-4xl font-bold mb-2'>
 										1.3M+
 									</div>
 									<div className='text-gray-400'>
@@ -90,7 +88,7 @@ export default function CoursesPage() {
 						</div>
 
 						{/* Right Side - Animated Image Grid */}
-						<div className='flex-1 relative h-[500px] w-full max-w-lg'>
+					<div className='flex-1 relative h-[300px] md:h-[500px] w-full max-w-lg'>
 							<ImageSlider images={sliderImages} />
 						</div>
 					</div>
@@ -98,7 +96,7 @@ export default function CoursesPage() {
 			</section>
 
 			{/* Search and Filters Section */}
-			<section className='px-6 py-8 border-t border-gray-800'>
+		<section className='px-4 md:px-6 py-8 border-t border-gray-800'>
 				<div className='max-w-7xl mx-auto'>
 					{/* Search Bar */}
 					<div className='mb-6'>
@@ -126,7 +124,7 @@ export default function CoursesPage() {
 					</div>
 
 					{/* Tabs */}
-					<div className='flex space-x-8 mb-8 border-b border-gray-800'>
+				<div className='flex flex-wrap space-x-4 md:space-x-8 mb-8 border-b border-gray-800'>
 						<button
 							onClick={() => setSelectedTab("all")}
 							className={`pb-3 px-2 font-medium transition ${
@@ -157,10 +155,10 @@ export default function CoursesPage() {
 					</div>
 
 					{/* Courses Grid with Sidebar */}
-					<div className='flex gap-8'>
-						{/* Sidebar Filters */}
-						<aside className='w-64 flex-shrink-0'>
-							<div className='bg-gray-900 rounded-lg p-6'>
+				<div className='flex flex-col lg:flex-row gap-8'>
+					{/* Sidebar Filters */}
+					<aside className='lg:w-64 flex-shrink-0'>
+						<div className='bg-gray-900 rounded-lg p-4 md:p-6'>
 								<div className='flex justify-between items-center mb-6'>
 									<h3 className='font-semibold text-lg'>
 										All Filters
@@ -211,44 +209,65 @@ export default function CoursesPage() {
 
 						{/* Courses Grid */}
 						<div className='flex-1'>
-							<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
-								{courses.map((course) => (
-									<div
-										key={course.id}
-										className='bg-gray-900 rounded-lg overflow-hidden hover:shadow-2xl transition cursor-pointer group'>
-										<div className='relative h-48 bg-gradient-to-br from-amber-600 to-amber-800 flex items-center justify-center overflow-hidden'>
-											<div className='absolute top-4 right-4 bg-white text-gray-900 px-3 py-1 rounded-full text-xs font-semibold'>
-												Merosphere
-											</div>
-											<div className='text-6xl group-hover:scale-110 transition-transform duration-300'>
-												👨‍💼
-											</div>
-										</div>
-										<div className='p-6'>
-											<h3 className='font-bold text-lg mb-2 line-clamp-2'>
-												{course.title}
-											</h3>
-											<p className='text-gray-400 text-sm mb-4'>
-												by {course.instructor}
-											</p>
-											<div className='flex items-center justify-between'>
-												<div className='flex items-center space-x-1'>
-													<span className='text-yellow-400'>
-														★
-													</span>
-													<span className='text-sm'>
-														{course.rating}
-													</span>
-												</div>
-												<div className='text-sm text-gray-400'>
-													{course.students.toLocaleString()}{" "}
-													students
+							{loading ? (
+								<div className='text-center py-12'>
+									<div className='text-white text-lg'>Loading courses...</div>
+								</div>
+							) : filteredCourses.length === 0 ? (
+								<div className='text-center py-12'>
+									<div className='text-white text-lg'>No courses found</div>
+								</div>
+							) : (
+								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
+									{filteredCourses.map((course) => (
+										<Link
+											key={course._id}
+											to={`/courses/${course._id}`}
+											className='bg-gray-900 rounded-lg overflow-hidden hover:shadow-2xl transition cursor-pointer group'>
+											<div className='relative h-48 overflow-hidden'>
+												{course.thumbnail ? (
+													<img
+														src={course.thumbnail}
+														alt={course.title}
+														className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-300'
+													/>
+												) : (
+													<div className='w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center'>
+														<div className='text-6xl'>📚</div>
+													</div>
+												)}
+												<div className='absolute top-4 right-4 bg-white text-gray-900 px-3 py-1 rounded-full text-xs font-semibold'>
+													{course.price === "Free" ? "Free" : `$${course.price}`}
 												</div>
 											</div>
-										</div>
-									</div>
-								))}
-							</div>
+											<div className='p-6'>
+												<div className='mb-2'>
+													<span
+														className={`px-2 py-1 rounded-full text-xs ${
+															course.level === "Beginner"
+																? "bg-green-500/20 text-green-300"
+																: course.level === "Intermediate"
+																? "bg-blue-500/20 text-blue-300"
+																: "bg-purple-500/20 text-purple-300"
+														}`}>
+														{course.level}
+													</span>
+												</div>
+												<h3 className='font-bold text-lg mb-2 line-clamp-2 text-white'>
+													{course.title}
+												</h3>
+												<p className='text-gray-400 text-sm mb-4'>
+													by {course.instructor}
+												</p>
+												<div className='flex items-center justify-between text-sm text-gray-400'>
+													<div>{course.duration}</div>
+													<div>{course.modules?.length || 0} modules</div>
+												</div>
+											</div>
+										</Link>
+									))}
+								</div>
+							)}
 						</div>
 					</div>
 				</div>

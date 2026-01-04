@@ -4,9 +4,9 @@ export default function VideoUpload({ onUploadSuccess, existingVideo }) {
 	const [uploading, setUploading] = useState(false);
 	const [uploadProgress, setUploadProgress] = useState(0);
 
-	// Cloudinary configuration
-	const CLOUDINARY_CLOUD_NAME = "your_cloud_name"; // User needs to replace this
-	const CLOUDINARY_UPLOAD_PRESET = "course_videos"; // User needs to create this
+	// Cloudinary configuration - using environment variables
+	const CLOUDINARY_CLOUD_NAME = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME || "your_cloud_name";
+	const CLOUDINARY_UPLOAD_PRESET = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET || "course_videos";
 
 	const handleVideoUpload = async (e) => {
 		const file = e.target.files[0];
@@ -179,40 +179,6 @@ export default function VideoUpload({ onUploadSuccess, existingVideo }) {
 					</label>
 				</div>
 			)}
-
-			<div className='bg-blue-500/10 border border-blue-500/30 rounded-lg p-3'>
-				<div className='flex items-start space-x-2'>
-					<svg
-						className='w-5 h-5 text-blue-400 flex-shrink-0 mt-0.5'
-						fill='none'
-						stroke='currentColor'
-						viewBox='0 0 24 24'>
-						<path
-							strokeLinecap='round'
-							strokeLinejoin='round'
-							strokeWidth={2}
-							d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
-						/>
-					</svg>
-					<div className='text-sm text-blue-300'>
-						<p className='font-semibold mb-1'>
-							Cloudinary Setup Required
-						</p>
-						<ol className='text-xs space-y-1 text-blue-200'>
-							<li>1. Create free account at cloudinary.com</li>
-							<li>2. Copy your Cloud Name from dashboard</li>
-							<li>
-								3. Create Upload Preset: Settings → Upload → Add
-								upload preset (unsigned)
-							</li>
-							<li>
-								4. Update CLOUDINARY_CLOUD_NAME and
-								CLOUDINARY_UPLOAD_PRESET in VideoUpload.jsx
-							</li>
-						</ol>
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }
