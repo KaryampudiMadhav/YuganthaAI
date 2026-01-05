@@ -12,11 +12,18 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import CoursesPage from "./pages/CoursesPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import MyLearningPage from "./pages/MyLearningPage";
+import MentorshipPage from "./pages/MentorshipPage";
+import MentorshipBookingPage from "./pages/MentorshipBookingPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import InstructorLoginPage from "./pages/InstructorLoginPage";
 import InstructorDashboard from "./pages/InstructorDashboard";
+import AdminLoginPage from "./pages/AdminLoginPage";
+import AdminDashboard from "./pages/AdminDashboard";
+import AdminAssignInstructors from "./pages/AdminAssignInstructors";
+import AdminMentorAssignments from "./pages/AdminMentorAssignments";
+import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
 
 function HomePage() {
 	return (
@@ -94,6 +101,22 @@ export default function App() {
 								}
 							/>
 							<Route
+								path='/mentorships'
+								element={
+									<MainLayout>
+										<MentorshipPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/mentorships/book'
+								element={
+									<MainLayout>
+										<MentorshipBookingPage />
+									</MainLayout>
+								}
+							/>
+							<Route
 								path='/profile'
 								element={
 									<MainLayout>
@@ -103,11 +126,19 @@ export default function App() {
 							/>
 							<Route path='/login' element={<LoginPage />} />
 							<Route path='/signup' element={<SignupPage />} />
+							<Route path='/admin/login' element={<AdminLoginPage />} />
+							<Route path='/admin/dashboard' element={<AdminDashboard />} />
+							<Route path='/admin/assign-instructors' element={<AdminAssignInstructors />} />
+							<Route path='/admin/mentor-assignments' element={<AdminMentorAssignments />} />
 
 							{/* Instructor Routes */}
 							<Route
 								path='/instructor'
 								element={<InstructorLoginPage />}
+							/>
+							<Route
+								path='/instructor/forgot-password'
+								element={<InstructorForgotPasswordPage />}
 							/>
 							<Route
 								path='/instructor/dashboard'

@@ -39,6 +39,11 @@ const userSchema = new mongoose.Schema({
 			},
 		},
 	],
+	assignedInstructor: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Instructor",
+		default: null,
+	},
 	avatar: {
 		type: String,
 		default: "",

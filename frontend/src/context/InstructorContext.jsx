@@ -2,12 +2,6 @@ import { createContext, useState, useContext, useEffect } from "react";
 
 const InstructorContext = createContext();
 
-// Static instructor credentials
-const INSTRUCTOR_CREDENTIALS = {
-	email: "instructor@merosphere.com",
-	password: "instructor123",
-};
-
 export const InstructorProvider = ({ children }) => {
 	const [instructor, setInstructor] = useState(null);
 	const [loading, setLoading] = useState(true);
@@ -17,30 +11,50 @@ export const InstructorProvider = ({ children }) => {
 		const storedInstructor = localStorage.getItem("instructor");
 		if (storedInstructor) {
 			setInstructor(JSON.parse(storedInstructor));
-			// Backfill shared token if it wasn't stored before
-			if (!localStorage.getItem("instructorToken")) {
-				localStorage.setItem("instructorToken", "instructor-admin");
-			}
 		}
 		setLoading(false);
 	}, []);
 
-	const login = (email, password) => {
-		if (
-			email === INSTRUCTOR_CREDENTIALS.email &&
-			password === INSTRUCTOR_CREDENTIALS.password
-		) {
+	const login = async (email, password) => {
+		try {
+			const response = await fetch(
+				"http://localhost:5000/api/instructor-auth/login",
+				{
+					method: "POST",
+					headers: { "Content-Type": "application/json" },
+					body: JSON.stringify({ email, password }),
+				}
+			);
+
+			if (!response.ok) {
+				const errorData = await response.json();
+				return {
+					success: false,
+					error: errorData.message || "Login failed",
+				};
+			}
+
+			const data = await response.json();
 			const instructorData = {
-				email: email,
-				name: "Instructor",
+				_id: data._id,
+				name: data.name,
+				email: data.email,
+				expertise: data.expertise,
+				approved: data.approved,
 				role: "instructor",
 			};
+
 			localStorage.setItem("instructor", JSON.stringify(instructorData));
-			localStorage.setItem("instructorToken", "instructor-admin");
+			localStorage.setItem("instructorToken", data.token);
 			setInstructor(instructorData);
 			return { success: true };
+		} catch (error) {
+			console.error("Login error:", error);
+			return {
+				success: false,
+				error: "Network error or server unavailable",
+			};
 		}
-		return { success: false, error: "Invalid credentials" };
 	};
 
 	const logout = () => {

@@ -5,12 +5,16 @@ import { useAuth } from "../context/AuthContext";
 export default function FreeCourses() {
 	const [freeCourses, setFreeCourses] = useState([]);
 	const [enrolling, setEnrolling] = useState({});
-	const { isAuthenticated, user } = useAuth();
+	const [enrolledCourses, setEnrolledCourses] = useState([]);
+	const { isAuthenticated } = useAuth();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetchFreeCourses();
-	}, []);
+		if (isAuthenticated) {
+			fetchEnrolledCourses();
+		}
+	}, [isAuthenticated]);
 
 	const fetchFreeCourses = async () => {
 		try {
@@ -29,6 +33,28 @@ export default function FreeCourses() {
 			console.error("Error fetching free courses:", error);
 		}
 	};
+
+	const fetchEnrolledCourses = async () => {
+		try {
+			const token = localStorage.getItem("token");
+			const response = await fetch("http://localhost:5000/api/users/enrolled", {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			const data = await response.json();
+			// Filter out null courseIds and extract valid IDs
+			const ids = data
+				.filter((item) => item && item.courseId) // Filter out null/undefined items
+				.map((item) => item.courseId._id || item.courseId);
+			setEnrolledCourses(ids);
+		} catch (error) {
+			console.error("Error fetching enrolled courses:", error);
+		}
+	};
+
+	const isEnrolled = (courseId) => enrolledCourses.includes(courseId);
 
 	const handleEnroll = async (courseId) => {
 		if (!isAuthenticated) {
@@ -54,8 +80,8 @@ export default function FreeCourses() {
 			const data = await response.json();
 
 			if (response.ok) {
+				setEnrolledCourses([...enrolledCourses, courseId]);
 				alert("Successfully enrolled in course!");
-				navigate("/my-learning");
 			} else {
 				alert(data.message || "Enrollment failed");
 			}
@@ -153,10 +179,16 @@ export default function FreeCourses() {
 
 									<button
 										onClick={() => handleEnroll(course._id)}
-										disabled={enrolling[course._id]}
-										className='w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg font-semibold transition duration-200'>
+										disabled={enrolling[course._id] || isEnrolled(course._id)}
+										className={`w-full px-4 py-2 rounded-lg font-semibold transition duration-200 ${
+											isEnrolled(course._id)
+												? 'bg-green-600 text-white cursor-default'
+												: 'bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white'
+										}`}> 
 										{enrolling[course._id]
 											? "Enrolling..."
+											: isEnrolled(course._id)
+											? "Enrolled ✓"
 											: "Enroll Now"}
 									</button>
 								</div>

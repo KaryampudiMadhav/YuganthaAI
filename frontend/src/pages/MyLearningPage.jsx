@@ -121,15 +121,17 @@ export default function MyLearningPage() {
 										) || 0}
 									</p>
 										<div className='flex flex-col sm:flex-row gap-3 sm:space-x-4'>
-										<Link
-											to={`/courses/${featuredCourse._id}`}
-											className='px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition'>
-											Resume Learning
-										</Link>
-										<button className='px-6 py-3 border border-gray-400 rounded-lg font-semibold hover:bg-white/10 transition'>
-											My Mentorships
-										</button>
-									</div>
+											<Link
+												to={`/courses/${featuredCourse._id}`}
+												className='px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition'>
+												Resume Learning
+											</Link>
+											<Link
+												to='/mentorships'
+												className='px-6 py-3 border border-gray-400 rounded-lg font-semibold hover:bg-white/10 transition'>
+												My Mentorships
+											</Link>
+										</div>
 								</div>
 							</div>
 						</div>
@@ -241,9 +243,11 @@ export default function MyLearningPage() {
 						<h2 className='text-2xl font-bold'>
 							{featuredCourse?.title || "Your Courses"}
 						</h2>
-						<button className='px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg font-semibold hover:from-pink-700 hover:to-purple-700 transition'>
+						<Link
+							to='/mentorships/book'
+							className='px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg font-semibold hover:from-pink-700 hover:to-purple-700 transition'>
 							Book Mentorship
-						</button>
+						</Link>
 					</div>
 
 					{/* Tabs */}

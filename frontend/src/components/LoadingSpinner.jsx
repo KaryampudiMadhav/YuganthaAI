@@ -75,10 +75,10 @@ className='animate-draw'
 <div className='absolute -bottom-12 left-1/2 transform -translate-x-1/2 whitespace-nowrap'>
 <div className='flex items-center space-x-2'>
 <span className='text-2xl font-bold text-white animate-pulse'>
-Mero
+Yugantha
 </span>
 <span className='text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-pulse'>
-sphere
+AI
 </span>
 </div>
 </div>
