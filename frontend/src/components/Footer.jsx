@@ -33,9 +33,9 @@ export default function Footer() {
 								/>
 							</svg>
 							<div className='text-2xl font-bold'>
-								<span className='text-white'>Mero</span>
+								<span className='text-white'>Yugantha</span>
 								<span className='bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent'>
-									sphere
+								AI
 								</span>
 							</div>
 						</Link>
@@ -138,7 +138,7 @@ export default function Footer() {
 								<a
 									href='#'
 									className='text-gray-400 hover:text-white transition'>
-									AI & Machine Learning
+									sphere & Machine Learning
 								</a>
 							</li>
 							<li>
@@ -200,7 +200,7 @@ export default function Footer() {
 				<div className='border-t border-gray-800 pt-8'>
 					<div className='flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
 						<p className='text-gray-400 text-sm'>
-							© {new Date().getFullYear()} Merosphere. All rights
+							© {new Date().getFullYear()} YuganthaAI. All rights
 							reserved. Built with ❤️ for learners worldwide.
 						</p>
 						<div className='flex space-x-6 text-sm'>

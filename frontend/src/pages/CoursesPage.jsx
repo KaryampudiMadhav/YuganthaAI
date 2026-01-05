@@ -1,11 +1,15 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function CoursesPage() {
 	const [selectedTab, setSelectedTab] = useState("all");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [courses, setCourses] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [enrolling, setEnrolling] = useState({});
+	const { isAuthenticated } = useAuth();
+	const navigate = useNavigate();
 
 	useEffect(() => {
 		fetchCourses();
@@ -20,6 +24,43 @@ export default function CoursesPage() {
 		} catch (error) {
 			console.error("Error fetching courses:", error);
 			setLoading(false);
+		}
+	};
+
+	const handleEnroll = async (courseId) => {
+		if (!isAuthenticated) {
+			navigate("/login");
+			return;
+		}
+
+		setEnrolling({ ...enrolling, [courseId]: true });
+
+		try {
+			const token = localStorage.getItem("token");
+			const response = await fetch(
+				`http://localhost:5000/api/users/enroll/${courseId}`,
+				{
+					method: "POST",
+					headers: {
+						Authorization: `Bearer ${token}`,
+						"Content-Type": "application/json",
+					},
+				}
+			);
+
+			const data = await response.json();
+
+			if (response.ok) {
+				alert("Successfully enrolled in course!");
+				navigate("/my-learning");
+			} else {
+				alert(data.message || "Enrollment failed");
+			}
+		} catch (error) {
+			console.error("Error enrolling:", error);
+			alert("Error enrolling in course");
+		} finally {
+			setEnrolling({ ...enrolling, [courseId]: false });
 		}
 	};
 
@@ -220,51 +261,78 @@ export default function CoursesPage() {
 							) : (
 								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
 									{filteredCourses.map((course) => (
-										<Link
+										<div
 											key={course._id}
-											to={`/courses/${course._id}`}
-											className='bg-gray-900 rounded-lg overflow-hidden hover:shadow-2xl transition cursor-pointer group'>
-											<div className='relative h-48 overflow-hidden'>
-												{course.thumbnail ? (
+											className='bg-gray-900 rounded-lg overflow-hidden hover:shadow-2xl transition group'>
+											{/* Video/Thumbnail Section */}
+											<div className='relative h-48 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900'>
+												{course.videoUrl ? (
+													<video
+														className='w-full h-full object-cover'
+														muted
+														loop
+														playsInline
+														onMouseEnter={(e) => e.target.play()}
+														onMouseLeave={(e) => {
+															e.target.pause();
+															e.target.currentTime = 0;
+														}}>
+														<source src={course.videoUrl} type='video/mp4' />
+													</video>
+												) : course.thumbnail ? (
 													<img
 														src={course.thumbnail}
 														alt={course.title}
-														className='w-full h-full object-cover group-hover:scale-110 transition-transform duration-300'
+														className='w-full h-full object-cover'
 													/>
 												) : (
-													<div className='w-full h-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center'>
-														<div className='text-6xl'>📚</div>
+													<div className='w-full h-full flex items-center justify-center text-6xl'>
+														📚
 													</div>
 												)}
-												<div className='absolute top-4 right-4 bg-white text-gray-900 px-3 py-1 rounded-full text-xs font-semibold'>
-													{course.price === "Free" ? "Free" : `$${course.price}`}
+												{/* Duration Badge */}
+												<div className='absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded text-xs'>
+													{course.duration || "Self-paced"}
 												</div>
 											</div>
-											<div className='p-6'>
-												<div className='mb-2'>
-													<span
-														className={`px-2 py-1 rounded-full text-xs ${
-															course.level === "Beginner"
-																? "bg-green-500/20 text-green-300"
-																: course.level === "Intermediate"
-																? "bg-blue-500/20 text-blue-300"
-																: "bg-purple-500/20 text-purple-300"
-														}`}>
-														{course.level}
-													</span>
+
+											{/* Course Info */}
+											<div className='p-5'>
+												{/* Duration and Lessons */}
+												<div className='flex items-center gap-4 text-gray-400 text-sm mb-3'>
+													<span>{course.duration || "Self-paced"}</span>
+													<span>•</span>
+													<span>{course.modules?.length || course.lessons || 0} Lessons</span>
 												</div>
-												<h3 className='font-bold text-lg mb-2 line-clamp-2 text-white'>
+
+												{/* Title */}
+												<h3 className='font-bold text-lg mb-3 text-white line-clamp-2 min-h-[3.5rem]'>
 													{course.title}
 												</h3>
-												<p className='text-gray-400 text-sm mb-4'>
-													by {course.instructor}
-												</p>
-												<div className='flex items-center justify-between text-sm text-gray-400'>
-													<div>{course.duration}</div>
-													<div>{course.modules?.length || 0} modules</div>
+
+												{/* Rating and Students */}
+												<div className='flex items-center justify-between mb-4'>
+													<div className='flex items-center gap-2 text-sm'>
+														<span className='text-gray-400'>👤</span>
+														<span className='text-gray-300'>{course.students || 0}</span>
+													</div>
+													<div className='flex items-center gap-1'>
+														<span className='text-yellow-400'>★</span>
+														<span className='text-gray-300 text-sm'>
+															{course.rating ? course.rating.toFixed(1) : '0.0'}
+														</span>
+													</div>
 												</div>
+
+												{/* Enroll Button */}
+												<button
+													onClick={() => handleEnroll(course._id)}
+													disabled={enrolling[course._id]}
+													className='w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-600 text-white py-3 rounded-lg font-semibold transition duration-200'>
+													{enrolling[course._id] ? "Enrolling..." : course.price === "Free" ? "Enroll for Free" : `Enroll for $${course.price}`}
+												</button>
 											</div>
-										</Link>
+										</div>
 									))}
 								</div>
 							)}

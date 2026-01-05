@@ -132,18 +132,18 @@ export default function MyLearningPage() {
 									<p className='text-gray-400 mb-8'>
 										Mentorship sessions completed · {calculateCourseStats(featuredCourse).totalVideos}
 									</p>
-									<div className='flex flex-col sm:flex-row gap-4'>
-										<Link
-											to={`/courses/${featuredCourse._id}`}
-											className='px-8 py-3 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg font-semibold hover:from-purple-600 hover:to-pink-600 transition text-center'>
-											Resume Learning
-										</Link>
-										<Link
-											to='/my-learning'
-											className='px-8 py-3 text-white font-semibold hover:underline flex items-center justify-center'>
-											My Mentorships
-										</Link>
-									</div>
+										<div className='flex flex-col sm:flex-row gap-3 sm:space-x-4'>
+											<Link
+												to={`/courses/${featuredCourse._id}`}
+												className='px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition'>
+												Resume Learning
+											</Link>
+											<Link
+												to='/mentorships'
+												className='px-6 py-3 border border-gray-400 rounded-lg font-semibold hover:bg-white/10 transition'>
+												My Mentorships
+											</Link>
+										</div>
 								</div>
 							</div>
 						</div>
@@ -248,52 +248,59 @@ export default function MyLearningPage() {
 					})}
 				</section>
 
-				{/* Course Tabs Section */}
-				{featuredCourse && (
-					<section className='mb-12'>
-						<h2 className='text-2xl font-bold mb-6'>{featuredCourse.title}</h2>
-						
-						{/* Tabs */}
-						<div className='flex flex-wrap gap-3 mb-8'>
-							<button
-								onClick={() => setSelectedTab("all")}
-								className={`px-6 py-2.5 rounded-lg font-semibold transition ${
-									selectedTab === "all"
-										? "bg-gradient-to-r from-pink-500 to-purple-600 text-white"
-										: "bg-[#1a1a1a] text-gray-300 hover:bg-gray-800"
-								}`}>
-								All Courses
-							</button>
-							<button
-								onClick={() => setSelectedTab("completed")}
-								className={`px-6 py-2.5 rounded-lg font-semibold transition ${
-									selectedTab === "completed"
-										? "bg-gradient-to-r from-pink-500 to-purple-600 text-white"
-										: "bg-[#1a1a1a] text-gray-300 hover:bg-gray-800"
-								}`}>
-								Completed
-							</button>
-							<button
-								onClick={() => setSelectedTab("in-progress")}
-								className={`px-6 py-2.5 rounded-lg font-semibold transition ${
-									selectedTab === "in-progress"
-										? "bg-gradient-to-r from-pink-500 to-purple-600 text-white"
-										: "bg-[#1a1a1a] text-gray-300 hover:bg-gray-800"
-								}`}>
-								In progress
-							</button>
-							<button
-								onClick={() => setSelectedTab("yet-to-start")}
-								className={`px-6 py-2.5 rounded-lg font-semibold transition ${
-									selectedTab === "yet-to-start"
-										? "bg-gradient-to-r from-pink-500 to-purple-600 text-white"
-										: "bg-[#1a1a1a] text-gray-300 hover:bg-gray-800"
-								}`}>
-								Yet to start
-							</button>
-						</div>
-					</section>
-				)}
+				{/* Course Tabs and Filters */}
+				<section className='mb-8'>
+					<div className='flex items-center justify-between mb-6'>
+						<h2 className='text-2xl font-bold'>
+							{featuredCourse?.title || "Your Courses"}
+						</h2>
+						<Link
+							to='/mentorships/book'
+							className='px-6 py-3 bg-gradient-to-r from-pink-600 to-purple-600 rounded-lg font-semibold hover:from-pink-700 hover:to-purple-700 transition'>
+							Book Mentorship
+						</Link>
+					</div>
+
+					{/* Tabs */}
+					<div className='flex overflow-x-auto space-x-4 mb-8 border-b border-gray-800 scrollbar-hide'>
+						<button
+							onClick={() => setSelectedTab("all")}
+							className={`pb-3 px-4 font-medium transition ${
+								selectedTab === "all"
+									? "text-white border-b-2 border-white"
+									: "text-gray-400 hover:text-gray-300"
+							}`}>
+							All Courses
+						</button>
+						<button
+							onClick={() => setSelectedTab("completed")}
+							className={`pb-3 px-4 font-medium transition ${
+								selectedTab === "completed"
+									? "text-white border-b-2 border-white"
+									: "text-gray-400 hover:text-gray-300"
+							}`}>
+							Completed
+						</button>
+						<button
+							onClick={() => setSelectedTab("in-progress")}
+							className={`pb-3 px-4 font-medium transition ${
+								selectedTab === "in-progress"
+									? "text-white border-b-2 border-white"
+									: "text-gray-400 hover:text-gray-300"
+							}`}>
+							In progress
+						</button>
+						<button
+							onClick={() => setSelectedTab("yet-to-start")}
+							className={`pb-3 px-4 font-medium transition ${
+								selectedTab === "yet-to-start"
+									? "text-white border-b-2 border-white"
+									: "text-gray-400 hover:text-gray-300"
+							}`}>
+							Yet to start
+						</button>
+					</div>
+				</section>
 
 				{/* Your Roadmap Section */}
 				<section>

@@ -16,11 +16,11 @@ export default function InstructorLoginPage() {
 		}
 	}, [isAuthenticated, navigate]);
 
-	const handleSubmit = async (e) => {
+			const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
 
-		const result = login(email, password);
+		const result = await login(email, password);
 		if (result.success) {
 			navigate("/instructor/dashboard");
 		} else {
@@ -54,21 +54,14 @@ export default function InstructorLoginPage() {
 				<div className='bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20'>
 					<div className='text-center mb-8'>
 						<div className='flex items-center justify-center space-x-2 mb-4'>
-							<svg
-								className='w-12 h-12'
-								viewBox='0 0 50 50'
-								fill='none'>
-								<path
-									d='M10 40 L25 10 L40 40 M15 35 L35 35'
-									stroke='white'
-									strokeWidth='3'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-								/>
-							</svg>
+						<img 
+							src='/yugantha-logo.png' 
+							alt='YuganthaAI' 
+							className='w-12 h-12'
+						/>
 							<div className='text-2xl font-bold'>
-								<span className='text-white'>Mero</span>
-								<span className='text-blue-400'>sphere</span>
+						<span className='text-white'>Yugantha</span>
+						<span className='text-blue-400'>AI</span>
 							</div>
 						</div>
 						<h2 className='text-3xl font-bold text-white mb-2'>
@@ -111,7 +104,7 @@ export default function InstructorLoginPage() {
 								<div>
 									Email:{" "}
 									<code className='bg-white/10 px-2 py-1 rounded'>
-										instructor@merosphere.com
+										instructor@yuganthaai.com
 									</code>
 								</div>
 								<div>
@@ -134,7 +127,7 @@ export default function InstructorLoginPage() {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								className='w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition duration-200'
-								placeholder='instructor@merosphere.com'
+								placeholder='instructor@yuganthaai.com'
 								required
 							/>
 						</div>
@@ -159,6 +152,17 @@ export default function InstructorLoginPage() {
 							Sign In
 						</button>
 					</form>
+
+					<div className='mt-6 text-center'>
+						<Link
+							to='/instructor/forgot-password'
+							className='inline-block text-blue-400 hover:text-blue-300 font-medium transition duration-200'>
+							First time login or forgot password? Click here to setup your password
+						</Link>
+						<p className='text-gray-400 text-xs mt-4'>
+							New instructor? Use the link above to set your password first
+						</p>
+					</div>
 				</div>
 			</div>
 		</div>

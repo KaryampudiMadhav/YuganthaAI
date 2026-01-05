@@ -11,9 +11,32 @@ router.get("/profile", protect, async (req, res) => {
 	try {
 		const user = await User.findById(req.user._id)
 			.select("-password")
-			.populate("enrolledCourses.courseId");
+			.populate("enrolledCourses.courseId")
+			.populate("assignedInstructor", "name expertise email avatar bio");
 
 		res.json(user);
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   GET /api/users/assigned-instructor
+// @desc    Get user's assigned instructor
+// @access  Private
+router.get("/assigned-instructor", protect, async (req, res) => {
+	try {
+		const user = await User.findById(req.user._id)
+			.populate("assignedInstructor", "name expertise email avatar bio");
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		if (!user.assignedInstructor) {
+			return res.status(404).json({ message: "No instructor assigned yet" });
+		}
+
+		res.json(user.assignedInstructor);
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
@@ -101,7 +124,13 @@ router.get("/enrolled", protect, async (req, res) => {
 		const user = await User.findById(req.user._id).populate(
 			"enrolledCourses.courseId"
 		);
-		res.json(user.enrolledCourses);
+		
+		// Filter out null courseIds (deleted courses)
+		const filteredEnrolledCourses = user.enrolledCourses.filter(
+			(enrollment) => enrollment.courseId !== null
+		);
+		
+		res.json(filteredEnrolledCourses);
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message });
 	}

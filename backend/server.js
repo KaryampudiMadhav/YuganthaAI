@@ -7,13 +7,14 @@ import connectDB from "./config/db.js";
 import authRoutes from "./routes/auth.js";
 import userRoutes from "./routes/user.js";
 import courseRoutes from "./routes/courses.js";
-import blogRoutes from "./routes/blogs.js";
+import adminRoutes from "./routes/admin.js";
+import instructorAuthRoutes from "./routes/instructorAuth.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Load env from backend/.env even if process cwd is project root
-dotenv.config({ path: path.join(__dirname, ".env") });
+dotenv.config();
 
 const app = express();
 
@@ -29,11 +30,12 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api/auth", authRoutes);
 app.use("/api/users", userRoutes);
 app.use("/api/courses", courseRoutes);
-app.use("/api/blogs", blogRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/instructor-auth", instructorAuthRoutes);
 
 // Health check
 app.get("/", (req, res) => {
-	res.json({ message: "Merosphere API is running" });
+	res.json({ message: "YuganthaAI API is running" });
 });
 
 // Error handling middleware

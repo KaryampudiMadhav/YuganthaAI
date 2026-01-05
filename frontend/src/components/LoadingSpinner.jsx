@@ -63,14 +63,31 @@ export default function LoadingSpinner() {
 				</div>
 			</div>
 
-			{/* Custom CSS for M drawing animation */}
-			<style>{`
-				@keyframes drawM {
-					to {
-						stroke-dashoffset: 0;
-					}
-				}
-			`}</style>
-		</div>
-	);
+{/* Loading Text */}
+<div className='absolute -bottom-12 left-1/2 transform -translate-x-1/2 whitespace-nowrap'>
+<div className='flex items-center space-x-2'>
+<span className='text-2xl font-bold text-white animate-pulse'>
+Yugantha
+</span>
+<span className='text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-pulse'>
+AI
+</span>
+</div>
+</div>
+
+{/* Animated Dots */}
+<div className='absolute -bottom-20 left-1/2 transform -translate-x-1/2 flex space-x-2'>
+<div
+className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'
+style={{ animationDelay: "0ms" }}></div>
+<div
+className='w-2 h-2 bg-purple-500 rounded-full animate-bounce'
+style={{ animationDelay: "150ms" }}></div>
+<div
+className='w-2 h-2 bg-pink-500 rounded-full animate-bounce'
+style={{ animationDelay: "300ms" }}></div>
+</div>
+</div>
+</div>
+);
 }

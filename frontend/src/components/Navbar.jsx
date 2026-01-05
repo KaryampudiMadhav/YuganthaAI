@@ -51,21 +51,14 @@ export default function Navbar() {
 			<div className='max-w-7xl mx-auto flex items-center justify-between'>
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2'>
-					<svg
-						className='w-8 h-8 md:w-10 md:h-10'
-						viewBox='0 0 50 50'
-						fill='none'>
-						<path
-							d='M10 40 L25 10 L40 40 M15 35 L35 35'
-							stroke='white'
-							strokeWidth='3'
-							strokeLinecap='round'
-							strokeLinejoin='round'
-						/>
-					</svg>
+					<img 
+						src='/yugantha-logo.png' 
+						alt='YuganthaAI' 
+						className='w-10 h-10'
+					/>
 					<div className='text-lg md:text-xl font-bold'>
-						<span className='text-white'>Mero</span>
-						<span className='text-blue-400'>sphere</span>
+						<span className='text-white'>Yugantha</span>
+						<span className='text-blue-400'>AI</span>
 					</div>
 				</Link>
 
