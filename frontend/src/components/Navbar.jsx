@@ -63,8 +63,9 @@ export default function Navbar() {
 				</Link>
 
 				{/* Desktop Navigation */}
-				<div className='hidden md:flex items-center space-x-6'>
-					<div className='flex items-center space-x-4'>
+				<div className='hidden md:flex items-center flex-1 justify-between ml-8'>
+					{/* Navigation Links */}
+					<div className='flex items-center gap-6'>
 						{navItems.map((item) => (
 							<Link
 								key={item.label}
@@ -76,59 +77,14 @@ export default function Navbar() {
 						))}
 					</div>
 
-					{/* Explore Dropdown */}
-					<div className='relative'>
-						<button
-							onClick={() => setShowExplore(!showExplore)}
-							className='flex items-center space-x-2 px-4 py-2 border border-gray-600 rounded-lg hover:border-gray-400 transition duration-200'>
-							<span>Explore</span>
-							<svg
-								className='w-4 h-4'
-								fill='none'
-								stroke='currentColor'
-								viewBox='0 0 24 24'>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth={2}
-									d='M19 9l-7 7-7-7'
-								/>
-							</svg>
-						</button>
-
-						{showExplore && (
-							<div className='absolute top-full mt-2 bg-gray-800 rounded-lg shadow-xl py-2 w-48'>
-								<Link
-									to='/courses'
-									className='block px-4 py-2 hover:bg-gray-700'>
-									Courses
-								</Link>
-								<Link
-									to='/courses'
-									className='block px-4 py-2 hover:bg-gray-700'>
-									Learning Paths
-								</Link>
-								<Link
-									to='/courses'
-									className='block px-4 py-2 hover:bg-gray-700'>
-									Programs
-								</Link>
-							</div>
-						)}
-					</div>
-
-					{/* User Menu */}
-					{isAuthenticated ? (
+					{/* Right Section: Explore + Profile */}
+					<div className='flex items-center gap-4 ml-8'>
+						{/* Explore Dropdown */}
 						<div className='relative'>
 							<button
-								onClick={() =>
-									setShowProfileMenu(!showProfileMenu)
-								}
-								className='flex items-center space-x-3 bg-gray-800 hover:bg-gray-700 px-4 py-2 rounded-lg transition duration-200'>
-								<div className='w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-sm font-bold'>
-									{user?.fullName?.charAt(0).toUpperCase()}
-								</div>
-								<span className='hidden lg:inline'>{user?.fullName}</span>
+								onClick={() => setShowExplore(!showExplore)}
+								className='flex items-center space-x-2 px-4 py-2 border border-gray-600 rounded-lg hover:border-gray-400 transition duration-200 text-sm'>
+								<span>Explore</span>
 								<svg
 									className='w-4 h-4'
 									fill='none'
@@ -143,31 +99,55 @@ export default function Navbar() {
 								</svg>
 							</button>
 
+							{showExplore && (
+								<div className='absolute top-full mt-2 bg-gray-800 rounded-lg shadow-xl py-2 w-48 right-0'>
+									<Link
+										to='/courses'
+										className='block px-4 py-2 hover:bg-gray-700'>
+										Courses
+									</Link>
+									<Link
+										to='/my-learning'
+										className='block px-4 py-2 hover:bg-gray-700'>
+										Learning Paths
+									</Link>
+									<Link
+										to='/courses'
+										className='block px-4 py-2 hover:bg-gray-700'>
+										Programs
+									</Link>
+								</div>
+							)}
+						</div>
+
+						{/* User Menu */}
+						{isAuthenticated ? (
+								<div className='relative'>
+								<button
+									onClick={() =>
+										setShowProfileMenu(!showProfileMenu)
+									}
+									className='w-[50px] h-[50px] bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-lg font-bold text-white shadow-lg hover:shadow-xl transition duration-200'>
+									{user?.fullName?.charAt(0).toUpperCase()}
+								</button>
+
 							{showProfileMenu && (
 								<div className='absolute top-full right-0 mt-2 bg-gray-800 rounded-lg shadow-xl py-2 w-48'>
-									<Link
-										to='/profile'
-										onClick={() =>
-											setShowProfileMenu(false)
-										}
-										className='block px-4 py-2 hover:bg-gray-700'>
-										My Profile
-									</Link>
 									<Link
 										to='/my-learning'
 										onClick={() =>
 											setShowProfileMenu(false)
 										}
 										className='block px-4 py-2 hover:bg-gray-700'>
-										My Learning
+										Registered Courses
 									</Link>
 									<Link
-										to='/courses'
+										to='/profile'
 										onClick={() =>
 											setShowProfileMenu(false)
 										}
 										className='block px-4 py-2 hover:bg-gray-700'>
-										Browse Courses
+										Edit Profile
 									</Link>
 									<div className='border-t border-gray-700 my-2'></div>
 									<button
@@ -175,16 +155,17 @@ export default function Navbar() {
 										className='w-full text-left px-4 py-2 hover:bg-gray-700 text-red-400'>
 										Logout
 									</button>
-								</div>
-							)}
-						</div>
-					) : (
-						<Link
-							to='/login'
-							className='px-6 py-2 border border-gray-600 rounded-lg hover:bg-gray-800 transition duration-200'>
-							Login
-						</Link>
-					)}
+									</div>
+								)}
+							</div>
+						) : (
+							<Link
+								to='/login'
+								className='px-6 py-2 border border-gray-600 rounded-lg hover:bg-gray-800 transition duration-200 text-sm'>
+								Login
+							</Link>
+						)}
+					</div>
 				</div>
 
 				{/* Mobile Menu Button */}
@@ -229,6 +210,22 @@ export default function Navbar() {
 							</Link>
 						))}
 
+						<Link
+							to='/courses'
+							className='px-4 py-2 hover:bg-gray-800 rounded-lg'>
+							Courses
+						</Link>
+						<Link
+							to='/my-learning'
+							className='px-4 py-2 hover:bg-gray-800 rounded-lg'>
+							Learning Paths
+						</Link>
+						<Link
+							to='/courses'
+							className='px-4 py-2 hover:bg-gray-800 rounded-lg'>
+							Programs
+						</Link>
+						
 						{isAuthenticated ? (
 							<>
 								<div className='border-t border-gray-700 my-2'></div>

@@ -88,7 +88,7 @@ const courseSchema = new mongoose.Schema({
 					},
 					url: {
 						type: String,
-						required: true,
+						default: "",
 					},
 					publicId: {
 						type: String,

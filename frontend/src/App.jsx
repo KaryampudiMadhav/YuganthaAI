@@ -24,6 +24,8 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminAssignInstructors from "./pages/AdminAssignInstructors";
 import AdminMentorAssignments from "./pages/AdminMentorAssignments";
 import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
+import BlogsPage from "./pages/BlogsPage";
+import BlogDetailPage from "./pages/BlogDetailPage";
 
 function HomePage() {
 	return (
@@ -123,6 +125,14 @@ export default function App() {
 										<ProfilePage />
 									</MainLayout>
 								}
+							/>
+							<Route
+								path='/blogs'
+								element={<BlogsPage />}
+							/>
+							<Route
+								path='/blogs/:slug'
+								element={<BlogDetailPage />}
 							/>
 							<Route path='/login' element={<LoginPage />} />
 							<Route path='/signup' element={<SignupPage />} />
