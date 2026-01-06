@@ -9,6 +9,7 @@ import userRoutes from "./routes/user.js";
 import courseRoutes from "./routes/courses.js";
 import adminRoutes from "./routes/admin.js";
 import instructorAuthRoutes from "./routes/instructorAuth.js";
+import blogRoutes from "./routes/blogs.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -32,6 +33,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/instructor-auth", instructorAuthRoutes);
+app.use("/api/blogs", blogRoutes);
 
 // Health check
 app.get("/", (req, res) => {

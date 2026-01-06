@@ -1,5 +1,6 @@
 import { useEffect, useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import AdminNavbar from "../components/AdminNavbar";
 
 export default function AdminMentorAssignments() {
@@ -58,7 +59,7 @@ export default function AdminMentorAssignments() {
       setMentorAssignments(assignments);
     } catch (error) {
       console.error("Fetch mentor assignments error:", error);
-      alert("Failed to fetch mentor assignments");
+      toast.error("Failed to fetch mentor assignments");
     } finally {
       setLoading(false);
     }

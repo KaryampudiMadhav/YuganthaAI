@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import AdminNavbar from "../components/AdminNavbar";
 
 export default function AdminDashboard() {
@@ -75,10 +76,10 @@ export default function AdminDashboard() {
       const data = await response.json();
       setInstructors((prev) => [data.instructor, ...prev]);
       setForm({ name: "", expertise: "", email: "", bio: "" });
-      alert(`Instructor ${data.instructor.name} created successfully! They can now setup their password using the forgot password link.`);
+      toast.success(`Instructor ${data.instructor.name} created successfully! They can now setup their password using the forgot password link.`);
     } catch (error) {
       console.error("Add instructor error:", error);
-      alert("Failed to add instructor");
+      toast.error("Failed to add instructor");
     }
   };
 
@@ -104,9 +105,10 @@ export default function AdminDashboard() {
       }
 
       setInstructors((prev) => prev.filter((i) => i._id !== id));
+      toast.success("Instructor deleted successfully");
     } catch (error) {
       console.error("Delete instructor error:", error);
-      alert("Failed to delete instructor");
+      toast.error("Failed to delete instructor");
     }
   };
 
@@ -134,9 +136,10 @@ export default function AdminDashboard() {
 
       const updated = await response.json();
       setInstructors((prev) => prev.map((i) => (i._id === id ? updated.instructor : i)));
+      toast.success(`Instructor ${currentActive ? 'deactivated' : 'activated'} successfully`);
     } catch (error) {
       console.error("Update instructor error:", error);
-      alert("Failed to update instructor status");
+      toast.error("Failed to update instructor status");
     }
   };
 

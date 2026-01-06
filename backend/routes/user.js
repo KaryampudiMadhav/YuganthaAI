@@ -79,6 +79,11 @@ router.put("/profile", protect, async (req, res) => {
 router.post("/enroll/:courseId", protect, async (req, res) => {
 	try {
 		const user = await User.findById(req.user._id);
+		
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+		
 		const courseId = req.params.courseId;
 
 		// Check if already enrolled
@@ -112,6 +117,7 @@ router.post("/enroll/:courseId", protect, async (req, res) => {
 			enrolledCourses: user.enrolledCourses,
 		});
 	} catch (error) {
+		console.error("Enrollment error:", error);
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 });

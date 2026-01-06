@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -41,26 +42,26 @@ export default function ProfilePage() {
 	const handleUpdateProfile = async (e) => {
 		e.preventDefault();
 		// TODO: Implement profile update API call
-		alert("Profile update functionality will be implemented with backend API");
+		toast.success("Profile update functionality will be implemented with backend API");
 	};
 
 	const handleChangePassword = async (e) => {
 		e.preventDefault();
 		if (formData.newPassword !== formData.confirmPassword) {
-			alert("New passwords don't match!");
+			toast.error("New passwords don't match!");
 			return;
 		}
 		// TODO: Implement password change API call
-		alert("Password change functionality will be implemented with backend API");
+		toast.success("Password change functionality will be implemented with backend API");
 	};
 
 	const handleDeleteAccount = async () => {
 		if (deleteConfirm !== "DELETE") {
-			alert('Please type "DELETE" to confirm account deletion');
+			toast.error('Please type "DELETE" to confirm account deletion');
 			return;
 		}
 		// TODO: Implement account deletion API call
-		alert("Account deletion functionality will be implemented with backend API");
+		toast.success("Account deletion functionality will be implemented with backend API");
 		logout();
 		navigate("/", { replace: true });
 	};

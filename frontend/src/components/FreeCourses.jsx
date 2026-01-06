@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 
 export default function FreeCourses() {
@@ -44,6 +45,14 @@ export default function FreeCourses() {
 			});
 
 			const data = await response.json();
+			
+			// Check if response is ok and data is an array
+			if (!response.ok || !Array.isArray(data)) {
+				console.error("Error fetching enrolled courses:", data);
+				setEnrolledCourses([]);
+				return;
+			}
+			
 			// Filter out null courseIds and extract valid IDs
 			const ids = data
 				.filter((item) => item && item.courseId) // Filter out null/undefined items
@@ -51,6 +60,7 @@ export default function FreeCourses() {
 			setEnrolledCourses(ids);
 		} catch (error) {
 			console.error("Error fetching enrolled courses:", error);
+			setEnrolledCourses([]);
 		}
 	};
 
@@ -81,13 +91,18 @@ export default function FreeCourses() {
 
 			if (response.ok) {
 				setEnrolledCourses([...enrolledCourses, courseId]);
-				alert("Successfully enrolled in course!");
+				toast.success("Successfully enrolled in course!");
 			} else {
-				alert(data.message || "Enrollment failed");
+				if (data.message === "Please login") {
+					toast.error("Please login to enroll in courses");
+					setTimeout(() => navigate("/login"), 1500);
+				} else {
+					toast.error(data.message || "Enrollment failed");
+				}
 			}
 		} catch (error) {
 			console.error("Error enrolling:", error);
-			alert("Error enrolling in course");
+			toast.error("Error enrolling in course");
 		} finally {
 			setEnrolling({ ...enrolling, [courseId]: false });
 		}

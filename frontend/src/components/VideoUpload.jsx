@@ -1,4 +1,5 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 
 export default function VideoUpload({ onUploadSuccess, existingVideo }) {
 	const [uploading, setUploading] = useState(false);
@@ -14,13 +15,13 @@ export default function VideoUpload({ onUploadSuccess, existingVideo }) {
 
 		// Validate file type
 		if (!file.type.startsWith("video/")) {
-			alert("Please select a valid video file");
+			toast.error("Please select a valid video file");
 			return;
 		}
 
 		// Validate file size (max 100MB)
 		if (file.size > 100 * 1024 * 1024) {
-			alert("Video size should be less than 100MB");
+			toast.error("Video size should be less than 100MB");
 			return;
 		}
 
@@ -54,13 +55,14 @@ export default function VideoUpload({ onUploadSuccess, existingVideo }) {
 					});
 					setUploading(false);
 					setUploadProgress(0);
+					toast.success("Video uploaded successfully!");
 				} else {
 					throw new Error("Upload failed");
 				}
 			});
 
 			xhr.addEventListener("error", () => {
-				alert("Upload failed. Please try again.");
+				toast.error("Upload failed. Please try again.");
 				setUploading(false);
 				setUploadProgress(0);
 			});
@@ -72,7 +74,7 @@ export default function VideoUpload({ onUploadSuccess, existingVideo }) {
 			xhr.send(formData);
 		} catch (error) {
 			console.error("Upload error:", error);
-			alert("Upload failed. Please try again.");
+			toast.error("Upload failed. Please try again.");
 			setUploading(false);
 			setUploadProgress(0);
 		}

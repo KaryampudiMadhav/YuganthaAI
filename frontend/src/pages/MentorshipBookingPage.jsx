@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 
 export default function MentorshipBookingPage() {
   const navigate = useNavigate();
@@ -172,8 +173,10 @@ export default function MentorshipBookingPage() {
     const existingBookings = JSON.parse(localStorage.getItem("mentorshipBookings") || "[]");
     localStorage.setItem("mentorshipBookings", JSON.stringify([...existingBookings, booking]));
     
-    alert("Booking confirmed! You will see it in your mentorships shortly.");
-    window.location.href = "/mentorships";
+    toast.success("Booking confirmed! You will see it in your mentorships shortly.");
+    setTimeout(() => {
+      window.location.href = "/mentorships";
+    }, 1500);
   };
 
   const isSelectedDay = (label) => {

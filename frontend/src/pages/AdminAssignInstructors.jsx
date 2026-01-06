@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import AdminNavbar from "../components/AdminNavbar";
 
 export default function AdminAssignInstructors() {
@@ -50,7 +51,7 @@ export default function AdminAssignInstructors() {
         const usersData = await usersRes.json();
         setUsers(usersData);
       } else {
-        alert("Failed to fetch users");
+        toast.error("Failed to fetch users");
       }
     } catch (error) {
       console.error("Fetch data error:", error);
@@ -61,7 +62,7 @@ export default function AdminAssignInstructors() {
 
   const assignInstructor = async () => {
     if (!selectedUser || !selectedInstructor) {
-      alert("Please select both a user and an instructor");
+      toast.error("Please select both a user and an instructor");
       return;
     }
 
@@ -95,9 +96,10 @@ export default function AdminAssignInstructors() {
       setSelectedInstructor(null);
       setTimeout(() => setSuccessMessage(""), 5000);
       fetchData();
+      toast.success(`${selectedInstructor.name} assigned to ${selectedUser.fullName}`);
     } catch (error) {
       console.error("Assign instructor error:", error);
-      alert("Failed to assign instructor");
+      toast.error("Failed to assign instructor");
     }
   };
 

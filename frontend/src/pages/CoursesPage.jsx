@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
 
 export default function CoursesPage() {
@@ -51,14 +52,19 @@ export default function CoursesPage() {
 			const data = await response.json();
 
 			if (response.ok) {
-				alert("Successfully enrolled in course!");
+				toast.success("Successfully enrolled in course!");
 				navigate("/my-learning");
 			} else {
-				alert(data.message || "Enrollment failed");
+				if (data.message === "Please login") {
+					toast.error("Please login to enroll in courses");
+					setTimeout(() => navigate("/login"), 1500);
+				} else {
+					toast.error(data.message || "Enrollment failed");
+				}
 			}
 		} catch (error) {
 			console.error("Error enrolling:", error);
-			alert("Error enrolling in course");
+			toast.error("Error enrolling in course");
 		} finally {
 			setEnrolling({ ...enrolling, [courseId]: false });
 		}
