@@ -28,20 +28,30 @@ export default function LoginPage() {
 	};
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1a2f4f] to-[#2a4570] flex items-center justify-center px-4 md:px-6 py-16 md:py-20'>
-			<div className='max-w-md w-full'>
+		<div className='min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] flex items-center justify-center px-4 md:px-6 py-16 md:py-20 relative overflow-hidden'>
+			{/* Animated background orbs */}
+			<div className="absolute top-0 left-1/4 w-96 h-96 bg-[#8B5CF6] opacity-20 rounded-full blur-[120px] animate-pulse-slow"></div>
+			<div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#EC4899] opacity-20 rounded-full blur-[120px] animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+			
+			<div className='max-w-md w-full relative z-10'>
 				{/* Logo */}
 				<div className='text-center mb-6 md:mb-8'>
 					<Link
 						to='/'
-						className='inline-flex items-center space-x-2 mb-4 md:mb-6'>
+						className='inline-flex items-center space-x-2 mb-4 md:mb-6 group'>
 						<svg
-							className='w-10 h-10 md:w-12 md:h-12'
+							className='w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:scale-110'
 							viewBox='0 0 50 50'
 							fill='none'>
+							<defs>
+								<linearGradient id='loginLogoGradient' x1='0%' y1='0%' x2='100%' y2='100%'>
+									<stop offset='0%' stopColor='#8B5CF6' />
+									<stop offset='100%' stopColor='#EC4899' />
+								</linearGradient>
+							</defs>
 							<path
 								d='M10 40 L25 10 L40 40 M15 35 L35 35'
-								stroke='white'
+								stroke='url(#loginLogoGradient)'
 								strokeWidth='3'
 								strokeLinecap='round'
 								strokeLinejoin='round'
@@ -49,21 +59,21 @@ export default function LoginPage() {
 						</svg>
 						<div className='text-xl md:text-2xl font-bold text-white'>
 							<span>Mero</span>
-							<span className='text-blue-400'>sphere</span>
+							<span className='text-[#A855F7]'>sphere</span>
 						</div>
 					</Link>
 					<h1 className='text-2xl md:text-3xl font-bold text-white mb-2'>
 						Welcome Back
 					</h1>
-					<p className='text-sm md:text-base text-gray-400'>
+					<p className='text-sm md:text-base text-[#C7C3D6]'>
 						Login to continue your learning journey
 					</p>
 				</div>
 
 				{/* Login Form */}
-				<div className='bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-6 md:p-8 border border-white/20'>
+				<div className='bg-[#12091F] border border-[rgba(139,92,246,0.25)] backdrop-blur-lg rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.3)] p-6 md:p-8'>
 					{error && (
-						<div className='bg-red-500/20 border border-red-500 text-red-200 px-4 py-3 rounded-lg mb-6'>
+						<div className='bg-[rgba(236,72,153,0.1)] border border-[#EC4899] text-[#EC4899] px-4 py-3 rounded-xl mb-6'>
 							{error}
 						</div>
 					)}
@@ -78,7 +88,7 @@ export default function LoginPage() {
 								type='email'
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
-								className='w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition'
+								className='w-full px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 								placeholder='Enter your email'
 								required
 							/>
@@ -96,7 +106,7 @@ export default function LoginPage() {
 									onChange={(e) =>
 										setPassword(e.target.value)
 									}
-									className='w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 									placeholder='Enter your password'
 									required
 								/>
@@ -105,7 +115,7 @@ export default function LoginPage() {
 									onClick={() =>
 										setShowPassword(!showPassword)
 									}
-									className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition'>
+									className='absolute right-3 top-1/2 -translate-y-1/2 text-[#9A93B5] hover:text-[#A855F7] transition-colors duration-200'>
 									{showPassword ? (
 										<svg
 											className='w-5 h-5'
@@ -145,16 +155,16 @@ export default function LoginPage() {
 
 						{/* Remember Me & Forgot Password */}
 						<div className='flex items-center justify-between text-sm'>
-							<label className='flex items-center text-gray-300 cursor-pointer'>
+							<label className='flex items-center text-[#C7C3D6] cursor-pointer'>
 								<input
 									type='checkbox'
-									className='mr-2 rounded'
+									className='mr-2 rounded accent-[#8B5CF6]'
 								/>
 								Remember me
 							</label>
 							<a
 								href='#'
-								className='text-blue-400 hover:text-blue-300 transition'>
+								className='text-[#A855F7] hover:text-[#EC4899] transition-colors duration-200'>
 								Forgot Password?
 							</a>
 						</div>
@@ -163,17 +173,17 @@ export default function LoginPage() {
 						<button
 							type='submit'
 							disabled={loading}
-							className='w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed'>
+							className='w-full bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-[0_4px_24px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_32px_rgba(139,92,246,0.6)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'>
 							{loading ? "Logging in..." : "Login"}
 						</button>
 
 						{/* Divider */}
 						<div className='relative my-6'>
 							<div className='absolute inset-0 flex items-center'>
-								<div className='w-full border-t border-white/20'></div>
+								<div className='w-full border-t border-[rgba(139,92,246,0.2)]'></div>
 							</div>
 							<div className='relative flex justify-center text-sm'>
-								<span className='px-4 bg-transparent text-gray-400'>
+								<span className='px-4 bg-[#12091F] text-[#9A93B5]'>
 									Or continue with
 								</span>
 							</div>
@@ -183,7 +193,7 @@ export default function LoginPage() {
 						<div className='grid grid-cols-2 gap-4'>
 							<button
 								type='button'
-								className='flex items-center justify-center px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition'>
+								className='flex items-center justify-center px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] transition-all duration-200'>
 								<svg
 									className='w-5 h-5 mr-2'
 									viewBox='0 0 24 24'
@@ -209,7 +219,7 @@ export default function LoginPage() {
 							</button>
 							<button
 								type='button'
-								className='flex items-center justify-center px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white hover:bg-white/10 transition'>
+								className='flex items-center justify-center px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] transition-all duration-200'>
 								<svg
 									className='w-5 h-5 mr-2'
 									fill='currentColor'
@@ -222,11 +232,11 @@ export default function LoginPage() {
 					</form>
 
 					{/* Sign Up Link */}
-					<p className='mt-6 text-center text-gray-400'>
+					<p className='mt-6 text-center text-[#C7C3D6]'>
 						Don't have an account?{" "}
 						<Link
 							to='/signup'
-							className='text-blue-400 hover:text-blue-300 font-semibold transition'>
+							className='text-[#A855F7] hover:text-[#EC4899] font-semibold transition-colors duration-200'>
 							Sign Up
 						</Link>
 					</p>

@@ -49,8 +49,12 @@ export default function SignupPage() {
 	};
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-[#0a1628] via-[#1a2f4f] to-[#2a4570] flex items-center justify-center px-4 md:px-6 py-16 md:py-20'>
-			<div className='max-w-md w-full'>
+		<div className='min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] flex items-center justify-center px-4 md:px-6 py-16 md:py-20 relative overflow-hidden'>
+			{/* Animated background orbs */}
+			<div className="absolute top-0 left-1/4 w-96 h-96 bg-[#8B5CF6] opacity-20 rounded-full blur-[120px] animate-pulse-slow"></div>
+			<div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#EC4899] opacity-20 rounded-full blur-[120px] animate-pulse-slow" style={{animationDelay: '1s'}}></div>
+			
+			<div className='max-w-md w-full relative z-10'>
 				{/* Logo */}
 				<div className='text-center mb-6 md:mb-8'>
 					<Link
@@ -82,9 +86,9 @@ export default function SignupPage() {
 				</div>
 
 				{/* Signup Form */}
-				<div className='bg-white/10 backdrop-blur-lg rounded-2xl shadow-2xl p-8 border border-white/20'>
+				<div className='bg-[#12091F] border border-[rgba(139,92,246,0.25)] backdrop-blur-lg rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.3)] p-8'>
 					{error && (
-						<div className='bg-red-500/20 border border-red-500 text-red-200 px-4 py-3 rounded-lg mb-6'>
+						<div className='bg-[rgba(236,72,153,0.1)] border border-[#EC4899] text-[#EC4899] px-4 py-3 rounded-xl mb-6'>
 							{error}
 						</div>
 					)}
@@ -100,7 +104,7 @@ export default function SignupPage() {
 								name='fullName'
 								value={formData.fullName}
 								onChange={handleChange}
-								className='w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition'
+								className='w-full px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 								placeholder='Enter your full name'
 								required
 							/>
@@ -116,7 +120,7 @@ export default function SignupPage() {
 								name='email'
 								value={formData.email}
 								onChange={handleChange}
-								className='w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition'
+								className='w-full px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 								placeholder='Enter your email'
 								required
 							/>
@@ -133,7 +137,7 @@ export default function SignupPage() {
 									name='password'
 									value={formData.password}
 									onChange={handleChange}
-									className='w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 									placeholder='Create a password'
 									required
 									minLength={6}
@@ -143,7 +147,7 @@ export default function SignupPage() {
 									onClick={() =>
 										setShowPassword(!showPassword)
 									}
-									className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition'>
+									className='absolute right-3 top-1/2 -translate-y-1/2 text-[#9A93B5] hover:text-[#A855F7] transition-colors duration-200'>
 									{showPassword ? (
 										<svg
 											className='w-5 h-5'
@@ -199,7 +203,7 @@ export default function SignupPage() {
 									name='confirmPassword'
 									value={formData.confirmPassword}
 									onChange={handleChange}
-									className='w-full px-4 py-3 bg-white/5 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-400/20 transition'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 									placeholder='Confirm your password'
 									required
 								/>
@@ -210,7 +214,7 @@ export default function SignupPage() {
 											!showConfirmPassword
 										)
 									}
-									className='absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition'>
+									className='absolute right-3 top-1/2 -translate-y-1/2 text-[#9A93B5] hover:text-[#A855F7] transition-colors duration-200'>
 									{showConfirmPassword ? (
 										<svg
 											className='w-5 h-5'
@@ -278,7 +282,7 @@ export default function SignupPage() {
 						<button
 							type='submit'
 							disabled={loading}
-							className='w-full bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white font-semibold py-3 rounded-lg transition duration-200 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed'>
+							className='w-full bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white font-semibold py-3 rounded-xl transition-all duration-200 shadow-[0_4px_24px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_32px_rgba(139,92,246,0.6)] hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100'>
 							{loading ? "Creating Account..." : "Create Account"}
 						</button>
 

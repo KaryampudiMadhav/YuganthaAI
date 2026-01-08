@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import { Users, BookOpen, Check, ChevronDown, Sparkles, AlertCircle } from "lucide-react";
 import AdminNavbar from "../components/AdminNavbar";
 
 export default function AdminAssignInstructors() {
@@ -122,26 +123,37 @@ export default function AdminAssignInstructors() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pt-28 pb-16">
+    <div className="min-h-screen bg-gradient-to-br from-[#12091F] via-[#0B0614] to-[#160B2E] text-white pt-28 pb-16">
       <AdminNavbar />
       <div className="max-w-7xl mx-auto px-4 md:px-6 space-y-8">
         {/* Header */}
-        <div>
-          <p className="text-sm text-gray-400">Admin Panel</p>
-          <h1 className="text-4xl font-bold">Assign Instructors to Users</h1>
-          <p className="text-gray-400 mt-2">Select a user and assign an instructor to enable 1:1 mentoring sessions</p>
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <div className="w-1 h-8 bg-gradient-to-b from-[#8B5CF6] to-[#EC4899] rounded-full"></div>
+            <p className="text-sm font-semibold text-[#A855F7]">Admin Panel</p>
+          </div>
+          <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-[#C7C3D6] to-[#9A93B5] bg-clip-text text-transparent">
+            Assign Instructors to Users
+          </h1>
+          <p className="text-[#9A93B5] text-lg">Select a user and assign an instructor to enable personalized 1:1 mentoring sessions</p>
         </div>
 
         {/* Success Message */}
         {successMessage && (
-          <div className="bg-green-500/20 border border-green-500/40 rounded-2xl p-4 text-green-300">
-            {successMessage}
+          <div className="bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/40 rounded-2xl p-5 text-green-300 shadow-[0_0_24px_rgba(34,197,94,0.15)] animate-fadeIn">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-green-500/30 flex items-center justify-center">
+                <Check className="w-5 h-5" />
+              </div>
+              <span className="font-semibold">{successMessage}</span>
+            </div>
           </div>
         )}
 
         {loading ? (
-          <div className="flex justify-center py-12">
-            <p className="text-sm text-gray-400">Loading...</p>
+          <div className="flex flex-col items-center justify-center py-20 gap-4">
+            <div className="w-16 h-16 border-4 border-[#8B5CF6]/20 border-t-[#8B5CF6] rounded-full animate-spin"></div>
+            <p className="text-sm text-[#9A93B5] font-medium">Loading assignments...</p>
           </div>
         ) : (
           <div className="space-y-8">
@@ -149,20 +161,23 @@ export default function AdminAssignInstructors() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Users List */}
               <div className="lg:col-span-1">
-                <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-[600px]">
+                <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
                   {/* Header */}
-                  <div className="bg-[#0a0a0a] p-4 border-b border-white/5">
-                    <h2 className="text-lg font-semibold">Users ({filteredUsers.length})</h2>
+                  <div className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 p-5 border-b border-[rgba(139,92,246,0.2)]">
+                    <div className="flex items-center gap-3">
+                      <Users className="w-5 h-5 text-[#A855F7]" />
+                      <h2 className="text-lg font-bold text-white">Users <span className="text-[#A855F7]">({filteredUsers.length})</span></h2>
+                    </div>
                   </div>
                   
                   {/* Search */}
-                  <div className="p-4 border-b border-white/5">
+                  <div className="p-4 border-b border-[rgba(139,92,246,0.15)]">
                     <input
                       type="text"
                       placeholder="Search user..."
                       value={searchUserQuery}
                       onChange={(e) => setSearchUserQuery(e.target.value)}
-                      className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white/40"
+                      className="w-full bg-[rgba(11,6,20,0.5)] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
                     />
                   </div>
 
@@ -171,21 +186,22 @@ export default function AdminAssignInstructors() {
                     {filteredUsers.length === 0 ? (
                       <div className="p-4 text-center text-sm text-gray-400">No users found</div>
                     ) : (
-                      <div className="divide-y divide-white/5">
+                      <div className="divide-y divide-[rgba(139,92,246,0.1)]">
                         {filteredUsers.map((user) => (
                           <div
                             key={user._id}
                             onClick={() => setSelectedUser(user)}
-                            className={`p-4 cursor-pointer transition border-l-4 ${
+                            className={`p-4 cursor-pointer transition-all duration-300 border-l-4 ${
                               selectedUser?._id === user._id
-                                ? "bg-white/10 border-emerald-500"
-                                : "border-transparent hover:bg-white/5 hover:border-white/20"
+                                ? "bg-gradient-to-r from-[#8B5CF6]/20 to-transparent border-[#8B5CF6] shadow-[0_0_16px_rgba(139,92,246,0.2)]"
+                                : "border-transparent hover:bg-[rgba(139,92,246,0.05)] hover:border-[rgba(139,92,246,0.3)]"
                             }`}>
-                            <p className="font-semibold text-sm">{user.fullName}</p>
-                            <p className="text-xs text-gray-500 mt-1">{user.email}</p>
+                            <p className="font-semibold text-sm text-white">{user.fullName}</p>
+                            <p className="text-xs text-[#9A93B5] mt-1">{user.email}</p>
                             {user.assignedInstructor && (
-                              <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 bg-blue-500/20 rounded text-xs text-blue-300">
-                                ✓ {user.assignedInstructor.name}
+                              <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-[#8B5CF6]/20 to-[#EC4899]/20 border border-[#8B5CF6]/30 rounded-lg text-xs text-[#A855F7] font-medium">
+                                <Check className="w-3 h-3" />
+                                {user.assignedInstructor.name}
                               </div>
                             )}
                           </div>
@@ -198,20 +214,23 @@ export default function AdminAssignInstructors() {
 
               {/* Instructors List */}
               <div className="lg:col-span-1">
-                <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl overflow-hidden flex flex-col h-[600px]">
+                <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
                   {/* Header */}
-                  <div className="bg-[#0a0a0a] p-4 border-b border-white/5">
-                    <h2 className="text-lg font-semibold">Instructors ({filteredInstructors.length})</h2>
+                  <div className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 p-5 border-b border-[rgba(139,92,246,0.2)]">
+                    <div className="flex items-center gap-3">
+                      <BookOpen className="w-5 h-5 text-[#EC4899]" />
+                      <h2 className="text-lg font-bold text-white">Instructors <span className="text-[#EC4899]">({filteredInstructors.length})</span></h2>
+                    </div>
                   </div>
                   
                   {/* Search */}
-                  <div className="p-4 border-b border-white/5">
+                  <div className="p-4 border-b border-[rgba(139,92,246,0.15)]">
                     <input
                       type="text"
                       placeholder="Search instructor..."
                       value={searchInstructorQuery}
                       onChange={(e) => setSearchInstructorQuery(e.target.value)}
-                      className="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-3 py-2 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white/40"
+                      className="w-full bg-[rgba(11,6,20,0.5)] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
                     />
                   </div>
 
@@ -224,21 +243,22 @@ export default function AdminAssignInstructors() {
                           : "No instructors match search"}
                       </div>
                     ) : (
-                      <div className="divide-y divide-white/5">
+                      <div className="divide-y divide-[rgba(139,92,246,0.1)]">
                         {filteredInstructors.map((instructor) => (
                           <div
                             key={instructor._id}
                             onClick={() => setSelectedInstructor(instructor)}
-                            className={`p-4 cursor-pointer transition border-l-4 ${
+                            className={`p-4 cursor-pointer transition-all duration-300 border-l-4 ${
                               selectedInstructor?._id === instructor._id
-                                ? "bg-white/10 border-emerald-500"
-                                : "border-transparent hover:bg-white/5 hover:border-white/20"
+                                ? "bg-gradient-to-r from-[#EC4899]/20 to-transparent border-[#EC4899] shadow-[0_0_16px_rgba(236,72,153,0.2)]"
+                                : "border-transparent hover:bg-[rgba(139,92,246,0.05)] hover:border-[rgba(236,72,153,0.3)]"
                             }`}>
-                            <p className="font-semibold text-sm">{instructor.name}</p>
-                            <p className="text-xs text-gray-500 mt-1">{instructor.expertise}</p>
-                            <p className="text-xs text-gray-600 mt-1">{instructor.email}</p>
-                            <div className="mt-2 inline-flex items-center gap-1 px-2 py-1 bg-green-500/20 rounded text-xs text-green-300">
-                              ✓ Approved
+                            <p className="font-semibold text-sm text-white">{instructor.name}</p>
+                            <p className="text-xs text-[#A855F7] mt-1 font-medium">{instructor.expertise}</p>
+                            <p className="text-xs text-[#9A93B5] mt-1">{instructor.email}</p>
+                            <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-lg text-xs text-green-300 font-medium">
+                              <Check className="w-3 h-3" />
+                              Approved
                             </div>
                           </div>
                         ))}
@@ -250,39 +270,50 @@ export default function AdminAssignInstructors() {
 
               {/* Assignment Panel */}
               <div className="lg:col-span-1">
-                <div className="bg-gradient-to-br from-emerald-900/20 to-green-900/20 border border-emerald-500/20 rounded-2xl p-6 h-[600px] flex flex-col justify-between">
+                <div className="bg-gradient-to-br from-[#8B5CF6]/10 via-[#EC4899]/10 to-[#8B5CF6]/5 border border-[rgba(139,92,246,0.3)] rounded-2xl p-6 h-[600px] flex flex-col justify-between shadow-[0_8px_32px_rgba(139,92,246,0.2)]">
                   <div className="space-y-6">
                     <div>
-                      <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">From User</p>
+                      <p className="text-xs text-[#A855F7] uppercase tracking-wider mb-3 font-bold flex items-center gap-2">
+                        <Users className="w-4 h-4" />
+                        From User
+                      </p>
                       {selectedUser ? (
-                        <div className="bg-[#0f0f0f] rounded-lg p-4 border border-white/10">
-                          <p className="font-semibold">{selectedUser.fullName}</p>
-                          <p className="text-sm text-gray-400 mt-1">{selectedUser.email}</p>
+                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(139,92,246,0.3)] shadow-[0_4px_16px_rgba(139,92,246,0.15)]">
+                          <p className="font-bold text-white">{selectedUser.fullName}</p>
+                          <p className="text-sm text-[#9A93B5] mt-1">{selectedUser.email}</p>
                           {selectedUser.assignedInstructor && (
-                            <p className="text-xs text-yellow-300 mt-2">Currently assigned to: {selectedUser.assignedInstructor.name}</p>
+                            <p className="text-xs text-yellow-300 mt-2 flex items-center gap-1.5">
+                              <AlertCircle className="w-3 h-3" />
+                              Currently: {selectedUser.assignedInstructor.name}
+                            </p>
                           )}
                         </div>
                       ) : (
-                        <div className="bg-[#0f0f0f] rounded-lg p-4 border border-white/10 text-gray-500 text-sm">
+                        <div className="bg-[rgba(11,6,20,0.3)] rounded-xl p-4 border border-dashed border-[rgba(139,92,246,0.3)] text-[#9A93B5] text-sm">
                           Select a user from the list
                         </div>
                       )}
                     </div>
 
                     <div className="flex justify-center">
-                      <div className="text-3xl opacity-50">↓</div>
+                      <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#8B5CF6] to-[#EC4899] flex items-center justify-center shadow-[0_0_24px_rgba(139,92,246,0.4)]">
+                        <ChevronDown className="w-6 h-6 text-white" />
+                      </div>
                     </div>
 
                     <div>
-                      <p className="text-xs text-gray-400 uppercase tracking-wider mb-2">To Instructor</p>
+                      <p className="text-xs text-[#EC4899] uppercase tracking-wider mb-3 font-bold flex items-center gap-2">
+                        <BookOpen className="w-4 h-4" />
+                        To Instructor
+                      </p>
                       {selectedInstructor ? (
-                        <div className="bg-[#0f0f0f] rounded-lg p-4 border border-white/10">
-                          <p className="font-semibold">{selectedInstructor.name}</p>
-                          <p className="text-sm text-gray-400 mt-1">{selectedInstructor.expertise}</p>
-                          <p className="text-xs text-gray-500 mt-2">{selectedInstructor.email}</p>
+                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(236,72,153,0.3)] shadow-[0_4px_16px_rgba(236,72,153,0.15)]">
+                          <p className="font-bold text-white">{selectedInstructor.name}</p>
+                          <p className="text-sm text-[#A855F7] mt-1 font-medium">{selectedInstructor.expertise}</p>
+                          <p className="text-xs text-[#9A93B5] mt-2">{selectedInstructor.email}</p>
                         </div>
                       ) : (
-                        <div className="bg-[#0f0f0f] rounded-lg p-4 border border-white/10 text-gray-500 text-sm">
+                        <div className="bg-[rgba(11,6,20,0.3)] rounded-xl p-4 border border-dashed border-[rgba(236,72,153,0.3)] text-[#9A93B5] text-sm">
                           Select an instructor from the list
                         </div>
                       )}
@@ -292,30 +323,45 @@ export default function AdminAssignInstructors() {
                   <button
                     onClick={assignInstructor}
                     disabled={!selectedUser || !selectedInstructor}
-                    className={`w-full py-3 rounded-lg font-semibold transition shadow-lg hover:shadow-xl active:scale-95 ${
+                    className={`w-full py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl active:scale-95 text-base ${
                       selectedUser && selectedInstructor
-                        ? "bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white"
-                        : "bg-gray-500 text-gray-300 cursor-not-allowed"
+                        ? "bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] hover:shadow-[0_0_32px_rgba(139,92,246,0.4)] text-white"
+                        : "bg-[rgba(139,92,246,0.2)] text-[#9A93B5] cursor-not-allowed border border-[rgba(139,92,246,0.3)]"
                     }`}>
-                    {selectedUser && selectedInstructor ? "Assign Now" : "Select Both"}
+                    {selectedUser && selectedInstructor ? "✨ Assign Now" : "Select Both to Continue"}
                   </button>
                 </div>
               </div>
             </div>
 
             {/* Stats */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-[#0f0f0f] border border-white/5 rounded-lg p-4">
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Total Users</p>
-                <p className="text-3xl font-bold mt-2">{users.length}</p>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="bg-gradient-to-br from-[#8B5CF6]/10 to-[#8B5CF6]/5 border border-[rgba(139,92,246,0.2)] rounded-2xl p-6 shadow-[0_4px_16px_rgba(139,92,246,0.1)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.2)] transition-all">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#A855F7] flex items-center justify-center shadow-[0_0_16px_rgba(139,92,246,0.4)]">
+                    <Users className="w-5 h-5 text-white" />
+                  </div>
+                  <p className="text-xs text-[#A855F7] uppercase tracking-wider font-bold">Total Users</p>
+                </div>
+                <p className="text-4xl font-bold text-white">{users.length}</p>
               </div>
-              <div className="bg-[#0f0f0f] border border-white/5 rounded-lg p-4">
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Total Instructors</p>
-                <p className="text-3xl font-bold mt-2">{instructors.length}</p>
+              <div className="bg-gradient-to-br from-[#EC4899]/10 to-[#EC4899]/5 border border-[rgba(236,72,153,0.2)] rounded-2xl p-6 shadow-[0_4px_16px_rgba(236,72,153,0.1)] hover:shadow-[0_8px_24px_rgba(236,72,153,0.2)] transition-all">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#EC4899] to-[#D946EF] flex items-center justify-center shadow-[0_0_16px_rgba(236,72,153,0.4)]">
+                    <BookOpen className="w-5 h-5 text-white" />
+                  </div>
+                  <p className="text-xs text-[#EC4899] uppercase tracking-wider font-bold">Total Instructors</p>
+                </div>
+                <p className="text-4xl font-bold text-white">{instructors.length}</p>
               </div>
-              <div className="bg-[#0f0f0f] border border-white/5 rounded-lg p-4">
-                <p className="text-xs text-gray-400 uppercase tracking-wider">Assignments Done</p>
-                <p className="text-3xl font-bold mt-2">{users.filter(u => u.assignedInstructor).length}</p>
+              <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/5 border border-green-500/20 rounded-2xl p-6 shadow-[0_4px_16px_rgba(34,197,94,0.1)] hover:shadow-[0_8px_24px_rgba(34,197,94,0.2)] transition-all">
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-[0_0_16px_rgba(34,197,94,0.4)]">
+                    <Check className="w-5 h-5 text-white" />
+                  </div>
+                  <p className="text-xs text-green-400 uppercase tracking-wider font-bold">Assignments Done</p>
+                </div>
+                <p className="text-4xl font-bold text-white">{users.filter(u => u.assignedInstructor).length}</p>
               </div>
             </div>
           </div>

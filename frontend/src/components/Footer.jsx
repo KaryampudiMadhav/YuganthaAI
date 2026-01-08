@@ -2,14 +2,14 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
 	return (
-		<footer className='bg-black text-white py-12 md:py-16 border-t border-gray-800'>
+		<footer className='bg-[#0B0614] border-t border-[rgba(139,92,246,0.2)] text-white py-12 md:py-16'>
 			<div className='max-w-7xl mx-auto px-4 md:px-6'>
 				<div className='grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12'>
 					{/* Logo and Description */}
 					<div className='col-span-1 md:col-span-2'>
-						<Link to='/' className='flex items-center space-x-3 mb-6'>
+						<Link to='/' className='flex items-center space-x-3 mb-6 group'>
 							<svg
-								className='w-10 h-10'
+								className='w-10 h-10 transition-transform group-hover:scale-110'
 								viewBox='0 0 50 50'
 								fill='none'>
 								<defs>
@@ -19,9 +19,9 @@ export default function Footer() {
 										y1='0%'
 										x2='100%'
 										y2='100%'>
-										<stop offset='0%' stopColor='#3b82f6' />
-										<stop offset='50%' stopColor='#8b5cf6' />
-										<stop offset='100%' stopColor='#ec4899' />
+										<stop offset='0%' stopColor='#8B5CF6' />
+										<stop offset='50%' stopColor='#A855F7' />
+										<stop offset='100%' stopColor='#EC4899' />
 									</linearGradient>
 								</defs>
 								<path
@@ -34,12 +34,12 @@ export default function Footer() {
 							</svg>
 							<div className='text-2xl font-bold'>
 								<span className='text-white'>Yugantha</span>
-								<span className='bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent'>
+								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>
 								AI
 								</span>
 							</div>
 						</Link>
-						<p className='text-gray-400 mb-6 max-w-md leading-relaxed'>
+						<p className='text-[#C7C3D6] mb-6 max-w-md leading-relaxed'>
 							Empowering learners worldwide with cutting-edge AI and
 							technology courses. Master skills, build projects, and
 							advance your career with expert-led content.
@@ -47,7 +47,7 @@ export default function Footer() {
 						<div className='flex space-x-4'>
 							<a
 								href='#'
-								className='w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition duration-300'>
+								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -57,7 +57,7 @@ export default function Footer() {
 							</a>
 							<a
 								href='#'
-								className='w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition duration-300'>
+								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -67,7 +67,7 @@ export default function Footer() {
 							</a>
 							<a
 								href='#'
-								className='w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition duration-300'>
+								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -77,7 +77,7 @@ export default function Footer() {
 							</a>
 							<a
 								href='#'
-								className='w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition duration-300'>
+								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -90,40 +90,40 @@ export default function Footer() {
 
 					{/* Quick Links */}
 					<div>
-						<h3 className='text-lg font-semibold mb-4'>Quick Links</h3>
+						<h3 className='text-lg font-semibold mb-4 text-white'>Quick Links</h3>
 						<ul className='space-y-3'>
 							<li>
 								<Link
 									to='/courses'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									All Courses
 								</Link>
 							</li>
 							<li>
 								<Link
 									to='/my-learning'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									My Learning
 								</Link>
 							</li>
 							<li>
 								<Link
 									to='/instructor'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									Become Instructor
 								</Link>
 							</li>
 							<li>
 								<a
 									href='#'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									About Us
 								</a>
 							</li>
 							<li>
 								<a
 									href='#'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									Contact
 								</a>
 							</li>
@@ -132,40 +132,40 @@ export default function Footer() {
 
 					{/* Categories */}
 					<div>
-						<h3 className='text-lg font-semibold mb-4'>Categories</h3>
+						<h3 className='text-lg font-semibold mb-4 text-white'>Categories</h3>
 						<ul className='space-y-3'>
 							<li>
 								<a
 									href='#'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									sphere & Machine Learning
 								</a>
 							</li>
 							<li>
 								<a
 									href='#'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									Deep Learning
 								</a>
 							</li>
 							<li>
 								<a
 									href='#'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									Data Science
 								</a>
 							</li>
 							<li>
 								<a
 									href='#'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									Web Development
 								</a>
 							</li>
 							<li>
 								<a
 									href='#'
-									className='text-gray-400 hover:text-white transition'>
+									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									Cloud Computing
 								</a>
 							</li>
@@ -174,12 +174,12 @@ export default function Footer() {
 				</div>
 
 				{/* Newsletter */}
-				<div className='border-t border-gray-800 pt-8 mb-8'>
+				<div className='border-t border-[rgba(139,92,246,0.2)] pt-8 mb-8'>
 					<div className='max-w-md'>
-						<h3 className='text-lg font-semibold mb-4'>
+						<h3 className='text-lg font-semibold mb-4 text-white'>
 							Stay Updated
 						</h3>
-						<p className='text-gray-400 text-sm mb-4'>
+						<p className='text-[#C7C3D6] text-sm mb-4'>
 							Subscribe to our newsletter for the latest courses and
 							updates.
 						</p>
@@ -187,9 +187,9 @@ export default function Footer() {
 							<input
 								type='email'
 								placeholder='Enter your email'
-								className='flex-1 px-4 py-3 bg-gray-800 border border-gray-700 rounded-l-lg text-white placeholder-gray-500 focus:outline-none focus:border-blue-500'
+								className='flex-1 px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-l-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 							/>
-							<button className='px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 rounded-r-lg font-semibold transition'>
+							<button className='px-6 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] rounded-r-xl font-semibold transition-all duration-200 shadow-[0_4px_20px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_28px_rgba(139,92,246,0.6)]'>
 								Subscribe
 							</button>
 						</div>
@@ -197,31 +197,31 @@ export default function Footer() {
 				</div>
 
 				{/* Bottom Bar */}
-				<div className='border-t border-gray-800 pt-8'>
+				<div className='border-t border-[rgba(139,92,246,0.2)] pt-8'>
 					<div className='flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
-						<p className='text-gray-400 text-sm'>
+						<p className='text-[#C7C3D6] text-sm'>
 							© {new Date().getFullYear()} YuganthaAI. All rights
-							reserved. Built with ❤️ for learners worldwide.
+							reserved. Built with <span className='text-[#EC4899]'>❤️</span> for learners worldwide.
 						</p>
 						<div className='flex space-x-6 text-sm'>
 							<a
 								href='#'
-								className='text-gray-400 hover:text-white transition'>
+								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 								Privacy Policy
 							</a>
 							<a
 								href='#'
-								className='text-gray-400 hover:text-white transition'>
+								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 								Terms of Service
 							</a>
 							<a
 								href='#'
-								className='text-gray-400 hover:text-white transition'>
+								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 								Cookie Policy
 							</a>
 							<a
 								href='#'
-								className='text-gray-400 hover:text-white transition'>
+								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 								Sitemap
 							</a>
 						</div>

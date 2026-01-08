@@ -24,8 +24,16 @@ export default function ProgramSection() {
 	return (
 		<section
 			id='programs'
-			className='py-12 md:py-20 px-4 md:px-6 bg-white'>
+			className='py-16 md:py-28 px-4 md:px-6 bg-[#0B0614]'>
 			<div className='max-w-7xl mx-auto'>
+				<div className='mb-16 md:mb-24 animate-fadeInDown'>
+					<div className='flex items-center gap-3 mb-4'>
+						<div className='w-1 h-8 bg-gradient-to-b from-[#8B5CF6] to-[#EC4899] rounded-full animate-pulse'></div>
+						<p className='text-sm font-semibold text-[#A855F7] uppercase tracking-wider'>Flagship Programs</p>
+					</div>
+					<h2 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-[#C7C3D6] to-[#9A93B5] bg-clip-text text-transparent'>World-Class AI Learning Programs</h2>
+					<p className='text-[#9A93B5] text-lg mt-4 max-w-2xl'>Master cutting-edge AI technologies with industry experts and comprehensive hands-on projects</p>
+				</div>
 				{programs.map((program, index) => {
 					const anchorId = program.title
 						.toLowerCase()
@@ -40,16 +48,16 @@ export default function ProgramSection() {
 								index % 2 === 0
 									? "md:flex-row"
 									: "md:flex-row-reverse"
-							} items-center gap-8 md:gap-12`}>
+							} items-center gap-8 md:gap-12 animate-fadeInUp animation-delay-${index * 100}`}>
 							{/* Image Card */}
-							<div className='w-full md:w-1/2 relative'>
+						<div className='w-full md:w-1/2 relative animate-slideInLeft'>
 								{program.badge && (
-									<div className='absolute top-4 left-4 bg-yellow-400 text-black px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-semibold z-10'>
+									<div className='absolute top-4 left-4 bg-gradient-to-r from-[#EC4899] to-[#8B5CF6] text-white px-3 md:px-4 py-1 rounded-full text-xs md:text-sm font-semibold z-10 shadow-[0_4px_16px_rgba(139,92,246,0.4)]'>
 										{program.badge}
 									</div>
 								)}
 								<div
-									className={`rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br ${program.gradient} h-64 md:h-80 flex items-center justify-center`}>
+								className={`rounded-2xl overflow-hidden bg-gradient-to-br ${program.gradient} h-64 md:h-80 flex items-center justify-center border border-[rgba(139,92,246,0.3)] shadow-[0_8px_32px_rgba(139,92,246,0.2)] hover:shadow-[0_16px_48px_rgba(139,92,246,0.35)] hover:-translate-y-2 transition-all duration-300`}>
 									<div className='text-white text-center p-8'>
 										<div className='text-4xl md:text-6xl mb-4'>🤖</div>
 										<p className='text-lg md:text-xl font-semibold'>
@@ -60,23 +68,23 @@ export default function ProgramSection() {
 							</div>
 
 							{/* Content */}
-							<div className='w-full md:w-1/2'>
-								<h2 className='text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-gray-900'>
+						<div className='w-full md:w-1/2 animate-slideInRight'>
+								<h2 className='text-2xl md:text-4xl font-bold mb-4 md:mb-6 text-white'>
 									{program.title}
 								</h2>
 								<ul className='space-y-3 md:space-y-4 mb-6 md:mb-8'>
 									{program.features.map((feature, idx) => (
 										<li
 											key={idx}
-											className='flex items-start text-base md:text-lg text-gray-700'>
-											<span className='text-green-600 mr-2 md:mr-3 text-lg md:text-xl'>
+											className='flex items-start text-base md:text-lg text-[#C7C3D6]'>
+											<span className='text-[#A855F7] mr-2 md:mr-3 text-lg md:text-xl'>
 												•
 											</span>
 											{feature}
 										</li>
 									))}
 								</ul>
-								<button className='bg-red-600 hover:bg-red-700 text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full font-semibold transition duration-200 text-sm md:text-base'>
+								<button className='bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-xl font-semibold transition-all duration-200 text-sm md:text-base shadow-[0_4px_24px_rgba(139,92,246,0.4)] hover:shadow-[0_8px_40px_rgba(139,92,246,0.6)] hover:-translate-y-1'>
 									Explore AI Agents
 								</button>
 							</div>
