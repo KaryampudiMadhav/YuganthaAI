@@ -149,34 +149,50 @@ export default function MentorshipBookingPage() {
     setShowDetails(true);
   };
 
-  const handleConfirmBooking = () => {
+  const handleConfirmBooking = async () => {
     if (!email || !topic || !selectedDate || !selectedSlot) return;
     
-    const booking = {
-      id: `booking-${Date.now()}`,
-      title: topic,
-      mentor: assignedInstructor?.name || "Industry Mentor",
-      mentorId: assignedInstructor?._id,
-      mentorExpertise: assignedInstructor?.expertise,
-      status: "upcoming",
-      date: new Date(selectedDate).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      }),
-      time: selectedSlot,
-      email,
-      notes: `Booked on ${new Date().toLocaleDateString()}`,
-      zoom: program.location,
-    };
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        toast.error("Please login to book a session");
+        return;
+      }
 
-    const existingBookings = JSON.parse(localStorage.getItem("mentorshipBookings") || "[]");
-    localStorage.setItem("mentorshipBookings", JSON.stringify([...existingBookings, booking]));
-    
-    toast.success("Booking confirmed! You will see it in your mentorships shortly.");
-    setTimeout(() => {
-      window.location.href = "/mentorships";
-    }, 1500);
+      const sessionData = {
+        title: topic,
+        instructorId: assignedInstructor?._id,
+        date: new Date(selectedDate).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+          year: "numeric",
+        }),
+        time: selectedSlot,
+        notes: `Booked on ${new Date().toLocaleDateString()}`,
+      };
+
+      const response = await fetch("http://localhost:5000/api/mentorship-sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(sessionData),
+      });
+
+      if (response.ok) {
+        toast.success("Booking confirmed! You will see it in your mentorships shortly.");
+        setTimeout(() => {
+          window.location.href = "/mentorships";
+        }, 1500);
+      } else {
+        const error = await response.json();
+        toast.error(error.message || "Failed to book session");
+      }
+    } catch (error) {
+      console.error("Error booking session:", error);
+      toast.error("Failed to book session. Please try again.");
+    }
   };
 
   const isSelectedDay = (label) => {

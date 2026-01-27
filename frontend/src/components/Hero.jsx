@@ -1,6 +1,6 @@
 export default function Hero() {
 	return (
-		<section className='relative bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white py-16 md:py-32 px-4 md:px-6 mt-16 overflow-hidden'>
+		<section className='relative bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white py-12 md:py-20 px-4 md:px-6 mt-16 overflow-hidden'>
 			{/* Animated background gradient orbs */}
 			<div className="absolute top-0 left-1/4 w-96 h-96 bg-[#8B5CF6] opacity-20 rounded-full blur-[120px] animate-pulse-slow"></div>
 			<div className="absolute bottom-0 right-1/4 w-96 h-96 bg-[#EC4899] opacity-20 rounded-full blur-[120px] animate-pulse-slow" style={{animationDelay: '2s'}}></div>

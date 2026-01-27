@@ -219,6 +219,38 @@ export default function CourseDetailPage() {
 									</div>
 								)}
 							</div>
+
+							{/* Module Content Below Video */}
+							{activeModule !== null && course.modules[activeModule] && (
+								<div className='mt-6 bg-[#1a1a1a] rounded-xl p-6'>
+									<div className='mb-4'>
+										<h3 className='text-xl font-bold text-blue-400 mb-2'>
+											Module {course.modules[activeModule].order}: {course.modules[activeModule].title}
+										</h3>
+										{course.modules[activeModule].description && (
+											<p className='text-gray-300 leading-relaxed'>
+												{course.modules[activeModule].description}
+											</p>
+										)}
+									</div>
+									<div className='border-t border-gray-700 pt-4 mt-4'>
+										<div className='grid grid-cols-2 gap-4'>
+											<div>
+												<p className='text-gray-500 text-sm'>Videos in this module</p>
+												<p className='text-2xl font-bold text-white'>
+													{course.modules[activeModule].videos?.length || 0}
+												</p>
+											</div>
+											<div>
+												<p className='text-gray-500 text-sm'>Current video</p>
+												<p className='text-sm font-medium text-blue-400 truncate'>
+													{selectedVideo?.title || "No video selected"}
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							)}
 						</div>
 
 						{/* Modules Sidebar */}

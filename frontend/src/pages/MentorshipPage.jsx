@@ -13,6 +13,8 @@ export default function MentorshipPage() {
   const [sessionData, setSessionData] = useState([]);
   const [assignedInstructor, setAssignedInstructor] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [selectedSession, setSelectedSession] = useState(null);
+  const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   useEffect(() => {
     fetchAssignedInstructor();
@@ -37,10 +39,40 @@ export default function MentorshipPage() {
     }
   };
 
-  const fetchSessionData = () => {
-    const bookedSessions = JSON.parse(localStorage.getItem("mentorshipBookings") || "[]");
-    setSessionData(bookedSessions);
-    setLoading(false);
+  const fetchSessionData = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      const response = await fetch("http://localhost:5000/api/mentorship-sessions/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const sessions = await response.json();
+        // Transform backend data to match frontend structure
+        const transformedSessions = sessions.map((session) => ({
+          id: session._id,
+          title: session.title,
+          mentor: session.instructorId?.name || "Industry Mentor",
+          mentorExpertise: session.instructorId?.expertise,
+          status: session.status,
+          date: session.date,
+          time: session.time,
+          notes: session.notes,
+          meetingLink: session.meetingLink,
+          bookedDate: new Date(session.bookedDate).toLocaleDateString(),
+        }));
+        setSessionData(transformedSessions);
+      }
+    } catch (error) {
+      console.error("Error fetching sessions:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const stats = useMemo(() => {
@@ -89,7 +121,12 @@ export default function MentorshipPage() {
       </div>
       <p className="text-sm text-gray-400">{session.notes}</p>
       <div className="flex flex-wrap gap-3">
-        <button className="px-4 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition">
+        <button 
+          onClick={() => {
+            setSelectedSession(session);
+            setShowDetailsModal(true);
+          }}
+          className="px-4 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition">
           Join / Details
         </button>
         <button className="px-4 py-2 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition">
@@ -214,6 +251,112 @@ export default function MentorshipPage() {
           )}
         </main>
       </div>
+
+      {/* Session Details Modal */}
+      {showDetailsModal && selectedSession && (
+        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl max-w-2xl w-full p-8 relative">
+            <button
+              onClick={() => setShowDetailsModal(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="space-y-6">
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">{selectedSession.status}</p>
+                <h2 className="text-3xl font-bold mb-2">{selectedSession.title}</h2>
+                <p className="text-gray-400">with {selectedSession.mentor}</p>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/5 rounded-xl p-4">
+                  <p className="text-xs text-gray-400 mb-1">Date</p>
+                  <p className="text-lg font-semibold">{selectedSession.date}</p>
+                </div>
+                <div className="bg-white/5 rounded-xl p-4">
+                  <p className="text-xs text-gray-400 mb-1">Time</p>
+                  <p className="text-lg font-semibold">{selectedSession.time}</p>
+                </div>
+              </div>
+
+              {selectedSession.notes && (
+                <div className="bg-white/5 rounded-xl p-4">
+                  <p className="text-xs text-gray-400 mb-2">Session Notes</p>
+                  <p className="text-gray-300">{selectedSession.notes}</p>
+                </div>
+              )}
+
+              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/40 rounded-xl p-6">
+                <div className="flex items-center gap-2 mb-3">
+                  <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                  </svg>
+                  <p className="text-sm font-semibold text-blue-300">Meeting Link</p>
+                </div>
+                {selectedSession.meetingLink ? (
+                  <a
+                    href={selectedSession.meetingLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block bg-white/10 hover:bg-white/20 rounded-lg p-4 transition group">
+                    <div className="flex items-center justify-between">
+                      <div className="flex-1 truncate">
+                        <p className="text-sm text-gray-400 mb-1">Click to join the meeting</p>
+                        <p className="text-blue-300 font-mono text-sm truncate group-hover:text-blue-200">
+                          {selectedSession.meetingLink}
+                        </p>
+                      </div>
+                      <svg className="w-5 h-5 text-blue-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                      </svg>
+                    </div>
+                  </a>
+                ) : (
+                  <div className="bg-white/5 rounded-lg p-4 flex items-center gap-3 text-yellow-400">
+                    <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm">
+                      Your instructor will add the meeting link soon. Please check back later.
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              <div className="bg-white/5 rounded-xl p-4">
+                <p className="text-xs text-gray-400 mb-2">Booked On</p>
+                <p className="text-gray-300">{selectedSession.bookedDate || "N/A"}</p>
+              </div>
+
+              <div className="flex gap-3 pt-4">
+                {selectedSession.meetingLink ? (
+                  <a
+                    href={selectedSession.meetingLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition text-center">
+                    Join Meeting Now
+                  </a>
+                ) : (
+                  <button
+                    disabled
+                    className="flex-1 px-6 py-3 bg-gray-600 text-gray-400 rounded-lg font-semibold cursor-not-allowed text-center">
+                    Waiting for Meeting Link
+                  </button>
+                )}
+                <button
+                  onClick={() => setShowDetailsModal(false)}
+                  className="px-6 py-3 border border-white/10 rounded-lg text-gray-200 hover:bg-white/5 transition">
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

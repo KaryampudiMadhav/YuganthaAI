@@ -9,6 +9,9 @@ export default function InstructorDashboard() {
 	const [editingCourse, setEditingCourse] = useState(null);
 	const [showModuleModal, setShowModuleModal] = useState(false);
 	const [currentCourseForModule, setCurrentCourseForModule] = useState(null);
+	const [mentorshipSessions, setMentorshipSessions] = useState([]);
+	const [editingMeetingLink, setEditingMeetingLink] = useState(null);
+	const [meetingLinkInput, setMeetingLinkInput] = useState("");
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
@@ -49,15 +52,74 @@ export default function InstructorDashboard() {
 
 	useEffect(() => {
 		fetchCourses();
-	}, []);
+		fetchMentorshipSessions();
+	}, [instructor]);
 
 	const fetchCourses = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/api/courses");
+			const token = localStorage.getItem("instructorToken");
+			if (!token || !instructor) return;
+
+			// Fetch only the logged-in instructor's courses
+			const response = await fetch(
+				`http://localhost:5000/api/courses/instructor/${instructor._id}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
 			const data = await response.json();
 			setCourses(data);
 		} catch (error) {
 			console.error("Error fetching courses:", error);
+		}
+	};
+
+	const fetchMentorshipSessions = async () => {
+		try {
+			const token = localStorage.getItem("instructorToken");
+			if (!token || !instructor) return;
+
+			const response = await fetch(
+				"http://localhost:5000/api/mentorship-sessions/instructor",
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			const data = await response.json();
+			setMentorshipSessions(data);
+		} catch (error) {
+			console.error("Error fetching mentorship sessions:", error);
+		}
+	};
+
+	const handleUpdateMeetingLink = async (sessionId) => {
+		try {
+			const token = localStorage.getItem("instructorToken");
+			const response = await fetch(
+				`http://localhost:5000/api/mentorship-sessions/${sessionId}/meeting-link`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({ meetingLink: meetingLinkInput }),
+				}
+			);
+
+			if (response.ok) {
+				setEditingMeetingLink(null);
+				setMeetingLinkInput("");
+				fetchMentorshipSessions(); // Refresh the list
+				alert("Meeting link updated successfully!");
+			}
+		} catch (error) {
+			console.error("Error updating meeting link:", error);
+			alert("Failed to update meeting link");
 		}
 	};
 
@@ -87,8 +149,8 @@ export default function InstructorDashboard() {
 
 		try {
 			const url = editingCourse
-				? `http://localhost:5000/api/courses/${editingCourse._id}`
-				: "http://localhost:5000/api/courses";
+				? `http://localhost:5000/api/courses/instructor/${editingCourse._id}`
+				: "http://localhost:5000/api/courses/instructor/create";
 
 			const token = localStorage.getItem("instructorToken");
 
@@ -154,7 +216,7 @@ export default function InstructorDashboard() {
 		try {
 			const token = localStorage.getItem("instructorToken");
 			const response = await fetch(
-				`http://localhost:5000/api/courses/${courseId}`,
+				`http://localhost:5000/api/courses/instructor/${courseId}`,
 				{
 					method: "DELETE",
 					headers: {
@@ -349,7 +411,23 @@ export default function InstructorDashboard() {
 							<p className='text-[#C7C3D6] text-sm'>Create, edit, and manage your course content</p>
 						</div>
 						<button
-							onClick={() => setShowAddModal(true)}
+							onClick={() => {
+								resetFormData();
+								setFormData({
+									title: "",
+									description: "",
+									instructor: instructor?.name || "",
+									duration: "",
+									level: "Beginner",
+									price: "Free",
+									thumbnail: "",
+									category: "AI & ML",
+									videoUrl: "",
+									videoPublicId: "",
+									modules: [],
+								});
+								setShowAddModal(true);
+							}}
 							className='px-6 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-100 flex items-center space-x-2 group'>
 							<svg
 								className='w-5 h-5 group-hover:rotate-90 transition-transform duration-300'
@@ -475,6 +553,166 @@ export default function InstructorDashboard() {
 						</table>
 					</div>
 				</div>
+
+				{/* Mentorship Sessions Section */}
+				<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)] mt-10'>
+					<div className='flex items-center justify-between mb-8'>
+						<div>
+							<h2 className='text-2xl font-bold text-white mb-1'>
+								My Mentorship Sessions
+							</h2>
+							<p className='text-[#C7C3D6] text-sm'>View and manage your upcoming mentorship sessions</p>
+						</div>
+					</div>
+
+					{mentorshipSessions.length === 0 ? (
+						<div className='text-center py-12'>
+							<svg className='w-16 h-16 mx-auto text-[#A855F7] opacity-50 mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+								<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
+							</svg>
+							<p className='text-[#C7C3D6] text-lg'>No mentorship sessions yet</p>
+							<p className='text-[#9183A8] text-sm mt-2'>Students will book sessions with you from the mentorship page</p>
+						</div>
+					) : (
+						<div className='space-y-4'>
+							{mentorshipSessions.map((session) => (
+								<div
+									key={session._id}
+									className='bg-gradient-to-r from-[rgba(139,92,246,0.1)] to-[rgba(168,85,247,0.05)] border border-[rgba(139,92,246,0.2)] rounded-xl p-6 hover:shadow-[0_8px_24px_rgba(139,92,246,0.15)] transition-all duration-300'>
+									<div className='grid md:grid-cols-2 gap-6'>
+										{/* Session Info */}
+										<div>
+											<h3 className='text-xl font-bold text-white mb-4'>{session.title}</h3>
+											<div className='space-y-3'>
+												<div className='flex items-center text-[#C7C3D6]'>
+													<svg className='w-5 h-5 mr-3 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'/>
+													</svg>
+													<span className='font-medium'>Student: </span>
+													<span className='ml-2'>{session.userId?.fullName || 'Unknown'}</span>
+												</div>
+												<div className='flex items-center text-[#C7C3D6]'>
+													<svg className='w-5 h-5 mr-3 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
+													</svg>
+													<span className='font-medium'>Date: </span>
+													<span className='ml-2'>{session.date}</span>
+												</div>
+												<div className='flex items-center text-[#C7C3D6]'>
+													<svg className='w-5 h-5 mr-3 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/>
+													</svg>
+													<span className='font-medium'>Time: </span>
+													<span className='ml-2'>{session.time}</span>
+												</div>
+												{session.notes && (
+													<div className='flex items-start text-[#C7C3D6]'>
+														<svg className='w-5 h-5 mr-3 mt-0.5 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+															<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'/>
+														</svg>
+														<div>
+															<span className='font-medium block'>Notes: </span>
+															<span className='text-sm'>{session.notes}</span>
+														</div>
+													</div>
+												)}
+											</div>
+										</div>
+
+										{/* Meeting Link Section */}
+										<div className='bg-[rgba(11,6,20,0.6)] rounded-lg p-5 border border-[rgba(139,92,246,0.15)]'>
+											<div className='flex items-center justify-between mb-4'>
+												<h4 className='text-lg font-semibold text-white flex items-center'>
+													<svg className='w-5 h-5 mr-2 text-[#EC4899]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z'/>
+													</svg>
+													Meeting Link
+												</h4>
+											</div>
+
+											{editingMeetingLink === session._id ? (
+												<div className='space-y-3'>
+													<input
+														type='url'
+														value={meetingLinkInput}
+														onChange={(e) => setMeetingLinkInput(e.target.value)}
+														placeholder='https://meet.google.com/xxx-xxxx-xxx'
+														className='w-full px-4 py-3 bg-[rgba(139,92,246,0.1)] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9183A8] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
+													/>
+													<div className='flex space-x-2'>
+														<button
+															onClick={() => handleUpdateMeetingLink(session._id)}
+															className='flex-1 px-4 py-2.5 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_12px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_16px_rgba(139,92,246,0.4)]'>
+															Save
+														</button>
+														<button
+															onClick={() => {
+																setEditingMeetingLink(null);
+																setMeetingLinkInput("");
+															}}
+															className='flex-1 px-4 py-2.5 bg-transparent border border-[#EC4899] text-[#EC4899] hover:bg-[rgba(236,72,153,0.1)] rounded-lg transition duration-300 font-semibold'>
+															Cancel
+														</button>
+													</div>
+												</div>
+											) : (
+												<div>
+													{session.meetingLink ? (
+														<div className='space-y-3'>
+															<div className='flex items-center space-x-2 text-[#C7C3D6] bg-[rgba(139,92,246,0.05)] px-4 py-3 rounded-lg border border-[rgba(139,92,246,0.1)]'>
+																<svg className='w-4 h-4 text-green-400 flex-shrink-0' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+																	<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1'/>
+																</svg>
+																<span className='text-sm flex-1 truncate font-mono'>{session.meetingLink}</span>
+																<a
+																	href={session.meetingLink}
+																	target='_blank'
+																	rel='noopener noreferrer'
+																	className='flex-shrink-0 p-1.5 bg-[rgba(139,92,246,0.2)] hover:bg-[rgba(139,92,246,0.3)] rounded transition'>
+																	<svg className='w-4 h-4 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+																		<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'/>
+																	</svg>
+																</a>
+															</div>
+															<button
+																onClick={() => {
+																	setEditingMeetingLink(session._id);
+																	setMeetingLinkInput(session.meetingLink);
+																}}
+																className='w-full px-4 py-2 bg-[rgba(139,92,246,0.15)] hover:bg-[rgba(139,92,246,0.25)] text-[#A855F7] rounded-lg transition duration-300 text-sm font-semibold border border-[rgba(139,92,246,0.2)]'>
+																Update Link
+															</button>
+														</div>
+													) : (
+														<div className='space-y-3'>
+															<div className='flex items-center justify-center py-4 text-[#9183A8] border border-dashed border-[rgba(139,92,246,0.2)] rounded-lg'>
+																<svg className='w-5 h-5 mr-2' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+																	<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'/>
+																</svg>
+																<span className='text-sm'>No meeting link added yet</span>
+															</div>
+															<button
+																onClick={() => {
+																	setEditingMeetingLink(session._id);
+																	setMeetingLinkInput("");
+																}}
+																className='w-full px-4 py-2.5 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_12px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_16px_rgba(139,92,246,0.4)] flex items-center justify-center group'>
+																<svg className='w-5 h-5 mr-2 group-hover:scale-110 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+																	<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 4v16m8-8H4'/>
+																</svg>
+																Add Meeting Link
+															</button>
+														</div>
+													)}
+												</div>
+											)}
+										</div>
+									</div>
+								</div>
+							))}
+						</div>
+					)}
+				</div>
 			</div>
 
 			{/* Add/Edit Course Modal */}
@@ -534,7 +772,8 @@ export default function InstructorDashboard() {
 										name='instructor'
 										value={formData.instructor}
 										onChange={handleInputChange}
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+										disabled
+										className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-400 cursor-not-allowed focus:outline-none'
 										required
 									/>
 								</div>
@@ -753,41 +992,78 @@ export default function InstructorDashboard() {
 
 			{/* Add Module Modal */}
 			{showModuleModal && (
-				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4'>
-					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-md w-full'>
+				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4 overflow-y-auto'>
+					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-2xl w-full my-8'>
 						<h3 className='text-2xl font-bold text-white mb-6'>
 							Add Module
 						</h3>
-						<div className='space-y-4'>
+						<div className='space-y-5'>
 							<div>
-								<label className='block text-white mb-2 text-sm'>
-									Module Title
+								<label className='block text-white mb-2 text-sm font-medium'>
+									Module Title <span className='text-red-500'>*</span>
 								</label>
 								<input
 									type='text'
 									name='title'
 									value={moduleData.title}
 									onChange={handleModuleInputChange}
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+									placeholder='e.g., Introduction to Basics'
+									className='w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500'
 									required
 								/>
 							</div>
 							<div>
-								<label className='block text-white mb-2 text-sm'>
-									Description
+								<label className='block text-white mb-2 text-sm font-medium'>
+									Description <span className='text-gray-500'>(Optional)</span>
 								</label>
 								<textarea
 									name='description'
 									value={moduleData.description}
 									onChange={handleModuleInputChange}
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-									rows='3'></textarea>
+									placeholder='Describe what students will learn in this module...'
+									className='w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none'
+									rows='4'></textarea>
+								<p className='text-xs text-gray-400 mt-1'>
+									Provide a clear description of the module content
+								</p>
 							</div>
-							<div className='flex space-x-4'>
+
+							{/* Optional Video Section */}
+							<div className='border-t border-gray-700 pt-6'>
+								<h4 className='text-white font-semibold mb-4 text-sm'>
+									Add First Video <span className='text-gray-500'>(Optional)</span>
+								</h4>
+								<div className='space-y-4 bg-gray-800/30 p-4 rounded-lg border border-gray-700'>
+									<div>
+										<label className='block text-white mb-2 text-sm'>
+											Video Title
+										</label>
+										<input
+											type='text'
+											placeholder='e.g., Getting Started'
+											className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500'
+										/>
+									</div>
+									<div>
+										<label className='block text-white mb-2 text-sm'>
+											Video Description
+										</label>
+										<textarea
+											placeholder='Describe the video content...'
+											className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none'
+											rows='2'></textarea>
+									</div>
+									<p className='text-xs text-gray-400'>
+										Note: You can add videos after creating the module as well
+									</p>
+								</div>
+							</div>
+
+							<div className='flex space-x-3 pt-6'>
 								<button
 									onClick={handleAddModule}
-									className='flex-1 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 font-semibold'>
-									Add Module
+									className='flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg transition duration-200 font-semibold shadow-lg'>
+									Create Module
 								</button>
 								<button
 									onClick={() => {
@@ -799,7 +1075,7 @@ export default function InstructorDashboard() {
 											videos: [],
 										});
 									}}
-									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200'>
+									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 font-semibold'>
 									Cancel
 								</button>
 							</div>

@@ -3,9 +3,9 @@ import { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { InstructorProvider } from "./context/InstructorContext";
+import { ScrollToTop } from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-import ProgramSection from "./components/ProgramSection";
 import FreeCourses from "./components/FreeCourses";
 import LearningPaths from "./components/LearningPaths";
 import Footer from "./components/Footer";
@@ -32,7 +32,6 @@ function HomePage() {
 	return (
 		<>
 			<Hero />
-			<ProgramSection />
 			<FreeCourses />
 			<LearningPaths />
 		</>
@@ -69,6 +68,7 @@ export default function App() {
 		<AuthProvider>
 			<InstructorProvider>
 				<Router>
+					<ScrollToTop />
 					<Toaster
 						position="top-right"
 						toastOptions={{

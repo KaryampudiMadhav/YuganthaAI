@@ -9,8 +9,23 @@ export const InstructorProvider = ({ children }) => {
 	useEffect(() => {
 		// Check if instructor is logged in on mount
 		const storedInstructor = localStorage.getItem("instructor");
-		if (storedInstructor) {
-			setInstructor(JSON.parse(storedInstructor));
+		const loginTime = localStorage.getItem("instructorLoginTime");
+		
+		if (storedInstructor && loginTime) {
+			const currentTime = new Date().getTime();
+			const timeDiff = currentTime - parseInt(loginTime);
+			const twoHours = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+			
+			// Check if 2 hours have passed
+			if (timeDiff >= twoHours) {
+				// Session expired, clear storage
+				localStorage.removeItem("instructor");
+				localStorage.removeItem("instructorToken");
+				localStorage.removeItem("instructorLoginTime");
+				setInstructor(null);
+			} else {
+				setInstructor(JSON.parse(storedInstructor));
+			}
 		}
 		setLoading(false);
 	}, []);
@@ -44,8 +59,10 @@ export const InstructorProvider = ({ children }) => {
 				role: "instructor",
 			};
 
+			const loginTime = new Date().getTime();
 			localStorage.setItem("instructor", JSON.stringify(instructorData));
 			localStorage.setItem("instructorToken", data.token);
+			localStorage.setItem("instructorLoginTime", loginTime.toString());
 			setInstructor(instructorData);
 			return { success: true };
 		} catch (error) {
@@ -61,7 +78,36 @@ export const InstructorProvider = ({ children }) => {
 		setInstructor(null);
 		localStorage.removeItem("instructor");
 		localStorage.removeItem("instructorToken");
+		localStorage.removeItem("instructorLoginTime");
 	};
+
+	// Auto-logout after 2 hours
+	useEffect(() => {
+		if (!instructor) return;
+
+		const checkSession = () => {
+			const loginTime = localStorage.getItem("instructorLoginTime");
+			if (!loginTime) {
+				logout();
+				return;
+			}
+
+			const currentTime = new Date().getTime();
+			const timeDiff = currentTime - parseInt(loginTime);
+			const twoHours = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
+
+			if (timeDiff >= twoHours) {
+				alert("Your session has expired. Please log in again.");
+				logout();
+				window.location.href = "/instructor";
+			}
+		};
+
+		// Check session every minute
+		const interval = setInterval(checkSession, 60000);
+
+		return () => clearInterval(interval);
+	}, [instructor]);
 
 	const value = {
 		instructor,

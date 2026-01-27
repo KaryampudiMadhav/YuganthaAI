@@ -11,14 +11,7 @@ export default function Navbar() {
 	const location = useLocation();
 
 	const navItems = [
-		{
-			label: "GenAI Pinnacle Plus Program",
-			to: "/#genai-pinnacle-plus-program",
-		},
-		{
-			label: "Agentic AI Pioneer Program",
-			to: "/#agentic-ai-pioneer-program",
-		},
+		{ label: "Home", to: "/" },
 		{
 			label: "Program Dashboard",
 			to: isAuthenticated ? "/my-learning" : "/login",
@@ -63,7 +56,7 @@ export default function Navbar() {
 				</Link>
 
 				{/* Desktop Navigation */}
-				<div className='hidden md:flex items-center flex-1 justify-between ml-8'>
+				<div className='hidden md:flex items-center flex-1 justify-center ml-8'>
 					{/* Navigation Links */}
 					<div className='flex items-center gap-6'>
 						{navItems.map((item) => (
@@ -76,11 +69,12 @@ export default function Navbar() {
 							</Link>
 						))}
 					</div>
+				</div>
 
-					{/* Right Section: Explore + Profile */}
-					<div className='flex items-center gap-4 ml-8'>
-						{/* Explore Dropdown */}
-						<div className='relative'>
+				{/* Right Section: Explore + Profile */}
+				<div className='hidden md:flex items-center gap-4'>
+					{/* Explore Dropdown */}
+					<div className='relative'>
 							<button
 								onClick={() => setShowExplore(!showExplore)}
 								className='flex items-center space-x-2 px-4 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-200 text-sm'>
@@ -166,7 +160,6 @@ export default function Navbar() {
 							</Link>
 						)}
 					</div>
-				</div>
 
 				{/* Mobile Menu Button */}
 				<button

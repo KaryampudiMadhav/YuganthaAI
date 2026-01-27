@@ -1,25 +1,52 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "../components/LoadingSpinner";
+import toast from "react-hot-toast";
 
 export default function MyLearningPage() {
 	const [enrolledCourses, setEnrolledCourses] = useState([]);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [selectedTab, setSelectedTab] = useState("all");
 	const [loading, setLoading] = useState(true);
-	const { user } = useAuth();
+	const { user, token } = useAuth();
+	const navigate = useNavigate();
 
 	useEffect(() => {
-		fetchEnrolledCourses();
-	}, []);
+		if (user && token) {
+			fetchEnrolledCourses();
+		}
+	}, [user, token]);
 
 	const fetchEnrolledCourses = async () => {
 		try {
-			// For now, fetching all courses - later can be filtered by user enrollment
-			const response = await fetch("http://localhost:5000/api/courses");
+			// Fetch only the logged-in user's enrolled courses
+			const response = await fetch("http://localhost:5000/api/users/enrolled", {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			if (response.status === 401) {
+				toast.error("Session expired. Please login again");
+				localStorage.removeItem("token");
+				localStorage.removeItem("user");
+				navigate("/login");
+				return;
+			}
+
 			const data = await response.json();
-			setEnrolledCourses(data);
+			
+			// Extract course data from enrollment objects
+			const courses = data.map(enrollment => ({
+				...enrollment.courseId,
+				enrollmentId: enrollment._id,
+				progress: enrollment.progress,
+				completed: enrollment.completed,
+				enrolledAt: enrollment.enrolledAt,
+			}));
+			
+			setEnrolledCourses(courses);
 			setLoading(false);
 		} catch (error) {
 			console.error("Error fetching courses:", error);
@@ -39,10 +66,10 @@ export default function MyLearningPage() {
 		return { totalVideos, totalHours };
 	};
 
-	// Calculate progress for a course (mock - can be enhanced)
+	// Calculate progress for a course
 	const calculateProgress = (course) => {
-		// Mock progress calculation - can be enhanced with actual progress tracking
-		return Math.floor(Math.random() * 100);
+		// Use actual progress from enrollment data if available
+		return course.progress || 0;
 	};
 
 	// Filter courses based on search and selected tab
@@ -54,9 +81,9 @@ export default function MyLearningPage() {
 		if (selectedTab === "all") return filtered;
 
 		return filtered.filter((course) => {
-			const progress = calculateProgress(course);
-			if (selectedTab === "completed") return progress === 100;
-			if (selectedTab === "in-progress") return progress > 0 && progress < 100;
+			const progress = course.progress || 0;
+			if (selectedTab === "completed") return course.completed === true;
+			if (selectedTab === "in-progress") return !course.completed && progress > 0;
 			if (selectedTab === "yet-to-start") return progress === 0;
 			return true;
 		});

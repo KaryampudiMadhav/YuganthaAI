@@ -26,14 +26,6 @@ export default function ProgramSection() {
 			id='programs'
 			className='py-16 md:py-28 px-4 md:px-6 bg-[#0B0614]'>
 			<div className='max-w-7xl mx-auto'>
-				<div className='mb-16 md:mb-24 animate-fadeInDown'>
-					<div className='flex items-center gap-3 mb-4'>
-						<div className='w-1 h-8 bg-gradient-to-b from-[#8B5CF6] to-[#EC4899] rounded-full animate-pulse'></div>
-						<p className='text-sm font-semibold text-[#A855F7] uppercase tracking-wider'>Flagship Programs</p>
-					</div>
-					<h2 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-white via-[#C7C3D6] to-[#9A93B5] bg-clip-text text-transparent'>World-Class AI Learning Programs</h2>
-					<p className='text-[#9A93B5] text-lg mt-4 max-w-2xl'>Master cutting-edge AI technologies with industry experts and comprehensive hands-on projects</p>
-				</div>
 				{programs.map((program, index) => {
 					const anchorId = program.title
 						.toLowerCase()

@@ -7,6 +7,7 @@ export default function CoursesPage() {
 	const [selectedTab, setSelectedTab] = useState("all");
 	const [searchQuery, setSearchQuery] = useState("");
 	const [courses, setCourses] = useState([]);
+	const [enrolledCourseIds, setEnrolledCourseIds] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [enrolling, setEnrolling] = useState({});
 	const { isAuthenticated } = useAuth();
@@ -14,7 +15,10 @@ export default function CoursesPage() {
 
 	useEffect(() => {
 		fetchCourses();
-	}, []);
+		if (isAuthenticated) {
+			fetchEnrolledCourses();
+		}
+	}, [isAuthenticated]);
 
 	const fetchCourses = async () => {
 		try {
@@ -28,8 +32,42 @@ export default function CoursesPage() {
 		}
 	};
 
+	const fetchEnrolledCourses = async () => {
+		try {
+			const token = localStorage.getItem("token");
+			if (!token) return;
+
+			const response = await fetch("http://localhost:5000/api/users/enrolled", {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+
+			if (response.status === 401) {
+				return; // Token expired, user needs to login
+			}
+
+			if (response.ok) {
+				const data = await response.json();
+				// Extract course IDs from enrolled courses
+				const enrolledIds = data.map((enrollment) => enrollment.courseId?._id || enrollment._id);
+				setEnrolledCourseIds(enrolledIds);
+			}
+		} catch (error) {
+			console.error("Error fetching enrolled courses:", error);
+		}
+	};
+
 	const handleEnroll = async (courseId) => {
 		if (!isAuthenticated) {
+			toast.error("Please login to enroll in courses");
+			navigate("/login");
+			return;
+		}
+
+		const token = localStorage.getItem("token");
+		if (!token) {
+			toast.error("Please login to enroll in courses");
 			navigate("/login");
 			return;
 		}
@@ -37,7 +75,6 @@ export default function CoursesPage() {
 		setEnrolling({ ...enrolling, [courseId]: true });
 
 		try {
-			const token = localStorage.getItem("token");
 			const response = await fetch(
 				`http://localhost:5000/api/users/enroll/${courseId}`,
 				{
@@ -53,10 +90,14 @@ export default function CoursesPage() {
 
 			if (response.ok) {
 				toast.success("Successfully enrolled in course!");
-				navigate("/my-learning");
+				// Update enrolled courses list
+				setEnrolledCourseIds([...enrolledCourseIds, courseId]);
+				setTimeout(() => navigate("/my-learning"), 1000);
 			} else {
-				if (data.message === "Please login") {
-					toast.error("Please login to enroll in courses");
+				if (response.status === 401 || data.message === "Please login") {
+					toast.error("Session expired. Please login again");
+					localStorage.removeItem("token");
+					localStorage.removeItem("user");
 					setTimeout(() => navigate("/login"), 1500);
 				} else {
 					toast.error(data.message || "Enrollment failed");
@@ -332,10 +373,20 @@ export default function CoursesPage() {
 
 												{/* Enroll Button */}
 												<button
-													onClick={() => handleEnroll(course._id)}
-													disabled={enrolling[course._id]}
-													className='w-full bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-600 text-white py-3 rounded-lg font-semibold transition duration-200'>
-													{enrolling[course._id] ? "Enrolling..." : course.price === "Free" ? "Enroll for Free" : `Enroll for $${course.price}`}
+												onClick={() => !enrolledCourseIds.includes(course._id) && handleEnroll(course._id)}
+												disabled={enrolling[course._id] || enrolledCourseIds.includes(course._id)}
+												className={`w-full py-3 rounded-lg font-semibold transition duration-200 ${
+													enrolledCourseIds.includes(course._id)
+														? 'bg-green-600 cursor-default'
+														: 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-600'
+												} text-white`}>
+												{enrolledCourseIds.includes(course._id) 
+													? "✓ Enrolled" 
+													: enrolling[course._id] 
+														? "Enrolling..." 
+														: course.price === "Free" 
+															? "Enroll for Free" 
+															: `Enroll for $${course.price}`}
 												</button>
 											</div>
 										</div>
