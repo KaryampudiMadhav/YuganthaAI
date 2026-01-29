@@ -16,7 +16,7 @@ export default function Navbar() {
 			label: "Program Dashboard",
 			to: isAuthenticated ? "/my-learning" : "/login",
 		},
-		{ label: "Free Courses", to: "/courses" },
+		{ label: "Free Courses", to: "/free-courses" },
 		{ label: "Blogs", to: "/blogs" },
 		{ label: "About Us", to: "/about" },
 		{ label: "Contact", to: "/contact" },
@@ -98,20 +98,15 @@ export default function Navbar() {
 							{showExplore && (
 								<div className='absolute top-full mt-2 bg-[#12091F] border border-[rgba(139,92,246,0.25)] rounded-xl shadow-[0_8px_32px_rgba(139,92,246,0.3)] py-2 w-48 right-0 backdrop-blur-sm'>
 									<Link
-										to='/courses'
-										className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
-										Courses
-									</Link>
-									<Link
 										to='/my-learning'
 										className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
 										Learning Paths
 									</Link>
-									<Link
-										to='/courses'
-										className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
-										Programs
-									</Link>
+											<Link
+												to='/courses'
+												className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
+												Programs
+											</Link>
 								</div>
 							)}
 						</div>

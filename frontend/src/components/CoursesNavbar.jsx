@@ -10,8 +10,7 @@ export default function CoursesNavbar() {
 	const location = useLocation();
 
 	const navItems = [
-		{ label: "Courses", to: "/courses" },
-		{ label: "Free Courses", to: "/courses" },
+		{ label: "Free Courses", to: "/free-courses" },
 		{
 			label: "Program Dashboard",
 			to: isAuthenticated ? "/my-learning" : "/login",

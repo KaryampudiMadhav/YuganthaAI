@@ -141,26 +141,6 @@ export default function FreeCourses() {
 			<div className='absolute top-1/2 left-1/3 w-16 h-16 bg-gradient-to-br from-[#8B5CF6] to-[#7C3AED] opacity-12 rounded-full blur-xl animate-[pulse_6s_ease-in-out_infinite_2s]'></div>
 
 			<div className='max-w-7xl mx-auto relative z-10'>
-			<div ref={headerRef} className={`mb-10 md:py-16 ${headerVisible ? 'animate-slideInLeft' : 'opacity-0'}`}>
-					<div className='flex items-center gap-3 mb-4'>
-						<div className='w-1.5 h-10 bg-gradient-to-b from-[#A855F7] to-[#EC4899] rounded-full animate-pulse shadow-[0_0_20px_rgba(139,92,246,0.6)]'></div>
-						<p className='text-sm font-semibold text-[#A855F7] uppercase tracking-widest'>Recently Added</p>
-					</div>
-					<div className='flex flex-col md:flex-row items-start md:items-end justify-between gap-8 md:gap-0'>
-						<div className='max-w-2xl'>
-							<h2 className='text-5xl md:text-6xl lg:text-7xl font-bold bg-gradient-to-r from-white via-[#E0D5FF] to-[#C7C3D6] bg-clip-text text-transparent mb-6 leading-tight'>Start Learning Today</h2>
-							<p className='text-lg md:text-xl text-[#B4A7D6] max-w-xl leading-relaxed'>Explore our curated collection of free, industry-leading courses covering AI, machine learning, and cutting-edge technologies from world-class instructors</p>
-						</div>
-						<button
-							onClick={() => navigate('/courses')}
-							className='group flex items-center gap-3 bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] hover:from-[#A855F7] hover:via-[#B84FDE] hover:to-[#D946EF] text-white px-8 md:px-10 py-4 rounded-xl font-bold text-lg transition-all duration-300 shadow-[0_8px_32px_rgba(139,92,246,0.4)] hover:shadow-[0_16px_48px_rgba(139,92,246,0.6)] hover:-translate-y-1 active:translate-y-0 whitespace-nowrap'>
-							<span>Explore All Courses</span>
-							<svg className='w-5 h-5 group-hover:translate-x-1 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-								<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2.5} d='M13 7l5 5m0 0l-5 5m5-5H6'/>
-							</svg>
-						</button>
-					</div>
-				</div>
 
 				{recentCourses.length === 0 ? (
 					<div className='text-center py-12'>

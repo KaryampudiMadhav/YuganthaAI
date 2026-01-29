@@ -126,11 +126,11 @@ export default function App() {
 							/>
 							<Route
 								path='/free-courses'
-						element={
-							<CoursesLayout>
-								<FreeCourses />
-							</CoursesLayout>
-						}
+								element={
+									<CoursesLayout>
+										<CoursesPage />
+									</CoursesLayout>
+								}
 					/>
 					<Route
 						path='/courses/:id'
@@ -202,14 +202,6 @@ export default function App() {
 									<MainLayout>
 										<ContactPage />
 									</MainLayout>
-								}
-							/>
-							<Route
-								path='/free-courses'
-								element={
-									<CoursesLayout>
-										<CoursesPage />
-									</CoursesLayout>
 								}
 							/>
 							<Route path='/login' element={<LoginPage />} />

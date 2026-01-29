@@ -46,9 +46,9 @@ export default function ContactPage() {
 			/>
 			<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
 			{/* Hero Section */}
-			<div className="relative bg-gradient-to-r from-[#1a0f3a] via-[#2D1B69] to-[#1a0f3a] py-20 md:py-32 overflow-hidden">
-				<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-20"></div>
-				<div className="absolute inset-0 bg-gradient-to-r from-[#1a0f3a]/90 via-[#2D1B69]/90 to-[#1a0f3a]/90"></div>
+			<div className="relative bg-gradient-to-r from-[#0B3A5C] via-[#1E88E5] to-[#0B3A5C] py-20 md:py-32 overflow-hidden">
+				<div className="absolute inset-0 bg-[url('/contact.png')] bg-cover bg-center opacity-50"></div>
+				<div className="absolute inset-0 bg-gradient-to-r from-[#0B3A5C]/85 via-[#1E88E5]/85 to-[#0B3A5C]/85"></div>
 				<div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
 					<div className="mb-6">
 						<div className="flex items-center gap-2 text-sm md:text-base">
