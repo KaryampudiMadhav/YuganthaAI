@@ -65,6 +65,10 @@ export default function MentorshipPage() {
           notes: session.notes,
           meetingLink: session.meetingLink,
           bookedDate: new Date(session.bookedDate).toLocaleDateString(),
+          rejectionReason: session.rejectionReason,
+          rescheduleReason: session.rescheduleReason,
+          originalDate: session.originalDate,
+          originalTime: session.originalTime,
         }));
         setSessionData(transformedSessions);
       }
@@ -78,7 +82,7 @@ export default function MentorshipPage() {
   const stats = useMemo(() => {
     const upcoming = sessionData.filter((s) => s.status === "upcoming").length;
     const completed = sessionData.filter((s) => s.status === "completed").length;
-    const cancelled = sessionData.filter((s) => s.status === "cancelled").length;
+    const cancelled = sessionData.filter((s) => s.status === "cancelled" || s.status === "rejected" || s.status === "rescheduled").length;
     return { upcoming, completed, cancelled };
   }, [sessionData]);
 
@@ -120,6 +124,61 @@ export default function MentorshipPage() {
         </div>
       </div>
       <p className="text-sm text-gray-400">{session.notes}</p>
+      
+      {/* Rejection Badge */}
+      {session.status === 'rejected' && session.rejectionReason && (
+        <div className="bg-gradient-to-r from-red-900/30 to-red-800/20 border-2 border-red-500/50 rounded-xl p-5 shadow-lg">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-base font-bold text-red-300 mb-2 flex items-center gap-2">
+                <span>Session Rejected by Instructor</span>
+              </p>
+              <div className="bg-red-950/40 rounded-lg p-3 border border-red-500/30">
+                <p className="text-xs uppercase tracking-wider text-red-400/80 font-semibold mb-1">Reason</p>
+                <p className="text-sm text-red-100 leading-relaxed">{session.rejectionReason}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Reschedule Badge */}
+      {session.status === 'rescheduled' && (
+        <div className="bg-gradient-to-r from-blue-900/30 to-blue-800/20 border-2 border-blue-500/50 rounded-xl p-5 shadow-lg">
+          <div className="flex items-start gap-4">
+            <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
+              <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div className="flex-1">
+              <p className="text-base font-bold text-blue-300 mb-2 flex items-center gap-2">
+                <span>Session Rescheduled</span>
+              </p>
+              <div className="bg-blue-950/40 rounded-lg p-3 border border-blue-500/30 space-y-2">
+                {session.originalDate && session.originalTime && (
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-blue-400/80 font-semibold mb-1">Original Schedule</p>
+                    <p className="text-sm text-blue-100">{session.originalDate} at {session.originalTime}</p>
+                  </div>
+                )}
+                {session.rescheduleReason && (
+                  <div>
+                    <p className="text-xs uppercase tracking-wider text-blue-400/80 font-semibold mb-1">Reason</p>
+                    <p className="text-sm text-blue-100 leading-relaxed">{session.rescheduleReason}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-wrap gap-3">
         <button 
           onClick={() => {
@@ -254,42 +313,42 @@ export default function MentorshipPage() {
 
       {/* Session Details Modal */}
       {showDetailsModal && selectedSession && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl max-w-2xl w-full p-8 relative">
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl max-w-3xl w-full p-6 md:p-8 relative my-8 max-h-[90vh] overflow-y-auto">
             <button
               onClick={() => setShowDetailsModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition">
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition z-10 bg-[#0f0f0f] rounded-full p-1">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
 
-            <div className="space-y-6">
+            <div className="space-y-5">
               <div>
                 <p className="text-xs uppercase tracking-[0.2em] text-gray-500 mb-2">{selectedSession.status}</p>
-                <h2 className="text-3xl font-bold mb-2">{selectedSession.title}</h2>
-                <p className="text-gray-400">with {selectedSession.mentor}</p>
+                <h2 className="text-2xl md:text-3xl font-bold mb-2">{selectedSession.title}</h2>
+                <p className="text-gray-400 text-sm">with {selectedSession.mentor}</p>
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                <div className="bg-white/5 rounded-xl p-4">
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/5 rounded-xl p-3">
                   <p className="text-xs text-gray-400 mb-1">Date</p>
-                  <p className="text-lg font-semibold">{selectedSession.date}</p>
+                  <p className="text-base font-semibold">{selectedSession.date}</p>
                 </div>
-                <div className="bg-white/5 rounded-xl p-4">
+                <div className="bg-white/5 rounded-xl p-3">
                   <p className="text-xs text-gray-400 mb-1">Time</p>
-                  <p className="text-lg font-semibold">{selectedSession.time}</p>
+                  <p className="text-base font-semibold">{selectedSession.time}</p>
                 </div>
               </div>
 
               {selectedSession.notes && (
                 <div className="bg-white/5 rounded-xl p-4">
                   <p className="text-xs text-gray-400 mb-2">Session Notes</p>
-                  <p className="text-gray-300">{selectedSession.notes}</p>
+                  <p className="text-gray-300 text-sm">{selectedSession.notes}</p>
                 </div>
               )}
 
-              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/40 rounded-xl p-6">
+              <div className="bg-gradient-to-r from-blue-600/20 to-purple-600/20 border border-blue-500/40 rounded-xl p-4">
                 <div className="flex items-center gap-2 mb-3">
                   <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -301,21 +360,21 @@ export default function MentorshipPage() {
                     href={selectedSession.meetingLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="block bg-white/10 hover:bg-white/20 rounded-lg p-4 transition group">
-                    <div className="flex items-center justify-between">
-                      <div className="flex-1 truncate">
-                        <p className="text-sm text-gray-400 mb-1">Click to join the meeting</p>
-                        <p className="text-blue-300 font-mono text-sm truncate group-hover:text-blue-200">
+                    className="block bg-white/10 hover:bg-white/20 rounded-lg p-3 transition group">
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-xs text-gray-400 mb-1">Click to join the meeting</p>
+                        <p className="text-blue-300 font-mono text-xs truncate group-hover:text-blue-200">
                           {selectedSession.meetingLink}
                         </p>
                       </div>
-                      <svg className="w-5 h-5 text-blue-400 flex-shrink-0 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <svg className="w-5 h-5 text-blue-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                       </svg>
                     </div>
                   </a>
                 ) : (
-                  <div className="bg-white/5 rounded-lg p-4 flex items-center gap-3 text-yellow-400">
+                  <div className="bg-white/5 rounded-lg p-3 flex items-center gap-3 text-yellow-400">
                     <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
@@ -326,9 +385,63 @@ export default function MentorshipPage() {
                 )}
               </div>
 
-              <div className="bg-white/5 rounded-xl p-4">
-                <p className="text-xs text-gray-400 mb-2">Booked On</p>
-                <p className="text-gray-300">{selectedSession.bookedDate || "N/A"}</p>
+              {/* Rejection Details */}
+              {selectedSession.status === 'rejected' && selectedSession.rejectionReason && (
+                <div className="bg-gradient-to-br from-red-900/40 to-red-800/30 border-2 border-red-500/60 rounded-xl p-4 shadow-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-red-500/30 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
+                      </svg>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-base font-bold text-red-200 mb-2">
+                        Session Rejected by Instructor
+                      </p>
+                      <div className="bg-red-950/50 rounded-lg p-3 border border-red-500/40">
+                        <p className="text-xs uppercase tracking-wider text-red-300/90 font-semibold mb-1">Rejection Reason</p>
+                        <p className="text-sm text-red-50 leading-relaxed">{selectedSession.rejectionReason}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Reschedule Details */}
+              {selectedSession.status === 'rescheduled' && (
+                <div className="bg-gradient-to-br from-blue-900/40 to-blue-800/30 border-2 border-blue-500/60 rounded-xl p-4 shadow-lg">
+                  <div className="flex items-start gap-3">
+                    <div className="w-10 h-10 rounded-full bg-blue-500/30 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                      </svg>
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-base font-bold text-blue-200 mb-2">
+                        Session Rescheduled
+                      </p>
+                      <div className="bg-blue-950/50 rounded-lg p-3 border border-blue-500/40 space-y-2">
+                        {selectedSession.originalDate && selectedSession.originalTime && (
+                          <div>
+                            <p className="text-xs uppercase tracking-wider text-blue-300/90 font-semibold mb-1">Original Schedule</p>
+                            <p className="text-sm text-blue-50">{selectedSession.originalDate} at {selectedSession.originalTime}</p>
+                          </div>
+                        )}
+                        {selectedSession.rescheduleReason && (
+                          <div>
+                            <p className="text-xs uppercase tracking-wider text-blue-300/90 font-semibold mb-1">Reschedule Reason</p>
+                            <p className="text-sm text-blue-50 leading-relaxed">{selectedSession.rescheduleReason}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <div className="bg-white/5 rounded-xl p-3">
+                <p className="text-xs text-gray-400 mb-1">Booked On</p>
+                <p className="text-gray-300 text-sm">{selectedSession.bookedDate || "N/A"}</p>
               </div>
 
               <div className="flex gap-3 pt-4">

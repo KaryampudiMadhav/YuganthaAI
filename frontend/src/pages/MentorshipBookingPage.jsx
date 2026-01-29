@@ -14,6 +14,8 @@ export default function MentorshipBookingPage() {
   const [assignedInstructor, setAssignedInstructor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [existingSessions, setExistingSessions] = useState([]);
+  const [bookedSlots, setBookedSlots] = useState({});
   const [timeSlots, setTimeSlots] = useState([
     "3:00pm",
     "3:30pm",
@@ -54,7 +56,52 @@ export default function MentorshipBookingPage() {
   useEffect(() => {
     fetchAssignedInstructor();
     fetchUserEmail();
+    fetchExistingSessions();
+    fetchGlobalBookedSlots();
   }, []);
+
+  const fetchGlobalBookedSlots = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch("http://localhost:5000/api/mentorship-sessions/booked-slots", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const slots = await response.json();
+        
+        // Create a map of globally booked slots by date and time
+        const globalSlots = {};
+        slots.forEach(slot => {
+          const key = `${slot.date}_${slot.time}`;
+          globalSlots[key] = true;
+        });
+        setBookedSlots(globalSlots);
+      }
+    } catch (error) {
+      console.error("Error fetching global booked slots:", error);
+    }
+  };
+
+  const fetchExistingSessions = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch("http://localhost:5000/api/mentorship-sessions/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const sessions = await response.json();
+        setExistingSessions(sessions);
+      }
+    } catch (error) {
+      console.error("Error fetching existing sessions:", error);
+    }
+  };
 
   const fetchAssignedInstructor = async () => {
     try {
@@ -120,12 +167,18 @@ export default function MentorshipBookingPage() {
     const startWeekday = firstDay.getDay();
     const daysInMonth = new Date(year, month + 1, 0).getDate();
 
+    const now = new Date();
+    now.setHours(0, 0, 0, 0); // Reset to start of today
+
     const cells = [];
     for (let i = 0; i < startWeekday; i += 1) {
       cells.push({ key: `blank-${i}`, label: "", isSelectable: false });
     }
     for (let d = 1; d <= daysInMonth; d += 1) {
-      cells.push({ key: `day-${d}`, label: d, isSelectable: true });
+      const cellDate = new Date(year, month, d);
+      cellDate.setHours(0, 0, 0, 0);
+      const isPast = cellDate < now;
+      cells.push({ key: `day-${d}`, label: d, isSelectable: !isPast });
     }
     return cells;
   }, [currentMonth]);
@@ -145,12 +198,46 @@ export default function MentorshipBookingPage() {
 
   const handleSelectSlot = (slot) => {
     if (!selectedDate) return;
+    
+    // Check if this slot is already booked globally
+    const dateStr = new Date(selectedDate).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+    const slotKey = `${dateStr}_${slot}`;
+    
+    if (bookedSlots[slotKey]) {
+      toast.error("This time slot is already booked by another user. Please choose a different slot.");
+      return;
+    }
+    
     setSelectedSlot(slot);
     setShowDetails(true);
   };
 
   const handleConfirmBooking = async () => {
     if (!email || !topic || !selectedDate || !selectedSlot) return;
+    
+    // Check if user has 3 or more upcoming sessions this week
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
+    startOfWeek.setHours(0, 0, 0, 0);
+    
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+    const weeklyBookings = existingSessions.filter(session => {
+      if (session.status !== 'upcoming') return false;
+      const sessionDate = new Date(session.bookedDate);
+      return sessionDate >= startOfWeek && sessionDate < endOfWeek;
+    });
+
+    if (weeklyBookings.length >= 3) {
+      toast.error("You can only book 3 sessions per week. Please try again next week or cancel an existing booking.");
+      return;
+    }
     
     try {
       const token = localStorage.getItem("token");
@@ -159,14 +246,16 @@ export default function MentorshipBookingPage() {
         return;
       }
 
+      const dateStr = new Date(selectedDate).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+
       const sessionData = {
         title: topic,
         instructorId: assignedInstructor?._id,
-        date: new Date(selectedDate).toLocaleDateString("en-US", {
-          month: "short",
-          day: "numeric",
-          year: "numeric",
-        }),
+        date: dateStr,
         time: selectedSlot,
         notes: `Booked on ${new Date().toLocaleDateString()}`,
       };
@@ -215,9 +304,29 @@ export default function MentorshipBookingPage() {
       })
     : "";
 
+  // Calculate weekly bookings count
+  const getWeeklyBookingsCount = () => {
+    const now = new Date();
+    const startOfWeek = new Date(now);
+    startOfWeek.setDate(now.getDate() - now.getDay());
+    startOfWeek.setHours(0, 0, 0, 0);
+    
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 7);
+
+    return existingSessions.filter(session => {
+      if (session.status !== 'upcoming') return false;
+      const sessionDate = new Date(session.bookedDate);
+      return sessionDate >= startOfWeek && sessionDate < endOfWeek;
+    }).length;
+  };
+
+  const weeklyBookings = getWeeklyBookingsCount();
+  const remainingBookings = 3 - weeklyBookings;
+
   if (loading) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white pt-20 pb-16 flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-28 pb-16 flex items-center justify-center">
         <p className="text-gray-400">Loading mentor information...</p>
       </div>
     );
@@ -225,7 +334,7 @@ export default function MentorshipBookingPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-[#0a0a0a] text-white pt-20 pb-16">
+      <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-28 pb-16">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="bg-red-500/20 border border-red-500/40 rounded-2xl p-8 text-center">
             <p className="text-red-300 text-lg">{error}</p>
@@ -241,7 +350,7 @@ export default function MentorshipBookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pt-20 pb-16">
+    <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-28 pb-16">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {!showDetails ? (
           <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">
@@ -250,15 +359,15 @@ export default function MentorshipBookingPage() {
                 <div className="text-sm text-gray-400">{program.subtitle}</div>
                 <h1 className="text-3xl font-bold leading-tight">{program.title}</h1>
                 {assignedInstructor ? (
-                  <div className="bg-gradient-to-r from-blue-600/30 to-purple-600/30 border border-blue-500/60 rounded-lg p-4 mt-4 shadow-lg">
+                  <div className="bg-gradient-to-r from-[rgba(139,92,246,0.3)] to-[rgba(236,72,153,0.3)] border border-[rgba(139,92,246,0.6)] rounded-lg p-4 mt-4 shadow-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                      <p className="text-xs text-blue-300 uppercase tracking-widest font-bold">Mentoring with</p>
+                      <p className="text-xs text-[#C7C3D6] uppercase tracking-widest font-bold">Mentoring with</p>
                     </div>
                     <p className="text-2xl font-bold text-white">{assignedInstructor.name}</p>
-                    <p className="text-sm text-blue-200 font-semibold mt-1">{assignedInstructor.expertise}</p>
+                    <p className="text-sm text-[#A855F7] font-semibold mt-1">{assignedInstructor.expertise}</p>
                     {assignedInstructor.email && (
-                      <p className="text-xs text-blue-300 mt-2">📧 {assignedInstructor.email}</p>
+                      <p className="text-xs text-[#C7C3D6] mt-2">📧 {assignedInstructor.email}</p>
                     )}
                   </div>
                 ) : (
@@ -267,23 +376,37 @@ export default function MentorshipBookingPage() {
                     <p className="text-sm text-yellow-200 mt-2">You'll be assigned a mentor soon. Contact admin for more info.</p>
                   </div>
                 )}
-                <div className="flex items-center gap-3 text-sm text-gray-300 pt-4">
+                <div className="flex items-center gap-3 text-sm text-[#C7C3D6] pt-4">
                   <div className="flex items-center gap-2">
                     <span className="inline-block w-2 h-2 rounded-full bg-green-400" />
                     <span>{program.duration}</span>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span>🔗</span>
-                    <a className="text-blue-300 hover:text-blue-200" href={program.location} target="_blank" rel="noreferrer">
-                      {program.location}
-                    </a>
-                  </div>
                 </div>
                 <p className="text-gray-300 text-sm leading-relaxed">{program.note}</p>
+                
+                {/* Weekly Booking Limit Display */}
+                <div className={`mt-4 p-3 rounded-lg border ${
+                  remainingBookings > 0 
+                    ? 'bg-gradient-to-r from-[rgba(139,92,246,0.2)] to-[rgba(236,72,153,0.2)] border-[rgba(139,92,246,0.4)]'
+                    : 'bg-red-500/20 border-red-500/40'
+                }`}>
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-[#A855F7]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    <p className="text-sm font-semibold text-white">
+                      Weekly Bookings: <span className={remainingBookings > 0 ? 'text-[#A855F7]' : 'text-red-400'}>{weeklyBookings}/3</span>
+                    </p>
+                  </div>
+                  <p className="text-xs text-[#C7C3D6] mt-1 ml-7">
+                    {remainingBookings > 0 
+                      ? `You can book ${remainingBookings} more session${remainingBookings !== 1 ? 's' : ''} this week`
+                      : 'You have reached your weekly booking limit'}
+                  </p>
+                </div>
               </div>
 
               <div className="space-y-3">
-                <p className="text-sm text-gray-400">Cookie settings</p>
                 <p className="text-sm text-gray-400">Time zone: {program.timezone}</p>
               </div>
             </div>
@@ -342,10 +465,50 @@ export default function MentorshipBookingPage() {
                       })
                     : "Choose a date"}
                 </div>
-                <div className="max-h-64 overflow-y-auto rounded-xl border border-white/10 divide-y divide-white/5">
+                <div className="max-h-64 overflow-y-auto rounded-xl border border-white/10 divide-y divide-white/5 custom-scrollbar">
                   {timeSlots.map((slot) => {
                     const active = selectedSlot === slot;
-                    const disabled = !selectedDate;
+                    const dateStr = selectedDate ? new Date(selectedDate).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    }) : "";
+                    const slotKey = `${dateStr}_${slot}`;
+                    const isBooked = bookedSlots[slotKey];
+                    
+                    // Check if this is today and if the time has passed
+                    let isPastTime = false;
+                    if (selectedDate) {
+                      const selectedDay = new Date(selectedDate);
+                      const today = new Date();
+                      selectedDay.setHours(0, 0, 0, 0);
+                      today.setHours(0, 0, 0, 0);
+                      
+                      if (selectedDay.getTime() === today.getTime()) {
+                        // It's today, check if time has passed
+                        const now = new Date();
+                        const currentHour = now.getHours();
+                        const currentMinute = now.getMinutes();
+                        
+                        // Parse slot time (e.g., "3:00pm" or "11:30am")
+                        const timeMatch = slot.match(/(\d+):(\d+)(am|pm)/i);
+                        if (timeMatch) {
+                          let slotHour = parseInt(timeMatch[1]);
+                          const slotMinute = parseInt(timeMatch[2]);
+                          const isPM = timeMatch[3].toLowerCase() === 'pm';
+                          
+                          if (isPM && slotHour !== 12) slotHour += 12;
+                          if (!isPM && slotHour === 12) slotHour = 0;
+                          
+                          if (slotHour < currentHour || (slotHour === currentHour && slotMinute <= currentMinute)) {
+                            isPastTime = true;
+                          }
+                        }
+                      }
+                    }
+                    
+                    const disabled = !selectedDate || isBooked || isPastTime;
+                    
                     return (
                       <button
                         key={slot}
@@ -353,12 +516,16 @@ export default function MentorshipBookingPage() {
                         onClick={() => handleSelectSlot(slot)}
                         className={`w-full flex items-center justify-between px-5 py-4 text-left transition focus:outline-none text-base font-semibold ${
                           disabled
-                            ? "text-gray-500 cursor-not-allowed"
+                            ? "text-gray-500 cursor-not-allowed opacity-50"
                             : active
                             ? "bg-white/10 text-white"
                             : "hover:bg-white/5 text-gray-200"
                         }`}>
-                        <span>{slot}</span>
+                        <span className="flex items-center gap-2">
+                          {slot}
+                          {isBooked && <span className="text-xs text-[#EC4899] bg-[rgba(236,72,153,0.2)] px-2 py-1 rounded">Booked</span>}
+                          {isPastTime && !isBooked && <span className="text-xs text-gray-500 bg-gray-800 px-2 py-1 rounded">Past</span>}
+                        </span>
                         <span
                           className={`text-sm inline-flex items-center gap-2 px-3 py-1 rounded-md border ${
                             disabled
@@ -367,8 +534,8 @@ export default function MentorshipBookingPage() {
                               ? "border-white text-white"
                               : "border-white/20 text-gray-200"
                           }`}>
-                          Next
-                          <span aria-hidden="true">›</span>
+                          {isBooked ? "Unavailable" : isPastTime ? "Past" : "Next"}
+                          {!isBooked && !isPastTime && <span aria-hidden="true">›</span>}
                         </span>
                       </button>
                     );
@@ -383,9 +550,9 @@ export default function MentorshipBookingPage() {
                 </div>
                 <button
                   disabled={!bookingSummary}
-                  className={`px-5 py-3 rounded-lg font-semibold transition ${
+                  className={`px-5 py-3 rounded-lg font-semibold transition-all duration-300 ${
                     bookingSummary
-                      ? "bg-white text-black hover:bg-gray-200"
+                      ? "bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)]"
                       : "bg-white/10 text-gray-400 cursor-not-allowed"
                   }`}
                   onClick={() => bookingSummary && setShowDetails(true)}>
@@ -400,16 +567,10 @@ export default function MentorshipBookingPage() {
               <div className="space-y-3">
                 <div className="text-sm text-gray-400">{program.subtitle}</div>
                 <h1 className="text-3xl font-bold leading-tight">{program.title}</h1>
-                <div className="flex items-center gap-3 text-sm text-gray-300">
+                <div className="flex items-center gap-3 text-sm text-[#C7C3D6]">
                   <div className="flex items-center gap-2">
                     <span className="inline-block w-2 h-2 rounded-full bg-green-400" />
                     <span>{program.duration}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span>🔗</span>
-                    <a className="text-blue-300 hover:text-blue-200" href={program.location} target="_blank" rel="noreferrer">
-                      {program.location}
-                    </a>
                   </div>
                 </div>
                 <p className="text-gray-300 text-sm leading-relaxed">{program.note}</p>
@@ -480,9 +641,9 @@ export default function MentorshipBookingPage() {
                 <button
                   onClick={handleConfirmBooking}
                   disabled={!email || !topic}
-                  className={`px-5 py-3 rounded-lg font-semibold transition ${
+                  className={`flex-1 px-5 py-3 rounded-lg font-semibold transition-all duration-300 ${
                     email && topic
-                      ? "bg-white text-black hover:bg-gray-200"
+                      ? "bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)]"
                       : "bg-white/10 text-gray-500 cursor-not-allowed"
                   }`}>
                   Confirm Booking

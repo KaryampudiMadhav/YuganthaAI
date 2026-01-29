@@ -12,6 +12,16 @@ export default function InstructorDashboard() {
 	const [mentorshipSessions, setMentorshipSessions] = useState([]);
 	const [editingMeetingLink, setEditingMeetingLink] = useState(null);
 	const [meetingLinkInput, setMeetingLinkInput] = useState("");
+	const [showRescheduleModal, setShowRescheduleModal] = useState(false);
+	const [rescheduleSessionId, setRescheduleSessionId] = useState(null);
+	const [rescheduleData, setRescheduleData] = useState({
+		newDate: "",
+		newTime: "",
+		reason: ""
+	});
+	const [showRejectModal, setShowRejectModal] = useState(false);
+	const [rejectSessionId, setRejectSessionId] = useState(null);
+	const [rejectionReason, setRejectionReason] = useState("");
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
@@ -120,6 +130,89 @@ export default function InstructorDashboard() {
 		} catch (error) {
 			console.error("Error updating meeting link:", error);
 			alert("Failed to update meeting link");
+		}
+	};
+
+	const handleOpenReject = (sessionId) => {
+		setRejectSessionId(sessionId);
+		setRejectionReason("");
+		setShowRejectModal(true);
+	};
+
+	const handleRejectSession = async () => {
+		if (!rejectionReason || rejectionReason.trim() === "") {
+			alert("Please provide a reason for rejection");
+			return;
+		}
+		
+		try {
+			const token = localStorage.getItem("instructorToken");
+			const response = await fetch(
+				`http://localhost:5000/api/mentorship-sessions/${rejectSessionId}/reject`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify({ reason: rejectionReason }),
+				}
+			);
+
+			if (response.ok) {
+				setShowRejectModal(false);
+				setRejectSessionId(null);
+				setRejectionReason("");
+				fetchMentorshipSessions();
+			} else {
+				const data = await response.json();
+				alert(data.message || "Failed to reject session");
+			}
+		} catch (error) {
+			console.error("Error rejecting session:", error);
+			alert("Failed to reject session");
+		}
+	};
+
+	const handleOpenReschedule = (sessionId) => {
+		setRescheduleSessionId(sessionId);
+		setShowRescheduleModal(true);
+		setRescheduleData({ newDate: "", newTime: "", reason: "" });
+	};
+
+	const handleRescheduleSession = async () => {
+		if (!rescheduleData.newDate || !rescheduleData.newTime) {
+			alert("Please select both date and time");
+			return;
+		}
+
+		try {
+			const token = localStorage.getItem("instructorToken");
+			const response = await fetch(
+				`http://localhost:5000/api/mentorship-sessions/${rescheduleSessionId}/reschedule`,
+				{
+					method: "PUT",
+					headers: {
+						"Content-Type": "application/json",
+						Authorization: `Bearer ${token}`,
+					},
+					body: JSON.stringify(rescheduleData),
+				}
+			);
+
+			if (response.ok) {
+				setShowRescheduleModal(false);
+				setRescheduleSessionId(null);
+				setRescheduleData({ newDate: "", newTime: "", reason: "" });
+				fetchMentorshipSessions();
+				alert("Session rescheduled successfully. The student will be notified.");
+			} else {
+				const data = await response.json();
+				alert(data.message || "Failed to reschedule session");
+			}
+		} catch (error) {
+			console.error("Error rescheduling session:", error);
+			alert("Failed to reschedule session");
 		}
 	};
 
@@ -321,9 +414,11 @@ export default function InstructorDashboard() {
 				<div className='max-w-7xl mx-auto flex items-center justify-between'>
 					<div className='flex items-center space-x-6'>
 						<Link to='/' className='flex items-center space-x-3 hover:opacity-80 transition duration-300 group'>
-							<div className='w-10 h-10 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] rounded-lg flex items-center justify-center group-hover:shadow-[0_0_20px_rgba(139,92,246,0.6)] transition duration-300'>
-								<span className='text-white font-bold text-lg'>Y</span>
-							</div>
+							<img 
+								src='/yugantha-logo.png' 
+								alt='Yugantha AI' 
+								className='w-10 h-10 transition-transform group-hover:scale-110'
+							/>
 							<div className='text-xl font-bold tracking-tight'>
 								<span className='text-white'>Yugantha</span>
 								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
@@ -493,8 +588,8 @@ export default function InstructorDashboard() {
 														? "bg-green-500/20 text-green-300"
 														: course.level ===
 														  "Intermediate"
-														? "bg-blue-500/20 text-blue-300"
-														: "bg-purple-500/20 text-purple-300"
+														? "bg-[rgba(168,85,247,0.2)] text-[#A855F7]"
+														: "bg-[rgba(236,72,153,0.2)] text-[#EC4899]"
 												}`}>
 												{course.level}
 											</span>
@@ -513,7 +608,7 @@ export default function InstructorDashboard() {
 													onClick={() =>
 														handleEdit(course)
 													}
-													className='p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition duration-200'>
+													className='p-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] rounded-lg transition-all duration-300 shadow-[0_2px_8px_rgba(139,92,246,0.3)]'>
 													<svg
 														className='w-4 h-4'
 														fill='none'
@@ -708,6 +803,68 @@ export default function InstructorDashboard() {
 											)}
 										</div>
 									</div>
+
+									{/* Action Buttons */}
+									{session.status === 'upcoming' && (
+										<div className='mt-6 pt-6 border-t border-[rgba(139,92,246,0.2)]'>
+											<div className='flex gap-3'>
+												<button
+													onClick={() => handleOpenReschedule(session._id)}
+													className='flex-1 px-4 py-3 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_12px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_16px_rgba(59,130,246,0.4)] flex items-center justify-center group'>
+													<svg className='w-5 h-5 mr-2 group-hover:rotate-12 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
+													</svg>
+													Reschedule
+												</button>
+												<button
+													onClick={() => handleOpenReject(session._id)}
+													className='flex-1 px-4 py-3 bg-transparent border-2 border-red-500 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-all duration-300 font-semibold flex items-center justify-center group'>
+													<svg className='w-5 h-5 mr-2 group-hover:scale-110 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12'/>
+													</svg>
+													Reject
+												</button>
+											</div>
+										</div>
+									)}
+
+									{/* Status Badges */}
+									{session.status === 'rejected' && (
+										<div className='mt-6 pt-6 border-t border-[rgba(139,92,246,0.2)]'>
+											<div className='bg-red-500/20 border border-red-500/40 rounded-lg p-4'>
+												<div className='flex items-center gap-2 text-red-300'>
+													<svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12'/>
+													</svg>
+													<span className='font-semibold'>Session Rejected</span>
+												</div>
+												{session.rejectionReason && (
+													<p className='text-sm text-red-200 mt-2'>Reason: {session.rejectionReason}</p>
+												)}
+											</div>
+										</div>
+									)}
+
+									{session.status === 'rescheduled' && (
+										<div className='mt-6 pt-6 border-t border-[rgba(139,92,246,0.2)]'>
+											<div className='bg-blue-500/20 border border-blue-500/40 rounded-lg p-4'>
+												<div className='flex items-center gap-2 text-blue-300'>
+													<svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
+													</svg>
+													<span className='font-semibold'>Session Rescheduled</span>
+												</div>
+												{session.originalDate && session.originalTime && (
+													<p className='text-sm text-blue-200 mt-2'>
+														Original: {session.originalDate} at {session.originalTime}
+													</p>
+												)}
+												{session.rescheduleReason && (
+													<p className='text-sm text-blue-200 mt-1'>Reason: {session.rescheduleReason}</p>
+												)}
+											</div>
+										</div>
+									)}
 								</div>
 							))}
 						</div>
@@ -715,23 +872,165 @@ export default function InstructorDashboard() {
 				</div>
 			</div>
 
+			{/* Reschedule Modal */}
+			{showRescheduleModal && (
+				<div className='fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[80] p-4'>
+					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl shadow-[0_8px_64px_rgba(139,92,246,0.3)] p-6 md:p-8 max-w-lg w-full'>
+						<div className='mb-6'>
+							<h3 className='text-2xl md:text-3xl font-bold text-white mb-2'>Reschedule Session</h3>
+							<p className='text-sm text-[#C7C3D6]'>Choose a new date and time for this session</p>
+						</div>
+
+						<div className='space-y-5'>
+							<div>
+								<label className='block text-white mb-2 text-sm font-medium'>
+									New Date <span className='text-[#EC4899]'>*</span>
+								</label>
+								<input
+									type='date'
+									value={rescheduleData.newDate}
+									onChange={(e) => setRescheduleData({...rescheduleData, newDate: e.target.value})}
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
+									required
+								/>
+							</div>
+
+							<div>
+								<label className='block text-white mb-2 text-sm font-medium'>
+									New Time <span className='text-[#EC4899]'>*</span>
+								</label>
+								<select
+									value={rescheduleData.newTime}
+									onChange={(e) => setRescheduleData({...rescheduleData, newTime: e.target.value})}
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all appearance-none cursor-pointer'>
+									<option value=''>Select Time</option>
+									<option value='3:00pm'>3:00pm</option>
+									<option value='3:30pm'>3:30pm</option>
+									<option value='4:00pm'>4:00pm</option>
+									<option value='6:00pm'>6:00pm</option>
+									<option value='6:30pm'>6:30pm</option>
+									<option value='7:00pm'>7:00pm</option>
+									<option value='7:30pm'>7:30pm</option>
+									<option value='8:00pm'>8:00pm</option>
+									<option value='8:30pm'>8:30pm</option>
+									<option value='9:00pm'>9:00pm</option>
+									<option value='9:30pm'>9:30pm</option>
+								</select>
+							</div>
+
+							<div>
+								<label className='block text-white mb-2 text-sm font-medium'>
+									Reason (Optional)
+								</label>
+								<textarea
+									value={rescheduleData.reason}
+									onChange={(e) => setRescheduleData({...rescheduleData, reason: e.target.value})}
+									placeholder='Explain why you need to reschedule...'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent resize-none transition-all'
+									rows='3'></textarea>
+							</div>
+
+							<div className='flex flex-col sm:flex-row gap-3 pt-4'>
+								<button
+									onClick={handleRescheduleSession}
+									className='flex-1 px-6 py-4 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white rounded-xl transition-all duration-300 font-bold text-lg shadow-[0_8px_24px_rgba(59,130,246,0.4)] hover:shadow-[0_12px_32px_rgba(59,130,246,0.5)] hover:scale-105 active:scale-100'>
+									Confirm Reschedule
+								</button>
+								<button
+									onClick={() => {
+										setShowRescheduleModal(false);
+										setRescheduleSessionId(null);
+										setRescheduleData({ newDate: "", newTime: "", reason: "" });
+									}}
+									className='px-6 py-4 bg-transparent border-2 border-[rgba(139,92,246,0.3)] hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] text-white rounded-xl transition-all duration-300 font-semibold'>
+									Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+
+			{/* Rejection Modal */}
+			{showRejectModal && (
+				<div className='fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[80] p-4'>
+					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(236,72,153,0.3)] rounded-2xl shadow-[0_8px_64px_rgba(236,72,153,0.3)] p-6 md:p-8 max-w-lg w-full'>
+						<div className='mb-6'>
+							<div className='flex items-center gap-3 mb-2'>
+								<div className='w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center'>
+									<svg className='w-6 h-6 text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12'/>
+									</svg>
+								</div>
+								<h3 className='text-2xl md:text-3xl font-bold text-white'>Reject Session</h3>
+							</div>
+							<p className='text-sm text-[#C7C3D6]'>Please provide a reason for rejecting this session. The student will be notified.</p>
+						</div>
+
+						<div className='space-y-5'>
+							<div>
+								<label className='block text-white mb-2 text-sm font-medium'>
+									Rejection Reason <span className='text-[#EC4899]'>*</span>
+								</label>
+								<textarea
+									value={rejectionReason}
+									onChange={(e) => setRejectionReason(e.target.value)}
+									placeholder='Explain why you are rejecting this session...'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(236,72,153,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#EC4899] focus:border-transparent resize-none transition-all'
+									rows='4'
+									required></textarea>
+							</div>
+
+							<div className='bg-red-500/10 border border-red-500/30 rounded-lg p-4'>
+								<div className='flex items-start gap-2'>
+									<svg className='w-5 h-5 text-red-400 mt-0.5 flex-shrink-0' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'/>
+									</svg>
+									<p className='text-sm text-red-300'>This action cannot be undone. The student will be notified and the session will be cancelled.</p>
+								</div>
+							</div>
+
+							<div className='flex flex-col sm:flex-row gap-3 pt-4'>
+								<button
+									onClick={handleRejectSession}
+									className='flex-1 px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl transition-all duration-300 font-bold text-lg shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.5)] hover:scale-105 active:scale-100'>
+									Confirm Rejection
+								</button>
+								<button
+									onClick={() => {
+										setShowRejectModal(false);
+										setRejectSessionId(null);
+										setRejectionReason("");
+									}}
+									className='px-6 py-4 bg-transparent border-2 border-[rgba(139,92,246,0.3)] hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] text-white rounded-xl transition-all duration-300 font-semibold'>
+									Cancel
+								</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			)}
+
 			{/* Add/Edit Course Modal */}
 			{showAddModal && (
-				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-50 p-4 overflow-y-auto'>
-					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-4xl w-full my-8'>
-						<div className='flex items-center justify-between mb-6'>
-							<h3 className='text-2xl font-bold text-white'>
-								{editingCourse
-									? "Edit Course"
-									: "Add New Course"}
-							</h3>
+				<div className='fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto'>
+					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl shadow-[0_8px_64px_rgba(139,92,246,0.3)] p-6 md:p-8 max-w-5xl w-full my-8 max-h-[90vh] overflow-y-auto custom-scrollbar'>
+						<div className='flex items-center justify-between mb-8'>
+							<div>
+								<h3 className='text-2xl md:text-3xl font-bold text-white mb-2'>
+									{editingCourse ? "Edit Course" : "Create New Course"}
+								</h3>
+								<p className='text-sm text-[#C7C3D6]'>
+									{editingCourse ? "Update course information and content" : "Build engaging content for your students"}
+								</p>
+							</div>
 							<button
 								onClick={() => {
 									setShowAddModal(false);
 									setEditingCourse(null);
 									resetFormData();
 								}}
-								className='text-gray-400 hover:text-white'>
+								className='text-[#C7C3D6] hover:text-white hover:bg-[rgba(139,92,246,0.2)] p-2 rounded-lg transition-all duration-200'>
 								<svg
 									className='w-6 h-6'
 									fill='none'
@@ -747,115 +1046,134 @@ export default function InstructorDashboard() {
 							</button>
 						</div>
 
-						<form onSubmit={handleSubmit} className='space-y-4'>
-							<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-								<div>
-									<label className='block text-white mb-2 text-sm'>
-										Course Title
-									</label>
-									<input
-										type='text'
-										name='title'
-										value={formData.title}
-										onChange={handleInputChange}
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-										required
-									/>
+						<form onSubmit={handleSubmit} className='space-y-6'>
+							{/* Basic Information */}
+							<div className='bg-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.15)] rounded-xl p-6'>
+								<h4 className='text-lg font-semibold text-white mb-4 flex items-center'>
+									<svg className='w-5 h-5 mr-2 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'/>
+									</svg>
+									Basic Information
+								</h4>
+								<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
+									<div>
+										<label className='block text-white mb-2 text-sm font-medium'>
+											Course Title <span className='text-[#EC4899]'>*</span>
+										</label>
+										<input
+											type='text'
+											name='title'
+											value={formData.title}
+											onChange={handleInputChange}
+											placeholder='e.g., Advanced Machine Learning'
+											className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
+											required
+										/>
+									</div>
+
+									<div>
+										<label className='block text-white mb-2 text-sm font-medium'>
+											Instructor
+										</label>
+										<input
+											type='text'
+											name='instructor'
+											value={formData.instructor}
+											onChange={handleInputChange}
+											disabled
+											className='w-full px-4 py-3 bg-[rgba(139,92,246,0.1)] border border-[rgba(139,92,246,0.2)] rounded-lg text-[#C7C3D6] cursor-not-allowed'
+											required
+										/>
+									</div>
 								</div>
 
-								<div>
-									<label className='block text-white mb-2 text-sm'>
-										Instructor
+								<div className='mt-4'>
+									<label className='block text-white mb-2 text-sm font-medium'>
+										Description <span className='text-[#EC4899]'>*</span>
 									</label>
-									<input
-										type='text'
-										name='instructor'
-										value={formData.instructor}
+									<textarea
+										name='description'
+										value={formData.description}
 										onChange={handleInputChange}
-										disabled
-										className='w-full px-4 py-2 bg-gray-800 border border-gray-600 rounded-lg text-gray-400 cursor-not-allowed focus:outline-none'
-										required
-									/>
-								</div>
-							</div>
-
-							<div>
-								<label className='block text-white mb-2 text-sm'>
-									Description
-								</label>
-								<textarea
-									name='description'
-									value={formData.description}
-									onChange={handleInputChange}
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-									rows='3'
-									required></textarea>
-							</div>
-
-							<div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-								<div>
-									<label className='block text-white mb-2 text-sm'>
-										Duration
-									</label>
-									<input
-										type='text'
-										name='duration'
-										value={formData.duration}
-										onChange={handleInputChange}
-										placeholder='e.g., 4 weeks'
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-										required
-									/>
-								</div>
-
-								<div>
-									<label className='block text-white mb-2 text-sm'>
-										Level
-									</label>
-									<select
-										name='level'
-										value={formData.level}
-										onChange={handleInputChange}
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'>
-										<option>Beginner</option>
-										<option>Intermediate</option>
-										<option>Advanced</option>
-									</select>
-								</div>
-
-								<div>
-									<label className='block text-white mb-2 text-sm'>
-										Price
-									</label>
-									<input
-										type='text'
-										name='price'
-										value={formData.price}
-										onChange={handleInputChange}
-										placeholder='Free or amount'
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-										required
-									/>
+										placeholder='Describe what students will learn in this course...'
+										className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all resize-none'
+										rows='4'
+										required></textarea>
 								</div>
 							</div>
 
-						<div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
-								<div>
-									<label className='block text-white mb-2 text-sm'>
-										Category
-									</label>
-									<input
-										type='text'
-										name='category'
-										value={formData.category}
-										onChange={handleInputChange}
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-										required
-									/>
+							{/* Course Details */}
+							<div className='bg-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.15)] rounded-xl p-6'>
+								<h4 className='text-lg font-semibold text-white mb-4 flex items-center'>
+									<svg className='w-5 h-5 mr-2 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4'/>
+									</svg>
+									Course Details
+								</h4>
+								<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
+									<div>
+										<label className='block text-white mb-2 text-sm font-medium'>
+											Duration <span className='text-[#EC4899]'>*</span>
+										</label>
+										<input
+											type='text'
+											name='duration'
+											value={formData.duration}
+											onChange={handleInputChange}
+											placeholder='e.g., 6 weeks'
+											className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
+											required
+										/>
+									</div>
+
+									<div>
+										<label className='block text-white mb-2 text-sm font-medium'>
+											Level <span className='text-[#EC4899]'>*</span>
+										</label>
+										<select
+											name='level'
+											value={formData.level}
+											onChange={handleInputChange}
+											className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all appearance-none cursor-pointer'>
+											<option value='Beginner'>Beginner</option>
+											<option value='Intermediate'>Intermediate</option>
+											<option value='Advanced'>Advanced</option>
+										</select>
+									</div>
+
+									<div>
+										<label className='block text-white mb-2 text-sm font-medium'>
+											Price <span className='text-[#EC4899]'>*</span>
+										</label>
+										<input
+											type='text'
+											name='price'
+											value={formData.price}
+											onChange={handleInputChange}
+											placeholder='Free or $99'
+											className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
+											required
+										/>
+									</div>
+
+									<div>
+										<label className='block text-white mb-2 text-sm font-medium'>
+											Category <span className='text-[#EC4899]'>*</span>
+										</label>
+										<input
+											type='text'
+											name='category'
+											value={formData.category}
+											onChange={handleInputChange}
+											placeholder='AI & ML'
+											className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
+											required
+										/>
+									</div>
 								</div>
 
-								<div>
-									<label className='block text-white mb-2 text-sm'>
+								<div className='mt-4'>
+									<label className='block text-white mb-2 text-sm font-medium'>
 										Thumbnail URL
 									</label>
 									<input
@@ -864,56 +1182,70 @@ export default function InstructorDashboard() {
 										value={formData.thumbnail}
 										onChange={handleInputChange}
 										placeholder='https://example.com/image.jpg'
-										className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+										className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
 									/>
 								</div>
 							</div>
 
 							{/* Modules Section */}
-							<div className='border-t border-gray-700 pt-4 mt-6'>
-								<div className='flex items-center justify-between mb-4'>
-									<h4 className='text-xl font-bold text-white'>
+							<div className='bg-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.15)] rounded-xl p-6'>
+								<div className='flex items-center justify-between mb-5'>
+									<h4 className='text-lg font-semibold text-white flex items-center'>
+										<svg className='w-5 h-5 mr-2 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+											<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'/>
+										</svg>
 										Course Modules
 									</h4>
 									<button
 										type='button'
 										onClick={() => setShowModuleModal(true)}
-										className='px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition duration-200 text-sm'>
-										+ Add Module
+										className='px-4 py-2 bg-gradient-to-r from-[#10B981] to-[#059669] hover:from-[#059669] hover:to-[#047857] text-white rounded-lg transition-all duration-300 text-sm font-semibold shadow-[0_4px_12px_rgba(16,185,129,0.3)] hover:shadow-[0_6px_16px_rgba(16,185,129,0.4)] flex items-center space-x-2'>
+										<svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+											<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2.5} d='M12 4v16m8-8H4'/>
+										</svg>
+										<span>Add Module</span>
 									</button>
 								</div>
 
 								{formData.modules && formData.modules.length > 0 ? (
-									<div className='space-y-3'>
+									<div className='space-y-3 max-h-96 overflow-y-auto pr-2 custom-scrollbar'>
 										{formData.modules.map((module, idx) => (
 											<div
 												key={idx}
-												className='bg-gray-900 rounded-lg p-4'>
+												className='bg-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-lg p-4 hover:border-[rgba(139,92,246,0.4)] transition-all'>
 												<div className='flex items-start justify-between'>
 													<div className='flex-1'>
-														<h5 className='text-white font-semibold mb-1'>
-															Module {module.order}:{" "}
+														<h5 className='text-white font-semibold mb-2 flex items-center'>
+															<span className='inline-flex items-center justify-center w-6 h-6 rounded-full bg-gradient-to-r from-[#A855F7] to-[#EC4899] text-white text-xs font-bold mr-2'>
+																{module.order}
+															</span>
 															{module.title}
 														</h5>
-														<p className='text-gray-400 text-sm mb-2'>
+														<p className='text-[#C7C3D6] text-sm mb-3'>
 															{module.description}
 														</p>
-														<div className='text-blue-400 text-sm'>
-															{module.videos?.length || 0}{" "}
-															video(s)
+														<div className='flex items-center space-x-2 text-sm text-[#A855F7]'>
+															<svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+																<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z'/>
+															</svg>
+															<span>{module.videos?.length || 0} video(s)</span>
 														</div>
 														{module.videos &&
 															module.videos.length > 0 && (
-																<div className='mt-2 ml-4 space-y-1'>
+																<div className='mt-3 ml-8 space-y-2'>
 																	{module.videos.map(
 																		(video, vIdx) => (
 																			<div
 																				key={vIdx}
-																				className='flex items-center justify-between text-sm bg-gray-800 p-2 rounded'>
-																				<span className='text-gray-300'>
-																					{video.order}.{" "}
-																					{video.title}
-																				</span>
+																				className='flex items-center justify-between text-sm bg-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.15)] p-3 rounded-lg'>
+																				<div className='flex items-center space-x-3 flex-1'>
+																					<span className='text-[#A855F7] font-medium'>
+																						{video.order}.
+																					</span>
+																					<span className='text-white'>
+																						{video.title}
+																					</span>
+																				</div>
 																				<button
 																					type='button'
 																					onClick={() =>
@@ -922,8 +1254,10 @@ export default function InstructorDashboard() {
 																							video.order
 																						)
 																					}
-																					className='text-red-400 hover:text-red-300'>
-																					Remove
+																					className='text-[#EC4899] hover:text-white hover:bg-[rgba(236,72,153,0.2)] p-1.5 rounded transition-all'>
+																					<svg className='w-4 h-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+																						<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16'/>
+																					</svg>
 																				</button>
 																			</div>
 																		)
@@ -940,7 +1274,7 @@ export default function InstructorDashboard() {
 																);
 																setShowAddVideoToModule(true);
 															}}
-															className='px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs'>
+															className='px-3 py-2 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white rounded-lg text-xs font-semibold transition-all shadow-[0_2px_8px_rgba(59,130,246,0.3)]'>
 															+ Video
 														</button>
 														<button
@@ -950,7 +1284,7 @@ export default function InstructorDashboard() {
 																	module.order
 																)
 															}
-															className='px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs'>
+															className='px-3 py-2 bg-transparent border border-[#EC4899] text-[#EC4899] hover:bg-[rgba(236,72,153,0.1)] rounded-lg text-xs font-semibold transition-all'>
 															Remove
 														</button>
 													</div>
@@ -959,20 +1293,21 @@ export default function InstructorDashboard() {
 										))}
 									</div>
 								) : (
-									<div className='text-center py-8 text-gray-400'>
-										No modules added yet. Click "Add Module" to
-										create one.
+									<div className='text-center py-12 border-2 border-dashed border-[rgba(139,92,246,0.2)] rounded-xl'>
+										<svg className='w-16 h-16 mx-auto text-[#9A93B5] mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+											<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'/>
+										</svg>
+										<p className='text-[#C7C3D6] mb-2'>No modules added yet</p>
+										<p className='text-sm text-[#9A93B5]'>Click "Add Module" to create your first module</p>
 									</div>
 								)}
 							</div>
 
-							<div className='flex space-x-4 pt-4'>
+							<div className='flex flex-col sm:flex-row gap-3 pt-4'>
 								<button
 									type='submit'
-									className='flex-1 px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white rounded-lg transition duration-200 font-semibold'>
-									{editingCourse
-										? "Update Course"
-										: "Create Course"}
+									className='flex-1 px-6 py-4 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white rounded-xl transition-all duration-300 font-bold text-lg shadow-[0_8px_24px_rgba(139,92,246,0.4)] hover:shadow-[0_12px_32px_rgba(139,92,246,0.5)] hover:scale-105 active:scale-100'>
+									{editingCourse ? "Update Course" : "Create Course"}
 								</button>
 								<button
 									type='button'
@@ -981,7 +1316,7 @@ export default function InstructorDashboard() {
 										setEditingCourse(null);
 										resetFormData();
 									}}
-									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200'>
+									className='px-6 py-4 bg-transparent border-2 border-[rgba(139,92,246,0.3)] hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] text-white rounded-xl transition-all duration-300 font-semibold'>
 									Cancel
 								</button>
 							</div>
@@ -992,77 +1327,47 @@ export default function InstructorDashboard() {
 
 			{/* Add Module Modal */}
 			{showModuleModal && (
-				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4 overflow-y-auto'>
-					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-2xl w-full my-8'>
-						<h3 className='text-2xl font-bold text-white mb-6'>
-							Add Module
-						</h3>
+				<div className='fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[60] p-4 overflow-y-auto'>
+					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl shadow-[0_8px_64px_rgba(139,92,246,0.3)] p-6 md:p-8 max-w-3xl w-full my-8 max-h-[90vh] overflow-y-auto custom-scrollbar'>
+						<div className='mb-6'>
+							<h3 className='text-2xl md:text-3xl font-bold text-white mb-2'>Add Module</h3>
+							<p className='text-sm text-[#C7C3D6]'>Create a new module for your course</p>
+						</div>
 						<div className='space-y-5'>
 							<div>
 								<label className='block text-white mb-2 text-sm font-medium'>
-									Module Title <span className='text-red-500'>*</span>
+									Module Title <span className='text-[#EC4899]'>*</span>
 								</label>
 								<input
 									type='text'
 									name='title'
 									value={moduleData.title}
 									onChange={handleModuleInputChange}
-									placeholder='e.g., Introduction to Basics'
-									className='w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500'
+									placeholder='e.g., Introduction to Machine Learning'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
 									required
 								/>
 							</div>
 							<div>
 								<label className='block text-white mb-2 text-sm font-medium'>
-									Description <span className='text-gray-500'>(Optional)</span>
+									Description
 								</label>
 								<textarea
 									name='description'
 									value={moduleData.description}
 									onChange={handleModuleInputChange}
 									placeholder='Describe what students will learn in this module...'
-									className='w-full px-4 py-2.5 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent resize-none transition-all'
 									rows='4'></textarea>
-								<p className='text-xs text-gray-400 mt-1'>
-									Provide a clear description of the module content
+								<p className='text-xs text-[#9A93B5] mt-2'>
+									Provide a clear description to help students understand the module content
 								</p>
 							</div>
 
-							{/* Optional Video Section */}
-							<div className='border-t border-gray-700 pt-6'>
-								<h4 className='text-white font-semibold mb-4 text-sm'>
-									Add First Video <span className='text-gray-500'>(Optional)</span>
-								</h4>
-								<div className='space-y-4 bg-gray-800/30 p-4 rounded-lg border border-gray-700'>
-									<div>
-										<label className='block text-white mb-2 text-sm'>
-											Video Title
-										</label>
-										<input
-											type='text'
-											placeholder='e.g., Getting Started'
-											className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500'
-										/>
-									</div>
-									<div>
-										<label className='block text-white mb-2 text-sm'>
-											Video Description
-										</label>
-										<textarea
-											placeholder='Describe the video content...'
-											className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none'
-											rows='2'></textarea>
-									</div>
-									<p className='text-xs text-gray-400'>
-										Note: You can add videos after creating the module as well
-									</p>
-								</div>
-							</div>
-
-							<div className='flex space-x-3 pt-6'>
+							<div className='flex flex-col sm:flex-row gap-3 pt-4'>
 								<button
 									onClick={handleAddModule}
-									className='flex-1 px-6 py-3 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-lg transition duration-200 font-semibold shadow-lg'>
+									className='flex-1 px-6 py-4 bg-gradient-to-r from-[#10B981] to-[#059669] hover:from-[#059669] hover:to-[#047857] text-white rounded-xl transition-all duration-300 font-bold text-lg shadow-[0_8px_24px_rgba(16,185,129,0.4)] hover:shadow-[0_12px_32px_rgba(16,185,129,0.5)] hover:scale-105 active:scale-100'>
 									Create Module
 								</button>
 								<button
@@ -1075,7 +1380,7 @@ export default function InstructorDashboard() {
 											videos: [],
 										});
 									}}
-									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200 font-semibold'>
+									className='px-6 py-4 bg-transparent border-2 border-[rgba(139,92,246,0.3)] hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] text-white rounded-xl transition-all duration-300 font-semibold'>
 									Cancel
 								</button>
 							</div>
@@ -1086,55 +1391,107 @@ export default function InstructorDashboard() {
 
 			{/* Add Video to Module Modal */}
 			{showAddVideoToModule && (
-				<div className='fixed inset-0 bg-black/70 flex items-center justify-center z-[60] p-4'>
-					<div className='bg-[#1a1a1a] rounded-2xl p-8 max-w-md w-full'>
-						<h3 className='text-2xl font-bold text-white mb-6'>
-							Add Video to Module
-						</h3>
-						<div className='space-y-4'>
+				<div className='fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[70] p-4 overflow-y-auto'>
+					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl shadow-[0_8px_64px_rgba(139,92,246,0.3)] p-6 md:p-8 max-w-2xl w-full my-8 max-h-[90vh] overflow-y-auto custom-scrollbar'>
+						<div className='mb-6'>
+							<h3 className='text-2xl md:text-3xl font-bold text-white mb-2'>Add Video to Module</h3>
+							<p className='text-sm text-[#C7C3D6]'>Upload a video or provide a video URL</p>
+						</div>
+						<div className='space-y-5'>
 							<div>
-								<label className='block text-white mb-2 text-sm'>
-									Video Title
+								<label className='block text-white mb-2 text-sm font-medium'>
+									Video Title <span className='text-[#EC4899]'>*</span>
 								</label>
 								<input
 									type='text'
 									name='title'
 									value={videoData.title}
 									onChange={handleVideoInputChange}
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
+									placeholder='e.g., Introduction to the Course'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
 									required
 								/>
 							</div>
 							<div>
-								<label className='block text-white mb-2 text-sm'>
+								<label className='block text-white mb-2 text-sm font-medium'>
 									Description
 								</label>
 								<textarea
 									name='description'
 									value={videoData.description}
 									onChange={handleVideoInputChange}
-									className='w-full px-4 py-2 bg-gray-900 border border-gray-700 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-blue-500'
-									rows='2'></textarea>
+									placeholder='Describe the video content...'
+									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent resize-none transition-all'
+									rows='3'></textarea>
 							</div>
 
-							{/* Video Upload */}
-							<VideoUpload
-								existingVideo={videoData.url}
-								onUploadSuccess={(uploadedVideoData) => {
-									setVideoData({
-										...videoData,
-										url: uploadedVideoData.url,
-										publicId: uploadedVideoData.publicId,
-										duration: uploadedVideoData.duration || "",
-									});
-								}}
-							/>
+							{/* Video Source Selection */}
+							<div className='bg-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.2)] rounded-xl p-5'>
+								<label className='block text-white mb-3 text-sm font-medium flex items-center'>
+									<svg className='w-5 h-5 mr-2 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z'/>
+									</svg>
+									Video Source <span className='text-[#EC4899] ml-1'>*</span>
+								</label>
+								
+								{/* Toggle between Upload and URL */}
+								<div className='flex gap-2 mb-4'>
+									<button
+										type='button'
+										onClick={() => setVideoData({...videoData, uploadMethod: 'upload', url: '', publicId: ''})}
+										className={`flex-1 px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${
+											(videoData.uploadMethod || 'upload') === 'upload'
+												? 'bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] text-white shadow-[0_4px_12px_rgba(139,92,246,0.3)]'
+												: 'bg-[rgba(139,92,246,0.1)] border border-[rgba(139,92,246,0.3)] text-[#C7C3D6] hover:text-white'
+										}`}>
+										Upload Video
+									</button>
+									<button
+										type='button'
+										onClick={() => setVideoData({...videoData, uploadMethod: 'url', publicId: ''})}
+										className={`flex-1 px-4 py-2.5 rounded-lg font-semibold transition-all duration-300 ${
+											videoData.uploadMethod === 'url'
+												? 'bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] text-white shadow-[0_4px_12px_rgba(139,92,246,0.3)]'
+												: 'bg-[rgba(139,92,246,0.1)] border border-[rgba(139,92,246,0.3)] text-[#C7C3D6] hover:text-white'
+										}`}>
+										Video URL
+									</button>
+								</div>
 
-							<div className='flex space-x-4'>
+								{/* Video Upload or URL Input */}
+								{videoData.uploadMethod === 'url' ? (
+									<div>
+										<input
+											type='url'
+											placeholder='https://example.com/video.mp4 or YouTube/Vimeo URL'
+											value={videoData.url || ''}
+											onChange={(e) => setVideoData({...videoData, url: e.target.value})}
+											className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
+										/>
+										<p className='text-xs text-[#9A93B5] mt-2'>
+											Paste a direct video link, YouTube URL, or Vimeo URL
+										</p>
+									</div>
+								) : (
+									<VideoUpload
+										existingVideo={videoData.url}
+										onUploadSuccess={(uploadedVideoData) => {
+											setVideoData({
+												...videoData,
+												url: uploadedVideoData.url,
+												publicId: uploadedVideoData.publicId,
+												duration: uploadedVideoData.duration || "",
+											});
+										}}
+									/>
+								)}
+							</div>
+
+							<div className='flex flex-col sm:flex-row gap-3 pt-4'>
 								<button
 									onClick={handleAddVideoToModule}
-									disabled={!videoData.url}
-									className='flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition duration-200 font-semibold disabled:opacity-50 disabled:cursor-not-allowed'>
+									disabled={!videoData.url || !videoData.title}
+									className='flex-1 px-6 py-4 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] disabled:from-gray-600 disabled:to-gray-700 text-white rounded-xl transition-all duration-300 font-bold text-lg shadow-[0_8px_24px_rgba(59,130,246,0.4)] hover:shadow-[0_12px_32px_rgba(59,130,246,0.5)] disabled:shadow-none disabled:cursor-not-allowed hover:scale-105 active:scale-100 disabled:hover:scale-100'>
 									Add Video
 								</button>
 								<button
@@ -1150,7 +1507,7 @@ export default function InstructorDashboard() {
 											order: 1,
 										});
 									}}
-									className='px-6 py-3 bg-gray-700 hover:bg-gray-600 text-white rounded-lg transition duration-200'>
+									className='px-6 py-4 bg-transparent border-2 border-[rgba(139,92,246,0.3)] hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] text-white rounded-xl transition-all duration-300 font-semibold'>
 									Cancel
 								</button>
 							</div>

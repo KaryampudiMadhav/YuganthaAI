@@ -60,21 +60,14 @@ export default function SignupPage() {
 					<Link
 						to='/'
 						className='inline-flex items-center space-x-2 mb-4 md:mb-6'>
-						<svg
-							className='w-10 h-10 md:w-12 md:h-12'
-							viewBox='0 0 50 50'
-							fill='none'>
-							<path
-								d='M10 40 L25 10 L40 40 M15 35 L35 35'
-								stroke='white'
-								strokeWidth='3'
-								strokeLinecap='round'
-								strokeLinejoin='round'
-							/>
-						</svg>
+						<img 
+							src='/yugantha-logo.png' 
+							alt='Yugantha AI' 
+							className='w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:scale-110'
+						/>
 						<div className='text-2xl font-bold text-white'>
-							<span>Mero</span>
-							<span className='text-blue-400'>sphere</span>
+							<span className='text-white'>Yugantha</span>
+							<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
 						</div>
 					</Link>
 					<h1 className='text-3xl font-bold text-white mb-2'>

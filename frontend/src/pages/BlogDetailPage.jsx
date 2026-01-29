@@ -73,11 +73,14 @@ export default function BlogDetailPage() {
 			<nav className='bg-[#0a0a0a] border-b border-gray-800 sticky top-0 z-50'>
 				<div className='max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between'>
 					<Link to='/' className='flex items-center space-x-2 group'>
-						<div className='w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center'>
-							<span className='text-white font-bold text-xl'>M</span>
-						</div>
+						<img 
+							src='/yugantha-logo.png' 
+							alt='Yugantha AI' 
+							className='w-8 h-8 transition-transform group-hover:scale-110'
+						/>
 						<span className='text-xl font-bold text-white'>
-							Mero<span className='bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent'>sphere</span>
+							<span className='text-white'>Yugantha</span>
+							<span className='bg-gradient-to-r from-purple-500 to-pink-500 bg-clip-text text-transparent'>AI</span>
 						</span>
 					</Link>
 					<div className='flex items-center space-x-4'>

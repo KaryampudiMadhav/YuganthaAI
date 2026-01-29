@@ -213,8 +213,16 @@ export default function Navbar() {
 							className='px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] rounded-lg transition-all duration-200'>
 							Learning Paths
 						</Link>
+						<Link							to='/mentorships'
+							className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
+							Your Mentorship Sessions
+						</Link>
 						<Link
-							to='/courses'
+							to='/mentorships/book'
+							className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
+							Book Mentorship
+						</Link>
+						<Link							to='/courses'
 							className='px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] rounded-lg transition-all duration-200'>
 							Programs
 						</Link>

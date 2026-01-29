@@ -8,30 +8,11 @@ export default function Footer() {
 					{/* Logo and Description */}
 					<div className='col-span-1 md:col-span-2'>
 						<Link to='/' className='flex items-center space-x-3 mb-6 group'>
-							<svg
+							<img 
+								src='/yugantha-logo.png' 
+								alt='Yugantha AI' 
 								className='w-10 h-10 transition-transform group-hover:scale-110'
-								viewBox='0 0 50 50'
-								fill='none'>
-								<defs>
-									<linearGradient
-										id='footerLogoGradient'
-										x1='0%'
-										y1='0%'
-										x2='100%'
-										y2='100%'>
-										<stop offset='0%' stopColor='#8B5CF6' />
-										<stop offset='50%' stopColor='#A855F7' />
-										<stop offset='100%' stopColor='#EC4899' />
-									</linearGradient>
-								</defs>
-								<path
-									d='M10 40 L25 10 L40 40 M15 35 L35 35'
-									stroke='url(#footerLogoGradient)'
-									strokeWidth='3'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-								/>
-							</svg>
+							/>
 							<div className='text-2xl font-bold'>
 								<span className='text-white'>Yugantha</span>
 								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>

@@ -33,12 +33,28 @@ const mentorshipSessionSchema = new mongoose.Schema({
 	},
 	status: {
 		type: String,
-		enum: ["upcoming", "completed", "cancelled"],
+		enum: ["upcoming", "completed", "cancelled", "rejected", "rescheduled"],
 		default: "upcoming",
 	},
 	bookedDate: {
 		type: Date,
 		default: Date.now,
+	},
+	rejectionReason: {
+		type: String,
+		default: "",
+	},
+	rescheduleReason: {
+		type: String,
+		default: "",
+	},
+	originalDate: {
+		type: String,
+		default: "",
+	},
+	originalTime: {
+		type: String,
+		default: "",
 	},
 }, {
 	timestamps: true,

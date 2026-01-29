@@ -128,7 +128,7 @@ export default function CoursesPage() {
 	];
 
 	return (
-		<div className='min-h-screen bg-[#1a1a1a] text-white pt-20'>
+		<div className='min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-20'>
 			{/* Hero Section */}
 		<section className='px-4 md:px-6 py-12 md:py-16 relative overflow-hidden'>
 			<div className='max-w-7xl mx-auto'>
@@ -136,8 +136,8 @@ export default function CoursesPage() {
 					{/* Left Content */}
 					<div className='flex-1'>
 						<h1 className='text-4xl md:text-6xl font-bold mb-6'>
-								<span className='text-red-500'>Free </span>
-								<span className='bg-gradient-to-r from-red-500 via-purple-500 to-blue-500 bg-clip-text text-transparent'>
+								<span className='text-[#EC4899]'>Free </span>
+								<span className='bg-gradient-to-r from-[#A855F7] via-[#EC4899] to-[#D946EF] bg-clip-text text-transparent'>
 									Courses
 								</span>
 							</h1>
@@ -194,7 +194,7 @@ export default function CoursesPage() {
 								placeholder='Search Course'
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className='w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 pl-10 text-white placeholder-gray-500 focus:outline-none focus:border-blue-500'
+								className='w-full bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-3 pl-10 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300'
 							/>
 							<svg
 								className='absolute left-3 top-3.5 w-5 h-5 text-gray-500'
@@ -212,13 +212,13 @@ export default function CoursesPage() {
 					</div>
 
 					{/* Tabs */}
-				<div className='flex flex-wrap space-x-4 md:space-x-8 mb-8 border-b border-gray-800'>
+				<div className='flex flex-wrap space-x-4 md:space-x-8 mb-8 border-b border-[rgba(139,92,246,0.2)]'>
 						<button
 							onClick={() => setSelectedTab("all")}
 							className={`pb-3 px-2 font-medium transition ${
 								selectedTab === "all"
-									? "text-white border-b-2 border-white"
-									: "text-gray-400 hover:text-gray-300"
+									? "text-white border-b-2 border-[#8B5CF6]"
+									: "text-[#C7C3D6] hover:text-white"
 							}`}>
 							All
 						</button>
@@ -226,8 +226,8 @@ export default function CoursesPage() {
 							onClick={() => setSelectedTab("courses")}
 							className={`pb-3 px-2 font-medium transition ${
 								selectedTab === "courses"
-									? "text-white border-b-2 border-white"
-									: "text-gray-400 hover:text-gray-300"
+									? "text-white border-b-2 border-[#8B5CF6]"
+									: "text-[#C7C3D6] hover:text-white"
 							}`}>
 							Courses
 						</button>
@@ -235,8 +235,8 @@ export default function CoursesPage() {
 							onClick={() => setSelectedTab("learning-path")}
 							className={`pb-3 px-2 font-medium transition ${
 								selectedTab === "learning-path"
-									? "text-white border-b-2 border-white"
-									: "text-gray-400 hover:text-gray-300"
+									? "text-white border-b-2 border-[#8B5CF6]"
+									: "text-[#C7C3D6] hover:text-white"
 							}`}>
 							Learning Path
 						</button>
@@ -246,12 +246,12 @@ export default function CoursesPage() {
 				<div className='flex flex-col lg:flex-row gap-8'>
 					{/* Sidebar Filters */}
 					<aside className='lg:w-64 flex-shrink-0'>
-						<div className='bg-gray-900 rounded-lg p-4 md:p-6'>
+						<div className='bg-[rgba(18,9,31,0.6)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-lg p-4 md:p-6'>
 								<div className='flex justify-between items-center mb-6'>
 									<h3 className='font-semibold text-lg'>
 										All Filters
 									</h3>
-									<button className='text-blue-400 text-sm hover:text-blue-300'>
+									<button className='text-[#A855F7] text-sm hover:text-[#EC4899] transition duration-300'>
 										Clear All
 									</button>
 								</div>
@@ -310,7 +310,7 @@ export default function CoursesPage() {
 									{filteredCourses.map((course) => (
 										<div
 											key={course._id}
-											className='bg-gray-900 rounded-lg overflow-hidden hover:shadow-2xl transition group'>
+											className='bg-gradient-to-br from-[rgba(18,9,31,0.8)] to-[rgba(11,6,20,0.8)] border border-[rgba(139,92,246,0.2)] rounded-lg overflow-hidden hover:shadow-[0_8px_32px_rgba(139,92,246,0.3)] hover:border-[rgba(139,92,246,0.4)] transition-all duration-300 group'>
 											{/* Video/Thumbnail Section */}
 											<div className='relative h-48 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900'>
 												{course.videoUrl ? (
@@ -375,11 +375,11 @@ export default function CoursesPage() {
 												<button
 												onClick={() => !enrolledCourseIds.includes(course._id) && handleEnroll(course._id)}
 												disabled={enrolling[course._id] || enrolledCourseIds.includes(course._id)}
-												className={`w-full py-3 rounded-lg font-semibold transition duration-200 ${
-													enrolledCourseIds.includes(course._id)
-														? 'bg-green-600 cursor-default'
-														: 'bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 disabled:from-gray-600 disabled:to-gray-600'
-												} text-white`}>
+										className={`w-full py-3 rounded-lg font-semibold transition duration-300 ${
+											enrolledCourseIds.includes(course._id)
+												? 'bg-green-600 cursor-default'
+												: 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] disabled:opacity-50'
+										} text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)]`}>
 												{enrolledCourseIds.includes(course._id) 
 													? "✓ Enrolled" 
 													: enrolling[course._id] 

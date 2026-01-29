@@ -135,21 +135,14 @@ export default function InstructorRegisterPage() {
 				<div className='bg-white/10 backdrop-blur-lg rounded-2xl p-8 shadow-2xl border border-white/20'>
 					<div className='text-center mb-8'>
 						<div className='flex items-center justify-center space-x-2 mb-4'>
-							<svg
-								className='w-12 h-12'
-								viewBox='0 0 50 50'
-								fill='none'>
-								<path
-									d='M10 40 L25 10 L40 40 M15 35 L35 35'
-									stroke='white'
-									strokeWidth='3'
-									strokeLinecap='round'
-									strokeLinejoin='round'
-								/>
-							</svg>
-							<div className='text-2xl font-bold'>
-								<span className='text-white'>Mero</span>
-								<span className='text-blue-400'>sphere</span>
+						<img 
+							src='/yugantha-logo.png' 
+							alt='Yugantha AI' 
+							className='w-12 h-12'
+						/>
+						<div className='text-2xl font-bold'>
+							<span className='text-white'>Yugantha</span>
+							<span className='bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent'>AI</span>
 							</div>
 						</div>
 						<h2 className='text-3xl font-bold text-white mb-2'>

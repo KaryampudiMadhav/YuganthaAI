@@ -39,27 +39,14 @@ export default function LoginPage() {
 					<Link
 						to='/'
 						className='inline-flex items-center space-x-2 mb-4 md:mb-6 group'>
-						<svg
+						<img 
+							src='/yugantha-logo.png' 
+							alt='Yugantha AI' 
 							className='w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:scale-110'
-							viewBox='0 0 50 50'
-							fill='none'>
-							<defs>
-								<linearGradient id='loginLogoGradient' x1='0%' y1='0%' x2='100%' y2='100%'>
-									<stop offset='0%' stopColor='#8B5CF6' />
-									<stop offset='100%' stopColor='#EC4899' />
-								</linearGradient>
-							</defs>
-							<path
-								d='M10 40 L25 10 L40 40 M15 35 L35 35'
-								stroke='url(#loginLogoGradient)'
-								strokeWidth='3'
-								strokeLinecap='round'
-								strokeLinejoin='round'
-							/>
-						</svg>
+						/>
 						<div className='text-xl md:text-2xl font-bold text-white'>
-							<span>Mero</span>
-							<span className='text-[#A855F7]'>sphere</span>
+							<span className='text-white'>Yugantha</span>
+							<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
 						</div>
 					</Link>
 					<h1 className='text-2xl md:text-3xl font-bold text-white mb-2'>
