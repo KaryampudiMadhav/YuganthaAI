@@ -4,12 +4,14 @@ import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { InstructorProvider } from "./context/InstructorContext";
 import { ScrollToTop } from "./components/ScrollToTop";
-import Navbar from "./components/Navbar";
+import MainNavbar from "./components/MainNavbar";
+import CoursesNavbar from "./components/CoursesNavbar";
 import Hero from "./components/Hero";
 import FreeCourses from "./components/FreeCourses";
 import LearningPaths from "./components/LearningPaths";
 import Footer from "./components/Footer";
 import LoadingSpinner from "./components/LoadingSpinner";
+import LandingPage from "./pages/LandingPage";
 import CoursesPage from "./pages/CoursesPage";
 import CourseDetailPage from "./pages/CourseDetailPage";
 import MyLearningPage from "./pages/MyLearningPage";
@@ -27,8 +29,10 @@ import AdminMentorAssignments from "./pages/AdminMentorAssignments";
 import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
 import BlogsPage from "./pages/BlogsPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
+import AboutPage from "./pages/AboutPage";
+import ContactPage from "./pages/ContactPage";
 
-function HomePage() {
+function CoursesHomePage() {
 	return (
 		<>
 			<Hero />
@@ -41,7 +45,17 @@ function HomePage() {
 function MainLayout({ children }) {
 	return (
 		<>
-			<Navbar />
+			<MainNavbar />
+			{children}
+			<Footer />
+		</>
+	);
+}
+
+function CoursesLayout({ children }) {
+	return (
+		<>
+			<CoursesNavbar />
 			{children}
 			<Footer />
 		</>
@@ -98,65 +112,105 @@ export default function App() {
 								path='/'
 								element={
 									<MainLayout>
-										<HomePage />
+										<LandingPage />
 									</MainLayout>
 								}
 							/>
 							<Route
 								path='/courses'
 								element={
-									<MainLayout>
-										<CoursesPage />
-									</MainLayout>
+									<CoursesLayout>
+										<CoursesHomePage />
+									</CoursesLayout>
 								}
 							/>
 							<Route
-								path='/courses/:id'
+								path='/free-courses'
+						element={
+							<CoursesLayout>
+								<FreeCourses />
+							</CoursesLayout>
+						}
+					/>
+					<Route
+						path='/courses/:id'
 								element={
-									<MainLayout>
+									<CoursesLayout>
 										<CourseDetailPage />
-									</MainLayout>
+									</CoursesLayout>
 								}
 							/>
 							<Route
 								path='/my-learning'
 								element={
-									<MainLayout>
+									<CoursesLayout>
 										<MyLearningPage />
-									</MainLayout>
+									</CoursesLayout>
 								}
 							/>
 							<Route
 								path='/mentorships'
 								element={
-									<MainLayout>
+									<CoursesLayout>
 										<MentorshipPage />
-									</MainLayout>
+									</CoursesLayout>
 								}
 							/>
 							<Route
 								path='/mentorships/book'
 								element={
-									<MainLayout>
+									<CoursesLayout>
 										<MentorshipBookingPage />
-									</MainLayout>
+									</CoursesLayout>
 								}
 							/>
 							<Route
 								path='/profile'
 								element={
-									<MainLayout>
+									<CoursesLayout>
 										<ProfilePage />
-									</MainLayout>
+									</CoursesLayout>
 								}
 							/>
 							<Route
 								path='/blogs'
-								element={<BlogsPage />}
+								element={
+									<MainLayout>
+										<BlogsPage />
+									</MainLayout>
+								}
 							/>
 							<Route
 								path='/blogs/:slug'
-								element={<BlogDetailPage />}
+								element={
+									<MainLayout>
+										<BlogDetailPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/about'
+								element={
+									<MainLayout>
+										<AboutPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/contact'
+								element={
+									<MainLayout>
+										<ContactPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/free-courses'
+								element={
+									<CoursesLayout>
+										<CoursesPage />
+									</CoursesLayout>
+								}
 							/>
 							<Route path='/login' element={<LoginPage />} />
 							<Route path='/signup' element={<SignupPage />} />
@@ -185,3 +239,4 @@ export default function App() {
 		</AuthProvider>
 	);
 }
+

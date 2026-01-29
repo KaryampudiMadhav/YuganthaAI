@@ -18,6 +18,8 @@ export default function Navbar() {
 		},
 		{ label: "Free Courses", to: "/courses" },
 		{ label: "Blogs", to: "/blogs" },
+		{ label: "About Us", to: "/about" },
+		{ label: "Contact", to: "/contact" },
 	];
 
 	const handleNavClick = () => {

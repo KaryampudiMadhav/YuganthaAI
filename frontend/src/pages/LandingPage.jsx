@@ -1,0 +1,340 @@
+import { useState } from "react";
+import { Link } from "react-router-dom";
+
+export default function LandingPage() {
+	const [email, setEmail] = useState("");
+
+	const handleNewsletterSubmit = (e) => {
+		e.preventDefault();
+		console.log("Newsletter subscribe email:", email);
+		setEmail("");
+	};
+
+	return (
+		<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+			{/* Hero Section */}
+			<div className="relative min-h-screen flex items-center overflow-hidden">
+				{/* Animated Background */}
+				<div className="absolute inset-0 bg-gradient-to-r from-[#1a0f3a] via-[#2563EB] to-[#1E88E5] opacity-90"></div>
+				<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-20"></div>
+				
+				{/* Floating Animation Elements */}
+				<div className="absolute inset-0 overflow-hidden">
+					<div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
+					<div className="absolute top-40 right-10 w-32 h-32 bg-blue-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-2000"></div>
+					<div className="absolute bottom-20 left-20 w-32 h-32 bg-cyan-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob animation-delay-4000"></div>
+				</div>
+
+				<div className="max-w-7xl mx-auto px-4 md:px-6 py-20 relative z-10">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						{/* Left Content */}
+						<div>
+							<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+								Empowering Tomorrow's <span className="text-[#00D4FF]">Tech Leaders</span>
+							</h1>
+							<p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
+								YuganthaAI provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI designed specifically for college students to excel in the rapidly evolving tech industry.
+							</p>
+							<Link 
+								to="/courses"
+								className="inline-block px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-[0_0_30px_rgba(0,188,212,0.5)] hover:scale-105 transition-all duration-200 text-lg"
+							>
+								Explore Our Courses
+							</Link>
+						</div>
+
+						{/* Right Illustration */}
+						<div className="relative hidden lg:block">
+							<img 
+								src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop" 
+								alt="Students learning" 
+								className="rounded-2xl shadow-2xl"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* What We Do Section */}
+			<div className="py-20 md:py-32">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
+					<div className="text-center mb-16">
+						<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
+							Services To Our Students
+						</p>
+						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+							What We Do ?
+						</h2>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+						{/* MERN Stack */}
+						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+							<div className="mb-6">
+								<img 
+									src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=300&fit=crop" 
+									alt="MERN Stack Development" 
+									className="w-full h-48 object-cover rounded-2xl"
+								/>
+							</div>
+							<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors">
+								MERN Stack Development
+							</h3>
+							<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+								Master full-stack web development with MongoDB, Express.js, React, and Node.js. Build modern, scalable applications from scratch.
+							</p>
+						</div>
+
+						{/* GenAI */}
+						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+							<div className="mb-6">
+								<img 
+									src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop" 
+									alt="Generative AI" 
+									className="w-full h-48 object-cover rounded-2xl"
+								/>
+							</div>
+							<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors">
+								Generative AI
+							</h3>
+							<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+								Dive into the world of AI with hands-on training in GPT models, image generation, and cutting-edge generative AI technologies.
+							</p>
+						</div>
+
+						{/* Agentic AI */}
+						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+							<div className="mb-6">
+								<img 
+									src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop" 
+									alt="Agentic AI" 
+									className="w-full h-48 object-cover rounded-2xl"
+								/>
+							</div>
+							<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors">
+								Agentic AI
+							</h3>
+							<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+								Learn to build intelligent AI agents that can autonomously perform tasks, make decisions, and interact with complex environments.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Why YuganthaAI Section */}
+			<div className="py-20 md:py-32 bg-gradient-to-b from-[#12091F] to-[#0B0614]">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						{/* Left Content */}
+						<div>
+							<p className="text-sm text-[#A855F7] font-semibold mb-4 uppercase tracking-wider">
+								Explore
+							</p>
+							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
+								Why YuganthaAI?
+							</h2>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+								YuganthaAI is a leading technology education platform committed to empowering college students with industry-relevant skills in AI and software development.
+							</p>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+								We offer a unique learning experience for students who want to stay ahead in the rapidly evolving tech landscape.
+							</p>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-8">
+								Our focus on practical, hands-on projects ensures that every student not only learns but masters the skills needed to excel in their careers.
+							</p>
+							<Link 
+								to="/courses"
+								className="inline-block px-8 py-4 border-2 border-[#00BCD4] text-[#00BCD4] font-semibold rounded-full hover:bg-[#00BCD4] hover:text-white transition-all duration-200"
+							>
+								Explore Our Courses
+							</Link>
+						</div>
+
+						{/* Right Illustration */}
+						<div className="relative">
+							<img 
+								src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop" 
+								alt="Students collaborating" 
+								className="rounded-2xl shadow-2xl"
+							/>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Why We Are The Right-Fit Section */}
+			<div className="py-20 md:py-32">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						{/* Left Illustration */}
+						<div className="relative order-2 lg:order-1">
+							<img 
+								src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop" 
+								alt="Learning environment" 
+								className="rounded-2xl shadow-2xl"
+							/>
+						</div>
+
+						{/* Right Content */}
+						<div className="order-1 lg:order-2">
+							<p className="text-sm text-[#A855F7] font-semibold mb-4 uppercase tracking-wider">
+								For You
+							</p>
+							<h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+								Why We Are The Right-Fit?
+							</h2>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+								We bring cutting-edge curriculum and industry expertise to deliver courses that prepare students for real-world challenges. Our teaching methodology focuses on practical implementation and project-based learning.
+							</p>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+								Using the latest tools and frameworks, we create comprehensive, engaging, and career-focused courses. Our quality standards ensure that every student receives top-notch education before certification.
+							</p>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-8">
+								We provide exceptional mentorship and support. Our structured yet flexible approach keeps students engaged and helps ensure they stay on track to achieve their learning goals.
+							</p>
+							<Link 
+								to="/courses"
+								className="inline-block px-8 py-4 border-2 border-[#00BCD4] text-[#00BCD4] font-semibold rounded-full hover:bg-[#00BCD4] hover:text-white transition-all duration-200"
+							>
+								Explore Our Courses
+							</Link>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Video Section */}
+			<div className="py-20 md:py-32 bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						{/* Left Video */}
+						<div className="relative">
+							<div className="relative rounded-3xl overflow-hidden shadow-2xl bg-gradient-to-br from-[#2563EB] to-[#1E40AF] aspect-video flex items-center justify-center">
+								<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop')] bg-cover bg-center opacity-30"></div>
+								<button className="relative w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-transform cursor-pointer z-10">
+									<svg className="w-8 h-8 text-[#2563EB] ml-1" fill="currentColor" viewBox="0 0 24 24">
+										<path d="M8 5v14l11-7z"/>
+									</svg>
+								</button>
+							</div>
+						</div>
+
+						{/* Right Content */}
+						<div>
+							<p className="text-sm text-[#A855F7] font-semibold mb-4 uppercase tracking-wider">
+								Video
+							</p>
+							<h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+								Why Is Learning With YuganthaAI Important?
+							</h2>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+								In today's rapidly evolving tech landscape, staying current with the latest technologies is crucial. Our courses transform the way students learn and prepare for their careers.
+							</p>
+							<p className="text-[#C7C3D6] text-lg leading-relaxed">
+								From foundational concepts to advanced applications, our comprehensive curriculum brings together theory and practice to help students excel in their chosen tech domains.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Testimonials Section */}
+			<div className="py-20 md:py-32">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
+					<div className="text-center mb-16">
+						<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
+							Testimonial
+						</p>
+						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+							What Our Students Say?
+						</h2>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+						{/* Testimonial 1 */}
+						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
+							<div className="mb-6">
+								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
+									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+								</svg>
+							</div>
+							<p className="text-[#C7C3D6] leading-relaxed mb-6">
+								Great course! The MERN stack curriculum was well-structured and the hands-on projects helped me land my first internship. Highly recommend YuganthaAI!
+							</p>
+							<div className="border-t border-[rgba(139,92,246,0.2)] pt-6">
+								<h4 className="text-white font-bold text-lg">Priya Sharma</h4>
+								<p className="text-[#A855F7]">Computer Science Student, IIT Delhi</p>
+							</div>
+						</div>
+
+						{/* Testimonial 2 */}
+						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
+							<div className="mb-6">
+								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
+									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+								</svg>
+							</div>
+							<p className="text-[#C7C3D6] leading-relaxed mb-6">
+								The GenAI course opened up a whole new world for me. The instructors are knowledgeable and the support team is always there to help. Best decision I made!
+							</p>
+							<div className="border-t border-[rgba(139,92,246,0.2)] pt-6">
+								<h4 className="text-white font-bold text-lg">Rahul Verma</h4>
+								<p className="text-[#A855F7]">Engineering Student, BITS Pilani</p>
+							</div>
+						</div>
+
+						{/* Testimonial 3 */}
+						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
+							<div className="mb-6">
+								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
+									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+								</svg>
+							</div>
+							<p className="text-[#C7C3D6] leading-relaxed mb-6">
+								I completed the Agentic AI course and it was amazing! The practical approach and real-world projects gave me confidence to build my own AI applications.
+							</p>
+							<div className="border-t border-[rgba(139,92,246,0.2)] pt-6">
+								<h4 className="text-white font-bold text-lg">Ananya Reddy</h4>
+								<p className="text-[#A855F7]">AI Enthusiast, NIT Warangal</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			{/* Newsletter Section */}
+			<div className="relative py-20 md:py-24 overflow-hidden">
+				<div className="absolute inset-0 bg-gradient-to-r from-[#2D1B69] via-[#1E88E5] to-[#00ACC1]"></div>
+				<div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+					<div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+						<div className="text-center lg:text-left">
+							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+								Subscribe
+							</h2>
+							<p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+								To Our Newsletter
+							</p>
+						</div>
+						<form onSubmit={handleNewsletterSubmit} className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+							<input
+								type="email"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								placeholder="Your Email"
+								required
+								className="px-6 py-4 rounded-full bg-[rgba(255,255,255,0.2)] backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 w-full sm:w-80 text-lg"
+							/>
+							<button
+								type="submit"
+								className="px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-200 text-lg whitespace-nowrap"
+							>
+								Subscribe Now
+							</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	);
+}
