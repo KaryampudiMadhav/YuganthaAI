@@ -28,7 +28,7 @@ export default function LoadingSpinner() {
 				{/* Loading Text */}
 				<div className='flex items-center space-x-2'>
 					<span className='text-2xl font-bold text-white animate-pulse'>
-						Yuganta
+						Yugantha
 					</span>
 					<span className='text-2xl font-bold text-[#A855F7] animate-pulse'>
 						AI
