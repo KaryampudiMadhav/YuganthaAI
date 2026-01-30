@@ -31,7 +31,6 @@ const corsOptions = {
 			...allowedOrigins,
 			'https://yuganthaai.vercel.app',
 			'https://yuganthaai.com',
-			'https://www.yuganthaai.com'
 		]
 		: (process.env.FRONTEND_URL || 'http://localhost:5173').split(',').map(url => url.trim()),
 	credentials: true,

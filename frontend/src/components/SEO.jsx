@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 const SEO = ({ 
-  title = 'YuganthaAI - AI & Technology Learning Platform',
+  title = 'YugantaAI - AI & Technology Learning Platform',
   description = 'Master AI and technology skills with expert-led courses and mentorship programs.',
   keywords = 'AI courses, machine learning, technology training, online learning',
   image = '/yugantha-logo.png',

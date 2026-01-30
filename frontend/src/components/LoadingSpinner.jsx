@@ -20,19 +20,15 @@ export default function LoadingSpinner() {
 				<div className='mb-6'>
 					<img 
 						src='/yugantha-logo.png' 
-						alt='Yugantha AI' 
-						className='w-24 h-24 object-contain animate-pulse'
-					/>
-				</div>
+					alt='Yuganta AI' 
+					className='w-24 h-24 object-contain animate-pulse'
+				/>
+			</div>
 
-				{/* Loading Text */}
-				<div className='flex items-center space-x-2'>
-					<span className='text-2xl font-bold text-white animate-pulse'>
-						Yugantha
-					</span>
-					<span className='text-2xl font-bold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 bg-clip-text text-transparent animate-pulse'>
-						AI
-					</span>
+			{/* Loading Text */}
+			<div className='flex items-center space-x-2'>
+				<span className='text-2xl font-bold text-white animate-pulse'>
+					Yuganta
 				</div>
 
 				{/* Animated Dots */}

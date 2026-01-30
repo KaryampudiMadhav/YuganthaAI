@@ -171,7 +171,7 @@ export default function Footer() {
 				<div className='border-t border-[rgba(139,92,246,0.2)] pt-8'>
 					<div className='flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
 						<p className='text-[#C7C3D6] text-sm'>
-							© {new Date().getFullYear()} YuganthaAI. All rights
+						© {new Date().getFullYear()} YugantaAI. All rights
 							reserved. Built with <span className='text-[#EC4899]'>❤️</span> for learners worldwide.
 						</p>
 						<div className='flex space-x-6 text-sm'>
