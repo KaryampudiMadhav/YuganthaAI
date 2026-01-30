@@ -4,23 +4,23 @@ import { ArrowLeft, Brain, MessageSquare, Zap, Shield } from "lucide-react";
 export default function AIAgentAvatarPage() {
 	const features = [
 		{
-			title: "Natural Conversations",
-			description: "Human-like interactions powered by advanced AI models",
+			title: "Adaptive Learning",
+			description: "Adjusts to each student's pace and confidence level",
 			icon: MessageSquare
 		},
 		{
-			title: "Context Awareness",
-			description: "Understands and remembers conversation context",
+			title: "Emotion-Aware Guidance",
+			description: "Reads student emotions and responds with patient explanations",
 			icon: Brain
 		},
 		{
-			title: "Lightning Fast",
-			description: "Real-time responses with minimal latency",
+			title: "Interactive Media",
+			description: "Uses voice, visuals, and gestures for deeper understanding",
 			icon: Zap
 		},
 		{
-			title: "Secure & Private",
-			description: "Enterprise-grade security and data privacy",
+			title: "Multilingual Support",
+			description: "Supports English and 13 Indian languages for inclusive learning",
 			icon: Shield
 		}
 	];
@@ -28,12 +28,12 @@ export default function AIAgentAvatarPage() {
 	const techStack = ["Python", "TensorFlow", "OpenAI API", "WebRTC", "React", "FastAPI"];
 
 	const useCases = [
-		"Customer Support Automation",
-		"Virtual Personal Assistants",
-		"Educational Tutoring",
-		"Healthcare Consultation",
-		"Sales & Marketing",
-		"HR & Recruitment"
+		"Step-by-step concept guidance",
+		"Textbook-aligned explanations",
+		"Learning in native languages",
+		"Confidence-building mentoring",
+		"Emotion-aware tutoring",
+		"Interactive, engaging lessons"
 	];
 
 	return (
@@ -41,13 +41,7 @@ export default function AIAgentAvatarPage() {
 			{/* Hero Section */}
 			<div className="relative bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] py-20">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
-					<Link 
-						to="/" 
-						className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-8 transition-colors"
-					>
-						<ArrowLeft size={20} />
-						<span>Back to Home</span>
-					</Link>
+					
 					
 					<div className="grid md:grid-cols-2 gap-12 items-center">
 						<div>
@@ -56,28 +50,24 @@ export default function AIAgentAvatarPage() {
 								AI Agent Avatar
 							</h1>
 							<p className="text-xl text-gray-300 mb-8">
-								Next-generation conversational AI with lifelike avatars. Transform customer 
-								interactions with intelligent, empathetic virtual agents.
+								Our AI Learning Mentor adapts to each student’s pace and confidence, explains 
+								concepts patiently, and teaches through interactive media, voice, and emotion-aware guidance.
 							</p>
-							<div className="flex flex-wrap gap-4">
-								<a 
-									href="#" 
-									className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
-								>
-									Try Demo
-								</a>
-								<a 
-									href="#" 
-									className="px-6 py-3 border border-purple-600 hover:bg-purple-600/10 rounded-lg font-semibold transition-colors"
-								>
-									View Documentation
-								</a>
-							</div>
+							<Link 
+								to="/contact" 
+								className="inline-block px-8 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
+							>
+								Learn More
+							</Link>
 						</div>
 						
 						<div className="relative">
-							<div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 flex items-center justify-center">
-								<div className="text-purple-400 text-6xl">🤖</div>
+						<div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 overflow-hidden">
+							<img 
+								src="/chatbotagent.png" 
+								alt="AI Agent Avatar" 
+								className="w-full h-full object-contain bg-[#0a0a0a]"
+							/>
 							</div>
 						</div>
 					</div>
@@ -87,8 +77,8 @@ export default function AIAgentAvatarPage() {
 			{/* Features Section */}
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
 				<div className="text-center mb-16">
-					<h2 className="text-3xl md:text-4xl font-bold mb-4">Powerful Features</h2>
-					<p className="text-gray-400 text-lg">AI-powered capabilities that set us apart</p>
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">What Makes Our AI Mentor Different</h2>
+					<p className="text-gray-400 text-lg">Focused, personal, and inclusive learning for every student</p>
 				</div>
 
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -107,11 +97,44 @@ export default function AIAgentAvatarPage() {
 				</div>
 			</div>
 
+			{/* Why Choose Section */}
+			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20 bg-gradient-to-b from-transparent via-purple-900/5 to-transparent">
+				<div className="text-center mb-16">
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">Accurate, Document-Based Guidance</h2>
+					<p className="text-gray-400 text-lg">Learning directly from textbooks and uploaded PDFs</p>
+				</div>
+				<div className="grid md:grid-cols-2 gap-12 items-center">
+					<div className="space-y-6">
+						<div className="p-6 bg-gradient-to-br from-blue-900/20 to-transparent border border-blue-500/20 rounded-xl">
+							<h3 className="text-xl font-semibold mb-2 text-blue-300">Syllabus-Focused Learning</h3>
+							<p className="text-gray-300">Explains concepts directly from textbooks, ensuring confusion-free learning aligned with your school curriculum.</p>
+						</div>
+						<div className="p-6 bg-gradient-to-br from-green-900/20 to-transparent border border-green-500/20 rounded-xl">
+							<h3 className="text-xl font-semibold mb-2 text-green-300">Emotion-Aware Intelligence</h3>
+							<p className="text-gray-300">Understands student emotions using realistic facial expressions, lip-sync, and gestures to explain in an engaging, human-like way.</p>
+						</div>
+						<div className="p-6 bg-gradient-to-br from-cyan-900/20 to-transparent border border-cyan-500/20 rounded-xl">
+							<h3 className="text-xl font-semibold mb-2 text-cyan-300">Multilingual Learning (14 Languages)</h3>
+							<p className="text-gray-300">Supports English and 13 Indian languages, allowing students to learn comfortably in their mother tongue without barriers.</p>
+						</div>
+					</div>
+					<div className="relative">
+						<div className="aspect-square bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 flex items-center justify-center">
+							<div className="text-center">
+								<div className="text-6xl mb-4">📚</div>
+								<p className="text-purple-300 font-semibold">AI-Powered Learning</p>
+								<p className="text-gray-400 text-sm mt-2">Personalized Mentoring</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
 			{/* Use Cases Section */}
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20 border-t border-purple-500/10">
 				<div className="text-center mb-12">
-					<h2 className="text-3xl md:text-4xl font-bold mb-4">Use Cases</h2>
-					<p className="text-gray-400 text-lg">Versatile applications across industries</p>
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">True Mentor Experience</h2>
+					<p className="text-gray-400 text-lg">Guides students step by step with empathy and clarity</p>
 				</div>
 
 				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -130,7 +153,7 @@ export default function AIAgentAvatarPage() {
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20 border-t border-purple-500/10">
 				<div className="text-center mb-12">
 					<h2 className="text-3xl md:text-4xl font-bold mb-4">Technology Stack</h2>
-					<p className="text-gray-400 text-lg">Cutting-edge AI and ML technologies</p>
+					<p className="text-gray-400 text-lg">Built for real-time, multilingual, emotion-aware learning</p>
 				</div>
 
 				<div className="flex flex-wrap justify-center gap-4">
@@ -149,10 +172,10 @@ export default function AIAgentAvatarPage() {
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
 				<div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 p-12 text-center">
 					<h2 className="text-3xl md:text-4xl font-bold mb-4">
-						Ready to Deploy AI Avatars?
+						Ready to Transform Learning?
 					</h2>
 					<p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-						Contact us to integrate intelligent conversational agents into your platform.
+						Give every student a personal AI mentor with emotion-aware, multilingual guidance.
 					</p>
 					<Link 
 						to="/contact" 

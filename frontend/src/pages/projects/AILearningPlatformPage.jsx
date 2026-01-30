@@ -44,13 +44,6 @@ export default function AILearningPlatformPage() {
 			{/* Hero Section */}
 			<div className="relative bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] py-20">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
-					<Link 
-						to="/" 
-						className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-8 transition-colors"
-					>
-						<ArrowLeft size={20} />
-						<span>Back to Home</span>
-					</Link>
 					
 					<div className="grid md:grid-cols-2 gap-12 items-center">
 						<div>
@@ -83,22 +76,13 @@ export default function AILearningPlatformPage() {
 						</div>
 						
 						<div className="relative">
-							<div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 overflow-hidden cursor-pointer group relative"
-								onClick={() => setShowVideo(true)}
-							>
-								<img 
-									src="/learnings.png" 
-									alt="AI Learning Platform Interface" 
+							<div className="aspect-video bg-black rounded-2xl border border-purple-500/20 overflow-hidden">
+								<video
 									className="w-full h-full object-cover"
+									src="/AILEarningVideo.mp4"
+									controls
+									title="AI Learning Platform Preview"
 								/>
-								<div className="absolute inset-0 bg-black/40 group-hover:bg-black/60 transition-all flex items-center justify-center">
-									<div className="text-center">
-										<div className="w-20 h-20 bg-purple-600/30 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:bg-purple-600/50 transition-all">
-											<Play className="text-purple-400 ml-1" size={32} />
-										</div>
-										<p className="text-purple-300">Click to watch preview</p>
-									</div>
-								</div>
 							</div>
 						</div>
 					</div>
@@ -212,7 +196,7 @@ export default function AILearningPlatformPage() {
 						</button>
 						<video
 							className="w-full h-full"
-							src="/AILearningvideo.mp4"
+							src="/AILEarningVideo.mp4"
 							controls
 							autoPlay
 							title="AI Learning Platform Preview"
