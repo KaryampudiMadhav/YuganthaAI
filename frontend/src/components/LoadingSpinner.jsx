@@ -29,9 +29,10 @@ export default function LoadingSpinner() {
 			<div className='flex items-center space-x-2'>
 				<span className='text-2xl font-bold text-white animate-pulse'>
 					Yuganta
-				</div>
+				</span>
+			</div>
 
-				{/* Animated Dots */}
+			{/* Animated Dots */}
 				<div className='mt-8 flex space-x-2'>
 					<div
 						className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'
