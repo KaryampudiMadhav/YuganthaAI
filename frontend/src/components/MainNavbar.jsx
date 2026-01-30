@@ -58,15 +58,13 @@ export default function MainNavbar() {
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
 					<img 
-						src='/yugantha-logo.png' 
-						alt='YugantaAI' 
-						className='w-10 h-10 transition-transform group-hover:scale-110'
-					/>
-					<div className='text-lg md:text-xl font-bold'>
-						<span className='text-white'>Yuganta</span>
-						<span className='text-[#A855F7]'>AI</span>
-					</div>
-				</Link>
+					src='/yuganta-logo.png' 
+					alt='YugantaAI' 
+					className='w-10 h-10 transition-transform group-hover:scale-110'
+				/>
+				<div className='text-lg md:text-xl font-bold'>
+					<span className='text-white'>Yuganta</span>				<span className='text-[#A855F7]'>AI</span>
+			</div>				</Link>
 
 				{/* Desktop Navigation */}
 				<div className='hidden md:flex items-center flex-1 justify-center ml-8'>

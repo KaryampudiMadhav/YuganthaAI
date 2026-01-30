@@ -47,7 +47,7 @@ export default function Navbar() {
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
 					<img 
-						src='/yugantha-logo.png' 
+						src='/yuganta-logo.png' 
 						alt='YugantaAI' 
 						className='w-10 h-10 transition-transform group-hover:scale-110'
 					/>
@@ -59,7 +59,6 @@ export default function Navbar() {
 
 				{/* Desktop Navigation */}
 				<div className='hidden md:flex items-center flex-1 justify-center ml-8'>
-					{/* Navigation Links */}
 					<div className='flex items-center gap-6'>
 						{navItems.map((item) => (
 							<Link
@@ -77,86 +76,86 @@ export default function Navbar() {
 				<div className='hidden md:flex items-center gap-4'>
 					{/* Explore Dropdown */}
 					<div className='relative'>
+						<button
+							onClick={() => setShowExplore(!showExplore)}
+							className='flex items-center space-x-2 px-4 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-200 text-sm'>
+							<span>Explore</span>
+							<svg
+								className='w-4 h-4'
+								fill='none'
+								stroke='currentColor'
+								viewBox='0 0 24 24'>
+								<path
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									strokeWidth={2}
+									d='M19 9l-7 7-7-7'
+								/>
+							</svg>
+						</button>
+
+						{showExplore && (
+							<div className='absolute top-full mt-2 bg-[#12091F] border border-[rgba(139,92,246,0.25)] rounded-xl shadow-[0_8px_32px_rgba(139,92,246,0.3)] py-2 w-48 right-0 backdrop-blur-sm'>
+								<Link
+									to='/my-learning'
+									className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
+									Learning Paths
+								</Link>
+								<Link
+									to='/courses'
+									className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
+									Programs
+								</Link>
+							</div>
+						)}
+					</div>
+
+					{/* User Menu */}
+					{isAuthenticated ? (
+						<div className='relative'>
 							<button
-								onClick={() => setShowExplore(!showExplore)}
-								className='flex items-center space-x-2 px-4 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-200 text-sm'>
-								<span>Explore</span>
-								<svg
-									className='w-4 h-4'
-									fill='none'
-									stroke='currentColor'
-									viewBox='0 0 24 24'>
-									<path
-										strokeLinecap='round'
-										strokeLinejoin='round'
-										strokeWidth={2}
-										d='M19 9l-7 7-7-7'
-									/>
-								</svg>
+								onClick={() =>
+									setShowProfileMenu(!showProfileMenu)
+								}
+								className='w-[50px] h-[50px] bg-gradient-to-br from-[#8B5CF6] to-[#EC4899] rounded-full flex items-center justify-center text-lg font-bold text-white shadow-[0_4px_20px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_30px_rgba(139,92,246,0.6)] hover:scale-105 transition-all duration-200'>
+								{user?.fullName?.charAt(0).toUpperCase()}
 							</button>
 
-							{showExplore && (
-								<div className='absolute top-full mt-2 bg-[#12091F] border border-[rgba(139,92,246,0.25)] rounded-xl shadow-[0_8px_32px_rgba(139,92,246,0.3)] py-2 w-48 right-0 backdrop-blur-sm'>
+							{showProfileMenu && (
+								<div className='absolute top-full right-0 mt-2 bg-[#12091F] border border-[rgba(139,92,246,0.25)] rounded-xl shadow-[0_8px_32px_rgba(139,92,246,0.3)] py-2 w-48 backdrop-blur-sm'>
 									<Link
 										to='/my-learning'
+										onClick={() =>
+											setShowProfileMenu(false)
+										}
 										className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
-										Learning Paths
+										Registered Courses
 									</Link>
-											<Link
-												to='/courses'
-												className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
-												Programs
-											</Link>
+									<Link
+										to='/profile'
+										onClick={() =>
+											setShowProfileMenu(false)
+										}
+										className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
+										Edit Profile
+									</Link>
+									<div className='border-t border-[rgba(139,92,246,0.2)] my-2'></div>
+									<button
+										onClick={handleLogout}
+										className='w-full text-left px-4 py-2 text-[#EC4899] hover:bg-[rgba(236,72,153,0.15)] hover:text-[#D946EF] transition-all duration-200'>
+										Logout
+									</button>
 								</div>
 							)}
 						</div>
-
-						{/* User Menu */}
-						{isAuthenticated ? (
-							<div className='relative'>
-								<button
-									onClick={() =>
-										setShowProfileMenu(!showProfileMenu)
-									}
-									className='w-[50px] h-[50px] bg-gradient-to-br from-[#8B5CF6] to-[#EC4899] rounded-full flex items-center justify-center text-lg font-bold text-white shadow-[0_4px_20px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_30px_rgba(139,92,246,0.6)] hover:scale-105 transition-all duration-200'>
-									{user?.fullName?.charAt(0).toUpperCase()}
-								</button>
-
-								{showProfileMenu && (
-									<div className='absolute top-full right-0 mt-2 bg-[#12091F] border border-[rgba(139,92,246,0.25)] rounded-xl shadow-[0_8px_32px_rgba(139,92,246,0.3)] py-2 w-48 backdrop-blur-sm'>
-										<Link
-											to='/my-learning'
-											onClick={() =>
-												setShowProfileMenu(false)
-											}
-											className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
-											Registered Courses
-										</Link>
-										<Link
-											to='/profile'
-											onClick={() =>
-												setShowProfileMenu(false)
-											}
-											className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
-											Edit Profile
-										</Link>
-										<div className='border-t border-[rgba(139,92,246,0.2)] my-2'></div>
-										<button
-											onClick={handleLogout}
-											className='w-full text-left px-4 py-2 text-[#EC4899] hover:bg-[rgba(236,72,153,0.15)] hover:text-[#D946EF] transition-all duration-200'>
-											Logout
-										</button>
-									</div>
-								)}
-							</div>
-						) : (
-							<Link
-								to='/login'
-								className='px-6 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-200 text-sm'>
-								Login
-							</Link>
-						)}
-					</div>
+					) : (
+						<Link
+							to='/login'
+							className='px-6 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] hover:shadow-[0_0_20px_rgba(139,92,246,0.3)] transition-all duration-200 text-sm'>
+							Login
+						</Link>
+					)}
+				</div>
 
 				{/* Mobile Menu Button */}
 				<button
@@ -210,7 +209,8 @@ export default function Navbar() {
 							className='px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] rounded-lg transition-all duration-200'>
 							Learning Paths
 						</Link>
-						<Link							to='/mentorships'
+						<Link
+							to='/mentorships'
 							className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
 							Your Mentorship Sessions
 						</Link>
@@ -219,7 +219,8 @@ export default function Navbar() {
 							className='block px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] transition-all duration-200'>
 							Book Mentorship
 						</Link>
-						<Link							to='/courses'
+						<Link
+							to='/courses'
 							className='px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] rounded-lg transition-all duration-200'>
 							Programs
 						</Link>

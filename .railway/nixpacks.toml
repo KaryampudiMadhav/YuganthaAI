@@ -1,6 +1,0 @@
-[phases.setup]
-# Use npm 10 + Node 20 on Railway Nixpacks
-nixPkgs = ["nodejs_20", "nodePackages.npm"]
-
-[variables]
-NPM_CONFIG_PRODUCTION = "false"
