@@ -25,7 +25,27 @@ export default function CoursesPage() {
 		try {
 			const response = await fetch(`${API_URL}/api/courses`);
 			const data = await response.json();
-			setCourses(data);
+
+			// Process data as per requirements
+			const processedData = data
+				.filter(course => course.category !== "Cloud Computing")
+				.map((course, index) => {
+					let title = course.title;
+					if (index === 0) title = "AI Agents Masterclass"; // Placeholder 1
+					if (index === 1) title = "Generative AI Complete Course"; // Placeholder 2
+
+					return {
+						...course,
+						title: title,
+						students: 500,
+						rating: 4.4,
+						instructor: "Yuganta AI Team",
+						// Ensure price display logic downstream doesn't show "Free"
+						// We'll handle the button text separately, but we can normalise data here
+					};
+				});
+
+			setCourses(processedData);
 			setLoading(false);
 		} catch (error) {
 			console.error("Error fetching courses:", error);
@@ -131,28 +151,27 @@ export default function CoursesPage() {
 	return (
 		<div className='min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-20'>
 			{/* Hero Section */}
-		<section className='px-4 md:px-6 py-12 md:py-16 relative overflow-hidden'>
-			<div className='max-w-7xl mx-auto'>
-				<div className='flex flex-col lg:flex-row items-center justify-between gap-12'>
-					{/* Left Content */}
-					<div className='flex-1'>
-						<h1 className='text-4xl md:text-6xl font-bold mb-6'>
-								<span className='text-[#EC4899]'>Free </span>
+			<section className='px-4 md:px-6 py-12 md:py-16 relative overflow-hidden'>
+				<div className='max-w-7xl mx-auto'>
+					<div className='flex flex-col lg:flex-row items-center justify-between gap-12'>
+						{/* Left Content */}
+						<div className='flex-1'>
+							<h1 className='text-4xl md:text-6xl font-bold mb-6'>
 								<span className='bg-gradient-to-r from-[#A855F7] via-[#EC4899] to-[#D946EF] bg-clip-text text-transparent'>
 									Courses
 								</span>
 							</h1>
 
 							<p className='text-gray-300 text-lg mb-12 max-w-xl'>
-								Kickstart your AI career with free foundational
+								Kickstart your AI career with foundational
 								tracks and skill-specific short courses, all
 								taught by leading experts in the field.
 							</p>
 
 							{/* Statistics */}
-						<div className='flex flex-wrap gap-6 md:gap-12 mb-12'>
-							<div>
-								<div className='text-3xl md:text-4xl font-bold mb-2'>
+							<div className='flex flex-wrap gap-6 md:gap-12 mb-12'>
+								<div>
+									<div className='text-3xl md:text-4xl font-bold mb-2'>
 										1.3M+
 									</div>
 									<div className='text-gray-400'>
@@ -161,7 +180,7 @@ export default function CoursesPage() {
 								</div>
 								<div>
 									<div className='text-4xl font-bold mb-2'>
-										4.5+
+										4.4
 									</div>
 									<div className='text-gray-400'>
 										Average Rating
@@ -177,7 +196,7 @@ export default function CoursesPage() {
 						</div>
 
 						{/* Right Side - Animated Image Grid */}
-					<div className='flex-1 relative h-[300px] md:h-[500px] w-full max-w-lg'>
+						<div className='flex-1 relative h-[300px] md:h-[500px] w-full max-w-lg'>
 							<ImageSlider images={sliderImages} />
 						</div>
 					</div>
@@ -185,7 +204,7 @@ export default function CoursesPage() {
 			</section>
 
 			{/* Search and Filters Section */}
-		<section className='px-4 md:px-6 py-8 border-t border-gray-800'>
+			<section className='px-4 md:px-6 py-8 border-t border-gray-800'>
 				<div className='max-w-7xl mx-auto'>
 					{/* Search Bar */}
 					<div className='mb-6'>
@@ -213,41 +232,38 @@ export default function CoursesPage() {
 					</div>
 
 					{/* Tabs */}
-				<div className='flex flex-wrap space-x-4 md:space-x-8 mb-8 border-b border-[rgba(139,92,246,0.2)]'>
+					<div className='flex flex-wrap space-x-4 md:space-x-8 mb-8 border-b border-[rgba(139,92,246,0.2)]'>
 						<button
 							onClick={() => setSelectedTab("all")}
-							className={`pb-3 px-2 font-medium transition ${
-								selectedTab === "all"
-									? "text-white border-b-2 border-[#8B5CF6]"
-									: "text-[#C7C3D6] hover:text-white"
-							}`}>
+							className={`pb-3 px-2 font-medium transition ${selectedTab === "all"
+								? "text-white border-b-2 border-[#8B5CF6]"
+								: "text-[#C7C3D6] hover:text-white"
+								}`}>
 							All
 						</button>
 						<button
 							onClick={() => setSelectedTab("courses")}
-							className={`pb-3 px-2 font-medium transition ${
-								selectedTab === "courses"
-									? "text-white border-b-2 border-[#8B5CF6]"
-									: "text-[#C7C3D6] hover:text-white"
-							}`}>
+							className={`pb-3 px-2 font-medium transition ${selectedTab === "courses"
+								? "text-white border-b-2 border-[#8B5CF6]"
+								: "text-[#C7C3D6] hover:text-white"
+								}`}>
 							Courses
 						</button>
 						<button
 							onClick={() => setSelectedTab("learning-path")}
-							className={`pb-3 px-2 font-medium transition ${
-								selectedTab === "learning-path"
-									? "text-white border-b-2 border-[#8B5CF6]"
-									: "text-[#C7C3D6] hover:text-white"
-							}`}>
+							className={`pb-3 px-2 font-medium transition ${selectedTab === "learning-path"
+								? "text-white border-b-2 border-[#8B5CF6]"
+								: "text-[#C7C3D6] hover:text-white"
+								}`}>
 							Learning Path
 						</button>
 					</div>
 
 					{/* Courses Grid with Sidebar */}
-				<div className='flex flex-col lg:flex-row gap-8'>
-					{/* Sidebar Filters */}
-					<aside className='lg:w-64 flex-shrink-0'>
-						<div className='bg-[rgba(18,9,31,0.6)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-lg p-4 md:p-6'>
+					<div className='flex flex-col lg:flex-row gap-8'>
+						{/* Sidebar Filters */}
+						<aside className='lg:w-64 flex-shrink-0'>
+							<div className='bg-[rgba(18,9,31,0.6)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-lg p-4 md:p-6'>
 								<div className='flex justify-between items-center mb-6'>
 									<h3 className='font-semibold text-lg'>
 										All Filters
@@ -374,20 +390,17 @@ export default function CoursesPage() {
 
 												{/* Enroll Button */}
 												<button
-												onClick={() => !enrolledCourseIds.includes(course._id) && handleEnroll(course._id)}
-												disabled={enrolling[course._id] || enrolledCourseIds.includes(course._id)}
-										className={`w-full py-3 rounded-lg font-semibold transition duration-300 ${
-											enrolledCourseIds.includes(course._id)
-												? 'bg-green-600 cursor-default'
-												: 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] disabled:opacity-50'
-										} text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)]`}>
-												{enrolledCourseIds.includes(course._id) 
-													? "✓ Enrolled" 
-													: enrolling[course._id] 
-														? "Enrolling..." 
-														: course.price === "Free" 
-															? "Enroll for Free" 
-															: `Enroll for $${course.price}`}
+													onClick={() => !enrolledCourseIds.includes(course._id) && handleEnroll(course._id)}
+													disabled={enrolling[course._id] || enrolledCourseIds.includes(course._id)}
+													className={`w-full py-3 rounded-lg font-semibold transition duration-300 ${enrolledCourseIds.includes(course._id)
+														? 'bg-green-600 cursor-default'
+														: 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] disabled:opacity-50'
+														} text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)]`}>
+													{enrolledCourseIds.includes(course._id)
+														? "✓ Enrolled"
+														: enrolling[course._id]
+															? "Enrolling..."
+															: "Enroll"}
 												</button>
 											</div>
 										</div>
@@ -401,7 +414,6 @@ export default function CoursesPage() {
 		</div>
 	);
 }
-
 // Image Slider Component with Animation
 function ImageSlider({ images }) {
 	const [positions, setPositions] = useState(() =>
@@ -439,9 +451,8 @@ function ImageSlider({ images }) {
 					style={{
 						left: `${positions[index]?.x || 0}%`,
 						top: `${positions[index]?.y || 0}%`,
-						transform: `rotate(${
-							positions[index]?.rotation || 0
-						}deg) scale(${positions[index]?.scale || 1})`,
+						transform: `rotate(${positions[index]?.rotation || 0
+							}deg) scale(${positions[index]?.scale || 1})`,
 						transitionDelay: `${positions[index]?.delay || 0}s`,
 						zIndex: index,
 					}}>

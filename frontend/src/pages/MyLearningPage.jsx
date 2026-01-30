@@ -37,7 +37,7 @@ export default function MyLearningPage() {
 			}
 
 			const data = await response.json();
-			
+
 			// Extract course data from enrollment objects
 			const courses = data.map(enrollment => ({
 				...enrollment.courseId,
@@ -46,7 +46,7 @@ export default function MyLearningPage() {
 				completed: enrollment.completed,
 				enrolledAt: enrollment.enrolledAt,
 			}));
-			
+
 			setEnrolledCourses(courses);
 			setLoading(false);
 		} catch (error) {
@@ -56,7 +56,7 @@ export default function MyLearningPage() {
 	};
 
 	const featuredCourse = enrolledCourses[0];
-	
+
 	// Calculate total hours and courses for each learning path
 	const calculateCourseStats = (course) => {
 		const totalVideos = course.modules?.reduce(
@@ -75,7 +75,7 @@ export default function MyLearningPage() {
 
 	// Filter courses based on search and selected tab
 	const getFilteredCourses = () => {
-		let filtered = enrolledCourses.filter(course => 
+		let filtered = enrolledCourses.filter(course =>
 			course.title.toLowerCase().includes(searchQuery.toLowerCase())
 		);
 
@@ -160,18 +160,18 @@ export default function MyLearningPage() {
 									<p className='text-gray-400 mb-8'>
 										Mentorship sessions completed · {calculateCourseStats(featuredCourse).totalVideos}
 									</p>
-										<div className='flex flex-col sm:flex-row gap-3 sm:space-x-4'>
-											<Link
-												to={`/courses/${featuredCourse._id}`}
-												className='px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition'>
-												Resume Learning
-											</Link>
-											<Link
-												to='/mentorships'
-												className='px-6 py-3 border border-gray-400 rounded-lg font-semibold hover:bg-white/10 transition'>
-												My Mentorships
-											</Link>
-										</div>
+									<div className='flex flex-col sm:flex-row gap-3 sm:space-x-4'>
+										<Link
+											to={`/courses/${featuredCourse._id}`}
+											className='px-6 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition'>
+											Resume Learning
+										</Link>
+										<Link
+											to='/mentorships'
+											className='px-6 py-3 border border-gray-400 rounded-lg font-semibold hover:bg-white/10 transition'>
+											My Mentorships
+										</Link>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -228,11 +228,11 @@ export default function MyLearningPage() {
 				</section>
 
 				{/* Breadcrumb */}
-				<div className='flex items-center space-x-2 text-sm text-gray-400 mb-6'>
+				<div className='flex items-center space-x-2 text-sm text-gray-400 mb-6 flex-wrap'>
 					<Link to='/my-learning' className='hover:text-white'>
 						Enrolled Programs
 					</Link>
-					<span>&gt;</span>
+					<span className="mx-1">&gt;</span>
 					<span className='text-white'>Course Listing</span>
 				</div>
 
@@ -293,38 +293,34 @@ export default function MyLearningPage() {
 					<div className='flex overflow-x-auto space-x-4 mb-8 border-b border-gray-800 scrollbar-hide'>
 						<button
 							onClick={() => setSelectedTab("all")}
-							className={`pb-3 px-4 font-medium transition ${
-								selectedTab === "all"
+							className={`pb-3 px-4 font-medium transition ${selectedTab === "all"
 									? "text-white border-b-2 border-white"
 									: "text-gray-400 hover:text-gray-300"
-							}`}>
+								}`}>
 							All Courses
 						</button>
 						<button
 							onClick={() => setSelectedTab("completed")}
-							className={`pb-3 px-4 font-medium transition ${
-								selectedTab === "completed"
+							className={`pb-3 px-4 font-medium transition ${selectedTab === "completed"
 									? "text-white border-b-2 border-white"
 									: "text-gray-400 hover:text-gray-300"
-							}`}>
+								}`}>
 							Completed
 						</button>
 						<button
 							onClick={() => setSelectedTab("in-progress")}
-							className={`pb-3 px-4 font-medium transition ${
-								selectedTab === "in-progress"
+							className={`pb-3 px-4 font-medium transition ${selectedTab === "in-progress"
 									? "text-white border-b-2 border-white"
 									: "text-gray-400 hover:text-gray-300"
-							}`}>
+								}`}>
 							In progress
 						</button>
 						<button
 							onClick={() => setSelectedTab("yet-to-start")}
-							className={`pb-3 px-4 font-medium transition ${
-								selectedTab === "yet-to-start"
+							className={`pb-3 px-4 font-medium transition ${selectedTab === "yet-to-start"
 									? "text-white border-b-2 border-white"
 									: "text-gray-400 hover:text-gray-300"
-							}`}>
+								}`}>
 							Yet to start
 						</button>
 					</div>
@@ -421,8 +417,8 @@ export default function MyLearningPage() {
 											{progress === 0
 												? "Start Course"
 												: progress === 100
-												? "Review"
-												: "Continue"}
+													? "Review"
+													: "Continue"}
 										</Link>
 									</div>
 								</div>

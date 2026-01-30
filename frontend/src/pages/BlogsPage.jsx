@@ -17,7 +17,6 @@ export default function BlogsPage() {
 		"AI Agents",
 		"Data Science",
 		"Python",
-		"Cloud Computing",
 		"Interview Prep",
 		"Career",
 	];
@@ -26,7 +25,7 @@ export default function BlogsPage() {
 		try {
 			const response = await fetch(`${API_URL}/api/blogs`);
 			const data = await response.json();
-			
+
 			const featured = data.find(blog => blog.featured);
 			setFeaturedBlog(featured);
 			setBlogs(data.filter(blog => !blog.featured));
@@ -80,11 +79,10 @@ export default function BlogsPage() {
 							<button
 								key={category}
 								onClick={() => setSelectedCategory(category)}
-								className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition ${
-									selectedCategory === category
+								className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition ${selectedCategory === category
 										? "bg-gray-900 text-white"
 										: "bg-gray-100 text-gray-700 hover:bg-gray-200"
-								}`}>
+									}`}>
 								{category}
 							</button>
 						))}

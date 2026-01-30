@@ -13,187 +13,187 @@ export default function AboutPage() {
 
 	return (
 		<>
-			<SEO 
-				title="About Us - MeroSphere | AI & Digital Solutions"
-				description="Learn about MeroSphere's vision, mission, and how we help organizations modernize through AI-driven products and engineering services."
-				keywords="about merosphere, company vision, digital transformation, AI solutions, IT services"
+			<SEO
+				title="About Us - Yuganta AI | AI & Digital Solutions"
+				description="Learn about Yuganta AI's vision, mission, and how we help organizations modernize through AI-driven products and engineering services."
+				keywords="about yuganta ai, company vision, digital transformation, AI solutions, IT services"
 				url="/about"
 			/>
 			<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
-			{/* Hero Section */}
-			<div className="relative bg-gradient-to-r from-[#0B3A5C] via-[#1E88E5] to-[#0B3A5C] py-20 md:py-32 overflow-hidden">
-				<div className="absolute inset-0 bg-[url('/about.png')] bg-cover bg-center opacity-30"></div>
-				<div className="absolute inset-0 bg-gradient-to-r from-[#0B3A5C]/75 via-[#1E88E5]/75 to-[#0B3A5C]/75"></div>
-				<div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
-					<div className="mb-6">
-						<div className="flex items-center gap-2 text-sm md:text-base">
-							<a href="/" className="text-[#C7C3D6] hover:text-[#A855F7] transition-colors">
-								Home
-							</a>
-							<span className="text-[#C7C3D6]">/</span>
-							<span className="text-white">About Us</span>
+				{/* Hero Section */}
+				<div className="relative bg-gradient-to-r from-[#0B3A5C] via-[#1E88E5] to-[#0B3A5C] py-20 md:py-32 overflow-hidden">
+					<div className="absolute inset-0 bg-[url('/about.png')] bg-cover bg-center opacity-30"></div>
+					<div className="absolute inset-0 bg-gradient-to-r from-[#0B3A5C]/75 via-[#1E88E5]/75 to-[#0B3A5C]/75"></div>
+					<div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
+						<div className="mb-6">
+							<div className="flex items-center gap-2 text-sm md:text-base">
+								<a href="/" className="text-[#C7C3D6] hover:text-[#A855F7] transition-colors">
+									Home
+								</a>
+								<span className="text-[#C7C3D6]">/</span>
+								<span className="text-white">About Us</span>
+							</div>
+						</div>
+						<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
+							About Us
+						</h1>
+						<p className="text-lg md:text-xl text-[#C7C3D6] max-w-3xl">
+							Yuganta AI builds AI-powered products and modern digital experiences that help businesses grow faster, operate smarter, and serve customers better.
+						</p>
+					</div>
+				</div>
+
+				{/* Vision, Mission, What We Do Section */}
+				<div className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
+					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+						{/* Left Side - Image/Video */}
+						<div className="relative">
+							<div className="relative rounded-2xl overflow-hidden shadow-2xl">
+								<img
+									src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop"
+									alt="Team collaboration"
+									className="w-full h-auto"
+								/>
+								<div className="absolute inset-0 bg-gradient-to-t from-[#0B0614]/80 to-transparent"></div>
+								{/* Play Button Overlay (optional) */}
+								<div className="absolute inset-0 flex items-center justify-center">
+									<div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl cursor-pointer hover:scale-110 transition-transform">
+										<svg className="w-8 h-8 text-[#2D1B69] ml-1" fill="currentColor" viewBox="0 0 24 24">
+											<path d="M8 5v14l11-7z" />
+										</svg>
+									</div>
+								</div>
+							</div>
+							{/* Decorative hand image */}
+							<div className="absolute -left-8 -top-8 w-32 h-32 hidden lg:block">
+								<img
+									src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=200&h=200&fit=crop"
+									alt="Hand with watch"
+									className="rounded-lg shadow-xl"
+								/>
+							</div>
+						</div>
+
+						{/* Right Side - Text Content */}
+						<div className="space-y-10">
+							{/* Vision */}
+							<div>
+								<p className="text-sm text-[#A855F7] font-semibold mb-2  tracking-wider">
+									Yuganta AI
+								</p>
+								<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+									Vision
+								</h2>
+								<p className="text-[#C7C3D6] text-lg leading-relaxed">
+									To empower every individual and organization with AI-driven intelligence, fostering a future where technology amplifies human potential.
+								</p>
+							</div>
+
+							{/* Mission */}
+							<div>
+								<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+									Mission
+								</h2>
+								<p className="text-[#C7C3D6] text-lg leading-relaxed">
+									We are dedicated to providing accessible, high-quality AI education and innovative solutions that bridge the gap between complex technology and real-world application.
+								</p>
+							</div>
+
+							{/* What We Do */}
+							<div>
+								<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+									What We Do ?
+								</h2>
+								<p className="text-[#C7C3D6] text-lg leading-relaxed">
+									We offer comprehensive AI training programs, mentorship, and enterprise solutions designed to equip learners and businesses with the skills needed to thrive in the AI era.
+								</p>
+							</div>
 						</div>
 					</div>
-					<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
-						About Us
-					</h1>
-					<p className="text-lg md:text-xl text-[#C7C3D6] max-w-3xl">
-						MeroSphere builds AI-powered products and modern digital experiences that help businesses grow faster, operate smarter, and serve customers better.
-					</p>
 				</div>
-			</div>
 
-			{/* Vision, Mission, What We Do Section */}
-			<div className="max-w-7xl mx-auto px-4 md:px-6 py-16 md:py-24">
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-					{/* Left Side - Image/Video */}
-					<div className="relative">
-						<div className="relative rounded-2xl overflow-hidden shadow-2xl">
-							<img 
-								src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop" 
-								alt="Team collaboration" 
-								className="w-full h-auto"
-							/>
-							<div className="absolute inset-0 bg-gradient-to-t from-[#0B0614]/80 to-transparent"></div>
-							{/* Play Button Overlay (optional) */}
-							<div className="absolute inset-0 flex items-center justify-center">
-								<div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl cursor-pointer hover:scale-110 transition-transform">
-									<svg className="w-8 h-8 text-[#2D1B69] ml-1" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M8 5v14l11-7z"/>
-									</svg>
+				{/* Statistics Section */}
+				<div className="bg-gradient-to-b from-[#12091F] to-[#1a0f3a] py-16 md:py-20">
+					<div className="max-w-7xl mx-auto px-4 md:px-6">
+						<div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
+							{/* Projects */}
+							<div className="text-center">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+									50<span className="text-[#A855F7]">+</span>
+								</div>
+								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+									Projects
+								</div>
+							</div>
+
+							{/* Customers */}
+							<div className="text-center">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+									20<span className="text-[#A855F7]">+</span>
+								</div>
+								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+									Customers
+								</div>
+							</div>
+
+							{/* Ongoing Projects */}
+							<div className="text-center">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+									10<span className="text-[#A855F7]">+</span>
+								</div>
+								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+									Ongoing Projects
+								</div>
+							</div>
+
+							{/* Experts */}
+							<div className="text-center">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+									50<span className="text-[#A855F7]">+</span>
+								</div>
+								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+									Experts
 								</div>
 							</div>
 						</div>
-						{/* Decorative hand image */}
-						<div className="absolute -left-8 -top-8 w-32 h-32 hidden lg:block">
-							<img 
-								src="https://images.unsplash.com/photo-1434030216411-0b793f4b4173?w=200&h=200&fit=crop" 
-								alt="Hand with watch" 
-								className="rounded-lg shadow-xl"
-							/>
-						</div>
 					</div>
+				</div>
 
-					{/* Right Side - Text Content */}
-					<div className="space-y-10">
-						{/* Vision */}
-						<div>
-							<p className="text-sm text-[#A855F7] font-semibold mb-2  tracking-wider">
-								MeroSphere
-							</p>
-							<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-								Vision
-							</h2>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed">
-								To make advanced technology accessible so every organization can innovate faster and operate smarter.
-							</p>
-						</div>
+				{/* Newsletter Section */}
+				<div className="relative py-20 md:py-24 overflow-hidden">
+					<div className="absolute inset-0 bg-gradient-to-r from-[#2D1B69] via-[#1E88E5] to-[#00ACC1]"></div>
+					<div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
+						<div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+							{/* Left - Newsletter Text */}
+							<div className="text-center lg:text-left">
+								<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+									Subscribe
+								</h2>
+								<p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+									To Our Newsletter
+								</p>
+							</div>
 
-						{/* Mission */}
-						<div>
-							<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-								Mission
-							</h2>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed">
-								We build reliable software, AI automation, and user‑centric digital experiences that deliver measurable business results.
-							</p>
-						</div>
-
-						{/* What We Do */}
-						<div>
-							<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-								What We Do ?
-							</h2>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed">
-								We design and build web, mobile, and AI solutions—from product strategy and UX to cloud deployment and ongoing optimization.
-							</p>
+							{/* Right - Form */}
+							<form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
+								<input
+									type="email"
+									value={email}
+									onChange={(e) => setEmail(e.target.value)}
+									placeholder="Your Email"
+									required
+									className="px-6 py-4 rounded-full bg-[rgba(255,255,255,0.2)] backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 w-full sm:w-80 text-lg"
+								/>
+								<button
+									type="submit"
+									className="px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-200 text-lg whitespace-nowrap"
+								>
+									Subscribe Now
+								</button>
+							</form>
 						</div>
 					</div>
 				</div>
-			</div>
-
-			{/* Statistics Section */}
-			<div className="bg-gradient-to-b from-[#12091F] to-[#1a0f3a] py-16 md:py-20">
-				<div className="max-w-7xl mx-auto px-4 md:px-6">
-					<div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-						{/* Projects */}
-						<div className="text-center">
-							<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
-								16<span className="text-[#A855F7]">+</span>
-							</div>
-							<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
-								Projects
-							</div>
-						</div>
-
-						{/* Customers */}
-						<div className="text-center">
-							<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
-								12<span className="text-[#A855F7]">+</span>
-							</div>
-							<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
-								Customers
-							</div>
-						</div>
-
-						{/* Ongoing Projects */}
-						<div className="text-center">
-							<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
-								5<span className="text-[#A855F7]">+</span>
-							</div>
-							<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
-								Ongoing Projects
-							</div>
-						</div>
-
-						{/* Experts */}
-						<div className="text-center">
-							<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
-								56<span className="text-[#A855F7]">+</span>
-							</div>
-							<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
-								Experts
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			{/* Newsletter Section */}
-			<div className="relative py-20 md:py-24 overflow-hidden">
-				<div className="absolute inset-0 bg-gradient-to-r from-[#2D1B69] via-[#1E88E5] to-[#00ACC1]"></div>
-				<div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
-					<div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-						{/* Left - Newsletter Text */}
-						<div className="text-center lg:text-left">
-							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
-								Subscribe
-							</h2>
-							<p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
-								To Our Newsletter
-							</p>
-						</div>
-
-						{/* Right - Form */}
-						<form onSubmit={handleSubscribe} className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-							<input
-								type="email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-								placeholder="Your Email"
-								required
-								className="px-6 py-4 rounded-full bg-[rgba(255,255,255,0.2)] backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 w-full sm:w-80 text-lg"
-							/>
-							<button
-								type="submit"
-								className="px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-xl hover:scale-105 transition-all duration-200 text-lg whitespace-nowrap"
-							>
-								Subscribe Now
-							</button>
-						</form>
-					</div>
-				</div>
-			</div>
 			</div>
 		</>
 	);

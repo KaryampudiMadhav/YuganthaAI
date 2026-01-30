@@ -125,14 +125,14 @@ export default function MentorshipPage() {
         </div>
       </div>
       <p className="text-sm text-gray-400">{session.notes}</p>
-      
+
       {/* Rejection Badge */}
       {session.status === 'rejected' && session.rejectionReason && (
         <div className="bg-gradient-to-r from-red-900/30 to-red-800/20 border-2 border-red-500/50 rounded-xl p-5 shadow-lg">
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-full bg-red-500/20 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </div>
             <div className="flex-1">
@@ -154,7 +154,7 @@ export default function MentorshipPage() {
           <div className="flex items-start gap-4">
             <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center flex-shrink-0">
               <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
             <div className="flex-1">
@@ -181,7 +181,7 @@ export default function MentorshipPage() {
       )}
 
       <div className="flex flex-wrap gap-3">
-        <button 
+        <button
           onClick={() => {
             setSelectedSession(session);
             setShowDetailsModal(true);
@@ -207,11 +207,10 @@ export default function MentorshipPage() {
                 <button
                   key={item.key}
                   onClick={() => setActiveTab(item.key)}
-                  className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition border border-transparent flex items-center gap-3 ${
-                    isActive
-                      ? "bg-white text-black"
-                      : "text-gray-200 hover:bg-white/5 border-white/5"
-                  }`}>
+                  className={`w-full text-left px-4 py-3 rounded-xl font-semibold transition border border-transparent flex items-center gap-3 ${isActive
+                    ? "bg-white text-black"
+                    : "text-gray-200 hover:bg-white/5 border-white/5"
+                    }`}>
                   <span className="text-lg">{item.label}</span>
                 </button>
               );
@@ -220,22 +219,23 @@ export default function MentorshipPage() {
         </aside>
 
         <main className="flex-1 space-y-8">
-          <div className="flex items-start justify-between gap-4">
-            <div className="space-y-2">
-              <div className="flex items-center gap-2 text-sm text-gray-400">
-                <Link to="/my-learning" className="hover:text-white">Enrolled Programs</Link>
-                <span>›</span>
-                <span className="hover:text-white">Course Listing</span>
-                <span>›</span>
-                <span className="text-white">My Mentorships</span>
-              </div>
-              <h1 className="text-3xl font-bold">My Mentorship Progress</h1>
+          <div className="space-y-4">
+            <div className="flex items-center gap-2 text-sm text-gray-400 flex-wrap">
+              <Link to="/my-learning" className="hover:text-white">Enrolled Programs</Link>
+              <span className="mx-1">›</span>
+              <span className="hover:text-white">Course Listing</span>
+              <span className="mx-1">›</span>
+              <span className="text-white">My Mentorships</span>
             </div>
-            <Link
-              to="/mentorships/book"
-              className="px-5 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition shrink-0">
-              Book Session
-            </Link>
+
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <h1 className="text-3xl font-bold">My Mentorship Progress</h1>
+              <Link
+                to="/mentorships/book"
+                className="px-5 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition shrink-0 text-center md:text-left">
+                Book Session
+              </Link>
+            </div>
           </div>
 
           {/* Assigned Mentor Card */}
@@ -392,7 +392,7 @@ export default function MentorshipPage() {
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-full bg-red-500/30 flex items-center justify-center flex-shrink-0">
                       <svg className="w-6 h-6 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12"/>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">
@@ -414,7 +414,7 @@ export default function MentorshipPage() {
                   <div className="flex items-start gap-3">
                     <div className="w-10 h-10 rounded-full bg-blue-500/30 flex items-center justify-center flex-shrink-0">
                       <svg className="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                     </div>
                     <div className="flex-1 min-w-0">

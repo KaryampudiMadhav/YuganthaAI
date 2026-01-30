@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import StructuredData from "../components/StructuredData";
 
 export default function LandingPage() {
 	const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ export default function LandingPage() {
 
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+			<StructuredData />
 			{/* Hero Section */}
 			<div className="relative min-h-screen flex items-center overflow-hidden">
 				{/* Animated Background */}

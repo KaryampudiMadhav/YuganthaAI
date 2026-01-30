@@ -135,11 +135,6 @@ export default function Footer() {
 									Web Development
 								</Link>
 							</li>
-							<li>
-								<Link to='/courses' className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
-									Cloud Computing
-								</Link>
-							</li>
 						</ul>
 					</div>
 				</div>
