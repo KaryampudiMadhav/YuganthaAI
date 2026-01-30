@@ -52,7 +52,7 @@ export default function Navbar() {
 						className='w-10 h-10 transition-transform group-hover:scale-110'
 					/>
 					<div className='text-lg md:text-xl font-bold'>
-						<span className='text-white'>Yugantha</span>
+						<span className='text-white'>Yuganta</span>
 						<span className='text-[#A855F7]'>AI</span>
 					</div>
 				</Link>

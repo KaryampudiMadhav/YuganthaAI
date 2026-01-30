@@ -10,11 +10,11 @@ export default function Footer() {
 						<Link to='/' className='flex items-center space-x-3 mb-6 group'>
 							<img
 								src='/yugantha-logo.png'
-								alt='YuganthaAI'
+								alt='YugantaAI'
 								className='w-10 h-10 transition-transform group-hover:scale-110'
 							/>
 							<div className='text-2xl font-bold'>
-								<span className='text-white'>Yugantha</span>
+								<span className='text-white'>Yuganta</span>
 								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>
 									AI
 								</span>

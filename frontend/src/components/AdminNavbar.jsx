@@ -29,7 +29,7 @@ export default function AdminNavbar() {
                 className='w-10 h-10 transition-transform hover:scale-110'
               />
               <h1 className="text-xl font-bold text-white hidden sm:block">
-                <span>Yugantha</span>
+                <span>Yuganta</span>
                 <span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
               </h1>
             </div>
@@ -41,8 +41,8 @@ export default function AdminNavbar() {
                   key={link.path}
                   onClick={() => navigate(link.path)}
                   className={`px-4 py-2.5 rounded-none font-semibold transition-all duration-300 text-sm border-b-2 ${location.pathname === link.path
-                      ? "border-b-[#8B5CF6] text-white"
-                      : "border-b-transparent text-[#C7C3D6] hover:text-white"
+                    ? "border-b-[#8B5CF6] text-white"
+                    : "border-b-transparent text-[#C7C3D6] hover:text-white"
                     }`}>
                   {link.label}
                 </button>
@@ -65,8 +65,8 @@ export default function AdminNavbar() {
               key={link.path}
               onClick={() => navigate(link.path)}
               className={`px-3 py-2 rounded-none font-semibold transition-all duration-300 text-xs whitespace-nowrap border-b-2 ${location.pathname === link.path
-                  ? "border-b-[#8B5CF6] text-white"
-                  : "border-b-transparent text-[#C7C3D6] hover:text-white"
+                ? "border-b-[#8B5CF6] text-white"
+                : "border-b-transparent text-[#C7C3D6] hover:text-white"
                 }`}>
               {link.label}
             </button>
