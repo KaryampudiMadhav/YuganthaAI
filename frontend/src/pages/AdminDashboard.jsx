@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import AdminNavbar from "../components/AdminNavbar";
+import API_URL from "../config/api";
 
 export default function AdminDashboard() {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ export default function AdminDashboard() {
   const fetchInstructors = async () => {
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch("http://localhost:5000/api/admin/instructors", {
+      const response = await fetch(`${API_URL}/api/admin/instructors`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -56,7 +57,7 @@ export default function AdminDashboard() {
     
     try {
       const token = localStorage.getItem("adminToken");
-      const response = await fetch("http://localhost:5000/api/admin/instructors", {
+      const response = await fetch(`${API_URL}/api/admin/instructors`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -89,7 +90,7 @@ export default function AdminDashboard() {
     try {
       const token = localStorage.getItem("adminToken");
       const response = await fetch(
-        `http://localhost:5000/api/admin/instructors/${id}`,
+        `${API_URL}/api/admin/instructors/${id}`,
         {
           method: "DELETE",
           headers: { Authorization: `Bearer ${token}` },
@@ -117,7 +118,7 @@ export default function AdminDashboard() {
       const token = localStorage.getItem("adminToken");
       const endpoint = currentActive ? "deactivate" : "activate";
       const response = await fetch(
-        `http://localhost:5000/api/admin/instructors/${id}/${endpoint}`,
+        `${API_URL}/api/admin/instructors/${id}/${endpoint}`,
         {
           method: "PUT",
           headers: {

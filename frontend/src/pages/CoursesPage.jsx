@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { useAuth } from "../context/AuthContext";
+import API_URL from "../config/api";
 
 export default function CoursesPage() {
 	const [selectedTab, setSelectedTab] = useState("all");
@@ -22,7 +23,7 @@ export default function CoursesPage() {
 
 	const fetchCourses = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/api/courses");
+			const response = await fetch(`${API_URL}/api/courses`);
 			const data = await response.json();
 			setCourses(data);
 			setLoading(false);
@@ -37,7 +38,7 @@ export default function CoursesPage() {
 			const token = localStorage.getItem("token");
 			if (!token) return;
 
-			const response = await fetch("http://localhost:5000/api/users/enrolled", {
+			const response = await fetch(`${API_URL}/api/users/enrolled`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},
@@ -76,7 +77,7 @@ export default function CoursesPage() {
 
 		try {
 			const response = await fetch(
-				`http://localhost:5000/api/users/enroll/${courseId}`,
+				`${API_URL}/api/users/enroll/${courseId}`,
 				{
 					method: "POST",
 					headers: {

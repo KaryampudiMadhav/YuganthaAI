@@ -31,6 +31,10 @@ import BlogsPage from "./pages/BlogsPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import CourtBookerPage from "./pages/projects/CourtBookerPage";
+import AIAgentAvatarPage from "./pages/projects/AIAgentAvatarPage";
+import HVACAgentPage from "./pages/projects/HVACAgentPage";
+import AILearningPlatformPage from "./pages/projects/AILearningPlatformPage";
 
 function CoursesHomePage() {
 	return (
@@ -201,6 +205,40 @@ export default function App() {
 								element={
 									<MainLayout>
 										<ContactPage />
+									</MainLayout>
+								}
+							/>
+							
+							{/* Project Pages */}
+							<Route
+								path='/projects/court-booker'
+								element={
+									<MainLayout>
+										<CourtBookerPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/projects/ai-agent-avatar'
+								element={
+									<MainLayout>
+										<AIAgentAvatarPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/projects/hvac-agent'
+								element={
+									<MainLayout>
+										<HVACAgentPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/projects/ai-learning-platform'
+								element={
+									<MainLayout>
+										<AILearningPlatformPage />
 									</MainLayout>
 								}
 							/>

@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useInstructor } from "../context/InstructorContext";
+import API_URL from "../config/api";
 
 export default function InstructorRegisterPage() {
 	const [step, setStep] = useState(1); // 1: Register, 2: OTP, 3: Set Password
@@ -29,7 +30,7 @@ export default function InstructorRegisterPage() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/instructor-auth/register",
+				`${API_URL}/api/instructor-auth/register`,
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -81,7 +82,7 @@ export default function InstructorRegisterPage() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/instructor-auth/setup-password",
+				`${API_URL}/api/instructor-auth/setup-password`,
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },

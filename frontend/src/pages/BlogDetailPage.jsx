@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
 import LoadingSpinner from "../components/LoadingSpinner";
+import API_URL from "../config/api";
 
 export default function BlogDetailPage() {
 	const { slug } = useParams();
@@ -13,7 +14,7 @@ export default function BlogDetailPage() {
 
 	const fetchBlog = async () => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/blogs/${slug}`);
+			const response = await fetch(`${API_URL}/api/blogs/${slug}`);
 			if (!response.ok) throw new Error("Blog not found");
 			const data = await response.json();
 			setBlog(data);
@@ -26,7 +27,7 @@ export default function BlogDetailPage() {
 
 	const fetchRelatedBlogs = async () => {
 		try {
-			const response = await fetch("http://localhost:5000/api/blogs");
+			const response = await fetch(`${API_URL}/api/blogs`);
 			const data = await response.json();
 			setRelatedBlogs(data.filter(b => b.slug !== slug).slice(0, 3));
 		} catch (error) {
@@ -42,7 +43,7 @@ export default function BlogDetailPage() {
 
 	const handleLike = async () => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/blogs/${slug}/like`, {
+			const response = await fetch(`${API_URL}/api/blogs/${slug}/like`, {
 				method: "POST",
 			});
 			const data = await response.json();

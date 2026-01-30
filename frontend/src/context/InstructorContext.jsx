@@ -1,4 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
+import API_URL from "../config/api";
 
 const InstructorContext = createContext();
 
@@ -33,7 +34,7 @@ export const InstructorProvider = ({ children }) => {
 	const login = async (email, password) => {
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/instructor-auth/login",
+				`${API_URL}/api/instructor-auth/login`,
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },

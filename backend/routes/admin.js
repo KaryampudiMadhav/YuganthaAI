@@ -30,7 +30,7 @@ const sendOTPEmail = async (email, otp, instructorName) => {
 					</div>
 					
 					<p>Please visit the forgot password page and enter your email and this OTP to set your password:</p>
-					<p><a href="http://localhost:3000/instructor/forgot-password" style="color: #007bff; text-decoration: none;">Set Your Password</a></p>
+					<p><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/instructor/forgot-password" style="color: #007bff; text-decoration: none;">Set Your Password</a></p>
 					
 					<p style="color: #666; font-size: 12px; margin-top: 30px;">
 						If you didn't request this, please contact the administrator.

@@ -1,5 +1,0 @@
-# Railway Nixpacks Configuration
-# This file is optional but helps Railway understand your project structure
-
-# For monorepo projects with separate backend and frontend
-# Railway will detect services based on package.json locations

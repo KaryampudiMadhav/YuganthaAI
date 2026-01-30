@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import API_URL from "../config/api";
 
 const navItems = [
   { key: "my-mentorships", label: "My Mentorships" },
@@ -26,7 +27,7 @@ export default function MentorshipPage() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:5000/api/users/assigned-instructor", {
+      const response = await fetch(`${API_URL}/api/users/assigned-instructor`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -47,7 +48,7 @@ export default function MentorshipPage() {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/mentorship-sessions/user", {
+      const response = await fetch(`${API_URL}/api/mentorship-sessions/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import API_URL from "../config/api";
 
 export default function InstructorForgotPasswordPage() {
 	const [step, setStep] = useState(1); // 1: Email, 2: OTP, 3: Password
@@ -19,7 +20,7 @@ export default function InstructorForgotPasswordPage() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/instructor-auth/forgot-password",
+				`${API_URL}/api/instructor-auth/forgot-password`,
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
@@ -76,7 +77,7 @@ export default function InstructorForgotPasswordPage() {
 
 		try {
 			const response = await fetch(
-				"http://localhost:5000/api/instructor-auth/reset-password",
+				`${API_URL}/api/instructor-auth/reset-password`,
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },

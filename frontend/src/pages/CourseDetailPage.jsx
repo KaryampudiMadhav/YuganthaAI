@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
+import API_URL from "../config/api";
 
 export default function CourseDetailPage() {
 	const { id } = useParams();
@@ -14,7 +15,7 @@ export default function CourseDetailPage() {
 
 	const fetchCourse = async () => {
 		try {
-			const response = await fetch(`http://localhost:5000/api/courses/${id}`);
+			const response = await fetch(`${API_URL}/api/courses/${id}`);
 			const data = await response.json();
 			setCourse(data);
 			setLoading(false);
