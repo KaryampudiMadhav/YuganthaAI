@@ -4,6 +4,7 @@ services:
     env: node
     region: oregon
     plan: free
+    rootDir: backend
     buildCommand: npm install
     startCommand: npm start
     envVars:
@@ -27,3 +28,15 @@ services:
         sync: false
       - key: FRONTEND_URL
         sync: false
+
+  - type: web
+    name: merosphere-frontend
+    env: static
+    region: oregon
+    plan: free
+    rootDir: frontend
+    buildCommand: npm install && npm run build
+    staticPublishPath: ./dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://yuganthaai-backend.onrender.com
