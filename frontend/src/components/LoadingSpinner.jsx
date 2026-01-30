@@ -19,7 +19,7 @@ export default function LoadingSpinner() {
 				{/* Logo Image */}
 				<div className='mb-6'>
 					<img 
-						src='/yugantha-logo.png' 
+						src='/yuganta-logo.png' 
 					alt='Yuganta AI' 
 					className='w-24 h-24 object-contain animate-pulse'
 				/>
@@ -28,7 +28,7 @@ export default function LoadingSpinner() {
 			{/* Loading Text */}
 			<div className='flex items-center space-x-2'>
 				<span className='text-2xl font-bold text-white animate-pulse'>
-					Yuganta
+					Yuganta AI
 				</span>
 			</div>
 
