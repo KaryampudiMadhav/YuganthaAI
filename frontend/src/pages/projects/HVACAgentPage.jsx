@@ -1,39 +1,60 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Thermometer, Gauge, TrendingUp, Activity } from "lucide-react";
+import { ArrowLeft, Zap, Shield, Brain, BarChart3, Cpu, Lightbulb } from "lucide-react";
 
 export default function HVACAgentPage() {
 	const features = [
 		{
-			title: "Smart Climate Control",
-			description: "AI-powered temperature optimization and energy management",
-			icon: Thermometer
+			title: "Multi-Agent AI Architecture",
+			description: "Specialized agents for sensor validation, safety, comfort, and optimization working in coordination",
+			icon: Brain
 		},
 		{
-			title: "Predictive Maintenance",
-			description: "Prevent failures before they happen with ML algorithms",
-			icon: Gauge
+			title: "Edge-Based Intelligence",
+			description: "All sensing, reasoning, and actuation occur locally on Raspberry Pi without cloud dependency",
+			icon: Cpu
 		},
 		{
-			title: "Energy Optimization",
-			description: "Reduce costs with intelligent power consumption analysis",
-			icon: TrendingUp
+			title: "Deterministic Safety Control",
+			description: "Rule-based safety enforcement isolated from probabilistic AI reasoning for guaranteed reliability",
+			icon: Shield
 		},
 		{
-			title: "Real-Time Monitoring",
-			description: "24/7 system health tracking and performance metrics",
-			icon: Activity
+			title: "Occupancy & Temperature Optimization",
+			description: "Real-time lighting and airflow control based on PIR motion and thermal sensors",
+			icon: Zap
 		}
 	];
 
-	const techStack = ["IoT Sensors", "Machine Learning", "Python", "MQTT", "Time Series DB", "React Dashboard"];
+	const architectureComponents = [
+		{
+			category: "Perception Layer",
+			items: ["BME280 Temperature/Humidity Sensor", "PIR Motion Detection", "Real-time Data Validation"]
+		},
+		{
+			category: "Decision Layer",
+			items: ["LangGraph Multi-Agent Orchestration", "14 Specialized Agents", "Conflict Resolution Logic"]
+		},
+		{
+			category: "Reasoning Layer",
+			items: ["Phi-3 Mini LLM (Ollama)", "Contextual Explanation Generation", "Trend Analysis & Insights"]
+		},
+		{
+			category: "Actuation Layer",
+			items: ["GPIO Relay Control", "Fan/Lighting Drivers", "Rate-Limited Switching"]
+		}
+	];
 
-	const benefits = [
-		"30% average energy cost reduction",
-		"50% decrease in maintenance costs",
-		"95% system uptime guarantee",
-		"Real-time anomaly detection",
-		"Automated fault diagnosis",
-		"Compliance reporting automation"
+	const techStack = ["Raspberry Pi 5", "Python", "LangGraph", "Phi-3 Mini", "Ollama", "BME280 Sensor", "PIR Sensor", "GPIO Relays", "Real-Time OS"];
+
+	const capabilities = [
+		"Autonomous zone-level control with human presence detection",
+		"Temperature-driven HVAC fan control (28°C threshold)",
+		"Occupancy-based lighting with 10-second inactivity timeout",
+		"Sensor validation and fault detection",
+		"AI-generated explanations for every control decision",
+		"Offline operation with edge-based processing",
+		"Explainable decision pathways for transparency",
+		"Scalable multi-zone architecture"
 	];
 
 	return (
@@ -41,44 +62,27 @@ export default function HVACAgentPage() {
 			{/* Hero Section */}
 			<div className="relative bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] py-20">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
-					<Link 
-						to="/" 
-						className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-8 transition-colors"
-					>
-						<ArrowLeft size={20} />
-						<span>Back to Home</span>
-					</Link>
-					
+				
 					<div className="grid md:grid-cols-2 gap-12 items-center">
 						<div>
-							<div className="text-sm text-purple-400 font-semibold mb-4">OUR PROJECTS</div>
+							<div className="text-sm text-purple-400 font-semibold mb-4">INTELLIGENT BUILDING AUTOMATION</div>
 							<h1 className="text-4xl md:text-5xl font-bold mb-6">
-								HVAC Agent
+								Agentic AI-Based HVAC & Lighting Control
 							</h1>
 							<p className="text-xl text-gray-300 mb-8">
-								Intelligent HVAC management system powered by AI. Optimize comfort, 
-								reduce energy costs, and predict maintenance needs before issues arise.
+								Real-time, zone-level cyber-physical control using multi-agent AI, edge intelligence, 
+								and local LLM reasoning. Deploy autonomous building automation without cloud dependency.
 							</p>
-							<div className="flex flex-wrap gap-4">
-								<a 
-									href="#" 
-									className="px-6 py-3 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
-								>
-									Schedule Demo
-								</a>
-								<a 
-									href="#" 
-									className="px-6 py-3 border border-purple-600 hover:bg-purple-600/10 rounded-lg font-semibold transition-colors"
-								>
-									Case Studies
-								</a>
-							</div>
+							
+							
 						</div>
 						
 						<div className="relative">
-							<div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 flex items-center justify-center">
-								<div className="text-purple-400 text-6xl">🌡️</div>
-							</div>
+							<img 
+								src="/HVACimg.png" 
+								alt="HVAC Control System" 
+								className="w-full h-full object-contain bg-[#0a0a0a] rounded-2xl"
+							/>
 						</div>
 					</div>
 				</div>
@@ -87,8 +91,8 @@ export default function HVACAgentPage() {
 			{/* Features Section */}
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
 				<div className="text-center mb-16">
-					<h2 className="text-3xl md:text-4xl font-bold mb-4">Intelligent Features</h2>
-					<p className="text-gray-400 text-lg">AI-driven HVAC optimization for maximum efficiency</p>
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">AI-Powered Control Features</h2>
+					<p className="text-gray-400 text-lg">Multi-agent architecture for intelligent building automation</p>
 				</div>
 
 				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -107,26 +111,53 @@ export default function HVACAgentPage() {
 				</div>
 			</div>
 
-			{/* Benefits Section */}
+			{/* System Architecture Section */}
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20 border-t border-purple-500/10">
-				<div className="text-center mb-12">
-					<h2 className="text-3xl md:text-4xl font-bold mb-4">Measurable Benefits</h2>
-					<p className="text-gray-400 text-lg">Real results from real deployments</p>
+				<div className="text-center mb-16">
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">System Architecture</h2>
+					<p className="text-gray-400 text-lg">Layered design for modular, safe, and extensible control</p>
 				</div>
 
-				<div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-					{benefits.map((benefit, index) => (
+				<div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+					{architectureComponents.map((component, index) => (
+						<div 
+							key={index}
+							className="p-6 bg-gradient-to-br from-blue-900/10 to-transparent border border-blue-500/20 rounded-xl"
+						>
+							<h3 className="text-lg font-semibold mb-4 text-blue-300">{component.category}</h3>
+							<ul className="space-y-2">
+								{component.items.map((item, idx) => (
+									<li key={idx} className="flex items-start gap-2 text-gray-300">
+										<span className="text-blue-400 mt-1">•</span>
+										<span>{item}</span>
+									</li>
+								))}
+							</ul>
+						</div>
+					))}
+				</div>
+			</div>
+
+			{/* Control Capabilities Section */}
+			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20 border-t border-purple-500/10">
+				<div className="text-center mb-16">
+					<h2 className="text-3xl md:text-4xl font-bold mb-4">Autonomous Capabilities</h2>
+					<p className="text-gray-400 text-lg">Real-time decision-making and control</p>
+				</div>
+
+				<div className="grid md:grid-cols-2 gap-6">
+					{capabilities.map((capability, index) => (
 						<div 
 							key={index}
 							className="p-6 bg-gradient-to-br from-purple-900/10 to-transparent border border-purple-500/20 rounded-xl hover:border-purple-500/40 transition-all"
 						>
-							<div className="flex items-center gap-3">
-								<div className="w-8 h-8 bg-green-600/20 rounded-full flex items-center justify-center flex-shrink-0">
-									<svg className="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<div className="flex items-start gap-3">
+								<div className="w-6 h-6 bg-green-600/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+									<svg className="w-3 h-3 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
 									</svg>
 								</div>
-								<p className="text-lg font-medium text-gray-200">{benefit}</p>
+								<p className="text-gray-200">{capability}</p>
 							</div>
 						</div>
 					))}
@@ -156,16 +187,17 @@ export default function HVACAgentPage() {
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
 				<div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 p-12 text-center">
 					<h2 className="text-3xl md:text-4xl font-bold mb-4">
-						Optimize Your HVAC Systems Today
+						Build Intelligent Building Automation
 					</h2>
 					<p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
-						Let's discuss how our AI-powered HVAC solution can reduce your energy costs and improve system reliability.
+						Deploy autonomous HVAC and lighting control with edge-based AI. No cloud dependency, 
+						explainable decisions, and real-time responsiveness for your building zones.
 					</p>
 					<Link 
 						to="/contact" 
 						className="inline-block px-8 py-4 bg-purple-600 hover:bg-purple-700 rounded-lg font-semibold transition-colors"
 					>
-						Request Consultation
+						Start Building
 					</Link>
 				</div>
 			</div>

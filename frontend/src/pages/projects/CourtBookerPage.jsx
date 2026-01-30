@@ -32,13 +32,7 @@ export default function CourtBookerPage() {
 			{/* Hero Section */}
 			<div className="relative bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] py-20">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
-					<Link 
-						to="/" 
-						className="inline-flex items-center gap-2 text-purple-400 hover:text-purple-300 mb-8 transition-colors"
-					>
-						<ArrowLeft size={20} />
-						<span>Back to Home</span>
-					</Link>
+					
 					
 					<div className="grid md:grid-cols-2 gap-12 items-center">
 						<div>
@@ -72,9 +66,9 @@ export default function CourtBookerPage() {
 						<div className="relative">
 							<div className="aspect-video bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 overflow-hidden">
 								<img 
-									src="/courtbooking.png" 
+									src="/court_booking.png" 
 									alt="Court Booking System Interface" 
-									className="w-full h-full object-cover"
+									className="w-full h-full object-contain bg-[#0a0a0a]"
 								/>
 							</div>
 						</div>

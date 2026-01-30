@@ -14,9 +14,9 @@ export default function AboutPage() {
 	return (
 		<>
 			<SEO 
-				title="About Us - YuganthaAI | AI & Technology Learning Platform"
-				description="Learn about YuganthaAI's vision, mission, and how we're accelerating digitalization through quality IT services and workforce solutions."
-				keywords="about yuganthaai, company vision, technology company, IT services, workforce solutions"
+				title="About Us - MeroSphere | AI & Digital Solutions"
+				description="Learn about MeroSphere's vision, mission, and how we help organizations modernize through AI-driven products and engineering services."
+				keywords="about merosphere, company vision, digital transformation, AI solutions, IT services"
 				url="/about"
 			/>
 			<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
@@ -38,7 +38,7 @@ export default function AboutPage() {
 						About Us
 					</h1>
 					<p className="text-lg md:text-xl text-[#C7C3D6] max-w-3xl">
-						As an IT services company, we envision to be a name synonymous with quality in the field of IT Services and Workforce Solutions.
+						MeroSphere builds AI-powered products and modern digital experiences that help businesses grow faster, operate smarter, and serve customers better.
 					</p>
 				</div>
 			</div>
@@ -79,13 +79,13 @@ export default function AboutPage() {
 						{/* Vision */}
 						<div>
 							<p className="text-sm text-[#A855F7] font-semibold mb-2  tracking-wider">
-								YuganthaAI
+								MeroSphere
 							</p>
 							<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
 								Vision
 							</h2>
 							<p className="text-[#C7C3D6] text-lg leading-relaxed">
-								A world where digitalization is simpler, faster and drives the business.
+								To make advanced technology accessible so every organization can innovate faster and operate smarter.
 							</p>
 						</div>
 
@@ -95,7 +95,7 @@ export default function AboutPage() {
 								Mission
 							</h2>
 							<p className="text-[#C7C3D6] text-lg leading-relaxed">
-								We are on a mission to accelerate the speed of digitalization through a cost effective unified software development life cycle
+								We build reliable software, AI automation, and user‑centric digital experiences that deliver measurable business results.
 							</p>
 						</div>
 
@@ -105,7 +105,7 @@ export default function AboutPage() {
 								What We Do ?
 							</h2>
 							<p className="text-[#C7C3D6] text-lg leading-relaxed">
-								We bring decades of experience across industries to deliver critical projects with multiple dependencies. We have a highly organized modern software delivery process that has been perfected over the years.
+								We design and build web, mobile, and AI solutions—from product strategy and UX to cloud deployment and ongoing optimization.
 							</p>
 						</div>
 					</div>
