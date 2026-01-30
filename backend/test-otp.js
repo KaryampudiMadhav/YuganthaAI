@@ -45,7 +45,7 @@ const sendOTPEmail = async (email, otp, instructorName = "Instructor") => {
 				</div>
 				
 				<p>Go to the password setup page and enter this OTP along with your new password.</p>
-				<p><a href="http://localhost:3000/instructor/forgot-password" style="color: #007bff; text-decoration: none;">Set Your Password</a></p>
+				<p><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/instructor/forgot-password" style="color: #007bff; text-decoration: none;">Set Your Password</a></p>
 				
 				<p style="color: #666; font-size: 12px; margin-top: 30px;">
 					This OTP will expire in 10 minutes.

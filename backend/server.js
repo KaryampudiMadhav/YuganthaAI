@@ -31,7 +31,7 @@ const corsOptions = {
 			'https://yuganthaai.com',
 			'https://www.yuganthaai.com'
 		]
-		: ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:3000'],
+		: (process.env.FRONTEND_URL || 'http://localhost:5173').split(',').map(url => url.trim()),
 	credentials: true,
 	optionsSuccessStatus: 200
 };
