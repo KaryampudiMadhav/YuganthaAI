@@ -1,6 +1,7 @@
 import { useMemo, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+import API_URL from "../config/api";
 
 export default function MentorshipBookingPage() {
   const navigate = useNavigate();
@@ -65,7 +66,7 @@ export default function MentorshipBookingPage() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:5000/api/mentorship-sessions/booked-slots", {
+      const response = await fetch(`${API_URL}/api/mentorship-sessions/booked-slots`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -90,7 +91,7 @@ export default function MentorshipBookingPage() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:5000/api/mentorship-sessions/user", {
+      const response = await fetch(`${API_URL}/api/mentorship-sessions/user`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -111,7 +112,7 @@ export default function MentorshipBookingPage() {
         return;
       }
 
-      const response = await fetch("http://localhost:5000/api/users/assigned-instructor", {
+      const response = await fetch(`${API_URL}/api/users/assigned-instructor`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -141,7 +142,7 @@ export default function MentorshipBookingPage() {
       const token = localStorage.getItem("token");
       if (!token) return;
 
-      const response = await fetch("http://localhost:5000/api/users/profile", {
+      const response = await fetch(`${API_URL}/api/users/profile`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -260,7 +261,7 @@ export default function MentorshipBookingPage() {
         notes: `Booked on ${new Date().toLocaleDateString()}`,
       };
 
-      const response = await fetch("http://localhost:5000/api/mentorship-sessions", {
+      const response = await fetch(`${API_URL}/api/mentorship-sessions`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

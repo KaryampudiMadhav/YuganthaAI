@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import LoadingSpinner from "../components/LoadingSpinner";
 import toast from "react-hot-toast";
+import API_URL from "../config/api";
 
 export default function MyLearningPage() {
 	const [enrolledCourses, setEnrolledCourses] = useState([]);
@@ -21,7 +22,7 @@ export default function MyLearningPage() {
 	const fetchEnrolledCourses = async () => {
 		try {
 			// Fetch only the logged-in user's enrolled courses
-			const response = await fetch("http://localhost:5000/api/users/enrolled", {
+			const response = await fetch(`${API_URL}/api/users/enrolled`, {
 				headers: {
 					Authorization: `Bearer ${token}`,
 				},

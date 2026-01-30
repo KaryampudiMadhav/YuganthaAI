@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Users, BookOpen, Check, ChevronDown, Sparkles, AlertCircle } from "lucide-react";
 import AdminNavbar from "../components/AdminNavbar";
+import API_URL from "../config/api";
 
 export default function AdminAssignInstructors() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ export default function AdminAssignInstructors() {
       const token = localStorage.getItem("adminToken");
       
       // Fetch instructors from registered instructors
-      const instructorsRes = await fetch("http://localhost:5000/api/admin/instructors", {
+      const instructorsRes = await fetch(`${API_URL}/api/admin/instructors`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -44,7 +45,7 @@ export default function AdminAssignInstructors() {
       setInstructors(instructorsData.filter((i) => i.active && i.approved));
 
       // Fetch users
-      const usersRes = await fetch("http://localhost:5000/api/admin/users", {
+      const usersRes = await fetch(`${API_URL}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
@@ -70,7 +71,7 @@ export default function AdminAssignInstructors() {
     try {
       const token = localStorage.getItem("adminToken");
       const response = await fetch(
-        `http://localhost:5000/api/admin/assign-instructor`,
+        `${API_URL}/api/admin/assign-instructor`,
         {
           method: "POST",
           headers: {

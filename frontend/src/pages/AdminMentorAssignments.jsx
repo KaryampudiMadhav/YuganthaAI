@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { Users, CheckCircle, AlertCircle, Zap, ChevronDown } from "lucide-react";
 import AdminNavbar from "../components/AdminNavbar";
+import API_URL from "../config/api";
 
 export default function AdminMentorAssignments() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function AdminMentorAssignments() {
       const token = localStorage.getItem("adminToken");
       
       // Fetch all users (assignedInstructor is already populated by backend)
-      const usersRes = await fetch("http://localhost:5000/api/admin/users", {
+      const usersRes = await fetch(`${API_URL}/api/admin/users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 

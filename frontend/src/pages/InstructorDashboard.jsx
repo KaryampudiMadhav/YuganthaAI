@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useInstructor } from "../context/InstructorContext";
 import VideoUpload from "../components/VideoUpload";
+import API_URL from "../config/api";
 
 export default function InstructorDashboard() {
 	const [courses, setCourses] = useState([]);
@@ -72,7 +73,7 @@ export default function InstructorDashboard() {
 
 			// Fetch only the logged-in instructor's courses
 			const response = await fetch(
-				`http://localhost:5000/api/courses/instructor/${instructor._id}`,
+				`${API_URL}/api/courses/instructor/${instructor._id}`,
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -92,7 +93,7 @@ export default function InstructorDashboard() {
 			if (!token || !instructor) return;
 
 			const response = await fetch(
-				"http://localhost:5000/api/mentorship-sessions/instructor",
+				`${API_URL}/api/mentorship-sessions/instructor`,
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
@@ -110,7 +111,7 @@ export default function InstructorDashboard() {
 		try {
 			const token = localStorage.getItem("instructorToken");
 			const response = await fetch(
-				`http://localhost:5000/api/mentorship-sessions/${sessionId}/meeting-link`,
+				`${API_URL}/api/mentorship-sessions/${sessionId}/meeting-link`,
 				{
 					method: "PUT",
 					headers: {
@@ -148,7 +149,7 @@ export default function InstructorDashboard() {
 		try {
 			const token = localStorage.getItem("instructorToken");
 			const response = await fetch(
-				`http://localhost:5000/api/mentorship-sessions/${rejectSessionId}/reject`,
+				`${API_URL}/api/mentorship-sessions/${rejectSessionId}/reject`,
 				{
 					method: "PUT",
 					headers: {
@@ -189,7 +190,7 @@ export default function InstructorDashboard() {
 		try {
 			const token = localStorage.getItem("instructorToken");
 			const response = await fetch(
-				`http://localhost:5000/api/mentorship-sessions/${rescheduleSessionId}/reschedule`,
+				`${API_URL}/api/mentorship-sessions/${rescheduleSessionId}/reschedule`,
 				{
 					method: "PUT",
 					headers: {
@@ -242,8 +243,8 @@ export default function InstructorDashboard() {
 
 		try {
 			const url = editingCourse
-				? `http://localhost:5000/api/courses/instructor/${editingCourse._id}`
-				: "http://localhost:5000/api/courses/instructor/create";
+				? `${API_URL}/api/courses/instructor/${editingCourse._id}`
+				: `${API_URL}/api/courses/instructor/create`;
 
 			const token = localStorage.getItem("instructorToken");
 
@@ -309,7 +310,7 @@ export default function InstructorDashboard() {
 		try {
 			const token = localStorage.getItem("instructorToken");
 			const response = await fetch(
-				`http://localhost:5000/api/courses/instructor/${courseId}`,
+				`${API_URL}/api/courses/instructor/${courseId}`,
 				{
 					method: "DELETE",
 					headers: {

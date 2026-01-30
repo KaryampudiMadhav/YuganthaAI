@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import API_URL from "../config/api";
 
 const ADMIN_EMAIL = "admin@yuganthaai.com";
 const ADMIN_PASSWORD = "Admin123!";
@@ -22,7 +23,7 @@ export default function AdminLoginPage() {
     setError("");
     
     try {
-      const response = await fetch("http://localhost:5000/api/admin/login", {
+      const response = await fetch(`${API_URL}/api/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
