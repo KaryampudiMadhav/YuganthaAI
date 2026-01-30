@@ -1,10 +1,12 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
 export default function MainNavbar() {
 	const [showProfileMenu, setShowProfileMenu] = useState(false);
 	const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+	const [showServicesDropdown, setShowServicesDropdown] = useState(false);
+	const servicesDropdownRef = useRef(null);
 	const { user, isAuthenticated, logout } = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
@@ -16,6 +18,13 @@ export default function MainNavbar() {
 		{ label: "Blogs", to: "/blogs" },
 	];
 
+	const serviceItems = [
+		{ label: "Court Booker", to: "/projects/court-booker" },
+		{ label: "AI Agent Avatar", to: "/projects/ai-agent-avatar" },
+		{ label: "HVAC Agent", to: "/projects/hvac-agent" },
+		{ label: "AI Learning Platform", to: "/projects/ai-learning-platform" },
+	];
+
 	const handleNavClick = () => {
 		setMobileMenuOpen(false);
 	};
@@ -23,7 +32,19 @@ export default function MainNavbar() {
 	useEffect(() => {
 		setShowProfileMenu(false);
 		setMobileMenuOpen(false);
+		setShowServicesDropdown(false);
 	}, [location]);
+
+	useEffect(() => {
+		const handleClickOutside = (event) => {
+			if (servicesDropdownRef.current && !servicesDropdownRef.current.contains(event.target)) {
+				setShowServicesDropdown(false);
+			}
+		};
+
+		document.addEventListener('mousedown', handleClickOutside);
+		return () => document.removeEventListener('mousedown', handleClickOutside);
+	}, []);
 
 	const handleLogout = () => {
 		setShowProfileMenu(false);
@@ -59,6 +80,39 @@ export default function MainNavbar() {
 								{item.label}
 							</Link>
 						))}
+						
+						{/* Services Dropdown */}
+						<div 
+							ref={servicesDropdownRef}
+							className='relative group'
+						>
+							<button 
+								onClick={() => setShowServicesDropdown(!showServicesDropdown)}
+								className='text-xs font-semibold uppercase tracking-wide text-[#C7C3D6] hover:text-[#A855F7] transition-all duration-200 whitespace-nowrap flex items-center gap-1'
+							>
+								Services
+								<svg className={`w-4 h-4 transition-transform ${showServicesDropdown ? 'rotate-180' : ''}`} fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+									<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+								</svg>
+							</button>
+							
+							{showServicesDropdown && (
+								<div className='absolute top-full left-0 mt-2 w-56 bg-[#1a0f3a] border border-[rgba(139,92,246,0.2)] rounded-lg shadow-xl py-2 z-50'>
+									{serviceItems.map((service) => (
+										<Link
+											key={service.label}
+											to={service.to}
+											onClick={() => {
+												handleNavClick();
+												setShowServicesDropdown(false);
+											}}
+											className='block px-4 py-3 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] transition-all'>
+											{service.label}
+										</Link>
+									))}
+								</div>
+							)}
+						</div>
 					</div>
 				</div>
 
@@ -94,6 +148,22 @@ export default function MainNavbar() {
 								{item.label}
 							</Link>
 						))}
+						
+						{/* Mobile Services Dropdown */}
+						<div className='border-t border-[rgba(139,92,246,0.2)] pt-2 mt-2'>
+							<div className='px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#A855F7]'>
+								Services
+							</div>
+							{serviceItems.map((service) => (
+								<Link
+									key={service.label}
+									to={service.to}
+									onClick={handleNavClick}
+									className='px-4 py-2 pl-8 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all block'>
+									{service.label}
+								</Link>
+							))}
+						</div>
 					</div>
 				</div>
 			)}
