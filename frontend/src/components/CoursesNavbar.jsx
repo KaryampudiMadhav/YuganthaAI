@@ -38,17 +38,17 @@ export default function CoursesNavbar() {
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
 					<img 
-						src='/yugantha-logo.png' 
-						alt='YuganthaAI' 
-						className='w-10 h-10 transition-transform group-hover:scale-110'
-					/>
-					<div className='text-lg md:text-xl font-bold'>
-						<span className='text-white'>Yugantha</span>
-						<span className='text-[#A855F7]'>AI</span>
-					</div>
-				</Link>
+					src='/yuganta-logo.png' 
+					alt='YugantaAI' 
+					className='w-10 h-10 transition-transform group-hover:scale-110'
+				/>
+				<div className='text-lg md:text-xl font-bold'>
+					<span className='text-white'>Yuganta</span>
+					<span className='text-[#A855F7]'>AI</span>
+				</div>
+			</Link>
 
-				{/* Desktop Navigation */}
+			{/* Desktop Navigation */}
 				<div className='hidden md:flex items-center flex-1 justify-center ml-8'>
 					<div className='flex items-center gap-6'>
 						{navItems.map((item) => (

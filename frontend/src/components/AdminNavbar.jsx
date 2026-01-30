@@ -24,12 +24,12 @@ export default function AdminNavbar() {
           <div className="flex items-center gap-4 md:gap-8">
             <div className='flex items-center space-x-3'>
               <img 
-                src='/yugantha-logo.png' 
-                alt='Yugantha AI' 
+                src='/yuganta-logo.png' 
+                alt='Yuganta AI' 
                 className='w-10 h-10 transition-transform hover:scale-110'
               />
               <h1 className="text-xl font-bold text-white hidden sm:block">
-                <span>Yugantha</span>
+                <span>Yuganta</span>
                 <span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
               </h1>
             </div>
