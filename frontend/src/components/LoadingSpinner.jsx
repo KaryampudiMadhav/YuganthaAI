@@ -20,8 +20,8 @@ export default function LoadingSpinner() {
 				<div className='mb-6'>
 					<img
 						src='/yugantha-logo.png'
-						alt='Yuganta AI'
-						className='w-24 h-24 object-contain animate-pulse'
+						alt='YuganthaAI'
+						className='w-24 h-24 object-contain'
 					/>
 				</div>
 

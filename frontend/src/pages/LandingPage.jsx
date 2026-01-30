@@ -17,7 +17,7 @@ export default function LandingPage() {
 				{/* Animated Background */}
 				<div className="absolute inset-0 bg-gradient-to-r from-[#1a0f3a] via-[#2563EB] to-[#1E88E5] opacity-90"></div>
 				<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-20"></div>
-				
+
 				{/* Floating Animation Elements */}
 				<div className="absolute inset-0 overflow-hidden">
 					<div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-blob"></div>
@@ -35,7 +35,7 @@ export default function LandingPage() {
 							<p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
 								YuganthaAI provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI designed specifically for college students to excel in the rapidly evolving tech industry.
 							</p>
-							<Link 
+							<Link
 								to="/courses"
 								className="inline-block px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-[0_0_30px_rgba(0,188,212,0.5)] hover:scale-105 transition-all duration-200 text-lg"
 							>
@@ -45,9 +45,9 @@ export default function LandingPage() {
 
 						{/* Right Illustration */}
 						<div className="relative hidden lg:block">
-							<img 
-								src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop" 
-								alt="Students learning" 
+							<img
+								src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&h=600&fit=crop"
+								alt="Students learning"
 								className="rounded-2xl shadow-2xl"
 							/>
 						</div>
@@ -71,9 +71,9 @@ export default function LandingPage() {
 						{/* Court Booker */}
 						<Link to="/projects/court-booker" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
-								<img 
-									src="https://images.unsplash.com/photo-1626245347206-8dfa0c08dc24?w=400&h=300&fit=crop" 
-									alt="Court Booker" 
+								<img
+									src="/court_booking.png"
+									alt="Court Booker"
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
@@ -88,9 +88,9 @@ export default function LandingPage() {
 						{/* AI Agent Avatar */}
 						<Link to="/projects/ai-agent-avatar" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
-								<img 
-									src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=300&fit=crop" 
-									alt="AI Agent Avatar" 
+								<img
+									src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=300&fit=crop"
+									alt="AI Agent Avatar"
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
@@ -105,9 +105,9 @@ export default function LandingPage() {
 						{/* HVAC Agent */}
 						<Link to="/projects/hvac-agent" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
-								<img 
-									src="https://images.unsplash.com/photo-1581094794329-cd28e6454728?w=400&h=300&fit=crop" 
-									alt="HVAC Agent" 
+								<img
+									src="/HVACimg.png"
+									alt="HVAC Agent"
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
@@ -122,9 +122,9 @@ export default function LandingPage() {
 						{/* AI Learning Platform */}
 						<Link to="/projects/ai-learning-platform" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
-								<img 
-									src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=300&fit=crop" 
-									alt="AI Learning Platform" 
+								<img
+									src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=300&fit=crop"
+									alt="AI Learning Platform"
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
@@ -155,9 +155,9 @@ export default function LandingPage() {
 						{/* MERN Stack */}
 						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
-								<img 
-									src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=300&fit=crop" 
-									alt="MERN Stack Development" 
+								<img
+									src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=300&fit=crop"
+									alt="MERN Stack Development"
 									className="w-full h-48 object-cover rounded-2xl"
 								/>
 							</div>
@@ -172,9 +172,9 @@ export default function LandingPage() {
 						{/* GenAI */}
 						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
-								<img 
-									src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop" 
-									alt="Generative AI" 
+								<img
+									src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop"
+									alt="Generative AI"
 									className="w-full h-48 object-cover rounded-2xl"
 								/>
 							</div>
@@ -189,9 +189,9 @@ export default function LandingPage() {
 						{/* Agentic AI */}
 						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
-								<img 
-									src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop" 
-									alt="Agentic AI" 
+								<img
+									src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop"
+									alt="Agentic AI"
 									className="w-full h-48 object-cover rounded-2xl"
 								/>
 							</div>
@@ -227,7 +227,7 @@ export default function LandingPage() {
 							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-8">
 								Our focus on practical, hands-on projects ensures that every student not only learns but masters the skills needed to excel in their careers.
 							</p>
-							<Link 
+							<Link
 								to="/courses"
 								className="inline-block px-8 py-4 border-2 border-[#00BCD4] text-[#00BCD4] font-semibold rounded-full hover:bg-[#00BCD4] hover:text-white transition-all duration-200"
 							>
@@ -237,9 +237,9 @@ export default function LandingPage() {
 
 						{/* Right Illustration */}
 						<div className="relative">
-							<img 
-								src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop" 
-								alt="Students collaborating" 
+							<img
+								src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800&h=600&fit=crop"
+								alt="Students collaborating"
 								className="rounded-2xl shadow-2xl"
 							/>
 						</div>
@@ -253,9 +253,9 @@ export default function LandingPage() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 						{/* Left Illustration */}
 						<div className="relative order-2 lg:order-1">
-							<img 
-								src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop" 
-								alt="Learning environment" 
+							<img
+								src="https://images.unsplash.com/photo-1531482615713-2afd69097998?w=800&h=600&fit=crop"
+								alt="Learning environment"
 								className="rounded-2xl shadow-2xl"
 							/>
 						</div>
@@ -277,7 +277,7 @@ export default function LandingPage() {
 							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-8">
 								We provide exceptional mentorship and support. Our structured yet flexible approach keeps students engaged and helps ensure they stay on track to achieve their learning goals.
 							</p>
-							<Link 
+							<Link
 								to="/courses"
 								className="inline-block px-8 py-4 border-2 border-[#00BCD4] text-[#00BCD4] font-semibold rounded-full hover:bg-[#00BCD4] hover:text-white transition-all duration-200"
 							>
@@ -298,7 +298,7 @@ export default function LandingPage() {
 								<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=800&h=600&fit=crop')] bg-cover bg-center opacity-30"></div>
 								<button className="relative w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-transform cursor-pointer z-10">
 									<svg className="w-8 h-8 text-[#2563EB] ml-1" fill="currentColor" viewBox="0 0 24 24">
-										<path d="M8 5v14l11-7z"/>
+										<path d="M8 5v14l11-7z" />
 									</svg>
 								</button>
 							</div>
@@ -340,7 +340,7 @@ export default function LandingPage() {
 						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
 							<div className="mb-6">
 								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
 								</svg>
 							</div>
 							<p className="text-[#C7C3D6] leading-relaxed mb-6">
@@ -356,7 +356,7 @@ export default function LandingPage() {
 						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
 							<div className="mb-6">
 								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
 								</svg>
 							</div>
 							<p className="text-[#C7C3D6] leading-relaxed mb-6">
@@ -372,7 +372,7 @@ export default function LandingPage() {
 						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
 							<div className="mb-6">
 								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
-									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
+									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
 								</svg>
 							</div>
 							<p className="text-[#C7C3D6] leading-relaxed mb-6">
