@@ -24,9 +24,11 @@ const app = express();
 connectDB();
 
 // CORS configuration
+const allowedOrigins = (process.env.FRONTEND_URL || '').split(',').map(url => url.trim()).filter(Boolean);
 const corsOptions = {
-	origin: process.env.NODE_ENV === 'production' 
+	origin: process.env.NODE_ENV === 'production'
 		? [
+			...allowedOrigins,
 			'https://yuganthaai.vercel.app',
 			'https://yuganthaai.com',
 			'https://www.yuganthaai.com'
