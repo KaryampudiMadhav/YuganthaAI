@@ -55,15 +55,99 @@ export default function LandingPage() {
 				</div>
 			</div>
 
-			{/* What We Do Section */}
+			{/* Our Projects Section */}
+			<div className="py-20">
+				<div className="max-w-7xl mx-auto px-4 md:px-6">
+					<div className="text-center mb-16">
+						<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
+							Innovation & Development
+						</p>
+						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+							Our Projects
+						</h2>
+					</div>
+
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+						{/* Court Booker */}
+						<Link to="/projects/court-booker" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+							<div className="mb-6">
+								<img 
+									src="https://images.unsplash.com/photo-1626245347206-8dfa0c08dc24?w=400&h=300&fit=crop" 
+									alt="Court Booker" 
+									className="w-full h-40 object-cover rounded-2xl"
+								/>
+							</div>
+							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+								Court Booker
+							</h3>
+							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+								Smart booking system for sports courts and recreational facilities.
+							</p>
+						</Link>
+
+						{/* AI Agent Avatar */}
+						<Link to="/projects/ai-agent-avatar" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+							<div className="mb-6">
+								<img 
+									src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=300&fit=crop" 
+									alt="AI Agent Avatar" 
+									className="w-full h-40 object-cover rounded-2xl"
+								/>
+							</div>
+							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+								AI Agent Avatar
+							</h3>
+							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+								Interactive 3D avatars powered by advanced AI for immersive experiences.
+							</p>
+						</Link>
+
+						{/* HVAC Agent */}
+						<Link to="/projects/hvac-agent" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+							<div className="mb-6">
+								<img 
+									src="https://images.unsplash.com/photo-1581094794329-cd28e6454728?w=400&h=300&fit=crop" 
+									alt="HVAC Agent" 
+									className="w-full h-40 object-cover rounded-2xl"
+								/>
+							</div>
+							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+								HVAC Agent
+							</h3>
+							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+								Intelligent climate control systems optimization using AI.
+							</p>
+						</Link>
+
+						{/* AI Learning Platform */}
+						<Link to="/projects/ai-learning-platform" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+							<div className="mb-6">
+								<img 
+									src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=300&fit=crop" 
+									alt="AI Learning Platform" 
+									className="w-full h-40 object-cover rounded-2xl"
+								/>
+							</div>
+							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+								AI Learning Platform
+							</h3>
+							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+								Next-generation educational platform personalized with AI.
+							</p>
+						</Link>
+					</div>
+				</div>
+			</div>
+
+			{/* Currently Courses Section */}
 			<div className="py-20 md:py-32">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
 					<div className="text-center mb-16">
 						<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
-							Services To Our Students
+							We also provide courses
 						</p>
 						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-							What We Do ?
+							Currently Courses
 						</h2>
 					</div>
 
