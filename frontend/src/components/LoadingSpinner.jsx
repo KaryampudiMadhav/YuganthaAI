@@ -25,6 +25,7 @@ export default function LoadingSpinner() {
 					/>
 				</div>
 
+<<<<<<< HEAD
 				{/* Loading Text */}
 				<div className='flex items-center space-x-2'>
 					<span className='text-2xl font-bold text-white animate-pulse'>
@@ -34,8 +35,16 @@ export default function LoadingSpinner() {
 						AI
 					</span>
 				</div>
+=======
+			{/* Loading Text */}
+			<div className='flex items-center space-x-2'>
+				<span className='text-2xl font-bold text-white animate-pulse'>
+					Yuganta
+				</span>
+			</div>
+>>>>>>> b18afb273f9730a9cf8a52f348eaf048001b6cf7
 
-				{/* Animated Dots */}
+			{/* Animated Dots */}
 				<div className='mt-8 flex space-x-2'>
 					<div
 						className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'
