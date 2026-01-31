@@ -416,12 +416,12 @@ export default function InstructorDashboard() {
 					<div className='flex items-center space-x-6'>
 						<Link to='/' className='flex items-center space-x-3 hover:opacity-80 transition duration-300 group'>
 							<img 
-								src='/yugantha-logo.png' 
-								alt='Yugantha AI' 
+								src='/yuganta-logo.png' 
+								alt='yuganta AI' 
 								className='w-10 h-10 transition-transform group-hover:scale-110'
 							/>
 							<div className='text-xl font-bold tracking-tight'>
-								<span className='text-white'>Yugantha</span>
+								<span className='text-white'>Yuganta</span>
 								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
 							</div>
 						</Link>

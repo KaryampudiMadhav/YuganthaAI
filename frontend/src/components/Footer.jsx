@@ -9,7 +9,7 @@ export default function Footer() {
 					<div className='col-span-1 md:col-span-2'>
 						<Link to='/' className='flex items-center space-x-3 mb-6 group'>
 							<img
-								src='/yugantha-logo.png'
+								src='/yuganta-logo.png'
 								alt='YugantaAI'
 								className='w-10 h-10 transition-transform group-hover:scale-110'
 							/>

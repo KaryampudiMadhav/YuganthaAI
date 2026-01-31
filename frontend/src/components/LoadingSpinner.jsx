@@ -21,8 +21,8 @@ export default function LoadingSpinner() {
 
 					<img
 						src='/yuganta-logo.png'
-						alt='YugantaAI'
-						className='w-20 h-20 animate-spin-slow'
+					alt='yugantaAI'
+					className='w-24 h-24 object-contain'
 					/>
 				</div>
 				{/* Loading Text */}

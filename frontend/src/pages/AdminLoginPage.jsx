@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import API_URL from "../config/api";
 
-const ADMIN_EMAIL = "admin@yuganthaai.com";
+const ADMIN_EMAIL = "admin@yugantaai.com";
 const ADMIN_PASSWORD = "Admin123!";
 
 export default function AdminLoginPage() {
@@ -49,12 +49,10 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md space-y-8">
         {/* Logo Section */}
         <div className="text-center space-y-3">
-          <div className="w-14 h-14 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] rounded-lg mx-auto flex items-center justify-center shadow-[0_4px_16px_rgba(139,92,246,0.4)]">
-            <span className="text-white font-bold text-2xl">Y</span>
-          </div>
+          
           <div>
             <h1 className="text-3xl font-bold">
-              <span className='text-white'>Yugantha</span>
+              <span className='text-white'>Yuganta</span>
               <span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
             </h1>
             <p className="text-sm text-[#C7C3D6] mt-2">Admin Panel</p>

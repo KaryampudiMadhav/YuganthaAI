@@ -40,12 +40,12 @@ export default function LoginPage() {
 						to='/'
 						className='inline-flex items-center space-x-2 mb-4 md:mb-6 group'>
 						<img 
-							src='/yugantha-logo.png' 
-							alt='Yugantha AI' 
+							src='/yuganta-logo.png' 
+							alt='yuganta AI' 
 							className='w-10 h-10 md:w-12 md:h-12 transition-transform group-hover:scale-110'
 						/>
 						<div className='text-xl md:text-2xl font-bold text-white'>
-							<span className='text-white'>Yugantha</span>
+							<span className='text-white'>Yuganta</span>
 							<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
 						</div>
 					</Link>
