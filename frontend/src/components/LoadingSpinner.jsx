@@ -19,9 +19,9 @@ export default function LoadingSpinner() {
 				{/* Logo Image */}
 				<div className='mb-6'>
 
-					<img 
-						src='/yuganta-logo.png' 
-						alt='YugantaAI' 
+					<img
+						src='/yuganta-logo.png'
+						alt='YugantaAI'
 						className='w-20 h-20 animate-spin-slow'
 					/>
 				</div>
@@ -35,7 +35,7 @@ export default function LoadingSpinner() {
 					</span>
 				</div>
 
-			{/* Animated Dots */}
+				{/* Animated Dots */}
 				<div className='mt-8 flex space-x-2'>
 					<div
 						className='w-2 h-2 bg-blue-500 rounded-full animate-bounce'

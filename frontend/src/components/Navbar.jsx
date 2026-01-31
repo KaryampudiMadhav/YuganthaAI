@@ -16,7 +16,7 @@ export default function Navbar() {
 			label: "Program Dashboard",
 			to: isAuthenticated ? "/my-learning" : "/login",
 		},
-		{ label: "Free Courses", to: "/free-courses" },
+		{ label: "Courses", to: "/free-courses" },
 		{ label: "Blogs", to: "/blogs" },
 		{ label: "About Us", to: "/about" },
 		{ label: "Contact", to: "/contact" },
@@ -46,9 +46,9 @@ export default function Navbar() {
 			<div className='max-w-7xl mx-auto flex items-center justify-between'>
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
-					<img 
-						src='/yuganta-logo.png' 
-						alt='YugantaAI' 
+					<img
+						src='/yugantha-logo.png'
+						alt='YuganthaAI'
 						className='w-10 h-10 transition-transform group-hover:scale-110'
 					/>
 					<div className='text-lg md:text-xl font-bold'>
@@ -224,7 +224,7 @@ export default function Navbar() {
 							className='px-4 py-2 text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.15)] hover:text-[#A855F7] rounded-lg transition-all duration-200'>
 							Programs
 						</Link>
-						
+
 						{isAuthenticated ? (
 							<>
 								<div className='border-t border-[rgba(139,92,246,0.2)] my-2'></div>

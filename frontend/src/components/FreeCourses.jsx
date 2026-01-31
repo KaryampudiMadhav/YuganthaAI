@@ -10,10 +10,10 @@ export default function FreeCourses() {
 		{
 			id: 1,
 			title: "AI Agents Masterclass",
-			instructor: "Yugantha AI Team",
+			instructor: "Yuganta AI Team",
 			duration: "55 Hours",
-			rating: 4.8,
-			students: 2547,
+			rating: 4.4,
+			students: 500,
 			level: "Advanced",
 			category: "AI & ML",
 			thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
@@ -23,10 +23,10 @@ export default function FreeCourses() {
 		{
 			id: 2,
 			title: "Generative AI Complete Course",
-			instructor: "Yugantha AI Team",
+			instructor: "Yuganta AI Team",
 			duration: "42 Hours",
-			rating: 4.9,
-			students: 3145,
+			rating: 4.4,
+			students: 500,
 			level: "Intermediate",
 			category: "AI & ML",
 			thumbnail: "https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=800&q=80",
@@ -36,10 +36,10 @@ export default function FreeCourses() {
 		{
 			id: 3,
 			title: "MERN Stack Development",
-			instructor: "Yugantha AI Team",
+			instructor: "Yuganta AI Team",
 			duration: "40 Hours",
-			rating: 4.7,
-			students: 2890,
+			rating: 4.4,
+			students: 500,
 			level: "Intermediate",
 			category: "Web Development",
 			thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&q=80",
@@ -72,7 +72,7 @@ export default function FreeCourses() {
 			{/* Decorative background elements with animation */}
 			<div className='absolute top-0 left-0 w-96 h-96 bg-[#8B5CF6] opacity-5 blur-3xl rounded-full -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]'></div>
 			<div className='absolute bottom-0 right-0 w-96 h-96 bg-[#EC4899] opacity-5 blur-3xl rounded-full translate-x-1/2 translate-y-1/2 animate-[float_8s_ease-in-out_infinite_2s]'></div>
-			
+
 			{/* Animated moving objects */}
 			<div className='absolute top-20 left-10 w-20 h-20 bg-gradient-to-br from-[#06B6D4] to-[#0891B2] opacity-10 rounded-full blur-2xl animate-[pulse_4s_ease-in-out_infinite]'></div>
 			<div className='absolute top-1/3 right-20 w-28 h-28 bg-gradient-to-br from-[#F59E0B] to-[#D97706] opacity-8 rounded-full blur-3xl animate-[float_7s_ease-in-out_infinite]'></div>
@@ -85,13 +85,12 @@ export default function FreeCourses() {
 					{courses.map((course, idx) => (
 						<div
 							key={course.id}
-							className={`bg-[rgba(22,11,46,0.5)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden hover:shadow-[0_16px_48px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-300 group ${
-								idx === 0
+							className={`bg-[rgba(22,11,46,0.5)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden hover:shadow-[0_16px_48px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-300 group ${idx === 0
 									? 'animate-stagger-1'
 									: idx === 1
-									? 'animate-stagger-2'
-									: 'animate-stagger-3'
-							}`}>
+										? 'animate-stagger-2'
+										: 'animate-stagger-3'
+								}`}>
 							{/* Course Image/Icon */}
 							<div className='bg-gradient-to-br from-[#8B5CF6]/20 to-[#EC4899]/20 h-40 md:h-48 flex items-center justify-center text-5xl md:text-6xl relative border-b border-[rgba(139,92,246,0.1)]'>
 								{course.thumbnail ? (
@@ -110,9 +109,6 @@ export default function FreeCourses() {
 								<div className='flex items-center justify-between mb-3'>
 									<span className='text-xs md:text-sm text-[#9A93B5]'>
 										{course.duration || "Self-paced"}
-									</span>
-									<span className='bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white px-2 md:px-3 py-1 rounded-full text-xs md:text-sm font-semibold shadow-[0_2px_12px_rgba(139,92,246,0.4)]'>
-										Free
 									</span>
 								</div>
 

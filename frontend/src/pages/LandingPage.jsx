@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import StructuredData from "../components/StructuredData";
 
 export default function LandingPage() {
 	const [email, setEmail] = useState("");
@@ -12,6 +13,7 @@ export default function LandingPage() {
 
 	return (
 		<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+			<StructuredData />
 			{/* Hero Section */}
 			<div className="relative min-h-screen flex items-center overflow-hidden">
 				{/* Animated Background */}
@@ -33,7 +35,7 @@ export default function LandingPage() {
 								Empowering Tomorrow's <span className="text-[#00D4FF]">Tech Leaders</span>
 							</h1>
 							<p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-								YuganthaAI provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI designed specifically for college students to excel in the rapidly evolving tech industry.
+								YugantaAI specializes in project development and provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI to help you excel in the rapidly evolving tech industry.
 							</p>
 							<Link
 								to="/courses"

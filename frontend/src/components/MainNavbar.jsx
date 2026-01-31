@@ -57,14 +57,16 @@ export default function MainNavbar() {
 			<div className='max-w-7xl mx-auto flex items-center justify-between'>
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
-					<img 
-					src='/yuganta-logo.png' 
-					alt='YugantaAI' 
-					className='w-10 h-10 transition-transform group-hover:scale-110'
-				/>
-				<div className='text-lg md:text-xl font-bold'>
-					<span className='text-white'>Yuganta</span>				<span className='text-[#A855F7]'>AI</span>
-			</div>				</Link>
+					<img
+						src='/yugantha-logo.png'
+						alt='YuganthaAI'
+						className='w-10 h-10 transition-transform group-hover:scale-110'
+					/>
+					<div className='text-lg md:text-xl font-bold'>
+						<span className='text-white'>Yuganta</span>
+						<span className='text-[#A855F7]'>AI</span>
+					</div>
+				</Link>
 
 				{/* Desktop Navigation */}
 				<div className='hidden md:flex items-center flex-1 justify-center ml-8'>
@@ -78,13 +80,13 @@ export default function MainNavbar() {
 								{item.label}
 							</Link>
 						))}
-						
+
 						{/* Services Dropdown */}
-						<div 
+						<div
 							ref={servicesDropdownRef}
 							className='relative group'
 						>
-							<button 
+							<button
 								onClick={() => setShowServicesDropdown(!showServicesDropdown)}
 								className='text-xs font-semibold uppercase tracking-wide text-[#C7C3D6] hover:text-[#A855F7] transition-all duration-200 whitespace-nowrap flex items-center gap-1'
 							>
@@ -93,7 +95,7 @@ export default function MainNavbar() {
 									<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
 								</svg>
 							</button>
-							
+
 							{showServicesDropdown && (
 								<div className='absolute top-full left-0 mt-2 w-56 bg-[#1a0f3a] border border-[rgba(139,92,246,0.2)] rounded-lg shadow-xl py-2 z-50'>
 									{serviceItems.map((service) => (
@@ -146,7 +148,7 @@ export default function MainNavbar() {
 								{item.label}
 							</Link>
 						))}
-						
+
 						{/* Mobile Services Dropdown */}
 						<div className='border-t border-[rgba(139,92,246,0.2)] pt-2 mt-2'>
 							<div className='px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#A855F7]'>
