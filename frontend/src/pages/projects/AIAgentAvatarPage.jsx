@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Brain, MessageSquare, Zap, Shield } from "lucide-react";
+import { ArrowLeft, Brain, MessageSquare, Zap, Shield, BookOpen, Smile, Globe } from "lucide-react";
 
 export default function AIAgentAvatarPage() {
 	const features = [
@@ -103,29 +103,27 @@ export default function AIAgentAvatarPage() {
 					<h2 className="text-3xl md:text-4xl font-bold mb-4">Accurate, Document-Based Guidance</h2>
 					<p className="text-gray-400 text-lg">Learning directly from textbooks and uploaded PDFs</p>
 				</div>
-				<div className="grid md:grid-cols-2 gap-12 items-center">
-					<div className="space-y-6">
-						<div className="p-6 bg-gradient-to-br from-blue-900/20 to-transparent border border-blue-500/20 rounded-xl">
-							<h3 className="text-xl font-semibold mb-2 text-blue-300">Syllabus-Focused Learning</h3>
-							<p className="text-gray-300">Explains concepts directly from textbooks, ensuring confusion-free learning aligned with your school curriculum.</p>
+				<div className="grid md:grid-cols-3 gap-8">
+					<div className="p-8 bg-gradient-to-br from-blue-900/20 to-blue-900/5 border border-blue-500/30 rounded-2xl hover:border-blue-500/60 transition-all">
+						<div className="flex items-center justify-center w-14 h-14 bg-blue-500/20 rounded-xl mb-6">
+							<BookOpen className="text-blue-400" size={28} />
 						</div>
-						<div className="p-6 bg-gradient-to-br from-green-900/20 to-transparent border border-green-500/20 rounded-xl">
-							<h3 className="text-xl font-semibold mb-2 text-green-300">Emotion-Aware Intelligence</h3>
-							<p className="text-gray-300">Understands student emotions using realistic facial expressions, lip-sync, and gestures to explain in an engaging, human-like way.</p>
-						</div>
-						<div className="p-6 bg-gradient-to-br from-cyan-900/20 to-transparent border border-cyan-500/20 rounded-xl">
-							<h3 className="text-xl font-semibold mb-2 text-cyan-300">Multilingual Learning (14 Languages)</h3>
-							<p className="text-gray-300">Supports English and 13 Indian languages, allowing students to learn comfortably in their mother tongue without barriers.</p>
-						</div>
+						<h3 className="text-xl font-semibold mb-3 text-blue-300">Syllabus-Focused Learning</h3>
+						<p className="text-gray-300 leading-relaxed">Explains concepts directly from textbooks, ensuring confusion-free learning aligned with your school curriculum. Every explanation references your actual study materials.</p>
 					</div>
-					<div className="relative">
-						<div className="aspect-square bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 flex items-center justify-center">
-							<div className="text-center">
-								<div className="text-6xl mb-4">📚</div>
-								<p className="text-purple-300 font-semibold">AI-Powered Learning</p>
-								<p className="text-gray-400 text-sm mt-2">Personalized Mentoring</p>
-							</div>
+					<div className="p-8 bg-gradient-to-br from-green-900/20 to-green-900/5 border border-green-500/30 rounded-2xl hover:border-green-500/60 transition-all">
+						<div className="flex items-center justify-center w-14 h-14 bg-green-500/20 rounded-xl mb-6">
+							<Smile className="text-green-400" size={28} />
 						</div>
+						<h3 className="text-xl font-semibold mb-3 text-green-300">Emotion-Aware Intelligence</h3>
+						<p className="text-gray-300 leading-relaxed">Understands student emotions using realistic facial expressions, lip-sync, and gestures. Adjusts explanations based on your comfort level for deeper engagement.</p>
+					</div>
+					<div className="p-8 bg-gradient-to-br from-cyan-900/20 to-cyan-900/5 border border-cyan-500/30 rounded-2xl hover:border-cyan-500/60 transition-all">
+						<div className="flex items-center justify-center w-14 h-14 bg-cyan-500/20 rounded-xl mb-6">
+							<Globe className="text-cyan-400" size={28} />
+						</div>
+						<h3 className="text-xl font-semibold mb-3 text-cyan-300">Multilingual Learning (14 Languages)</h3>
+						<p className="text-gray-300 leading-relaxed">Supports English and 13 Indian languages including Hindi, Telugu, Tamil, Kannada, and more. Learn comfortably in your mother tongue without barriers.</p>
 					</div>
 				</div>
 			</div>
@@ -168,7 +166,6 @@ export default function AIAgentAvatarPage() {
 				</div>
 			</div>
 
-			{/* CTA Section */}
 			<div className="max-w-7xl mx-auto px-4 md:px-6 py-20">
 				<div className="bg-gradient-to-br from-purple-900/20 to-blue-900/20 rounded-2xl border border-purple-500/20 p-12 text-center">
 					<h2 className="text-3xl md:text-4xl font-bold mb-4">
