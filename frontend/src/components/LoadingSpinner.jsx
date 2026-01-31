@@ -18,19 +18,22 @@ export default function LoadingSpinner() {
 			<div className='relative flex flex-col items-center'>
 				{/* Logo Image */}
 				<div className='mb-6'>
+
 					<img 
 						src='/yuganta-logo.png' 
-					alt='Yuganta AI' 
-					className='w-24 h-24 object-contain animate-pulse'
-				/>
-			</div>
-
-			{/* Loading Text */}
-			<div className='flex items-center space-x-2'>
-				<span className='text-2xl font-bold text-white animate-pulse'>
-					Yuganta AI
-				</span>
-			</div>
+						alt='YugantaAI' 
+						className='w-20 h-20 animate-spin-slow'
+					/>
+				</div>
+				{/* Loading Text */}
+				<div className='flex items-center space-x-2'>
+					<span className='text-2xl font-bold text-white animate-pulse'>
+						Yuganta
+					</span>
+					<span className='text-2xl font-bold text-[#A855F7] animate-pulse'>
+						AI
+					</span>
+				</div>
 
 			{/* Animated Dots */}
 				<div className='mt-8 flex space-x-2'>
@@ -46,5 +49,5 @@ export default function LoadingSpinner() {
 				</div>
 			</div>
 		</div>
-);
+	);
 }
