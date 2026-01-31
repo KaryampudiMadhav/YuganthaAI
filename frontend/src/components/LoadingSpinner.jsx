@@ -23,7 +23,6 @@ export default function LoadingSpinner() {
 						src='/yuganta-logo.png'
 					alt='yugantaAI'
 					className='w-24 h-24 object-contain'
-						
 					/>
 				</div>
 				{/* Loading Text */}
