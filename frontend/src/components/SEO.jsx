@@ -5,11 +5,11 @@ const SEO = ({
   title = 'YugantaAI - AI & Technology Learning Platform',
   description = 'Master AI and technology skills with expert-led courses and mentorship programs.',
   keywords = 'AI courses, machine learning, technology training, online learning',
-  image = '/yugantha-logo.png',
+  image = '/yuganta-logo.png',
   url = ''
 }) => {
   const location = useLocation();
-  const fullUrl = `https://yuganthaai.com${url || location.pathname}`;
+  const fullUrl = `https://yugantaai.com${url || location.pathname}`;
 
   useEffect(() => {
     // Update title
@@ -21,11 +21,11 @@ const SEO = ({
       { name: 'keywords', content: keywords },
       { property: 'og:title', content: title },
       { property: 'og:description', content: description },
-      { property: 'og:image', content: `https://yuganthaai.com${image}` },
+      { property: 'og:image', content: `https://yugantaai.com${image}` },
       { property: 'og:url', content: fullUrl },
       { property: 'twitter:title', content: title },
       { property: 'twitter:description', content: description },
-      { property: 'twitter:image', content: `https://yuganthaai.com${image}` },
+      { property: 'twitter:image', content: `https://yugantaai.com${image}` },
       { property: 'twitter:url', content: fullUrl },
     ];
 

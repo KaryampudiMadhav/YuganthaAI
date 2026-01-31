@@ -47,8 +47,8 @@ export default function Navbar() {
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
 					<img
-						src='/yugantha-logo.png'
-						alt='YuganthaAI'
+						src='/yuganta-logo.png'
+						alt='yugantaAI'
 						className='w-10 h-10 transition-transform group-hover:scale-110'
 					/>
 					<div className='text-lg md:text-xl font-bold'>

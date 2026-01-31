@@ -24,8 +24,8 @@ export default function AdminNavbar() {
           <div className="flex items-center gap-4 md:gap-8">
             <div className='flex items-center space-x-3'>
               <img
-                src='/yugantha-logo.png'
-                alt='YuganthaAI'
+                src='/yuganta-logo.png'
+                alt='YugantaAI'
                 className='w-10 h-10 transition-transform hover:scale-110'
               />
               <h1 className="text-xl font-bold text-white hidden sm:block">

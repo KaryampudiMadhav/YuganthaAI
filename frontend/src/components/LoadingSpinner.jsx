@@ -19,8 +19,8 @@ export default function LoadingSpinner() {
 				{/* Logo Image */}
 				<div className='mb-6'>
 					<img
-						src='/yugantha-logo.png'
-						alt='YuganthaAI'
+						src='/yuganta-logo.png'
+						alt='yugantaAI'
 						className='w-24 h-24 object-contain'
 					/>
 				</div>

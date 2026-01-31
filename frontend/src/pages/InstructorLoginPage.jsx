@@ -54,11 +54,9 @@ export default function InstructorLoginPage() {
 				<div className='bg-[#12091F] border border-[rgba(139,92,246,0.25)] backdrop-blur-xl rounded-2xl p-8 md:p-10 shadow-[0_8px_32px_rgba(139,92,246,0.2)]'>
 					<div className='text-center mb-10'>
 						<div className='flex items-center justify-center space-x-2 mb-6'>
-							<div className='w-12 h-12 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] rounded-lg flex items-center justify-center shadow-[0_4px_16px_rgba(139,92,246,0.4)]'>
-								<span className='text-white font-bold text-lg'>Y</span>
-							</div>
+							
 							<div className='text-2xl font-bold'>
-								<span className='text-white'>Yugantha</span>
+								<span className='text-white'>Yuganta</span>
 								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
 							</div>
 						</div>
@@ -79,49 +77,7 @@ export default function InstructorLoginPage() {
 						</div>
 					)}
 
-					{/* Dev Hint */}
-					<div className='mb-6 p-4 bg-[rgba(139,92,246,0.1)] border border-[rgba(139,92,246,0.3)] rounded-lg'>
-						<button
-							onClick={() => setShowHint(!showHint)}
-							className='text-[#A855F7] text-sm font-semibold flex items-center justify-between w-full hover:text-[#EC4899] transition duration-300'>
-							<span className='flex items-center gap-2'>
-								<svg className='w-4 h-4' fill='currentColor' viewBox='0 0 20 20'>
-									<path fillRule='evenodd' d='M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z' clipRule='evenodd' />
-								</svg>
-								Development Credentials
-							</span>
-							<svg
-								className={`w-4 h-4 transition-transform duration-300 ${
-									showHint ? "rotate-180" : ""
-								}`}
-								fill='none'
-								stroke='currentColor'
-								viewBox='0 0 24 24'>
-								<path
-									strokeLinecap='round'
-									strokeLinejoin='round'
-									strokeWidth={2}
-									d='M19 9l-7 7-7-7'
-								/>
-							</svg>
-						</button>
-						{showHint && (
-							<div className='mt-3 text-xs text-[#C7C3D6] space-y-2 pt-3 border-t border-[rgba(139,92,246,0.2)]'>
-								<div>
-									Email:{" "}
-									<code className='bg-[rgba(139,92,246,0.2)] px-2.5 py-1 rounded text-[#A855F7] font-semibold'>
-										instructor@yuganthaai.com
-									</code>
-								</div>
-								<div>
-									Password:{" "}
-									<code className='bg-[rgba(139,92,246,0.2)] px-2.5 py-1 rounded text-[#A855F7] font-semibold'>
-										instructor123
-									</code>
-								</div>
-							</div>
-						)}
-					</div>
+					
 
 					<form onSubmit={handleSubmit} className='space-y-6'>
 						<div>
@@ -133,7 +89,7 @@ export default function InstructorLoginPage() {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								className='w-full px-4 py-3.5 bg-[#0B0614] border border-[#2A1F4D] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300 hover:border-[rgba(139,92,246,0.5)]'
-								placeholder='instructor@yuganthaai.com'
+								placeholder='instructor@yugantaai.com'
 								required
 							/>
 						</div>

@@ -58,7 +58,7 @@ const sendOTPEmail = async (email, otp, instructorName) => {
 };
 
 // Static admin credentials
-const ADMIN_EMAIL = "admin@yuganthaai.com";
+const ADMIN_EMAIL = "admin@yugantaai.com";
 const ADMIN_PASSWORD_HASH = bcrypt.hashSync("Admin123!", 10);
 
 // Admin login
