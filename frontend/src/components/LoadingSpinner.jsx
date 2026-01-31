@@ -18,13 +18,13 @@ export default function LoadingSpinner() {
 			<div className='relative flex flex-col items-center'>
 				{/* Logo Image */}
 				<div className='mb-6'>
+
 					<img
 						src='/yuganta-logo.png'
 						alt='yugantaAI'
 						className='w-24 h-24 object-contain'
 					/>
 				</div>
-
 				{/* Loading Text */}
 				<div className='flex items-center space-x-2'>
 					<span className='text-2xl font-bold text-white animate-pulse'>

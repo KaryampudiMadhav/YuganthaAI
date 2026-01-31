@@ -35,8 +35,7 @@ export default function LandingPage() {
 								Empowering Tomorrow's <span className="text-[#00D4FF]">Tech Leaders</span>
 							</h1>
 							<p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-								YugantaAI specializes in project development and provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI to help you excel in the rapidly evolving tech industry.
-							</p>
+					YugantaAI provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI designed specifically for college students to excel in the tech industry. Beyond courses, we offer hands-on experience through innovative real-world projects including AI-powered HVAC systems, chatbots, and agentic AI applications.</p>
 							<Link
 								to="/courses"
 								className="inline-block px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-[0_0_30px_rgba(0,188,212,0.5)] hover:scale-105 transition-all duration-200 text-lg"
