@@ -41,13 +41,13 @@ export default function Hero() {
 						<svg className='w-6 h-6 text-[#A855F7] mb-2 mx-auto group-hover:scale-110 transition-transform duration-300' fill='currentColor' viewBox='0 0 20 20'>
 							<path d='M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10.441c1.057-.465 2.245-.779 3.5-.779 1.948 0 3.764.382 5.384 1.176A8.025 8.025 0 0115.5 15c1.948 0 3.764.382 5.384 1.176V4.804A7.967 7.967 0 0015.5 4c-1.255 0-2.443.29-3.5.804V12a8.025 8.025 0 00-3-6.196zM8 5.5a.5.5 0 11-1 0 .5.5 0 011 0z' />
 						</svg>
-						<p className='text-sm md:text-base font-semibold'>150+ Learning Hours</p>
+						<p className='text-sm md:text-base font-semibold'>100+ Learning Hours</p>
 					</div>
 					<div className='bg-[rgba(139,92,246,0.08)] border border-[rgba(139,92,246,0.2)] rounded-xl px-4 py-3 hover:bg-[rgba(139,92,246,0.12)] hover:border-[rgba(139,92,246,0.4)] transition-all duration-300 group animate-scaleInUp animation-delay-300'>
 						<svg className='w-6 h-6 text-[#A855F7] mb-2 mx-auto group-hover:scale-110 transition-transform duration-300' fill='currentColor' viewBox='0 0 20 20'>
 							<path fillRule='evenodd' d='M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 3.062v6.648a3.066 3.066 0 01-3.062 3.062H9.231A9.065 9.065 0 007.000 16.89a9.065 9.065 0 00-2.231.274H4.267a3.066 3.066 0 01-3.062-3.062V6.517a3.066 3.066 0 012.812-3.062zM9 12a1 1 0 11-2 0 1 1 0 012 0z' clipRule='evenodd' />
 						</svg>
-						<p className='text-sm md:text-base font-semibold'>12+ Real Projects</p>
+						<p className='text-sm md:text-base font-semibold'>Real Projects</p>
 					</div>
 				</div>
 
