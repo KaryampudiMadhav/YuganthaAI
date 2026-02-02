@@ -9,6 +9,7 @@ import userRoutes from "./routes/user.js";
 import courseRoutes from "./routes/courses.js";
 import adminRoutes from "./routes/admin.js";
 import instructorAuthRoutes from "./routes/instructorAuth.js";
+import mentorAuthRoutes from "./routes/mentorAuth.js";
 import blogRoutes from "./routes/blogs.js";
 import mentorshipSessionsRoutes from "./routes/mentorshipSessions.js";
 
@@ -48,6 +49,7 @@ app.use("/api/users", userRoutes);
 app.use("/api/courses", courseRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/instructor-auth", instructorAuthRoutes);
+app.use("/api/mentor-auth", mentorAuthRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/mentorship-sessions", mentorshipSessionsRoutes);
 

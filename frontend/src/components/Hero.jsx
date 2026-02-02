@@ -58,7 +58,7 @@ export default function Hero() {
 					<p className='text-sm text-[#9A93B5] mb-4'>Trusted by students and industry leaders worldwide</p>
 					<div className='flex justify-center gap-6 md:gap-8 text-[#C7C3D6] text-sm md:text-base'>
 						<div className='text-center animate-floatSlow animation-delay-100'>
-							<p className='text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>5000+</p>
+							<p className='text-2xl md:text-3xl font-bold bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>100+</p>
 							<p className='text-xs md:text-sm'>Students</p>
 						</div>
 						<div className='w-px bg-[rgba(139,92,246,0.2)]'></div>

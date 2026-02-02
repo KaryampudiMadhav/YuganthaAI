@@ -44,6 +44,11 @@ const userSchema = new mongoose.Schema({
 		ref: "Instructor",
 		default: null,
 	},
+	assignedMentor: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Mentor",
+		default: null,
+	},
 	avatar: {
 		type: String,
 		default: "",
