@@ -172,7 +172,7 @@ export default function CoursesPage() {
 							<div className='flex flex-wrap gap-6 md:gap-12 mb-12'>
 								<div>
 									<div className='text-3xl md:text-4xl font-bold mb-2'>
-										1.3M+
+										100+
 									</div>
 									<div className='text-gray-400'>
 										Enrollments
@@ -180,7 +180,7 @@ export default function CoursesPage() {
 								</div>
 								<div>
 									<div className='text-4xl font-bold mb-2'>
-										4.4
+										4.1
 									</div>
 									<div className='text-gray-400'>
 										Average Rating
@@ -188,7 +188,7 @@ export default function CoursesPage() {
 								</div>
 								<div>
 									<div className='text-4xl font-bold mb-2'>
-										120+
+										5+
 									</div>
 									<div className='text-gray-400'>Courses</div>
 								</div>
