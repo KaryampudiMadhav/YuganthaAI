@@ -9,6 +9,11 @@ const mentorshipSessionSchema = new mongoose.Schema({
 	instructorId: {
 		type: mongoose.Schema.Types.ObjectId,
 		ref: "Instructor",
+		default: null,
+	},
+	mentorId: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: "Mentor",
 		required: true,
 	},
 	title: {

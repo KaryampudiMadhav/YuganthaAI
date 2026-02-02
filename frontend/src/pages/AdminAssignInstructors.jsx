@@ -5,16 +5,16 @@ import { Users, BookOpen, Check, ChevronDown, Sparkles, AlertCircle } from "luci
 import AdminNavbar from "../components/AdminNavbar";
 import API_URL from "../config/api";
 
-export default function AdminAssignInstructors() {
+export default function AdminAssignMentors() {
   const navigate = useNavigate();
-  const [instructors, setInstructors] = useState([]);
+  const [mentors, setMentors] = useState([]);
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedInstructor, setSelectedInstructor] = useState(null);
+  const [selectedMentor, setSelectedMentor] = useState(null);
   const [successMessage, setSuccessMessage] = useState("");
   const [searchUserQuery, setSearchUserQuery] = useState("");
-  const [searchInstructorQuery, setSearchInstructorQuery] = useState("");
+  const [searchMentorQuery, setSearchMentorQuery] = useState("");
 
   useEffect(() => {
     const authed = localStorage.getItem("adminAuthed") === "true";
@@ -30,19 +30,19 @@ export default function AdminAssignInstructors() {
     try {
       const token = localStorage.getItem("adminToken");
       
-      // Fetch instructors from registered instructors
-      const instructorsRes = await fetch(`${API_URL}/api/admin/instructors`, {
+      // Fetch mentors from registered mentors
+      const mentorsRes = await fetch(`${API_URL}/api/admin/mentors`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      if (instructorsRes.status === 401) {
+      if (mentorsRes.status === 401) {
         handleLogout();
         return;
       }
 
-      if (!instructorsRes.ok) throw new Error("Failed to fetch instructors");
-      const instructorsData = await instructorsRes.json();
-      setInstructors(instructorsData.filter((i) => i.active && i.approved));
+      if (!mentorsRes.ok) throw new Error("Failed to fetch mentors");
+      const mentorsData = await mentorsRes.json();
+      setMentors(mentorsData.filter((m) => m.active));
 
       // Fetch users
       const usersRes = await fetch(`${API_URL}/api/admin/users`, {
@@ -62,16 +62,16 @@ export default function AdminAssignInstructors() {
     }
   };
 
-  const assignInstructor = async () => {
-    if (!selectedUser || !selectedInstructor) {
-      toast.error("Please select both a user and an instructor");
+  const assignMentor = async () => {
+    if (!selectedUser || !selectedMentor) {
+      toast.error("Please select both a user and a mentor");
       return;
     }
 
     try {
       const token = localStorage.getItem("adminToken");
       const response = await fetch(
-        `${API_URL}/api/admin/assign-instructor`,
+        `${API_URL}/api/admin/assign-mentor`,
         {
           method: "POST",
           headers: {
@@ -80,7 +80,7 @@ export default function AdminAssignInstructors() {
           },
           body: JSON.stringify({
             userId: selectedUser._id,
-            instructorId: selectedInstructor._id,
+            mentorId: selectedMentor._id,
           }),
         }
       );
@@ -90,18 +90,18 @@ export default function AdminAssignInstructors() {
           handleLogout();
           return;
         }
-        throw new Error("Failed to assign instructor");
+        throw new Error("Failed to assign mentor");
       }
 
-      setSuccessMessage(`✅ ${selectedInstructor.name} assigned to ${selectedUser.fullName}`);
+      setSuccessMessage(`✅ ${selectedMentor.name} assigned to ${selectedUser.fullName}`);
       setSelectedUser(null);
-      setSelectedInstructor(null);
+      setSelectedMentor(null);
       setTimeout(() => setSuccessMessage(""), 5000);
       fetchData();
-      toast.success(`${selectedInstructor.name} assigned to ${selectedUser.fullName}`);
+      toast.success(`${selectedMentor.name} assigned to ${selectedUser.fullName}`);
     } catch (error) {
-      console.error("Assign instructor error:", error);
-      toast.error("Failed to assign instructor");
+      console.error("Assign mentor error:", error);
+      toast.error("Failed to assign mentor");
     }
   };
 
@@ -117,11 +117,14 @@ export default function AdminAssignInstructors() {
     user.email.toLowerCase().includes(searchUserQuery.toLowerCase())
   );
 
-  // Filter instructors
-  const filteredInstructors = instructors.filter(instructor =>
-    instructor.name.toLowerCase().includes(searchInstructorQuery.toLowerCase()) ||
-    instructor.expertise.toLowerCase().includes(searchInstructorQuery.toLowerCase())
+  // Filter mentors
+  const filteredMentors = mentors.filter(mentor =>
+    mentor.name.toLowerCase().includes(searchMentorQuery.toLowerCase()) ||
+    mentor.expertise.toLowerCase().includes(searchMentorQuery.toLowerCase())
   );
+
+  // Alias for consistent naming
+  const filteredInstructors = filteredMentors;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#12091F] via-[#0B0614] to-[#160B2E] text-white pt-28 pb-16">
@@ -134,9 +137,9 @@ export default function AdminAssignInstructors() {
             <p className="text-sm font-semibold text-[#A855F7]">Admin Panel</p>
           </div>
           <h1 className="text-5xl font-bold bg-gradient-to-r from-white via-[#C7C3D6] to-[#9A93B5] bg-clip-text text-transparent">
-            Assign Instructors to Users
+            Assign Mentors to Users
           </h1>
-          <p className="text-[#9A93B5] text-lg">Select a user and assign an instructor to enable personalized 1:1 mentoring sessions</p>
+          <p className="text-[#9A93B5] text-lg">Select a user and assign a mentor to enable personalized 1:1 mentoring sessions</p>
         </div>
 
         {/* Success Message */}
@@ -202,7 +205,7 @@ export default function AdminAssignInstructors() {
                             {user.assignedInstructor && (
                               <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-[#8B5CF6]/20 to-[#EC4899]/20 border border-[#8B5CF6]/30 rounded-lg text-xs text-[#A855F7] font-medium">
                                 <Check className="w-3 h-3" />
-                                {user.assignedInstructor.name}
+                                {user.assignedMentor?.name || user.assignedInstructor.name}
                               </div>
                             )}
                           </div>
@@ -213,14 +216,14 @@ export default function AdminAssignInstructors() {
                 </div>
               </div>
 
-              {/* Instructors List */}
+              {/* Mentors List */}
               <div className="lg:col-span-1">
                 <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
                   {/* Header */}
                   <div className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 p-5 border-b border-[rgba(139,92,246,0.2)]">
                     <div className="flex items-center gap-3">
                       <BookOpen className="w-5 h-5 text-[#EC4899]" />
-                      <h2 className="text-lg font-bold text-white">Instructors <span className="text-[#EC4899]">({filteredInstructors.length})</span></h2>
+                      <h2 className="text-lg font-bold text-white">Mentors <span className="text-[#EC4899]">({filteredMentors.length})</span></h2>
                     </div>
                   </div>
                   
@@ -228,39 +231,35 @@ export default function AdminAssignInstructors() {
                   <div className="p-4 border-b border-[rgba(139,92,246,0.15)]">
                     <input
                       type="text"
-                      placeholder="Search instructor..."
-                      value={searchInstructorQuery}
-                      onChange={(e) => setSearchInstructorQuery(e.target.value)}
+                      placeholder="Search mentor..."
+                      value={searchMentorQuery}
+                      onChange={(e) => setSearchMentorQuery(e.target.value)}
                       className="w-full bg-[rgba(11,6,20,0.5)] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
                     />
                   </div>
 
                   {/* List */}
                   <div className="flex-1 overflow-y-auto">
-                    {filteredInstructors.length === 0 ? (
+                    {filteredMentors.length === 0 ? (
                       <div className="p-4 text-center text-sm text-gray-400">
-                        {instructors.length === 0
-                          ? "No active instructors available"
-                          : "No instructors match search"}
+                        {mentors.length === 0
+                          ? "No active mentors available"
+                          : "No mentors match search"}
                       </div>
                     ) : (
                       <div className="divide-y divide-[rgba(139,92,246,0.1)]">
-                        {filteredInstructors.map((instructor) => (
+                        {filteredMentors.map((mentor) => (
                           <div
-                            key={instructor._id}
-                            onClick={() => setSelectedInstructor(instructor)}
+                            key={mentor._id}
+                            onClick={() => setSelectedMentor(mentor)}
                             className={`p-4 cursor-pointer transition-all duration-300 border-l-4 ${
-                              selectedInstructor?._id === instructor._id
-                                ? "bg-gradient-to-r from-[#EC4899]/20 to-transparent border-[#EC4899] shadow-[0_0_16px_rgba(236,72,153,0.2)]"
-                                : "border-transparent hover:bg-[rgba(139,92,246,0.05)] hover:border-[rgba(236,72,153,0.3)]"
+                              selectedMentor?._id === mentor._id
+                                ? "bg-gradient-to-r from-[#A855F7]/20 to-transparent border-[#A855F7] shadow-[0_0_16px_rgba(168,85,247,0.2)]"
+                                : "border-transparent hover:bg-[rgba(168,85,247,0.05)] hover:border-[rgba(168,85,247,0.3)]"
                             }`}>
-                            <p className="font-semibold text-sm text-white">{instructor.name}</p>
-                            <p className="text-xs text-[#A855F7] mt-1 font-medium">{instructor.expertise}</p>
-                            <p className="text-xs text-[#9A93B5] mt-1">{instructor.email}</p>
-                            <div className="mt-2 inline-flex items-center gap-1.5 px-2.5 py-1 bg-gradient-to-r from-green-500/20 to-emerald-500/20 border border-green-500/30 rounded-lg text-xs text-green-300 font-medium">
-                              <Check className="w-3 h-3" />
-                              Approved
-                            </div>
+                            <p className="font-semibold text-sm text-white">{mentor.name}</p>
+                            <p className="text-xs text-[#A855F7] mt-1 font-medium">{mentor.expertise}</p>
+                            <p className="text-xs text-[#9A93B5] mt-1">{mentor.email}</p>
                           </div>
                         ))}
                       </div>
@@ -271,7 +270,7 @@ export default function AdminAssignInstructors() {
 
               {/* Assignment Panel */}
               <div className="lg:col-span-1">
-                <div className="bg-gradient-to-br from-[#8B5CF6]/10 via-[#EC4899]/10 to-[#8B5CF6]/5 border border-[rgba(139,92,246,0.3)] rounded-2xl p-6 h-[600px] flex flex-col justify-between shadow-[0_8px_32px_rgba(139,92,246,0.2)]">
+                <div className="bg-gradient-to-br from-[#8B5CF6]/10 via-[#A855F7]/10 to-[#8B5CF6]/5 border border-[rgba(168,85,247,0.3)] rounded-2xl p-6 h-[600px] flex flex-col justify-between shadow-[0_8px_32px_rgba(168,85,247,0.2)]">
                   <div className="space-y-6">
                     <div>
                       <p className="text-xs text-[#A855F7] uppercase tracking-wider mb-3 font-bold flex items-center gap-2">
@@ -279,13 +278,13 @@ export default function AdminAssignInstructors() {
                         From User
                       </p>
                       {selectedUser ? (
-                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(139,92,246,0.3)] shadow-[0_4px_16px_rgba(139,92,246,0.15)]">
+                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(168,85,247,0.3)] shadow-[0_4px_16px_rgba(168,85,247,0.15)]">
                           <p className="font-bold text-white">{selectedUser.fullName}</p>
                           <p className="text-sm text-[#9A93B5] mt-1">{selectedUser.email}</p>
-                          {selectedUser.assignedInstructor && (
+                          {selectedUser.assignedMentor && (
                             <p className="text-xs text-yellow-300 mt-2 flex items-center gap-1.5">
                               <AlertCircle className="w-3 h-3" />
-                              Currently: {selectedUser.assignedInstructor.name}
+                              Currently: {selectedUser.assignedMentor.name}
                             </p>
                           )}
                         </div>
@@ -303,33 +302,33 @@ export default function AdminAssignInstructors() {
                     </div>
 
                     <div>
-                      <p className="text-xs text-[#EC4899] uppercase tracking-wider mb-3 font-bold flex items-center gap-2">
-                        <BookOpen className="w-4 h-4" />
-                        To Instructor
+                      <p className="text-xs text-[#A855F7] uppercase tracking-wider mb-3 font-bold flex items-center gap-2">
+                        <Sparkles className="w-4 h-4" />
+                        To Mentor
                       </p>
-                      {selectedInstructor ? (
-                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(236,72,153,0.3)] shadow-[0_4px_16px_rgba(236,72,153,0.15)]">
-                          <p className="font-bold text-white">{selectedInstructor.name}</p>
-                          <p className="text-sm text-[#A855F7] mt-1 font-medium">{selectedInstructor.expertise}</p>
-                          <p className="text-xs text-[#9A93B5] mt-2">{selectedInstructor.email}</p>
+                      {selectedMentor ? (
+                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(168,85,247,0.3)] shadow-[0_4px_16px_rgba(168,85,247,0.15)]">
+                          <p className="font-bold text-white">{selectedMentor.name}</p>
+                          <p className="text-sm text-[#A855F7] mt-1 font-medium">{selectedMentor.expertise}</p>
+                          <p className="text-xs text-[#9A93B5] mt-2">{selectedMentor.email}</p>
                         </div>
                       ) : (
-                        <div className="bg-[rgba(11,6,20,0.3)] rounded-xl p-4 border border-dashed border-[rgba(236,72,153,0.3)] text-[#9A93B5] text-sm">
-                          Select an instructor from the list
+                        <div className="bg-[rgba(11,6,20,0.3)] rounded-xl p-4 border border-dashed border-[rgba(168,85,247,0.3)] text-[#9A93B5] text-sm">
+                          Select a mentor from the list
                         </div>
                       )}
                     </div>
                   </div>
 
                   <button
-                    onClick={assignInstructor}
-                    disabled={!selectedUser || !selectedInstructor}
+                    onClick={assignMentor}
+                    disabled={!selectedUser || !selectedMentor}
                     className={`w-full py-4 rounded-xl font-bold transition-all shadow-lg hover:shadow-xl active:scale-95 text-base ${
-                      selectedUser && selectedInstructor
-                        ? "bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#EC4899] hover:shadow-[0_0_32px_rgba(139,92,246,0.4)] text-white"
-                        : "bg-[rgba(139,92,246,0.2)] text-[#9A93B5] cursor-not-allowed border border-[rgba(139,92,246,0.3)]"
+                      selectedUser && selectedMentor
+                        ? "bg-gradient-to-r from-[#8B5CF6] via-[#A855F7] to-[#A855F7] hover:shadow-[0_0_32px_rgba(168,85,247,0.4)] text-white"
+                        : "bg-[rgba(168,85,247,0.2)] text-[#9A93B5] cursor-not-allowed border border-[rgba(168,85,247,0.3)]"
                     }`}>
-                    {selectedUser && selectedInstructor ? "✨ Assign Now" : "Select Both to Continue"}
+                    {selectedUser && selectedMentor ? "✨ Assign Now" : "Select Both to Continue"}
                   </button>
                 </div>
               </div>
@@ -337,23 +336,23 @@ export default function AdminAssignInstructors() {
 
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="bg-gradient-to-br from-[#8B5CF6]/10 to-[#8B5CF6]/5 border border-[rgba(139,92,246,0.2)] rounded-2xl p-6 shadow-[0_4px_16px_rgba(139,92,246,0.1)] hover:shadow-[0_8px_24px_rgba(139,92,246,0.2)] transition-all">
+              <div className="bg-gradient-to-br from-[#8B5CF6]/10 to-[#8B5CF6]/5 border border-[rgba(168,85,247,0.2)] rounded-2xl p-6 shadow-[0_4px_16px_rgba(168,85,247,0.1)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.2)] transition-all">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#A855F7] flex items-center justify-center shadow-[0_0_16px_rgba(139,92,246,0.4)]">
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#A855F7] flex items-center justify-center shadow-[0_0_16px_rgba(168,85,247,0.4)]">
                     <Users className="w-5 h-5 text-white" />
                   </div>
                   <p className="text-xs text-[#A855F7] uppercase tracking-wider font-bold">Total Users</p>
                 </div>
                 <p className="text-4xl font-bold text-white">{users.length}</p>
               </div>
-              <div className="bg-gradient-to-br from-[#EC4899]/10 to-[#EC4899]/5 border border-[rgba(236,72,153,0.2)] rounded-2xl p-6 shadow-[0_4px_16px_rgba(236,72,153,0.1)] hover:shadow-[0_8px_24px_rgba(236,72,153,0.2)] transition-all">
+              <div className="bg-gradient-to-br from-[#A855F7]/10 to-[#A855F7]/5 border border-[rgba(168,85,247,0.2)] rounded-2xl p-6 shadow-[0_4px_16px_rgba(168,85,247,0.1)] hover:shadow-[0_8px_24px_rgba(168,85,247,0.2)] transition-all">
                 <div className="flex items-center gap-3 mb-3">
-                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#EC4899] to-[#D946EF] flex items-center justify-center shadow-[0_0_16px_rgba(236,72,153,0.4)]">
-                    <BookOpen className="w-5 h-5 text-white" />
+                  <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#A855F7] to-[#D946EF] flex items-center justify-center shadow-[0_0_16px_rgba(168,85,247,0.4)]">
+                    <Sparkles className="w-5 h-5 text-white" />
                   </div>
-                  <p className="text-xs text-[#EC4899] uppercase tracking-wider font-bold">Total Instructors</p>
+                  <p className="text-xs text-[#A855F7] uppercase tracking-wider font-bold">Total Mentors</p>
                 </div>
-                <p className="text-4xl font-bold text-white">{instructors.length}</p>
+                <p className="text-4xl font-bold text-white">{mentors.length}</p>
               </div>
               <div className="bg-gradient-to-br from-green-500/10 to-emerald-500/5 border border-green-500/20 rounded-2xl p-6 shadow-[0_4px_16px_rgba(34,197,94,0.1)] hover:shadow-[0_8px_24px_rgba(34,197,94,0.2)] transition-all">
                 <div className="flex items-center gap-3 mb-3">
@@ -362,53 +361,9 @@ export default function AdminAssignInstructors() {
                   </div>
                   <p className="text-xs text-green-400 uppercase tracking-wider font-bold">Assignments Done</p>
                 </div>
-                <p className="text-4xl font-bold text-white">{users.filter(u => u.assignedInstructor).length}</p>
+                <p className="text-4xl font-bold text-white">{users.filter(u => u.assignedMentor).length}</p>
               </div>
             </div>
-          </div>
-        )}
- 
-        {/* Selection Summary and Assign Button */}
-        {!loading && (
-          <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-6 space-y-4">
-            <h2 className="text-xl font-semibold">Assignment Summary</h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-[#0a0a0a] rounded-lg p-4">
-                <p className="text-sm text-gray-400 mb-2">Selected User</p>
-                {selectedUser ? (
-                  <div>
-                    <p className="font-semibold">{selectedUser.fullName}</p>
-                    <p className="text-sm text-gray-500">{selectedUser.email}</p>
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-500">No user selected</p>
-                )}
-              </div>
-              <div className="bg-[#0a0a0a] rounded-lg p-4 flex items-center justify-center">
-                <p className="text-2xl">→</p>
-              </div>
-              <div className="bg-[#0a0a0a] rounded-lg p-4">
-                <p className="text-sm text-gray-400 mb-2">Selected Instructor</p>
-                {selectedInstructor ? (
-                  <div>
-                    <p className="font-semibold">{selectedInstructor.name}</p>
-                    <p className="text-sm text-gray-500">{selectedInstructor.expertise}</p>
-                  </div>
-                ) : (
-                  <p className="text-sm text-gray-500">No instructor selected</p>
-                )}
-              </div>
-            </div>
-            <button
-              onClick={assignInstructor}
-              disabled={!selectedUser || !selectedInstructor}
-              className={`w-full py-3 rounded-lg font-semibold transition shadow-lg hover:shadow-xl active:scale-95 ${
-                selectedUser && selectedInstructor
-                  ? "bg-gradient-to-r from-emerald-600 to-green-600 hover:from-emerald-700 hover:to-green-700 text-white"
-                  : "bg-gray-500 text-gray-300 cursor-not-allowed"
-              }`}>
-              Assign Instructor
-            </button>
           </div>
         )}
       </div>

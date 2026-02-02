@@ -2,15 +2,37 @@ import express from "express";
 import MentorshipSession from "../models/MentorshipSession.js";
 import { protect } from "../middleware/auth.js";
 import { protectInstructor } from "../middleware/instructorAuth.js";
+import Mentor from "../models/Mentor.js";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
+
+// Middleware to protect mentor routes
+const protectMentor = async (req, res, next) => {
+	const token = req.headers.authorization?.split(" ")[1];
+	if (!token) {
+		return res.status(401).json({ message: "No token, authorization denied" });
+	}
+
+	try {
+		const decoded = jwt.verify(token, process.env.JWT_SECRET || "your_jwt_secret");
+		const mentor = await Mentor.findById(decoded.id).select("-password");
+		if (!mentor) {
+			return res.status(401).json({ message: "Mentor not found" });
+		}
+		req.mentor = mentor;
+		next();
+	} catch (err) {
+		res.status(401).json({ message: "Token is not valid" });
+	}
+};
 
 // @route   POST /api/mentorship-sessions
 // @desc    Create a new mentorship session (booking)
 // @access  Private (User)
 router.post("/", protect, async (req, res) => {
 	try {
-		const { instructorId, title, date, time, notes } = req.body;
+		const { instructorId, mentorId, title, date, time, notes } = req.body;
 
 		// Check if this specific date/time slot is already booked by ANY user
 		const existingBooking = await MentorshipSession.findOne({
@@ -51,7 +73,8 @@ router.post("/", protect, async (req, res) => {
 
 		const session = await MentorshipSession.create({
 			userId: req.user._id,
-			instructorId,
+			instructorId: instructorId || null,
+			mentorId: mentorId || null,
 			title,
 			date,
 			time,
@@ -73,6 +96,7 @@ router.get("/user", protect, async (req, res) => {
 	try {
 		const sessions = await MentorshipSession.find({ userId: req.user._id })
 			.populate("instructorId", "name email expertise")
+			.populate("mentorId", "name email expertise")
 			.sort({ bookedDate: -1 });
 
 		res.json(sessions);
@@ -246,6 +270,106 @@ router.put("/:id/reschedule", protectInstructor, async (req, res) => {
 	} catch (error) {
 		console.error("Error rescheduling session:", error);
 		res.status(500).json({ message: "Error rescheduling session" });
+	}
+});
+
+// @route   GET /api/mentorship-sessions/mentor/:id
+// @desc    Get all sessions for a specific mentor
+// @access  Private (Mentor)
+router.get("/mentor/:id", protectMentor, async (req, res) => {
+	try {
+		// Verify mentor can only access their own sessions
+		if (req.mentor._id.toString() !== req.params.id) {
+			return res.status(403).json({ message: "Not authorized" });
+		}
+
+		const sessions = await MentorshipSession.find({ mentorId: req.params.id })
+			.populate("userId", "fullName email")
+			.sort({ date: 1 });
+
+		res.json(sessions);
+	} catch (error) {
+		console.error("Error fetching mentor sessions:", error);
+		res.status(500).json({ message: "Error fetching sessions" });
+	}
+});
+
+// @route   PUT /api/mentorship-sessions/:id/complete
+// @desc    Mark a session as completed (mentor only)
+// @access  Private (Mentor)
+router.put("/:id/complete", protectMentor, async (req, res) => {
+	try {
+		const session = await MentorshipSession.findById(req.params.id);
+
+		if (!session) {
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		// Verify session belongs to this mentor
+		if (session.mentorId.toString() !== req.mentor._id) {
+			return res.status(403).json({ message: "Not authorized" });
+		}
+
+		session.status = "completed";
+		session.completedAt = new Date();
+		await session.save();
+
+		res.json(session);
+	} catch (error) {
+		console.error("Error completing session:", error);
+		res.status(500).json({ message: "Error completing session" });
+	}
+});
+
+// @route   GET /api/mentorship-sessions/mentor-bookings
+// @desc    Get all student bookings for this mentor
+// @access  Private (Mentor)
+router.get("/mentor-bookings", protectMentor, async (req, res) => {
+	try {
+		const sessions = await MentorshipSession.find({ mentorId: req.mentor._id })
+			.populate("userId", "fullName email")
+			.sort({ date: 1 });
+
+		res.json(sessions);
+	} catch (error) {
+		console.error("Error fetching mentor bookings:", error);
+		res.status(500).json({ message: "Error fetching bookings" });
+	}
+});
+
+// @route   PUT /api/mentorship-sessions/:id/add-meet-link
+// @desc    Add a meet link to a session (mentor only)
+// @access  Private (Mentor)
+router.put("/:id/add-meet-link", protectMentor, async (req, res) => {
+	try {
+		const { meetingLink } = req.body;
+
+		if (!meetingLink) {
+			return res.status(400).json({ message: "Meeting link is required" });
+		}
+
+		const session = await MentorshipSession.findById(req.params.id);
+
+		if (!session) {
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		// Verify session belongs to this mentor
+		if (session.mentorId.toString() !== req.mentor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized" });
+		}
+
+		session.meetingLink = meetingLink;
+		await session.save();
+
+		// Populate the data before sending response
+		await session.populate("userId", "fullName email");
+		await session.populate("mentorId", "name email expertise");
+
+		res.json(session);
+	} catch (error) {
+		console.error("Error adding meet link:", error);
+		res.status(500).json({ message: "Error adding meet link" });
 	}
 });
 

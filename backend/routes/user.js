@@ -12,7 +12,8 @@ router.get("/profile", protect, async (req, res) => {
 		const user = await User.findById(req.user._id)
 			.select("-password")
 			.populate("enrolledCourses.courseId")
-			.populate("assignedInstructor", "name expertise email avatar bio");
+			.populate("assignedInstructor", "name expertise email avatar bio")
+			.populate("assignedMentor", "name expertise email avatar bio");
 
 		res.json(user);
 	} catch (error) {
@@ -37,6 +38,28 @@ router.get("/assigned-instructor", protect, async (req, res) => {
 		}
 
 		res.json(user.assignedInstructor);
+	} catch (error) {
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   GET /api/users/assigned-mentor
+// @desc    Get user's assigned mentor
+// @access  Private
+router.get("/assigned-mentor", protect, async (req, res) => {
+	try {
+		const user = await User.findById(req.user._id)
+			.populate("assignedMentor", "name expertise email avatar bio");
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		if (!user.assignedMentor) {
+			return res.status(404).json({ message: "No mentor assigned yet" });
+		}
+
+		res.json(user.assignedMentor);
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message });
 	}

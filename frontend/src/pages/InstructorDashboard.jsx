@@ -10,19 +10,6 @@ export default function InstructorDashboard() {
 	const [editingCourse, setEditingCourse] = useState(null);
 	const [showModuleModal, setShowModuleModal] = useState(false);
 	const [currentCourseForModule, setCurrentCourseForModule] = useState(null);
-	const [mentorshipSessions, setMentorshipSessions] = useState([]);
-	const [editingMeetingLink, setEditingMeetingLink] = useState(null);
-	const [meetingLinkInput, setMeetingLinkInput] = useState("");
-	const [showRescheduleModal, setShowRescheduleModal] = useState(false);
-	const [rescheduleSessionId, setRescheduleSessionId] = useState(null);
-	const [rescheduleData, setRescheduleData] = useState({
-		newDate: "",
-		newTime: "",
-		reason: ""
-	});
-	const [showRejectModal, setShowRejectModal] = useState(false);
-	const [rejectSessionId, setRejectSessionId] = useState(null);
-	const [rejectionReason, setRejectionReason] = useState("");
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
@@ -63,7 +50,6 @@ export default function InstructorDashboard() {
 
 	useEffect(() => {
 		fetchCourses();
-		fetchMentorshipSessions();
 	}, [instructor]);
 
 	const fetchCourses = async () => {
@@ -84,136 +70,6 @@ export default function InstructorDashboard() {
 			setCourses(data);
 		} catch (error) {
 			console.error("Error fetching courses:", error);
-		}
-	};
-
-	const fetchMentorshipSessions = async () => {
-		try {
-			const token = localStorage.getItem("instructorToken");
-			if (!token || !instructor) return;
-
-			const response = await fetch(
-				`${API_URL}/api/mentorship-sessions/instructor`,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
-			const data = await response.json();
-			setMentorshipSessions(data);
-		} catch (error) {
-			console.error("Error fetching mentorship sessions:", error);
-		}
-	};
-
-	const handleUpdateMeetingLink = async (sessionId) => {
-		try {
-			const token = localStorage.getItem("instructorToken");
-			const response = await fetch(
-				`${API_URL}/api/mentorship-sessions/${sessionId}/meeting-link`,
-				{
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${token}`,
-					},
-					body: JSON.stringify({ meetingLink: meetingLinkInput }),
-				}
-			);
-
-			if (response.ok) {
-				setEditingMeetingLink(null);
-				setMeetingLinkInput("");
-				fetchMentorshipSessions(); // Refresh the list
-				alert("Meeting link updated successfully!");
-			}
-		} catch (error) {
-			console.error("Error updating meeting link:", error);
-			alert("Failed to update meeting link");
-		}
-	};
-
-	const handleOpenReject = (sessionId) => {
-		setRejectSessionId(sessionId);
-		setRejectionReason("");
-		setShowRejectModal(true);
-	};
-
-	const handleRejectSession = async () => {
-		if (!rejectionReason || rejectionReason.trim() === "") {
-			alert("Please provide a reason for rejection");
-			return;
-		}
-		
-		try {
-			const token = localStorage.getItem("instructorToken");
-			const response = await fetch(
-				`${API_URL}/api/mentorship-sessions/${rejectSessionId}/reject`,
-				{
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${token}`,
-					},
-					body: JSON.stringify({ reason: rejectionReason }),
-				}
-			);
-
-			if (response.ok) {
-				setShowRejectModal(false);
-				setRejectSessionId(null);
-				setRejectionReason("");
-				fetchMentorshipSessions();
-			} else {
-				const data = await response.json();
-				alert(data.message || "Failed to reject session");
-			}
-		} catch (error) {
-			console.error("Error rejecting session:", error);
-			alert("Failed to reject session");
-		}
-	};
-
-	const handleOpenReschedule = (sessionId) => {
-		setRescheduleSessionId(sessionId);
-		setShowRescheduleModal(true);
-		setRescheduleData({ newDate: "", newTime: "", reason: "" });
-	};
-
-	const handleRescheduleSession = async () => {
-		if (!rescheduleData.newDate || !rescheduleData.newTime) {
-			alert("Please select both date and time");
-			return;
-		}
-
-		try {
-			const token = localStorage.getItem("instructorToken");
-			const response = await fetch(
-				`${API_URL}/api/mentorship-sessions/${rescheduleSessionId}/reschedule`,
-				{
-					method: "PUT",
-					headers: {
-						"Content-Type": "application/json",
-						Authorization: `Bearer ${token}`,
-					},
-					body: JSON.stringify(rescheduleData),
-				}
-			);
-
-			if (response.ok) {
-				setShowRescheduleModal(false);
-				setRescheduleSessionId(null);
-				setRescheduleData({ newDate: "", newTime: "", reason: "" });
-				fetchMentorshipSessions();
-				alert("Session rescheduled successfully. The student will be notified.");
-			} else {
-				const data = await response.json();
-				alert(data.message || "Failed to reschedule session");
-			}
-		} catch (error) {
-			console.error("Error rescheduling session:", error);
-			alert("Failed to reschedule session");
 		}
 	};
 
@@ -409,27 +265,28 @@ export default function InstructorDashboard() {
 	}
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a]'>
+		<div className='min-h-screen bg-[#0B0614]'>
 			{/* Header */}
-			<header className='bg-[rgba(22,11,46,0.8)] backdrop-blur-xl border-b border-[rgba(139,92,246,0.2)] text-white px-6 py-5 sticky top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.2)]'>
-				<div className='max-w-7xl mx-auto flex items-center justify-between'>
-					<div className='flex items-center space-x-6'>
-						<Link to='/' className='flex items-center space-x-3 hover:opacity-80 transition duration-300 group'>
-							<img 
-								src='/yuganta-logo.png' 
-								alt='yuganta AI' 
-								className='w-10 h-10 transition-transform group-hover:scale-110'
-							/>
-							<div className='text-xl font-bold tracking-tight'>
-								<span className='text-white'>Yuganta</span>
-								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
-							</div>
-						</Link>
-						<div className='w-px h-6 bg-[rgba(139,92,246,0.2)]'></div>
-						<span className='text-sm text-[#C7C3D6] font-medium'>
-							Instructor Dashboard
-						</span>
-					</div>
+			<header className='sticky top-0 z-40 bg-[#12091F]/95 backdrop-blur-md border-b border-[rgba(139,92,246,0.2)] shadow-[0_4px_16px_rgba(139,92,246,0.1)]'>
+				<div className='max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between'>
+					<Link 
+						to='/instructor/dashboard'
+						className='flex items-center space-x-3 hover:opacity-80 transition-opacity group'
+					>
+						<img 
+							src='/yuganta-logo.png' 
+							alt='yuganta AI' 
+							className='w-10 h-10 transition-transform group-hover:scale-110'
+						/>
+						<div className='text-xl font-bold tracking-tight'>
+							<span className='text-white'>Yuganta</span>
+							<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
+						</div>
+					</Link>
+					<div className='w-px h-6 bg-[rgba(139,92,246,0.2)]'></div>
+					<span className='text-sm text-[#C7C3D6] font-medium'>
+						Instructor Dashboard
+					</span>
 
 					<div className='flex items-center space-x-6'>
 						<div className='flex items-center space-x-3 px-4 py-2 bg-[rgba(139,92,246,0.1)] rounded-lg border border-[rgba(139,92,246,0.2)] hover:bg-[rgba(139,92,246,0.15)] transition duration-300'>
@@ -449,7 +306,7 @@ export default function InstructorDashboard() {
 
 			{/* Main Content */}
 			<div className='max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12'>
-				{/* Stats */}
+				{/* Stats Cards */}
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-10'>
 					<div className='bg-gradient-to-br from-[rgba(139,92,246,0.15)] to-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.25)] rounded-2xl p-6 text-white hover:shadow-[0_8px_32px_rgba(139,92,246,0.2)] hover:-translate-y-1 transition-all duration-300'>
 						<div className='flex items-center justify-between mb-2'>
@@ -502,9 +359,9 @@ export default function InstructorDashboard() {
 					<div className='flex items-center justify-between mb-8'>
 						<div>
 							<h2 className='text-2xl font-bold text-white mb-1'>
-								Manage Courses
+								Manage Courses & Modules
 							</h2>
-							<p className='text-[#C7C3D6] text-sm'>Create, edit, and manage your course content</p>
+							<p className='text-[#C7C3D6] text-sm'>Create, edit, and manage your course content including modules and videos</p>
 						</div>
 						<button
 							onClick={() => {
@@ -547,7 +404,6 @@ export default function InstructorDashboard() {
 							<thead className='border-b border-[rgba(139,92,246,0.2)] bg-[rgba(139,92,246,0.05)]'>
 								<tr>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Course</th>
-									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Instructor</th>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Level</th>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Modules</th>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Price</th>
@@ -579,9 +435,6 @@ export default function InstructorDashboard() {
 												</div>
 											</div>
 										</td>
-										<td className='py-5 px-6 text-[#C7C3D6]'>
-											{course.instructor}
-										</td>
 										<td className='py-4 px-4'>
 											<span
 												className={`px-2 py-1 rounded-full text-xs ${
@@ -611,7 +464,7 @@ export default function InstructorDashboard() {
 													}
 													className='p-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] rounded-lg transition-all duration-300 shadow-[0_2px_8px_rgba(139,92,246,0.3)]'>
 													<svg
-														className='w-4 h-4'
+														className='w-4 h-4 text-white'
 														fill='none'
 														stroke='currentColor'
 														viewBox='0 0 24 24'>
@@ -629,7 +482,7 @@ export default function InstructorDashboard() {
 													}
 													className='p-2 bg-red-600 hover:bg-red-700 rounded-lg transition duration-200'>
 													<svg
-														className='w-4 h-4'
+														className='w-4 h-4 text-white'
 														fill='none'
 														stroke='currentColor'
 														viewBox='0 0 24 24'>
@@ -649,368 +502,7 @@ export default function InstructorDashboard() {
 						</table>
 					</div>
 				</div>
-
-				{/* Mentorship Sessions Section */}
-				<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)] mt-10'>
-					<div className='flex items-center justify-between mb-8'>
-						<div>
-							<h2 className='text-2xl font-bold text-white mb-1'>
-								My Mentorship Sessions
-							</h2>
-							<p className='text-[#C7C3D6] text-sm'>View and manage your upcoming mentorship sessions</p>
-						</div>
-					</div>
-
-					{mentorshipSessions.length === 0 ? (
-						<div className='text-center py-12'>
-							<svg className='w-16 h-16 mx-auto text-[#A855F7] opacity-50 mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-								<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={1.5} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
-							</svg>
-							<p className='text-[#C7C3D6] text-lg'>No mentorship sessions yet</p>
-							<p className='text-[#9183A8] text-sm mt-2'>Students will book sessions with you from the mentorship page</p>
-						</div>
-					) : (
-						<div className='space-y-4'>
-							{mentorshipSessions.map((session) => (
-								<div
-									key={session._id}
-									className='bg-gradient-to-r from-[rgba(139,92,246,0.1)] to-[rgba(168,85,247,0.05)] border border-[rgba(139,92,246,0.2)] rounded-xl p-6 hover:shadow-[0_8px_24px_rgba(139,92,246,0.15)] transition-all duration-300'>
-									<div className='grid md:grid-cols-2 gap-6'>
-										{/* Session Info */}
-										<div>
-											<h3 className='text-xl font-bold text-white mb-4'>{session.title}</h3>
-											<div className='space-y-3'>
-												<div className='flex items-center text-[#C7C3D6]'>
-													<svg className='w-5 h-5 mr-3 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z'/>
-													</svg>
-													<span className='font-medium'>Student: </span>
-													<span className='ml-2'>{session.userId?.fullName || 'Unknown'}</span>
-												</div>
-												<div className='flex items-center text-[#C7C3D6]'>
-													<svg className='w-5 h-5 mr-3 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
-													</svg>
-													<span className='font-medium'>Date: </span>
-													<span className='ml-2'>{session.date}</span>
-												</div>
-												<div className='flex items-center text-[#C7C3D6]'>
-													<svg className='w-5 h-5 mr-3 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z'/>
-													</svg>
-													<span className='font-medium'>Time: </span>
-													<span className='ml-2'>{session.time}</span>
-												</div>
-												{session.notes && (
-													<div className='flex items-start text-[#C7C3D6]'>
-														<svg className='w-5 h-5 mr-3 mt-0.5 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-															<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z'/>
-														</svg>
-														<div>
-															<span className='font-medium block'>Notes: </span>
-															<span className='text-sm'>{session.notes}</span>
-														</div>
-													</div>
-												)}
-											</div>
-										</div>
-
-										{/* Meeting Link Section */}
-										<div className='bg-[rgba(11,6,20,0.6)] rounded-lg p-5 border border-[rgba(139,92,246,0.15)]'>
-											<div className='flex items-center justify-between mb-4'>
-												<h4 className='text-lg font-semibold text-white flex items-center'>
-													<svg className='w-5 h-5 mr-2 text-[#EC4899]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z'/>
-													</svg>
-													Meeting Link
-												</h4>
-											</div>
-
-											{editingMeetingLink === session._id ? (
-												<div className='space-y-3'>
-													<input
-														type='url'
-														value={meetingLinkInput}
-														onChange={(e) => setMeetingLinkInput(e.target.value)}
-														placeholder='https://meet.google.com/xxx-xxxx-xxx'
-														className='w-full px-4 py-3 bg-[rgba(139,92,246,0.1)] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9183A8] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
-													/>
-													<div className='flex space-x-2'>
-														<button
-															onClick={() => handleUpdateMeetingLink(session._id)}
-															className='flex-1 px-4 py-2.5 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_12px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_16px_rgba(139,92,246,0.4)]'>
-															Save
-														</button>
-														<button
-															onClick={() => {
-																setEditingMeetingLink(null);
-																setMeetingLinkInput("");
-															}}
-															className='flex-1 px-4 py-2.5 bg-transparent border border-[#EC4899] text-[#EC4899] hover:bg-[rgba(236,72,153,0.1)] rounded-lg transition duration-300 font-semibold'>
-															Cancel
-														</button>
-													</div>
-												</div>
-											) : (
-												<div>
-													{session.meetingLink ? (
-														<div className='space-y-3'>
-															<div className='flex items-center space-x-2 text-[#C7C3D6] bg-[rgba(139,92,246,0.05)] px-4 py-3 rounded-lg border border-[rgba(139,92,246,0.1)]'>
-																<svg className='w-4 h-4 text-green-400 flex-shrink-0' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-																	<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1'/>
-																</svg>
-																<span className='text-sm flex-1 truncate font-mono'>{session.meetingLink}</span>
-																<a
-																	href={session.meetingLink}
-																	target='_blank'
-																	rel='noopener noreferrer'
-																	className='flex-shrink-0 p-1.5 bg-[rgba(139,92,246,0.2)] hover:bg-[rgba(139,92,246,0.3)] rounded transition'>
-																	<svg className='w-4 h-4 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-																		<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14'/>
-																	</svg>
-																</a>
-															</div>
-															<button
-																onClick={() => {
-																	setEditingMeetingLink(session._id);
-																	setMeetingLinkInput(session.meetingLink);
-																}}
-																className='w-full px-4 py-2 bg-[rgba(139,92,246,0.15)] hover:bg-[rgba(139,92,246,0.25)] text-[#A855F7] rounded-lg transition duration-300 text-sm font-semibold border border-[rgba(139,92,246,0.2)]'>
-																Update Link
-															</button>
-														</div>
-													) : (
-														<div className='space-y-3'>
-															<div className='flex items-center justify-center py-4 text-[#9183A8] border border-dashed border-[rgba(139,92,246,0.2)] rounded-lg'>
-																<svg className='w-5 h-5 mr-2' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-																	<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'/>
-																</svg>
-																<span className='text-sm'>No meeting link added yet</span>
-															</div>
-															<button
-																onClick={() => {
-																	setEditingMeetingLink(session._id);
-																	setMeetingLinkInput("");
-																}}
-																className='w-full px-4 py-2.5 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_12px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_16px_rgba(139,92,246,0.4)] flex items-center justify-center group'>
-																<svg className='w-5 h-5 mr-2 group-hover:scale-110 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-																	<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 4v16m8-8H4'/>
-																</svg>
-																Add Meeting Link
-															</button>
-														</div>
-													)}
-												</div>
-											)}
-										</div>
-									</div>
-
-									{/* Action Buttons */}
-									{session.status === 'upcoming' && (
-										<div className='mt-6 pt-6 border-t border-[rgba(139,92,246,0.2)]'>
-											<div className='flex gap-3'>
-												<button
-													onClick={() => handleOpenReschedule(session._id)}
-													className='flex-1 px-4 py-3 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_12px_rgba(59,130,246,0.3)] hover:shadow-[0_6px_16px_rgba(59,130,246,0.4)] flex items-center justify-center group'>
-													<svg className='w-5 h-5 mr-2 group-hover:rotate-12 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
-													</svg>
-													Reschedule
-												</button>
-												<button
-													onClick={() => handleOpenReject(session._id)}
-													className='flex-1 px-4 py-3 bg-transparent border-2 border-red-500 text-red-400 hover:bg-red-500/10 hover:text-red-300 rounded-lg transition-all duration-300 font-semibold flex items-center justify-center group'>
-													<svg className='w-5 h-5 mr-2 group-hover:scale-110 transition-transform' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12'/>
-													</svg>
-													Reject
-												</button>
-											</div>
-										</div>
-									)}
-
-									{/* Status Badges */}
-									{session.status === 'rejected' && (
-										<div className='mt-6 pt-6 border-t border-[rgba(139,92,246,0.2)]'>
-											<div className='bg-red-500/20 border border-red-500/40 rounded-lg p-4'>
-												<div className='flex items-center gap-2 text-red-300'>
-													<svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12'/>
-													</svg>
-													<span className='font-semibold'>Session Rejected</span>
-												</div>
-												{session.rejectionReason && (
-													<p className='text-sm text-red-200 mt-2'>Reason: {session.rejectionReason}</p>
-												)}
-											</div>
-										</div>
-									)}
-
-									{session.status === 'rescheduled' && (
-										<div className='mt-6 pt-6 border-t border-[rgba(139,92,246,0.2)]'>
-											<div className='bg-blue-500/20 border border-blue-500/40 rounded-lg p-4'>
-												<div className='flex items-center gap-2 text-blue-300'>
-													<svg className='w-5 h-5' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-														<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z'/>
-													</svg>
-													<span className='font-semibold'>Session Rescheduled</span>
-												</div>
-												{session.originalDate && session.originalTime && (
-													<p className='text-sm text-blue-200 mt-2'>
-														Original: {session.originalDate} at {session.originalTime}
-													</p>
-												)}
-												{session.rescheduleReason && (
-													<p className='text-sm text-blue-200 mt-1'>Reason: {session.rescheduleReason}</p>
-												)}
-											</div>
-										</div>
-									)}
-								</div>
-							))}
-						</div>
-					)}
-				</div>
 			</div>
-
-			{/* Reschedule Modal */}
-			{showRescheduleModal && (
-				<div className='fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[80] p-4'>
-					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl shadow-[0_8px_64px_rgba(139,92,246,0.3)] p-6 md:p-8 max-w-lg w-full'>
-						<div className='mb-6'>
-							<h3 className='text-2xl md:text-3xl font-bold text-white mb-2'>Reschedule Session</h3>
-							<p className='text-sm text-[#C7C3D6]'>Choose a new date and time for this session</p>
-						</div>
-
-						<div className='space-y-5'>
-							<div>
-								<label className='block text-white mb-2 text-sm font-medium'>
-									New Date <span className='text-[#EC4899]'>*</span>
-								</label>
-								<input
-									type='date'
-									value={rescheduleData.newDate}
-									onChange={(e) => setRescheduleData({...rescheduleData, newDate: e.target.value})}
-									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all'
-									required
-								/>
-							</div>
-
-							<div>
-								<label className='block text-white mb-2 text-sm font-medium'>
-									New Time <span className='text-[#EC4899]'>*</span>
-								</label>
-								<select
-									value={rescheduleData.newTime}
-									onChange={(e) => setRescheduleData({...rescheduleData, newTime: e.target.value})}
-									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all appearance-none cursor-pointer'>
-									<option value=''>Select Time</option>
-									<option value='3:00pm'>3:00pm</option>
-									<option value='3:30pm'>3:30pm</option>
-									<option value='4:00pm'>4:00pm</option>
-									<option value='6:00pm'>6:00pm</option>
-									<option value='6:30pm'>6:30pm</option>
-									<option value='7:00pm'>7:00pm</option>
-									<option value='7:30pm'>7:30pm</option>
-									<option value='8:00pm'>8:00pm</option>
-									<option value='8:30pm'>8:30pm</option>
-									<option value='9:00pm'>9:00pm</option>
-									<option value='9:30pm'>9:30pm</option>
-								</select>
-							</div>
-
-							<div>
-								<label className='block text-white mb-2 text-sm font-medium'>
-									Reason (Optional)
-								</label>
-								<textarea
-									value={rescheduleData.reason}
-									onChange={(e) => setRescheduleData({...rescheduleData, reason: e.target.value})}
-									placeholder='Explain why you need to reschedule...'
-									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent resize-none transition-all'
-									rows='3'></textarea>
-							</div>
-
-							<div className='flex flex-col sm:flex-row gap-3 pt-4'>
-								<button
-									onClick={handleRescheduleSession}
-									className='flex-1 px-6 py-4 bg-gradient-to-r from-[#3B82F6] to-[#2563EB] hover:from-[#2563EB] hover:to-[#1D4ED8] text-white rounded-xl transition-all duration-300 font-bold text-lg shadow-[0_8px_24px_rgba(59,130,246,0.4)] hover:shadow-[0_12px_32px_rgba(59,130,246,0.5)] hover:scale-105 active:scale-100'>
-									Confirm Reschedule
-								</button>
-								<button
-									onClick={() => {
-										setShowRescheduleModal(false);
-										setRescheduleSessionId(null);
-										setRescheduleData({ newDate: "", newTime: "", reason: "" });
-									}}
-									className='px-6 py-4 bg-transparent border-2 border-[rgba(139,92,246,0.3)] hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] text-white rounded-xl transition-all duration-300 font-semibold'>
-									Cancel
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			)}
-
-			{/* Rejection Modal */}
-			{showRejectModal && (
-				<div className='fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-[80] p-4'>
-					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(236,72,153,0.3)] rounded-2xl shadow-[0_8px_64px_rgba(236,72,153,0.3)] p-6 md:p-8 max-w-lg w-full'>
-						<div className='mb-6'>
-							<div className='flex items-center gap-3 mb-2'>
-								<div className='w-12 h-12 rounded-full bg-red-500/20 flex items-center justify-center'>
-									<svg className='w-6 h-6 text-red-400' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12'/>
-									</svg>
-								</div>
-								<h3 className='text-2xl md:text-3xl font-bold text-white'>Reject Session</h3>
-							</div>
-							<p className='text-sm text-[#C7C3D6]'>Please provide a reason for rejecting this session. The student will be notified.</p>
-						</div>
-
-						<div className='space-y-5'>
-							<div>
-								<label className='block text-white mb-2 text-sm font-medium'>
-									Rejection Reason <span className='text-[#EC4899]'>*</span>
-								</label>
-								<textarea
-									value={rejectionReason}
-									onChange={(e) => setRejectionReason(e.target.value)}
-									placeholder='Explain why you are rejecting this session...'
-									className='w-full px-4 py-3 bg-[#0B0614] border border-[rgba(236,72,153,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#EC4899] focus:border-transparent resize-none transition-all'
-									rows='4'
-									required></textarea>
-							</div>
-
-							<div className='bg-red-500/10 border border-red-500/30 rounded-lg p-4'>
-								<div className='flex items-start gap-2'>
-									<svg className='w-5 h-5 text-red-400 mt-0.5 flex-shrink-0' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
-										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z'/>
-									</svg>
-									<p className='text-sm text-red-300'>This action cannot be undone. The student will be notified and the session will be cancelled.</p>
-								</div>
-							</div>
-
-							<div className='flex flex-col sm:flex-row gap-3 pt-4'>
-								<button
-									onClick={handleRejectSession}
-									className='flex-1 px-6 py-4 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white rounded-xl transition-all duration-300 font-bold text-lg shadow-[0_8px_24px_rgba(220,38,38,0.4)] hover:shadow-[0_12px_32px_rgba(220,38,38,0.5)] hover:scale-105 active:scale-100'>
-									Confirm Rejection
-								</button>
-								<button
-									onClick={() => {
-										setShowRejectModal(false);
-										setRejectSessionId(null);
-										setRejectionReason("");
-									}}
-									className='px-6 py-4 bg-transparent border-2 border-[rgba(139,92,246,0.3)] hover:border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] text-white rounded-xl transition-all duration-300 font-semibold'>
-									Cancel
-								</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			)}
 
 			{/* Add/Edit Course Modal */}
 			{showAddModal && (
@@ -1428,7 +920,7 @@ export default function InstructorDashboard() {
 
 							{/* Video Source Selection */}
 							<div className='bg-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.2)] rounded-xl p-5'>
-								<label className='block text-white mb-3 text-sm font-medium flex items-center'>
+								<label className=' text-white mb-3 text-sm font-medium flex items-center'>
 									<svg className='w-5 h-5 mr-2 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
 										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z'/>
 									</svg>

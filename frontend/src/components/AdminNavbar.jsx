@@ -5,9 +5,10 @@ export default function AdminNavbar() {
   const location = useLocation();
 
   const navLinks = [
-    { label: "Instructor Management", path: "/admin/dashboard" },
-    { label: "Assign Instructors", path: "/admin/assign-instructors" },
-    { label: "Mentor Assignments", path: "/admin/mentor-assignments" },
+    { label: "Dashboard", path: "/admin/dashboard" },
+    { label: "Mentor Management", path: "/admin/mentors" },
+    { label: "Instructor Management", path: "/admin/instructors" },
+    { label: "Assign Mentors", path: "/admin/assign-mentors" },
   ];
 
   const handleLogout = () => {
