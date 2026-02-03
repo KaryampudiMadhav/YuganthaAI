@@ -3,6 +3,7 @@ import Course from "../models/Course.js";
 import Instructor from "../models/Instructor.js";
 import { protect } from "../middleware/auth.js";
 import { protectInstructor } from "../middleware/instructorAuth.js";
+import upload from "../middleware/upload.js"; // Import upload middleware
 
 const router = express.Router();
 
@@ -65,12 +66,12 @@ router.get("/:id", async (req, res) => {
 router.post("/", protect, async (req, res) => {
 	try {
 		const course = await Course.create(req.body);
-		
+
 		// Update students count on creation to 0
 		course.students = 0;
 		course.rating = 0;
 		await course.save();
-		
+
 		res.status(201).json(course);
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message });
@@ -80,13 +81,45 @@ router.post("/", protect, async (req, res) => {
 // @route   POST /api/courses/instructor/create
 // @desc    Create a course as instructor
 // @access  Private (Instructor)
-router.post("/instructor/create", protectInstructor, async (req, res) => {
+router.post("/instructor/create", protectInstructor, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'brochure', maxCount: 1 }]), async (req, res) => {
 	try {
-		const { title, description, category, level, duration, price, thumbnail, modules } = req.body;
+		// Log files and body to debug
+		console.log("Files:", req.files);
+		console.log("Body:", req.body);
+
+		const { title, description, category, level, duration, price, videoUrl, videoPublicId } = req.body;
+
+		// Parse modules if sent as JSON string (common with FormData/Postman)
+		let modules = [];
+		if (req.body.modules) {
+			try {
+				modules = typeof req.body.modules === 'string' ? JSON.parse(req.body.modules) : req.body.modules;
+			} catch (e) {
+				console.error("Error parsing modules:", e);
+				modules = [];
+			}
+		}
 
 		if (!title || !description || !category) {
 			return res.status(400).json({ message: "Title, description, and category are required" });
 		}
+
+		// Get file URLs from Cloudinary upload
+		let thumbnailUrl = "";
+		let brochureUrl = "";
+
+		if (req.files) {
+			if (req.files.thumbnail && req.files.thumbnail[0]) {
+				thumbnailUrl = req.files.thumbnail[0].path;
+			}
+			if (req.files.brochure && req.files.brochure[0]) {
+				brochureUrl = req.files.brochure[0].path;
+			}
+		}
+
+		// Use existing thumbnail/brochure if passed in body (e.g. from previous edit) and no new file uploaded
+		if (!thumbnailUrl && req.body.thumbnail) thumbnailUrl = req.body.thumbnail;
+		if (!brochureUrl && req.body.brochureLink) brochureUrl = req.body.brochureLink;
 
 		const courseData = {
 			title,
@@ -95,10 +128,13 @@ router.post("/instructor/create", protectInstructor, async (req, res) => {
 			level: level || "Beginner",
 			duration: duration || "",
 			price: price || "Free",
-			thumbnail: thumbnail || "",
+			thumbnail: thumbnailUrl,
+			brochureLink: brochureUrl,
+			videoUrl: videoUrl || "",
+			videoPublicId: videoPublicId || "",
 			instructor: req.instructor.name || req.instructor.email,
 			instructorId: req.instructor._id,
-			modules: modules || [],
+			modules: modules,
 			students: 0,
 			rating: 0,
 			isFree: price === "Free" || !price,
@@ -115,6 +151,7 @@ router.post("/instructor/create", protectInstructor, async (req, res) => {
 
 		res.status(201).json(course);
 	} catch (error) {
+		console.error("Error creating course:", error);
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 });
@@ -143,7 +180,7 @@ router.put("/:id", protect, async (req, res) => {
 // @route   PUT /api/courses/instructor/:id
 // @desc    Update a course as instructor
 // @access  Private (Instructor)
-router.put("/instructor/:id", protectInstructor, async (req, res) => {
+router.put("/instructor/:id", protectInstructor, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'brochure', maxCount: 1 }]), async (req, res) => {
 	try {
 		const course = await Course.findById(req.params.id);
 
@@ -156,14 +193,36 @@ router.put("/instructor/:id", protectInstructor, async (req, res) => {
 			return res.status(403).json({ message: "Not authorized to update this course" });
 		}
 
+		let updateData = { ...req.body };
+
+		// Parse modules if strictly updating via form-data (sometimes passed as string)
+		if (req.body.modules && typeof req.body.modules === 'string') {
+			try {
+				updateData.modules = JSON.parse(req.body.modules);
+			} catch (e) {
+				console.error("Error parsing modules on update:", e);
+			}
+		}
+
+		// Handle file uploads
+		if (req.files) {
+			if (req.files.thumbnail && req.files.thumbnail[0]) {
+				updateData.thumbnail = req.files.thumbnail[0].path;
+			}
+			if (req.files.brochure && req.files.brochure[0]) {
+				updateData.brochureLink = req.files.brochure[0].path;
+			}
+		}
+
 		const updatedCourse = await Course.findByIdAndUpdate(
 			req.params.id,
-			req.body,
+			updateData,
 			{ new: true, runValidators: true }
 		);
 
 		res.json(updatedCourse);
 	} catch (error) {
+		console.error("Error updating course:", error);
 		res.status(500).json({ message: "Server error", error: error.message });
 	}
 });

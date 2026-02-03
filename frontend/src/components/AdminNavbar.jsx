@@ -7,6 +7,7 @@ export default function AdminNavbar() {
   const navLinks = [
     { label: "Instructor Management", path: "/admin/dashboard" },
     { label: "Assign Instructors", path: "/admin/assign-instructors" },
+    { label: "Registrations", path: "/admin/registrations" },
     { label: "Mentor Assignments", path: "/admin/mentor-assignments" },
   ];
 

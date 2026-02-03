@@ -13,7 +13,8 @@ import Footer from "./components/Footer";
 import LoadingSpinner from "./components/LoadingSpinner";
 import LandingPage from "./pages/LandingPage";
 import CoursesPage from "./pages/CoursesPage";
-import CourseDetailPage from "./pages/CourseDetailPage";
+import CourseDetailPage from "./pages/CourseDetailPage"; // Existing
+import CourseDetailsPage from "./pages/CourseDetailsPage"; // New
 import MyLearningPage from "./pages/MyLearningPage";
 import MentorshipPage from "./pages/MentorshipPage";
 import MentorshipBookingPage from "./pages/MentorshipBookingPage";
@@ -26,11 +27,13 @@ import AdminLoginPage from "./pages/AdminLoginPage";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminAssignInstructors from "./pages/AdminAssignInstructors";
 import AdminMentorAssignments from "./pages/AdminMentorAssignments";
+import AdminRegistrations from "./pages/AdminRegistrations"; // New
 import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
 import BlogsPage from "./pages/BlogsPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import CareersPage from "./pages/CareersPage";
 import CourtBookerPage from "./pages/projects/CourtBookerPage";
 import AIAgentAvatarPage from "./pages/projects/AIAgentAvatarPage";
 import HVACAgentPage from "./pages/projects/HVACAgentPage";
@@ -112,6 +115,7 @@ export default function App() {
 					/>
 					<div className='min-h-screen'>
 						<Routes>
+							{/* Public Routes */}
 							<Route
 								path='/'
 								element={
@@ -120,6 +124,40 @@ export default function App() {
 									</MainLayout>
 								}
 							/>
+							<Route
+								path='/login'
+								element={<LoginPage />}
+							/>
+							<Route
+								path='/signup'
+								element={<SignupPage />}
+							/>
+							<Route
+								path='/about'
+								element={
+									<MainLayout>
+										<AboutPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/contact'
+								element={
+									<MainLayout>
+										<ContactPage />
+									</MainLayout>
+								}
+							/>
+							<Route
+								path='/careers'
+								element={
+									<MainLayout>
+										<CareersPage />
+									</MainLayout>
+								}
+							/>
+
+							{/* Course Routes */}
 							<Route
 								path='/courses'
 								element={
@@ -135,15 +173,22 @@ export default function App() {
 										<CoursesPage />
 									</CoursesLayout>
 								}
-					/>
-					<Route
-						path='/courses/:id'
+							/>
+							<Route
+								path='/courses/:id'
 								element={
 									<CoursesLayout>
 										<CourseDetailPage />
 									</CoursesLayout>
 								}
 							/>
+							{/* New Course Details Route */}
+							<Route
+								path='/course-details/:courseId'
+								element={<CourseDetailsPage />}
+							/>
+
+							{/* Protected User Routes */}
 							<Route
 								path='/my-learning'
 								element={
@@ -176,6 +221,8 @@ export default function App() {
 									</CoursesLayout>
 								}
 							/>
+
+							{/* Blog Routes */}
 							<Route
 								path='/blogs'
 								element={
@@ -192,23 +239,7 @@ export default function App() {
 									</MainLayout>
 								}
 							/>
-							<Route
-								path='/about'
-								element={
-									<MainLayout>
-										<AboutPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/contact'
-								element={
-									<MainLayout>
-										<ContactPage />
-									</MainLayout>
-								}
-							/>
-							
+
 							{/* Project Pages */}
 							<Route
 								path='/projects/court-booker'
@@ -242,12 +273,14 @@ export default function App() {
 									</MainLayout>
 								}
 							/>
-							<Route path='/login' element={<LoginPage />} />
-							<Route path='/signup' element={<SignupPage />} />
+
+							{/* Admin Routes */}
+							<Route path='/admin' element={<AdminLoginPage />} />
 							<Route path='/admin/login' element={<AdminLoginPage />} />
 							<Route path='/admin/dashboard' element={<AdminDashboard />} />
+							<Route path='/admin/mentorships' element={<AdminMentorAssignments />} />
 							<Route path='/admin/assign-instructors' element={<AdminAssignInstructors />} />
-							<Route path='/admin/mentor-assignments' element={<AdminMentorAssignments />} />
+							<Route path='/admin/registrations' element={<AdminRegistrations />} />
 
 							{/* Instructor Routes */}
 							<Route
@@ -269,4 +302,3 @@ export default function App() {
 		</AuthProvider>
 	);
 }
-

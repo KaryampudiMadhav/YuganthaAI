@@ -1,9 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import StructuredData from "../components/StructuredData";
+import API_URL from "../config/api";
 
 export default function LandingPage() {
 	const [email, setEmail] = useState("");
+	const [courses, setCourses] = useState([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		fetchCourses();
+	}, []);
+
+	const fetchCourses = async () => {
+		try {
+			const response = await fetch(`${API_URL}/api/courses`);
+			if (response.ok) {
+				const data = await response.json();
+				setCourses(data.slice(0, 3)); // Show top 3 courses
+			}
+		} catch (error) {
+			console.error("Error fetching homepage courses:", error);
+		} finally {
+			setLoading(false);
+		}
+	};
 
 	const handleNewsletterSubmit = (e) => {
 		e.preventDefault();
@@ -149,62 +170,52 @@ export default function LandingPage() {
 							We also provide courses
 						</p>
 						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
-							Currently Courses
+							Latest Courses
 						</h2>
 					</div>
 
-					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-						{/* MERN Stack */}
-						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
-							<div className="mb-6">
-								<img
-									src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=300&fit=crop"
-									alt="MERN Stack Development"
-									className="w-full h-48 object-cover rounded-2xl"
-								/>
-							</div>
-							<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors">
-								MERN Stack Development
-							</h3>
-							<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
-								Master full-stack web development with MongoDB, Express.js, React, and Node.js. Build modern, scalable applications from scratch.
-							</p>
+					{loading ? (
+						<div className="text-center text-white py-12">Loading courses...</div>
+					) : courses.length === 0 ? (
+						<div className="text-center py-12 border-2 border-dashed border-white/10 rounded-3xl bg-white/5">
+							<div className="text-6xl mb-4">📚</div>
+							<h3 className="text-2xl font-bold text-white mb-2">New Courses Coming Soon!</h3>
+							<p className="text-gray-400">Stay tuned for our upcoming curriculum updates.</p>
 						</div>
-
-						{/* GenAI */}
-						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
-							<div className="mb-6">
-								<img
-									src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop"
-									alt="Generative AI"
-									className="w-full h-48 object-cover rounded-2xl"
-								/>
-							</div>
-							<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors">
-								Generative AI
-							</h3>
-							<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
-								Dive into the world of AI with hands-on training in GPT models, image generation, and cutting-edge generative AI technologies.
-							</p>
+					) : (
+						<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+							{courses.map((course) => (
+								<Link
+									key={course._id}
+									to={`/course-details/${course._id}`}
+									className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]"
+								>
+									<div className="mb-6 h-48 overflow-hidden rounded-2xl">
+										{course.thumbnail ? (
+											<img
+												src={course.thumbnail}
+												alt={course.title}
+												className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+											/>
+										) : (
+											<div className="w-full h-full bg-gray-200 flex items-center justify-center text-4xl">
+												📘
+											</div>
+										)}
+									</div>
+									<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors line-clamp-2">
+										{course.title}
+									</h3>
+									<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors line-clamp-3">
+										{course.description}
+									</p>
+									<div className="mt-6 pt-4 border-t border-gray-100 group-hover:border-white/20 flex items-center justify-between">
+										<span className="text-sm font-semibold text-[#A855F7] group-hover:text-white">View Details &rarr;</span>
+									</div>
+								</Link>
+							))}
 						</div>
-
-						{/* Agentic AI */}
-						<div className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
-							<div className="mb-6">
-								<img
-									src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop"
-									alt="Agentic AI"
-									className="w-full h-48 object-cover rounded-2xl"
-								/>
-							</div>
-							<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors">
-								Agentic AI
-							</h3>
-							<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
-								Learn to build intelligent AI agents that can autonomously perform tasks, make decisions, and interact with complex environments.
-							</p>
-						</div>
-					</div>
+					)}
 				</div>
 			</div>
 

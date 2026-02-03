@@ -58,6 +58,10 @@ const courseSchema = new mongoose.Schema({
 		type: String,
 		default: "",
 	},
+	brochureLink: {
+		type: String,
+		default: "",
+	},
 	videoPublicId: {
 		type: String,
 		default: "",

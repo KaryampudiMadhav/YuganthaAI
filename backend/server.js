@@ -11,6 +11,7 @@ import adminRoutes from "./routes/admin.js";
 import instructorAuthRoutes from "./routes/instructorAuth.js";
 import blogRoutes from "./routes/blogs.js";
 import mentorshipSessionsRoutes from "./routes/mentorshipSessions.js";
+import leadRoutes from "./routes/leads.js";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -50,6 +51,7 @@ app.use("/api/admin", adminRoutes);
 app.use("/api/instructor-auth", instructorAuthRoutes);
 app.use("/api/blogs", blogRoutes);
 app.use("/api/mentorship-sessions", mentorshipSessionsRoutes);
+app.use("/api/leads", leadRoutes);
 
 // Health check
 app.get("/", (req, res) => {
