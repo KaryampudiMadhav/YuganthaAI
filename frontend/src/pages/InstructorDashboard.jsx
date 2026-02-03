@@ -10,19 +10,6 @@ export default function InstructorDashboard() {
 	const [editingCourse, setEditingCourse] = useState(null);
 	const [showModuleModal, setShowModuleModal] = useState(false);
 	const [currentCourseForModule, setCurrentCourseForModule] = useState(null);
-	const [mentorshipSessions, setMentorshipSessions] = useState([]);
-	const [editingMeetingLink, setEditingMeetingLink] = useState(null);
-	const [meetingLinkInput, setMeetingLinkInput] = useState("");
-	const [showRescheduleModal, setShowRescheduleModal] = useState(false);
-	const [rescheduleSessionId, setRescheduleSessionId] = useState(null);
-	const [rescheduleData, setRescheduleData] = useState({
-		newDate: "",
-		newTime: "",
-		reason: ""
-	});
-	const [showRejectModal, setShowRejectModal] = useState(false);
-	const [rejectSessionId, setRejectSessionId] = useState(null);
-	const [rejectionReason, setRejectionReason] = useState("");
 	const [formData, setFormData] = useState({
 		title: "",
 		description: "",
@@ -64,7 +51,6 @@ export default function InstructorDashboard() {
 
 	useEffect(() => {
 		fetchCourses();
-		fetchMentorshipSessions();
 	}, [instructor]);
 
 	const fetchCourses = async () => {
@@ -458,7 +444,7 @@ export default function InstructorDashboard() {
 	}
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a]'>
+		<div className='min-h-screen bg-[#0B0614]'>
 			{/* Header */}
 			<header className='bg-[rgba(22,11,46,0.8)] backdrop-blur-xl border-b border-[rgba(139,92,246,0.2)] text-white px-6 py-5 sticky top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.2)]'>
 				<div className='max-w-7xl mx-auto flex items-center justify-between'>
@@ -498,7 +484,7 @@ export default function InstructorDashboard() {
 
 			{/* Main Content */}
 			<div className='max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12'>
-				{/* Stats */}
+				{/* Stats Cards */}
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-10'>
 					<div className='bg-gradient-to-br from-[rgba(139,92,246,0.15)] to-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.25)] rounded-2xl p-6 text-white hover:shadow-[0_8px_32px_rgba(139,92,246,0.2)] hover:-translate-y-1 transition-all duration-300'>
 						<div className='flex items-center justify-between mb-2'>
@@ -551,9 +537,9 @@ export default function InstructorDashboard() {
 					<div className='flex items-center justify-between mb-8'>
 						<div>
 							<h2 className='text-2xl font-bold text-white mb-1'>
-								Manage Courses
+								Manage Courses & Modules
 							</h2>
-							<p className='text-[#C7C3D6] text-sm'>Create, edit, and manage your course content</p>
+							<p className='text-[#C7C3D6] text-sm'>Create, edit, and manage your course content including modules and videos</p>
 						</div>
 						<button
 							onClick={() => {
@@ -597,7 +583,6 @@ export default function InstructorDashboard() {
 							<thead className='border-b border-[rgba(139,92,246,0.2)] bg-[rgba(139,92,246,0.05)]'>
 								<tr>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Course</th>
-									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Instructor</th>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Level</th>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Modules</th>
 									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>Price</th>
@@ -629,9 +614,6 @@ export default function InstructorDashboard() {
 												</div>
 											</div>
 										</td>
-										<td className='py-5 px-6 text-[#C7C3D6]'>
-											{course.instructor}
-										</td>
 										<td className='py-4 px-4'>
 											<span
 												className={`px-2 py-1 rounded-full text-xs ${course.level === "Beginner"
@@ -660,7 +642,7 @@ export default function InstructorDashboard() {
 													}
 													className='p-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] rounded-lg transition-all duration-300 shadow-[0_2px_8px_rgba(139,92,246,0.3)]'>
 													<svg
-														className='w-4 h-4'
+														className='w-4 h-4 text-white'
 														fill='none'
 														stroke='currentColor'
 														viewBox='0 0 24 24'>
@@ -678,7 +660,7 @@ export default function InstructorDashboard() {
 													}
 													className='p-2 bg-red-600 hover:bg-red-700 rounded-lg transition duration-200'>
 													<svg
-														className='w-4 h-4'
+														className='w-4 h-4 text-white'
 														fill='none'
 														stroke='currentColor'
 														viewBox='0 0 24 24'>
@@ -1499,7 +1481,7 @@ export default function InstructorDashboard() {
 
 							{/* Video Source Selection */}
 							<div className='bg-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.2)] rounded-xl p-5'>
-								<label className='block text-white mb-3 text-sm font-medium flex items-center'>
+								<label className=' text-white mb-3 text-sm font-medium flex items-center'>
 									<svg className='w-5 h-5 mr-2 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
 										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z' />
 									</svg>

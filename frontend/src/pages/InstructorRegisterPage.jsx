@@ -137,12 +137,12 @@ export default function InstructorRegisterPage() {
 					<div className='text-center mb-8'>
 						<div className='flex items-center justify-center space-x-2 mb-4'>
 						<img 
-							src='/yugantha-logo.png' 
-							alt='Yugantha AI' 
+							src='/yuganta-logo.png' 
+							alt='yuganta AI' 
 							className='w-12 h-12'
 						/>
 						<div className='text-2xl font-bold'>
-							<span className='text-white'>Yugantha</span>
+							<span className='text-white'>Yuganta</span>
 							<span className='bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent'>AI</span>
 							</div>
 						</div>

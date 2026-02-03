@@ -13,12 +13,14 @@ export default function MentorshipPage() {
   const [activeTab, setActiveTab] = useState("my-mentorships");
   const [sessionData, setSessionData] = useState([]);
   const [assignedInstructor, setAssignedInstructor] = useState(null);
+  const [assignedMentor, setAssignedMentor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [selectedSession, setSelectedSession] = useState(null);
   const [showDetailsModal, setShowDetailsModal] = useState(false);
 
   useEffect(() => {
     fetchAssignedInstructor();
+    fetchAssignedMentor();
     fetchSessionData();
   }, []);
 
@@ -37,6 +39,24 @@ export default function MentorshipPage() {
       }
     } catch (error) {
       console.error("Error fetching instructor:", error);
+    }
+  };
+
+  const fetchAssignedMentor = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) return;
+
+      const response = await fetch(`${API_URL}/api/users/assigned-mentor`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      if (response.ok) {
+        const mentor = await response.json();
+        setAssignedMentor(mentor);
+      }
+    } catch (error) {
+      console.error("Error fetching mentor:", error);
     }
   };
 
@@ -238,14 +258,14 @@ export default function MentorshipPage() {
             </div>
           </div>
 
-          {/* Assigned Mentor Card */}
-          {assignedInstructor ? (
+          {/* Assigned Instructor Card */}
+          {assignedInstructor && (
             <div className="bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 border border-blue-500/40 rounded-2xl p-8 shadow-lg">
               <div className="flex items-start justify-between gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
                     <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <p className="text-xs text-blue-300 uppercase tracking-widest font-bold">Assigned Mentor</p>
+                    <p className="text-xs text-blue-300 uppercase tracking-widest font-bold">Assigned Instructor</p>
                   </div>
                   <h2 className="text-3xl font-bold text-white mb-2">{assignedInstructor.name}</h2>
                   <p className="text-blue-200 font-semibold text-lg mb-3">{assignedInstructor.expertise}</p>
@@ -270,21 +290,57 @@ export default function MentorshipPage() {
                 )}
               </div>
             </div>
-          ) : (
-            <div className="bg-yellow-600/10 border border-yellow-500/40 rounded-2xl p-8">
-              <div className="flex items-start justify-between gap-4">
-                <div>
-                  <p className="text-xs text-yellow-300 uppercase tracking-widest font-bold mb-2">Mentor Assignment Status</p>
-                  <h3 className="text-2xl font-bold text-yellow-200 mb-2">No Mentor Assigned Yet</h3>
-                  <p className="text-gray-300 text-sm mb-4">
-                    An admin will assign you a mentor soon. You'll receive a notification once your mentor is assigned.
-                  </p>
-                  <p className="text-xs text-yellow-300 uppercase tracking-wider font-semibold">
-                    ⏱️ Pending Assignment
-                  </p>
+          )}
+
+          {/* Assigned Mentor Card */}
+          {assignedMentor ? (
+            <div className="bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-rose-600/20 border border-purple-500/40 rounded-2xl p-8 shadow-lg">
+              <div className="flex items-start justify-between gap-6">
+                <div className="flex-1">
+                  <div className="flex items-center gap-3 mb-3">
+                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                    <p className="text-xs text-purple-300 uppercase tracking-widest font-bold">Assigned Mentor</p>
+                  </div>
+                  <h2 className="text-3xl font-bold text-white mb-2">{assignedMentor.name}</h2>
+                  <p className="text-purple-200 font-semibold text-lg mb-3">{assignedMentor.expertise}</p>
+                  {assignedMentor.bio && (
+                    <p className="text-gray-300 text-sm leading-relaxed">{assignedMentor.bio}</p>
+                  )}
+                  <div className="mt-4">
+                    <p className="text-xs text-purple-300 uppercase tracking-wider font-semibold mb-2">Contact</p>
+                    <a href={`mailto:${assignedMentor.email}`} className="text-purple-300 hover:text-purple-200 transition text-sm">
+                      {assignedMentor.email}
+                    </a>
+                  </div>
                 </div>
+                {assignedMentor.avatar && (
+                  <div className="flex-shrink-0">
+                    <img
+                      src={assignedMentor.avatar}
+                      alt={assignedMentor.name}
+                      className="w-24 h-24 rounded-xl object-cover border-2 border-purple-500/50"
+                    />
+                  </div>
+                )}
               </div>
             </div>
+          ) : (
+            !assignedInstructor && (
+              <div className="bg-yellow-600/10 border border-yellow-500/40 rounded-2xl p-8">
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <p className="text-xs text-yellow-300 uppercase tracking-widest font-bold mb-2">Mentor Assignment Status</p>
+                    <h3 className="text-2xl font-bold text-yellow-200 mb-2">No Mentor Assigned Yet</h3>
+                    <p className="text-gray-300 text-sm mb-4">
+                      An admin will assign you a mentor soon. You'll receive a notification once your mentor is assigned.
+                    </p>
+                    <p className="text-xs text-yellow-300 uppercase tracking-wider font-semibold">
+                      ⏱️ Pending Assignment
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

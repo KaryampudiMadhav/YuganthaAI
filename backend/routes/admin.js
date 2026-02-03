@@ -58,7 +58,7 @@ const sendOTPEmail = async (email, otp, instructorName) => {
 };
 
 // Static admin credentials
-const ADMIN_EMAIL = "admin@yuganthaai.com";
+const ADMIN_EMAIL = "admin@yugantaai.com";
 const ADMIN_PASSWORD_HASH = bcrypt.hashSync("Admin123!", 10);
 
 // Admin login
@@ -421,6 +421,188 @@ router.delete("/instructors/:id", verifyAdmin, async (req, res) => {
 	} catch (error) {
 		console.error("Delete instructor error:", error);
 		res.status(500).json({ message: "Server error", details: error.message });
+	}
+});
+
+// Get all mentors
+router.get("/mentors", verifyAdmin, async (req, res) => {
+	try {
+		const mentors = await Mentor.find()
+			.select("-password")
+			.sort({ createdAt: -1 });
+		res.json(mentors);
+	} catch (error) {
+		console.error("Get mentors error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Create mentor (admin adds mentor)
+router.post("/mentors", verifyAdmin, async (req, res) => {
+	try {
+		const { name, email, expertise, bio, avatar } = req.body;
+
+		if (!name || !email || !expertise) {
+			return res.status(400).json({ message: "Name, email, and expertise are required" });
+		}
+
+		const existingMentor = await Mentor.findOne({ email });
+		if (existingMentor) {
+			return res.status(400).json({ message: "Mentor with this email already exists" });
+		}
+
+		const mentor = new Mentor({
+			name,
+			email,
+			expertise,
+			bio: bio || "",
+			avatar: avatar || "",
+			active: true,
+			approved: true, // Admin-created mentors are pre-approved
+		});
+
+		await mentor.save();
+
+		res.status(201).json({
+			message: "Mentor created successfully. They can now set their password using the forgot password option.",
+			_id: mentor._id,
+			name: mentor.name,
+			email: mentor.email,
+			expertise: mentor.expertise,
+			active: mentor.active,
+			approved: mentor.approved,
+		});
+	} catch (error) {
+		console.error("Create mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Approve mentor
+router.put("/mentors/:id/approve", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const mentor = await Mentor.findByIdAndUpdate(
+			id,
+			{ approved: true },
+			{ new: true }
+		).select("-password");
+
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		res.json({
+			message: "Mentor approved successfully",
+			mentor,
+		});
+	} catch (error) {
+		console.error("Approve mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Deactivate mentor
+router.put("/mentors/:id/deactivate", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const mentor = await Mentor.findByIdAndUpdate(
+			id,
+			{ active: false },
+			{ new: true }
+		).select("-password");
+
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		res.json({
+			message: "Mentor deactivated successfully",
+			mentor,
+		});
+	} catch (error) {
+		console.error("Deactivate mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Activate mentor
+router.put("/mentors/:id/activate", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const mentor = await Mentor.findByIdAndUpdate(
+			id,
+			{ active: true },
+			{ new: true }
+		).select("-password");
+
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		res.json({
+			message: "Mentor activated successfully",
+			mentor,
+		});
+	} catch (error) {
+		console.error("Activate mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Delete mentor
+router.delete("/mentors/:id", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const mentor = await Mentor.findByIdAndDelete(id);
+
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		res.json({ message: "Mentor deleted successfully" });
+	} catch (error) {
+		console.error("Delete mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Assign mentor to user
+router.post("/assign-mentor", verifyAdmin, async (req, res) => {
+	try {
+		const { userId, mentorId } = req.body;
+
+		if (!userId || !mentorId) {
+			return res.status(400).json({ message: "userId and mentorId are required" });
+		}
+
+		// Find user and mentor
+		const user = await User.findById(userId);
+		const mentor = await Mentor.findById(mentorId);
+
+		if (!user) {
+			return res.status(404).json({ message: "User not found" });
+		}
+
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		// Assign mentor to user
+		user.assignedMentor = mentorId;
+		await user.save();
+
+		res.json({
+			message: `${mentor.name} assigned to ${user.fullName}`,
+			user,
+		});
+	} catch (error) {
+		console.error("Assign mentor error:", error);
+		res.status(500).json({ message: "Server error" });
 	}
 });
 

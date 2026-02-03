@@ -39,20 +39,70 @@ export default function LearningPaths() {
 						</button>
 					</div>
 
-					{/* Image */}
+					{/* Right Section - Learning Stats Cards */}
 				<div ref={imageRef} className={`w-full md:w-1/2 ${imageVisible ? 'animate-slideInRight' : 'opacity-0'}`}>
-						<div className='bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.3)] rounded-3xl p-8 md:p-10 shadow-[0_8px_32px_rgba(139,92,246,0.2)] hover:shadow-[0_16px_48px_rgba(139,92,246,0.3)] transition-all duration-300 animate-float'>
-							<div className='text-center'>
-								<div className='text-7xl md:text-8xl mb-6'>📚</div>
-								<p className='text-2xl md:text-3xl font-bold text-white mb-3'>
-									Expert-Curated Paths
-								</p>
-								<p className='text-[#9A93B5] text-base md:text-lg'>
-									Industry-validated curriculum designed for modern learners
-								</p>
+					<div className='space-y-4'>
+						{/* Card 1 */}
+						<div className='bg-gradient-to-br from-[rgba(139,92,246,0.15)] to-[rgba(168,85,247,0.05)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl p-6 hover:border-[rgba(139,92,246,0.4)] transition-all duration-300 group hover:shadow-[0_8px_32px_rgba(139,92,246,0.2)]'>
+							<div className='flex items-start gap-4'>
+								<div className='p-3 bg-[rgba(139,92,246,0.2)] rounded-xl group-hover:bg-[rgba(139,92,246,0.3)] transition-colors'>
+									<svg className='w-6 h-6 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13 10V3L4 14h7v7l9-11h-7z' />
+									</svg>
+								</div>
+								<div className='flex-1'>
+									<h3 className='text-lg font-bold text-white mb-1'>Adaptive Learning</h3>
+									<p className='text-sm text-[#9A93B5]'>Personalized pace & difficulty levels</p>
+								</div>
+							</div>
+						</div>
+
+						{/* Card 2 */}
+						<div className='bg-gradient-to-br from-[rgba(236,72,153,0.15)] to-[rgba(244,114,182,0.05)] backdrop-blur-xl border border-[rgba(236,72,153,0.2)] rounded-2xl p-6 hover:border-[rgba(236,72,153,0.4)] transition-all duration-300 group hover:shadow-[0_8px_32px_rgba(236,72,153,0.2)]'>
+							<div className='flex items-start gap-4'>
+								<div className='p-3 bg-[rgba(236,72,153,0.2)] rounded-xl group-hover:bg-[rgba(236,72,153,0.3)] transition-colors'>
+									<svg className='w-6 h-6 text-[#EC4899]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z' />
+									</svg>
+								</div>
+								<div className='flex-1'>
+									<h3 className='text-lg font-bold text-white mb-1'>Live Workshops</h3>
+									<p className='text-sm text-[#9A93B5]'>Interactive sessions with industry experts</p>
+								</div>
+							</div>
+						</div>
+
+						{/* Card 3 */}
+						<div className='bg-gradient-to-br from-[rgba(6,182,212,0.15)] to-[rgba(8,145,178,0.05)] backdrop-blur-xl border border-[rgba(6,182,212,0.2)] rounded-2xl p-6 hover:border-[rgba(6,182,212,0.4)] transition-all duration-300 group hover:shadow-[0_8px_32px_rgba(6,182,212,0.2)]'>
+							<div className='flex items-start gap-4'>
+								<div className='p-3 bg-[rgba(6,182,212,0.2)] rounded-xl group-hover:bg-[rgba(6,182,212,0.3)] transition-colors'>
+									<svg className='w-6 h-6 text-[#06B6D4]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4' />
+									</svg>
+								</div>
+								<div className='flex-1'>
+									<h3 className='text-lg font-bold text-white mb-1'>1:1 Mentorships</h3>
+									<p className='text-sm text-[#9A93B5]'>Dedicated guidance from industry experts</p>
+								</div>
+							</div>
+						</div>
+
+						{/* Card 4 */}
+						<div className='bg-gradient-to-br from-[rgba(245,158,11,0.15)] to-[rgba(251,191,36,0.05)] backdrop-blur-xl border border-[rgba(245,158,11,0.2)] rounded-2xl p-6 hover:border-[rgba(245,158,11,0.4)] transition-all duration-300 group hover:shadow-[0_8px_32px_rgba(245,158,11,0.2)]'>
+							<div className='flex items-start gap-4'>
+								<div className='p-3 bg-[rgba(245,158,11,0.2)] rounded-xl group-hover:bg-[rgba(245,158,11,0.3)] transition-colors'>
+									<svg className='w-6 h-6 text-[#F59E0B]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+										<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M9 12l2 2 4-4m7 0a9 9 0 11-18 0 9 9 0 0118 0z' />
+									</svg>
+								</div>
+								<div className='flex-1'>
+									<h3 className='text-lg font-bold text-white mb-1'>Community Access</h3>
+									<p className='text-sm text-[#9A93B5]'>Network with learners & professionals</p>
+								</div>
 							</div>
 						</div>
 					</div>
+				</div>
 				</div>
 			</div>
 		</section>

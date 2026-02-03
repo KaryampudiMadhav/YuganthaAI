@@ -9,7 +9,7 @@ export default function Footer() {
 					<div className='col-span-1 md:col-span-2'>
 						<Link to='/' className='flex items-center space-x-3 mb-6 group'>
 							<img
-								src='/yugantha-logo.png'
+								src='/yuganta-logo.png'
 								alt='YugantaAI'
 								className='w-10 h-10 transition-transform group-hover:scale-110'
 							/>
@@ -80,13 +80,7 @@ export default function Footer() {
 									All Courses
 								</Link>
 							</li>
-							<li>
-								<Link
-									to='/courses'
-									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
-									Free Courses
-								</Link>
-							</li>
+							
 							<li>
 								<Link
 									to='/instructor'
@@ -125,11 +119,7 @@ export default function Footer() {
 									Deep Learning
 								</Link>
 							</li>
-							<li>
-								<Link to='/courses' className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
-									Data Science
-								</Link>
-							</li>
+							
 							<li>
 								<Link to='/courses' className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
 									Web Development
@@ -167,7 +157,7 @@ export default function Footer() {
 					<div className='flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
 						<p className='text-[#C7C3D6] text-sm'>
 							© {new Date().getFullYear()} YugantaAI. All rights
-							reserved. Built with <span className='text-[#EC4899]'>❤️</span> for learners worldwide.
+							reserved. Built  for learners worldwide.
 						</p>
 						<div className='flex space-x-6 text-sm'>
 							<a

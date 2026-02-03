@@ -3,12 +3,12 @@ export default function StructuredData() {
         "@context": "https://schema.org",
         "@type": "Organization",
         "name": "Yuganta AI",
-        "url": "https://yuganthaai.com",
-        "logo": "https://yuganthaai.com/yugantha-logo.png",
+        "url": "https://yugantaai.com",
+        "logo": "https://yugantaai.com/yuganta-logo.png",
         "sameAs": [
-            "https://www.linkedin.com/company/yuganthaai",
-            "https://twitter.com/yuganthaai",
-            "https://www.instagram.com/yuganthaai"
+            "https://www.linkedin.com/company/yugantaai",
+            "https://twitter.com/yugantaai",
+            "https://www.instagram.com/yugantaai"
         ],
         "contactPoint": {
             "@type": "ContactPoint",
@@ -23,10 +23,10 @@ export default function StructuredData() {
         "@context": "https://schema.org",
         "@type": "WebSite",
         "name": "Yuganta AI",
-        "url": "https://yuganthaai.com",
+        "url": "https://yugantaai.com",
         "potentialAction": {
             "@type": "SearchAction",
-            "target": "https://yuganthaai.com/courses?search={search_term_string}",
+            "target": "https://yugantaai.com/courses?search={search_term_string}",
             "query-input": "required name=search_term_string"
         }
     };

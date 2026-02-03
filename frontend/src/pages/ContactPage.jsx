@@ -124,8 +124,8 @@ export default function ContactPage() {
 								</div>
 								<div>
 									<h3 className="text-xl font-semibold text-white mb-2">Email</h3>
-									<a href="mailto:info@yuganthaai.com" className="text-[#A855F7] hover:text-[#C084FC] transition-colors text-lg">
-										info@yuganthaai.com
+									<a href="mailto:info@yugantaai.com" className="text-[#A855F7] hover:text-[#C084FC] transition-colors text-lg">
+										info@yugantaai.com
 									</a>
 								</div>
 							</div>

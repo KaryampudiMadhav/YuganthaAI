@@ -1,28 +1,27 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useInstructor } from "../context/InstructorContext";
+import { useMentor } from "../context/MentorContext";
 
-export default function InstructorLoginPage() {
+export default function MentorLoginPage() {
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
-	const [showHint, setShowHint] = useState(false);
-	const { login, isAuthenticated } = useInstructor();
+	const { login, isAuthenticated } = useMentor();
 	const navigate = useNavigate();
 
 	useEffect(() => {
 		if (isAuthenticated) {
-			navigate("/instructor/dashboard", { replace: true });
+			navigate("/mentor/dashboard", { replace: true });
 		}
 	}, [isAuthenticated, navigate]);
 
-			const handleSubmit = async (e) => {
+	const handleSubmit = async (e) => {
 		e.preventDefault();
 		setError("");
 
 		const result = await login(email, password);
 		if (result.success) {
-			navigate("/instructor/dashboard");
+			navigate("/mentor/dashboard");
 		} else {
 			setError(result.error);
 		}
@@ -54,17 +53,16 @@ export default function InstructorLoginPage() {
 				<div className='bg-[#12091F] border border-[rgba(139,92,246,0.25)] backdrop-blur-xl rounded-2xl p-8 md:p-10 shadow-[0_8px_32px_rgba(139,92,246,0.2)]'>
 					<div className='text-center mb-10'>
 						<div className='flex items-center justify-center space-x-2 mb-6'>
-							
 							<div className='text-2xl font-bold'>
 								<span className='text-white'>Yuganta</span>
 								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>AI</span>
 							</div>
 						</div>
 						<h2 className='text-3xl font-bold text-white mb-2'>
-							Instructor Portal
+							Mentor Portal
 						</h2>
 						<p className='text-[#C7C3D6]'>
-							Sign in to manage your courses
+							Sign in to manage your mentorship sessions
 						</p>
 					</div>
 
@@ -77,8 +75,6 @@ export default function InstructorLoginPage() {
 						</div>
 					)}
 
-					
-
 					<form onSubmit={handleSubmit} className='space-y-6'>
 						<div>
 							<label className='block text-white mb-2.5 text-sm font-semibold'>
@@ -89,7 +85,7 @@ export default function InstructorLoginPage() {
 								value={email}
 								onChange={(e) => setEmail(e.target.value)}
 								className='w-full px-4 py-3.5 bg-[#0B0614] border border-[#2A1F4D] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300 hover:border-[rgba(139,92,246,0.5)]'
-								placeholder='instructor@yugantaai.com'
+								placeholder='mentor@yugantaai.com'
 								required
 							/>
 						</div>
@@ -117,12 +113,12 @@ export default function InstructorLoginPage() {
 
 					<div className='mt-8 text-center space-y-4'>
 						<Link
-							to='/instructor/forgot-password'
+							to='/mentor/forgot-password'
 							className='inline-block text-[#A855F7] hover:text-[#EC4899] font-semibold transition duration-300'>
 							First time login or forgot password? Click here
 						</Link>
 						<p className='text-[#9A93B5] text-sm'>
-							New instructor? Set your password first
+							New mentor? Set your password first
 						</p>
 					</div>
 				</div>

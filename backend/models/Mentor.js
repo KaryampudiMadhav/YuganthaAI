@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcryptjs";
 
 const mentorSchema = new mongoose.Schema({
 	name: {
@@ -18,10 +19,35 @@ const mentorSchema = new mongoose.Schema({
 		lowercase: true,
 		trim: true,
 	},
+	password: {
+		type: String,
+		default: null,
+		minlength: 6,
+	},
+	bio: {
+		type: String,
+		default: "",
+	},
+	avatar: {
+		type: String,
+		default: "",
+	},
 	active: {
 		type: Boolean,
 		default: true,
 	},
+	approved: {
+		type: Boolean,
+		default: false,
+	},
+	resetToken: String,
+	resetTokenExpiry: Date,
+	assignedSessions: [
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "MentorshipSession",
+		},
+	],
 	createdAt: {
 		type: Date,
 		default: Date.now,

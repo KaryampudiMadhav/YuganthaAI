@@ -12,7 +12,7 @@ export default function MentorshipBookingPage() {
   const [showDetails, setShowDetails] = useState(false);
   const [email, setEmail] = useState("");
   const [topic, setTopic] = useState("");
-  const [assignedInstructor, setAssignedInstructor] = useState(null);
+  const [assignedMentor, setAssignedMentor] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [existingSessions, setExistingSessions] = useState([]);
@@ -55,7 +55,7 @@ export default function MentorshipBookingPage() {
   });
 
   useEffect(() => {
-    fetchAssignedInstructor();
+    fetchAssignedMentor();
     fetchUserEmail();
     fetchExistingSessions();
     fetchGlobalBookedSlots();
@@ -104,7 +104,7 @@ export default function MentorshipBookingPage() {
     }
   };
 
-  const fetchAssignedInstructor = async () => {
+  const fetchAssignedMentor = async () => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -112,26 +112,26 @@ export default function MentorshipBookingPage() {
         return;
       }
 
-      const response = await fetch(`${API_URL}/api/users/assigned-instructor`, {
+      const response = await fetch(`${API_URL}/api/users/assigned-mentor`, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.ok) {
-        const instructor = await response.json();
-        setAssignedInstructor(instructor);
+        const mentor = await response.json();
+        setAssignedMentor(mentor);
         setProgram((prev) => ({
           ...prev,
-          title: `1:1 Mentorship with ${instructor.name}`,
-          subtitle: `Mentorship Session - ${instructor.expertise}`,
+          title: `1:1 Mentorship with ${mentor.name}`,
+          subtitle: `Mentorship Session - ${mentor.expertise}`,
         }));
       } else if (response.status === 404) {
-        setError("No instructor has been assigned to your account yet. Please contact the admin.");
+        setError("No mentor has been assigned to your account yet. Please contact the admin.");
       } else {
-        setError("Failed to load instructor information");
+        setError("Failed to load mentor information");
       }
     } catch (error) {
-      console.error("Error fetching instructor:", error);
-      setError("Error loading instructor information");
+      console.error("Error fetching mentor:", error);
+      setError("Error loading mentor information");
     } finally {
       setLoading(false);
     }
@@ -255,7 +255,7 @@ export default function MentorshipBookingPage() {
 
       const sessionData = {
         title: topic,
-        instructorId: assignedInstructor?._id,
+        mentorId: assignedMentor?._id,
         date: dateStr,
         time: selectedSlot,
         notes: `Booked on ${new Date().toLocaleDateString()}`,
@@ -359,16 +359,16 @@ export default function MentorshipBookingPage() {
               <div className="space-y-3">
                 <div className="text-sm text-gray-400">{program.subtitle}</div>
                 <h1 className="text-3xl font-bold leading-tight">{program.title}</h1>
-                {assignedInstructor ? (
+                {assignedMentor ? (
                   <div className="bg-gradient-to-r from-[rgba(139,92,246,0.3)] to-[rgba(236,72,153,0.3)] border border-[rgba(139,92,246,0.6)] rounded-lg p-4 mt-4 shadow-lg">
                     <div className="flex items-center gap-2 mb-2">
                       <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
                       <p className="text-xs text-[#C7C3D6] uppercase tracking-widest font-bold">Mentoring with</p>
                     </div>
-                    <p className="text-2xl font-bold text-white">{assignedInstructor.name}</p>
-                    <p className="text-sm text-[#A855F7] font-semibold mt-1">{assignedInstructor.expertise}</p>
-                    {assignedInstructor.email && (
-                      <p className="text-xs text-[#C7C3D6] mt-2">📧 {assignedInstructor.email}</p>
+                    <p className="text-2xl font-bold text-white">{assignedMentor.name}</p>
+                    <p className="text-sm text-[#A855F7] font-semibold mt-1">{assignedMentor.expertise}</p>
+                    {assignedMentor.email && (
+                      <p className="text-xs text-[#C7C3D6] mt-2">📧 {assignedMentor.email}</p>
                     )}
                   </div>
                 ) : (

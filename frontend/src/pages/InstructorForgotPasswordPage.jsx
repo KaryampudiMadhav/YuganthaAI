@@ -132,12 +132,12 @@ export default function InstructorForgotPasswordPage() {
 					<div className='text-center mb-8'>
 						<div className='flex items-center justify-center space-x-2 mb-4'>
 						<img 
-							src='/yugantha-logo.png' 
-							alt='YuganthaAI' 
+							src='/yuganta-logo.png' 
+							alt='yugantaAI' 
 							className='w-12 h-12'
 						/>
 							<div className='text-2xl font-bold'>
-							<span className='text-white'>Yugantha</span>
+							<span className='text-white'>Yuganta</span>
 							<span className='text-blue-400'>AI</span>
 							</div>
 						</div>

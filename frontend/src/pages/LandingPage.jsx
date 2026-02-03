@@ -56,8 +56,7 @@ export default function LandingPage() {
 								Empowering Tomorrow's <span className="text-[#00D4FF]">Tech Leaders</span>
 							</h1>
 							<p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-								YugantaAI specializes in project development and provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI to help you excel in the rapidly evolving tech industry.
-							</p>
+					YugantaAI provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI designed specifically for college students to excel in the tech industry. Beyond courses, we offer hands-on experience through innovative real-world projects including AI-powered HVAC systems, chatbots, and agentic AI applications.</p>
 							<Link
 								to="/courses"
 								className="inline-block px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-[0_0_30px_rgba(0,188,212,0.5)] hover:scale-105 transition-all duration-200 text-lg"
@@ -219,7 +218,7 @@ export default function LandingPage() {
 				</div>
 			</div>
 
-			{/* Why YuganthaAI Section */}
+			{/* Why yugantaAI Section */}
 			<div className="py-20 md:py-32 bg-gradient-to-b from-[#12091F] to-[#0B0614]">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
@@ -229,10 +228,10 @@ export default function LandingPage() {
 								Explore
 							</p>
 							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
-								Why YuganthaAI?
+								Why yugantaAI?
 							</h2>
 							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
-								YuganthaAI is a leading technology education platform committed to empowering college students with industry-relevant skills in AI and software development.
+								yugantaAI is a leading technology education platform committed to empowering college students with industry-relevant skills in AI and software development.
 							</p>
 							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
 								We offer a unique learning experience for students who want to stay ahead in the rapidly evolving tech landscape.
@@ -323,7 +322,7 @@ export default function LandingPage() {
 								Video
 							</p>
 							<h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
-								Why Is Learning With YuganthaAI Important?
+								Why Is Learning With yugantaAI Important?
 							</h2>
 							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
 								In today's rapidly evolving tech landscape, staying current with the latest technologies is crucial. Our courses transform the way students learn and prepare for their careers.
@@ -357,7 +356,7 @@ export default function LandingPage() {
 								</svg>
 							</div>
 							<p className="text-[#C7C3D6] leading-relaxed mb-6">
-								Great course! The MERN stack curriculum was well-structured and the hands-on projects helped me land my first internship. Highly recommend YuganthaAI!
+								Great course! The MERN stack curriculum was well-structured and the hands-on projects helped me land my first internship. Highly recommend YugantaAI!
 							</p>
 							<div className="border-t border-[rgba(139,92,246,0.2)] pt-6">
 								<h4 className="text-white font-bold text-lg">Priya Sharma</h4>
