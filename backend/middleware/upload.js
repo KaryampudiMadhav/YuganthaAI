@@ -4,10 +4,14 @@ import cloudinary from '../config/cloudinary.js';
 
 const storage = new CloudinaryStorage({
     cloudinary: cloudinary,
-    params: {
-        folder: 'course-materials',
-        allowed_formats: ['jpg', 'png', 'jpeg', 'pdf'],
-        resource_type: 'auto', // Auto-detects image or raw (pdf)
+    params: async (req, file) => {
+        // Determine resource type based on file mimetype
+        const isPdf = file.mimetype === 'application/pdf';
+        return {
+            folder: 'course-materials',
+            allowed_formats: ['jpg', 'png', 'jpeg', 'pdf'],
+            resource_type: isPdf ? 'raw' : 'auto', // Use 'raw' for PDFs explicitly
+        };
     },
 });
 

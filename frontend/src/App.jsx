@@ -36,6 +36,7 @@ import AdminAssignMentors from "./pages/AdminAssignInstructors";
 import AdminAssignInstructors from "./pages/AdminAssignInstructors";
 import AdminMentorAssignments from "./pages/AdminMentorAssignments";
 import AdminRegistrations from "./pages/AdminRegistrations"; // New
+import AdminBlogManagement from "./pages/AdminBlogManagement";
 import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
 import BlogsPage from "./pages/BlogsPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
@@ -124,33 +125,6 @@ export default function App() {
 						/>
 						<div className='min-h-screen'>
 							<Routes>
-								<Router>
-									<ScrollToTop />
-									<Toaster
-										position="top-right"
-										toastOptions={{
-											duration: 3000,
-											style: {
-												background: '#1a1a1a',
-												color: '#fff',
-												border: '1px solid rgba(139, 92, 246, 0.3)',
-											},
-											success: {
-												iconTheme: {
-													primary: '#8b5cf6',
-													secondary: '#fff',
-												},
-											},
-											error: {
-												iconTheme: {
-													primary: '#ef4444',
-													secondary: '#fff',
-												},
-											},
-										}}
-									/>
-									<div className='min-h-screen'>
-										<Routes>
 											{/* Public Routes */}
 											<Route
 												path='/'
@@ -323,8 +297,7 @@ export default function App() {
 											<Route path='/admin/login' element={<AdminLoginPage />} />
 											<Route path='/admin/dashboard' element={<AdminDashboard />} />
 											<Route path='/admin/mentors' element={<AdminMentorManagement />} />
-											<Route path='/admin/instructors' element={<AdminInstructorManagement />} />
-											<Route path='/admin/assign-mentors' element={<AdminAssignMentors />} />
+											<Route path='/admin/instructors' element={<AdminInstructorManagement />} />							<Route path='/admin/blogs' element={<AdminBlogManagement />} />											<Route path='/admin/assign-mentors' element={<AdminAssignMentors />} />
 											<Route path='/admin/mentorships' element={<AdminMentorAssignments />} />
 											<Route path='/admin/assign-instructors' element={<AdminAssignInstructors />} />
 											<Route path='/admin/registrations' element={<AdminRegistrations />} />
@@ -362,5 +335,5 @@ export default function App() {
 							</MentorProvider>
 						</InstructorProvider>
 					</AuthProvider>
-					);
+	);
 }

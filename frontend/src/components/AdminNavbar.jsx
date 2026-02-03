@@ -9,6 +9,7 @@ export default function AdminNavbar() {
     { label: "Mentor Management", path: "/admin/mentors" },
     { label: "Instructor Management", path: "/admin/instructors" },
     { label: "Assign Mentors", path: "/admin/assign-mentors" },
+    { label: "Blog Management", path: "/admin/blogs" },
   ];
 
   const handleLogout = () => {

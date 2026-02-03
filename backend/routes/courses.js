@@ -24,7 +24,9 @@ router.get("/", async (req, res) => {
 // @access  Public
 router.get("/instructor/:instructorId", async (req, res) => {
 	try {
-		const courses = await Course.find({ instructorId: req.params.instructorId }).sort({ createdAt: -1 });
+		const courses = await Course.find({
+			instructorId: req.params.instructorId,
+		}).sort({ createdAt: -1 });
 		res.json(courses);
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message });
@@ -36,7 +38,9 @@ router.get("/instructor/:instructorId", async (req, res) => {
 // @access  Private (Instructor)
 router.get("/my-courses/list", protectInstructor, async (req, res) => {
 	try {
-		const courses = await Course.find({ instructorId: req.instructor._id }).sort({ createdAt: -1 });
+		const courses = await Course.find({
+			instructorId: req.instructor._id,
+		}).sort({ createdAt: -1 });
 		res.json(courses);
 	} catch (error) {
 		res.status(500).json({ message: "Server error", error: error.message });
@@ -81,91 +85,125 @@ router.post("/", protect, async (req, res) => {
 // @route   POST /api/courses/instructor/create
 // @desc    Create a course as instructor
 // @access  Private (Instructor)
-router.post("/instructor/create", protectInstructor, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'brochure', maxCount: 1 }]), async (req, res) => {
-	try {
-		// Log files and body to debug
-		console.log("Files:", req.files);
-		console.log("Body:", req.body);
+router.post(
+	"/instructor/create",
+	protectInstructor,
+	upload.fields([
+		{ name: "thumbnail", maxCount: 1 },
+		{ name: "brochure", maxCount: 1 },
+	]),
+	async (req, res) => {
+		try {
+			// Log files and body to debug
+			console.log("Files:", req.files);
+			console.log("Body:", req.body);
 
-		const { title, description, category, level, duration, price, videoUrl, videoPublicId } = req.body;
+			const {
+				title,
+				description,
+				category,
+				level,
+				duration,
+				price,
+				videoUrl,
+				videoPublicId,
+			} = req.body;
 
-		// Parse modules if sent as JSON string (common with FormData/Postman)
-		let modules = [];
-		if (req.body.modules) {
-			try {
-				modules = typeof req.body.modules === 'string' ? JSON.parse(req.body.modules) : req.body.modules;
-			} catch (e) {
-				console.error("Error parsing modules:", e);
-				modules = [];
+			// Parse modules if sent as JSON string (common with FormData/Postman)
+			let modules = [];
+			if (req.body.modules) {
+				try {
+					modules =
+						typeof req.body.modules === "string"
+							? JSON.parse(req.body.modules)
+							: req.body.modules;
+				} catch (e) {
+					console.error("Error parsing modules:", e);
+					modules = [];
+				}
 			}
-		}
 
-		if (!title || !description || !category) {
-			return res.status(400).json({ message: "Title, description, and category are required" });
-		}
-
-		// Get file URLs from Cloudinary upload
-		let thumbnailUrl = "";
-		let brochureUrl = "";
-
-		if (req.files) {
-			if (req.files.thumbnail && req.files.thumbnail[0]) {
-				thumbnailUrl = req.files.thumbnail[0].path;
+			if (!title || !description || !category) {
+				return res
+					.status(400)
+					.json({
+						message:
+							"Title, description, and category are required",
+					});
 			}
-			if (req.files.brochure && req.files.brochure[0]) {
-				brochureUrl = req.files.brochure[0].path;
+
+			// Get file URLs from Cloudinary upload
+			let thumbnailUrl = "";
+			let brochureUrl = "";
+
+			if (req.files) {
+				if (req.files.thumbnail && req.files.thumbnail[0]) {
+					thumbnailUrl = req.files.thumbnail[0].path;
+				}
+				if (req.files.brochure && req.files.brochure[0]) {
+					brochureUrl = req.files.brochure[0].path;
+				}
 			}
+
+			// Use existing thumbnail/brochure if passed in body (e.g. from previous edit) and no new file uploaded
+			if (!thumbnailUrl && req.body.thumbnail)
+				thumbnailUrl = req.body.thumbnail;
+			if (!brochureUrl && req.body.brochureLink)
+				brochureUrl = req.body.brochureLink;
+
+			const courseData = {
+				title,
+				description,
+				category,
+				level: level || "Beginner",
+				duration: duration || "",
+				price: price || "Free",
+				thumbnail: thumbnailUrl,
+				brochureLink: brochureUrl,
+				videoUrl: videoUrl || "",
+				videoPublicId: videoPublicId || "",
+				instructor:
+					req.body.instructor ||
+					req.instructor.name ||
+					req.instructor.email,
+				instructorId: req.instructor._id,
+				modules: modules,
+				students: 0,
+				rating: 0,
+				isFree: price === "Free" || !price,
+			};
+
+			console.log("Creating course with data:", courseData);
+
+			const course = await Course.create(courseData);
+
+			// Update instructor's courses array
+			await Instructor.findByIdAndUpdate(
+				req.instructor._id,
+				{ $push: { courses: course._id } },
+				{ new: true },
+			);
+
+			res.status(201).json(course);
+		} catch (error) {
+			console.error("Error creating course:", error);
+			res.status(500).json({
+				message: "Server error",
+				error: error.message,
+			});
 		}
-
-		// Use existing thumbnail/brochure if passed in body (e.g. from previous edit) and no new file uploaded
-		if (!thumbnailUrl && req.body.thumbnail) thumbnailUrl = req.body.thumbnail;
-		if (!brochureUrl && req.body.brochureLink) brochureUrl = req.body.brochureLink;
-
-		const courseData = {
-			title,
-			description,
-			category,
-			level: level || "Beginner",
-			duration: duration || "",
-			price: price || "Free",
-			thumbnail: thumbnailUrl,
-			brochureLink: brochureUrl,
-			videoUrl: videoUrl || "",
-			videoPublicId: videoPublicId || "",
-			instructor: req.instructor.name || req.instructor.email,
-			instructorId: req.instructor._id,
-			modules: modules,
-			students: 0,
-			rating: 0,
-			isFree: price === "Free" || !price,
-		};
-
-		const course = await Course.create(courseData);
-
-		// Update instructor's courses array
-		await Instructor.findByIdAndUpdate(
-			req.instructor._id,
-			{ $push: { courses: course._id } },
-			{ new: true }
-		);
-
-		res.status(201).json(course);
-	} catch (error) {
-		console.error("Error creating course:", error);
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
-});
+	},
+);
 
 // @route   PUT /api/courses/:id
 // @desc    Update a course
 // @access  Private
 router.put("/:id", protect, async (req, res) => {
 	try {
-		const course = await Course.findByIdAndUpdate(
-			req.params.id,
-			req.body,
-			{ new: true, runValidators: true }
-		);
+		const course = await Course.findByIdAndUpdate(req.params.id, req.body, {
+			new: true,
+			runValidators: true,
+		});
 
 		if (!course) {
 			return res.status(404).json({ message: "Course not found" });
@@ -180,52 +218,67 @@ router.put("/:id", protect, async (req, res) => {
 // @route   PUT /api/courses/instructor/:id
 // @desc    Update a course as instructor
 // @access  Private (Instructor)
-router.put("/instructor/:id", protectInstructor, upload.fields([{ name: 'thumbnail', maxCount: 1 }, { name: 'brochure', maxCount: 1 }]), async (req, res) => {
-	try {
-		const course = await Course.findById(req.params.id);
+router.put(
+	"/instructor/:id",
+	protectInstructor,
+	upload.fields([
+		{ name: "thumbnail", maxCount: 1 },
+		{ name: "brochure", maxCount: 1 },
+	]),
+	async (req, res) => {
+		try {
+			const course = await Course.findById(req.params.id);
 
-		if (!course) {
-			return res.status(404).json({ message: "Course not found" });
-		}
-
-		// Check if instructor owns this course
-		if (course.instructorId.toString() !== req.instructor._id.toString()) {
-			return res.status(403).json({ message: "Not authorized to update this course" });
-		}
-
-		let updateData = { ...req.body };
-
-		// Parse modules if strictly updating via form-data (sometimes passed as string)
-		if (req.body.modules && typeof req.body.modules === 'string') {
-			try {
-				updateData.modules = JSON.parse(req.body.modules);
-			} catch (e) {
-				console.error("Error parsing modules on update:", e);
+			if (!course) {
+				return res.status(404).json({ message: "Course not found" });
 			}
-		}
 
-		// Handle file uploads
-		if (req.files) {
-			if (req.files.thumbnail && req.files.thumbnail[0]) {
-				updateData.thumbnail = req.files.thumbnail[0].path;
+			// Check if instructor owns this course
+			if (
+				course.instructorId.toString() !== req.instructor._id.toString()
+			) {
+				return res
+					.status(403)
+					.json({ message: "Not authorized to update this course" });
 			}
-			if (req.files.brochure && req.files.brochure[0]) {
-				updateData.brochureLink = req.files.brochure[0].path;
+
+			let updateData = { ...req.body };
+
+			// Parse modules if strictly updating via form-data (sometimes passed as string)
+			if (req.body.modules && typeof req.body.modules === "string") {
+				try {
+					updateData.modules = JSON.parse(req.body.modules);
+				} catch (e) {
+					console.error("Error parsing modules on update:", e);
+				}
 			}
+
+			// Handle file uploads
+			if (req.files) {
+				if (req.files.thumbnail && req.files.thumbnail[0]) {
+					updateData.thumbnail = req.files.thumbnail[0].path;
+				}
+				if (req.files.brochure && req.files.brochure[0]) {
+					updateData.brochureLink = req.files.brochure[0].path;
+				}
+			}
+
+			const updatedCourse = await Course.findByIdAndUpdate(
+				req.params.id,
+				updateData,
+				{ new: true, runValidators: true },
+			);
+
+			res.json(updatedCourse);
+		} catch (error) {
+			console.error("Error updating course:", error);
+			res.status(500).json({
+				message: "Server error",
+				error: error.message,
+			});
 		}
-
-		const updatedCourse = await Course.findByIdAndUpdate(
-			req.params.id,
-			updateData,
-			{ new: true, runValidators: true }
-		);
-
-		res.json(updatedCourse);
-	} catch (error) {
-		console.error("Error updating course:", error);
-		res.status(500).json({ message: "Server error", error: error.message });
-	}
-});
+	},
+);
 
 // @route   DELETE /api/courses/:id
 // @desc    Delete a course
@@ -257,7 +310,9 @@ router.delete("/instructor/:id", protectInstructor, async (req, res) => {
 
 		// Check if instructor owns this course
 		if (course.instructorId.toString() !== req.instructor._id.toString()) {
-			return res.status(403).json({ message: "Not authorized to delete this course" });
+			return res
+				.status(403)
+				.json({ message: "Not authorized to delete this course" });
 		}
 
 		await Course.findByIdAndDelete(req.params.id);
@@ -266,7 +321,7 @@ router.delete("/instructor/:id", protectInstructor, async (req, res) => {
 		await Instructor.findByIdAndUpdate(
 			req.instructor._id,
 			{ $pull: { courses: req.params.id } },
-			{ new: true }
+			{ new: true },
 		);
 
 		res.json({ message: "Course deleted successfully" });
