@@ -8,6 +8,7 @@ export default function AdminNavbar() {
     { label: "Dashboard", path: "/admin/dashboard" },
     { label: "Mentor Management", path: "/admin/mentors" },
     { label: "Instructor Management", path: "/admin/instructors" },
+    { label: "Registrations", path: "/admin/registrations" },
     { label: "Assign Mentors", path: "/admin/assign-mentors" },
     { label: "Blog Management", path: "/admin/blogs" },
   ];
