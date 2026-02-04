@@ -14,7 +14,8 @@ import Footer from "./components/Footer";
 import LoadingSpinner from "./components/LoadingSpinner";
 import LandingPage from "./pages/LandingPage";
 import CoursesPage from "./pages/CoursesPage";
-import CourseDetailPage from "./pages/CourseDetailPage";
+import CourseDetailPage from "./pages/CourseDetailPage"; // Existing
+import CourseDetailsPage from "./pages/CourseDetailsPage"; // New
 import MyLearningPage from "./pages/MyLearningPage";
 import MentorshipPage from "./pages/MentorshipPage";
 import MentorshipBookingPage from "./pages/MentorshipBookingPage";
@@ -32,11 +33,16 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminMentorManagement from "./pages/AdminMentorManagement";
 import AdminInstructorManagement from "./pages/AdminInstructorManagement";
 import AdminAssignMentors from "./pages/AdminAssignInstructors";
+import AdminAssignInstructors from "./pages/AdminAssignInstructors";
+import AdminMentorAssignments from "./pages/AdminMentorAssignments";
+import AdminRegistrations from "./pages/AdminRegistrations"; // New
+import AdminBlogManagement from "./pages/AdminBlogManagement";
 import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
 import BlogsPage from "./pages/BlogsPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
+import CareersPage from "./pages/CareersPage";
 import CourtBookerPage from "./pages/projects/CourtBookerPage";
 import AIAgentAvatarPage from "./pages/projects/AIAgentAvatarPage";
 import HVACAgentPage from "./pages/projects/HVACAgentPage";
@@ -119,185 +125,215 @@ export default function App() {
 						/>
 						<div className='min-h-screen'>
 							<Routes>
-							<Route
-								path='/'
-								element={
-									<MainLayout>
-										<LandingPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/courses'
-								element={
-									<CoursesLayout>
-										<CoursesHomePage />
-									</CoursesLayout>
-								}
-							/>
-							<Route
-								path='/free-courses'
-								element={
-									<CoursesLayout>
-										<CoursesPage />
-									</CoursesLayout>
-								}
-					/>
-					<Route
-						path='/courses/:id'
-								element={
-									<CoursesLayout>
-										<CourseDetailPage />
-									</CoursesLayout>
-								}
-							/>
-							<Route
-								path='/my-learning'
-								element={
-									<CoursesLayout>
-										<MyLearningPage />
-									</CoursesLayout>
-								}
-							/>
-							<Route
-								path='/mentorships'
-								element={
-									<CoursesLayout>
-										<MentorshipPage />
-									</CoursesLayout>
-								}
-							/>
-							<Route
-								path='/mentorships/book'
-								element={
-									<CoursesLayout>
-										<MentorshipBookingPage />
-									</CoursesLayout>
-								}
-							/>
-							<Route
-								path='/my-mentorship-sessions'
-								element={
-									<CoursesLayout>
-										<MyMentorshipSessionsPage />
-									</CoursesLayout>
-								}
-							/>
-							<Route
-								path='/profile'
-								element={
-									<CoursesLayout>
-										<ProfilePage />
-									</CoursesLayout>
-								}
-							/>
-							<Route
-								path='/blogs'
-								element={
-									<MainLayout>
-										<BlogsPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/blogs/:slug'
-								element={
-									<MainLayout>
-										<BlogDetailPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/about'
-								element={
-									<MainLayout>
-										<AboutPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/contact'
-								element={
-									<MainLayout>
-										<ContactPage />
-									</MainLayout>
-								}
-							/>
-							
-							{/* Project Pages */}
-							<Route
-								path='/projects/court-booker'
-								element={
-									<MainLayout>
-										<CourtBookerPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/projects/ai-agent-avatar'
-								element={
-									<MainLayout>
-										<AIAgentAvatarPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/projects/hvac-agent'
-								element={
-									<MainLayout>
-										<HVACAgentPage />
-									</MainLayout>
-								}
-							/>
-							<Route
-								path='/projects/ai-learning-platform'
-								element={
-									<MainLayout>
-										<AILearningPlatformPage />
-									</MainLayout>
-								}
-							/>
-							<Route path='/login' element={<LoginPage />} />
-							<Route path='/signup' element={<SignupPage />} />
-							<Route path='/admin/login' element={<AdminLoginPage />} />
-							<Route path='/admin/dashboard' element={<AdminDashboard />} />
-							<Route path='/admin/mentors' element={<AdminMentorManagement />} />
-							<Route path='/admin/instructors' element={<AdminInstructorManagement />} />
-							<Route path='/admin/assign-mentors' element={<AdminAssignMentors />} />
+											{/* Public Routes */}
+											<Route
+												path='/'
+												element={
+													<MainLayout>
+														<LandingPage />
+													</MainLayout>
+												}
+											/>
+											<Route
+												path='/login'
+												element={<LoginPage />}
+											/>
+											<Route
+												path='/signup'
+												element={<SignupPage />}
+											/>
+											<Route
+												path='/about'
+												element={
+													<MainLayout>
+														<AboutPage />
+													</MainLayout>
+												}
+											/>
+											<Route
+												path='/contact'
+												element={
+													<MainLayout>
+														<ContactPage />
+													</MainLayout>
+												}
+											/>
+											<Route
+												path='/careers'
+												element={
+													<MainLayout>
+														<CareersPage />
+													</MainLayout>
+												}
+											/>
 
-							{/* Instructor Routes */}
-							<Route
-								path='/instructor'
-								element={<InstructorLoginPage />}
-							/>
-							<Route
-								path='/instructor/forgot-password'
-								element={<InstructorForgotPasswordPage />}
-							/>
-							<Route
-								path='/instructor/dashboard'
-								element={<InstructorDashboard />}
-							/>
+											{/* Course Routes */}
+											<Route
+												path='/courses'
+												element={
+													<CoursesLayout>
+														<CoursesHomePage />
+													</CoursesLayout>
+												}
+											/>
+											<Route
+												path='/free-courses'
+												element={
+													<CoursesLayout>
+														<CoursesPage />
+													</CoursesLayout>
+												}
+											/>
+											<Route
+												path='/courses/:id'
+												element={
+													<CoursesLayout>
+														<CourseDetailPage />
+													</CoursesLayout>
+												}
+											/>
+											{/* New Course Details Route */}
+											<Route
+												path='/course-details/:courseId'
+												element={<CourseDetailsPage />}
+											/>
 
-							{/* Mentor Routes */}
-							<Route
-								path='/mentor/login'
-								element={<MentorLoginPage />}
-							/>
-							<Route
-								path='/mentor/forgot-password'
-								element={<MentorForgotPasswordPage />}
-							/>
-							<Route
-								path='/mentor/dashboard'
-								element={<MentorDashboard />}
-							/>
-						</Routes>
-					</div>
-				</Router>
-			</MentorProvider>
-		</InstructorProvider>
-		</AuthProvider>
+											{/* Protected User Routes */}
+											<Route
+												path='/my-learning'
+												element={
+													<CoursesLayout>
+														<MyLearningPage />
+													</CoursesLayout>
+												}
+											/>
+											<Route
+												path='/mentorships'
+												element={
+													<CoursesLayout>
+														<MentorshipPage />
+													</CoursesLayout>
+												}
+											/>
+											<Route
+												path='/mentorships/book'
+												element={
+													<CoursesLayout>
+														<MentorshipBookingPage />
+													</CoursesLayout>
+												}
+											/>
+											<Route
+												path='/my-mentorship-sessions'
+												element={
+													<CoursesLayout>
+														<MyMentorshipSessionsPage />
+													</CoursesLayout>
+												}
+											/>
+											<Route
+												path='/profile'
+												element={
+													<CoursesLayout>
+														<ProfilePage />
+													</CoursesLayout>
+												}
+											/>
+
+											{/* Blog Routes */}
+											<Route
+												path='/blogs'
+												element={
+													<MainLayout>
+														<BlogsPage />
+													</MainLayout>
+												}
+											/>
+											<Route
+												path='/blogs/:slug'
+												element={
+													<MainLayout>
+														<BlogDetailPage />
+													</MainLayout>
+												}
+											/>
+
+											{/* Project Pages */}
+											<Route
+												path='/projects/court-booker'
+												element={
+													<MainLayout>
+														<CourtBookerPage />
+													</MainLayout>
+												}
+											/>
+											<Route
+												path='/projects/ai-agent-avatar'
+												element={
+													<MainLayout>
+														<AIAgentAvatarPage />
+													</MainLayout>
+												}
+											/>
+											<Route
+												path='/projects/hvac-agent'
+												element={
+													<MainLayout>
+														<HVACAgentPage />
+													</MainLayout>
+												}
+											/>
+											<Route
+												path='/projects/ai-learning-platform'
+												element={
+													<MainLayout>
+														<AILearningPlatformPage />
+													</MainLayout>
+												}
+											/>
+
+											{/* Admin Routes */}
+											<Route path='/admin' element={<AdminLoginPage />} />
+											<Route path='/admin/login' element={<AdminLoginPage />} />
+											<Route path='/admin/dashboard' element={<AdminDashboard />} />
+											<Route path='/admin/mentors' element={<AdminMentorManagement />} />
+											<Route path='/admin/instructors' element={<AdminInstructorManagement />} />							<Route path='/admin/blogs' element={<AdminBlogManagement />} />											<Route path='/admin/assign-mentors' element={<AdminAssignMentors />} />
+											<Route path='/admin/mentorships' element={<AdminMentorAssignments />} />
+											<Route path='/admin/assign-instructors' element={<AdminAssignInstructors />} />
+											<Route path='/admin/registrations' element={<AdminRegistrations />} />
+
+											{/* Instructor Routes */}
+											<Route
+												path='/instructor'
+												element={<InstructorLoginPage />}
+											/>
+											<Route
+												path='/instructor/forgot-password'
+												element={<InstructorForgotPasswordPage />}
+											/>
+											<Route
+												path='/instructor/dashboard'
+												element={<InstructorDashboard />}
+											/>
+
+											{/* Mentor Routes */}
+											<Route
+												path='/mentor/login'
+												element={<MentorLoginPage />}
+											/>
+											<Route
+												path='/mentor/forgot-password'
+												element={<MentorForgotPasswordPage />}
+											/>
+											<Route
+												path='/mentor/dashboard'
+												element={<MentorDashboard />}
+											/>
+										</Routes>
+									</div>
+								</Router>
+							</MentorProvider>
+						</InstructorProvider>
+					</AuthProvider>
 	);
 }
-

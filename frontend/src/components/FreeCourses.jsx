@@ -1,52 +1,31 @@
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useScrollAnimation } from "../hooks/useScrollAnimation";
+import API_URL from "../config/api";
 
 export default function FreeCourses() {
 	const [headerRef, headerVisible] = useScrollAnimation();
 	const navigate = useNavigate();
+	const [courses, setCourses] = useState([]);
+	const [loading, setLoading] = useState(true);
 
-	// Static course data
-	const courses = [
-		{
-			id: 1,
-			title: "AI Agents Masterclass",
-			instructor: "Yuganta AI Team",
-			duration: "55 Hours",
-			rating: 4.4,
-			students: 500,
-			level: "Advanced",
-			category: "AI & ML",
-			thumbnail: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=800&q=80",
-			brochure: "/AI_AGENTS.pdf",
-			roadmap: "/AI_AGENTS.pdf"
-		},
-		{
-			id: 2,
-			title: "Generative AI Complete Course",
-			instructor: "Yuganta AI Team",
-			duration: "42 Hours",
-			rating: 4.4,
-			students: 500,
-			level: "Intermediate",
-			category: "AI & ML",
-			thumbnail: "https://images.unsplash.com/photo-1655720828018-edd2daec9349?w=800&q=80",
-			brochure: "/AI_COURSE.pdf",
-			roadmap: "/AI_COURSE.pdf"
-		},
-		{
-			id: 3,
-			title: "MERN Stack Development",
-			instructor: "Yuganta AI Team",
-			duration: "40 Hours",
-			rating: 4.4,
-			students: 500,
-			level: "Intermediate",
-			category: "Web Development",
-			thumbnail: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=800&q=80",
-			brochure: "/MERN_Stack_brochure_fina.pdf",
-			roadmap: "/MERN_Stack_brochure_fina.pdf"
+	useEffect(() => {
+		fetchCourses();
+	}, []);
+
+	const fetchCourses = async () => {
+		try {
+			const response = await fetch(`${API_URL}/api/courses`);
+			if (response.ok) {
+				const data = await response.json();
+				setCourses(data);
+			}
+		} catch (error) {
+			console.error("Error fetching courses:", error);
+		} finally {
+			setLoading(false);
 		}
-	];
+	};
 
 	const getCourseIcon = (category) => {
 		const icons = {
@@ -58,11 +37,6 @@ export default function FreeCourses() {
 			Business: "💼",
 		};
 		return icons[category] || "📚";
-	};
-
-	const handleViewRoadmap = (roadmap, e) => {
-		e.stopPropagation();
-		window.open(roadmap, '_blank');
 	};
 
 	return (
@@ -81,70 +55,94 @@ export default function FreeCourses() {
 			<div className='absolute top-1/2 left-1/3 w-16 h-16 bg-gradient-to-br from-[#8B5CF6] to-[#7C3AED] opacity-12 rounded-full blur-xl animate-[pulse_6s_ease-in-out_infinite_2s]'></div>
 
 			<div className='max-w-7xl mx-auto relative z-10'>
-				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
-					{courses.map((course, idx) => (
-						<div
-							key={course.id}
-							className={`bg-[rgba(22,11,46,0.5)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden hover:shadow-[0_16px_48px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-300 group ${idx === 0
+				{loading ? (
+					<div className='text-center py-12'>
+						<div className='text-white text-lg'>Loading courses...</div>
+					</div>
+				) : courses.length === 0 ? (
+					<div className="flex flex-col items-center justify-center py-20 text-center animate-fadeIn">
+						<div className="relative w-40 h-40 mb-6">
+							<div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-ping"></div>
+							<div className="relative z-10 w-full h-full bg-[#160B2E] border-2 border-purple-500/50 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/20">
+								<svg className="w-20 h-20 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+								</svg>
+							</div>
+						</div>
+						<h3 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-3">No Courses Found</h3>
+						<p className="text-gray-400 text-lg max-w-md mx-auto">
+							We are currently updating our course catalog. Please check back later for new exciting content!
+						</p>
+					</div>
+				) : (
+					<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8'>
+						{courses.map((course, idx) => (
+							<div
+								key={course.id || course._id}
+								className={`bg-[rgba(22,11,46,0.5)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden hover:shadow-[0_16px_48px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-300 group ${idx === 0
 									? 'animate-stagger-1'
 									: idx === 1
 										? 'animate-stagger-2'
 										: 'animate-stagger-3'
-								}`}>
-							{/* Course Image/Icon */}
-							<div className='bg-gradient-to-br from-[#8B5CF6]/20 to-[#EC4899]/20 h-40 md:h-48 flex items-center justify-center text-5xl md:text-6xl relative border-b border-[rgba(139,92,246,0.1)]'>
-								{course.thumbnail ? (
-									<img
-										src={course.thumbnail}
-										alt={course.title}
-										className='w-full h-full object-cover'
-									/>
-								) : (
-									<span>{getCourseIcon(course.category)}</span>
-								)}
-							</div>
-
-							{/* Course Content */}
-							<div className='p-4 md:p-6'>
-								<div className='flex items-center justify-between mb-3'>
-									<span className='text-xs md:text-sm text-[#9A93B5]'>
-										{course.duration || "Self-paced"}
-									</span>
+									}`}>
+								{/* Course Image/Icon */}
+								<div className='bg-gradient-to-br from-[#8B5CF6]/20 to-[#EC4899]/20 h-40 md:h-48 flex items-center justify-center text-5xl md:text-6xl relative border-b border-[rgba(139,92,246,0.1)]'>
+									{course.thumbnail ? (
+										<img
+											src={course.thumbnail}
+											alt={course.title}
+											className='w-full h-full object-cover'
+										/>
+									) : (
+										<span>{getCourseIcon(course.category || "AI & ML")}</span>
+									)}
 								</div>
 
-								<h3 className='text-lg md:text-xl font-bold mb-2 text-white min-h-[50px] md:min-h-[60px] group-hover:text-[#A855F7] transition-colors duration-300'>
-									{course.title}
-								</h3>
-
-								<p className='text-sm text-[#C7C3D6] mb-3'>
-									by {course.instructor}
-								</p>
-
-								<div className='flex items-center justify-between mb-4'>
-									<div className='flex items-center text-[#C7C3D6]'>
-										<div className='flex text-[#EC4899] mr-2'>
-											{"★".repeat(Math.floor(course.rating || 0))}
-											{"☆".repeat(5 - Math.floor(course.rating || 0))}
-										</div>
-										<span className='text-sm'>
-											({course.students || 0})
+								{/* Course Content */}
+								<div className='p-4 md:p-6'>
+									<div className='flex items-center justify-between mb-3'>
+										<span className='text-xs md:text-sm text-[#9A93B5]'>
+											{course.duration || "Self-paced"}
 										</span>
 									</div>
-									<span className='text-xs text-[#9A93B5]'>
-										{course.level}
-									</span>
-								</div>
 
-								{/* Roadmap Button */}
-								<button
-									onClick={(e) => handleViewRoadmap(course.roadmap, e)}
-									className='w-full px-4 py-2 rounded-xl font-semibold transition-all duration-200 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white shadow-[0_4px_20px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_28px_rgba(139,92,246,0.6)] hover:scale-105'>
-									View Roadmap
-								</button>
+									<h3 className='text-lg md:text-xl font-bold mb-2 text-white min-h-[50px] md:min-h-[60px] group-hover:text-[#A855F7] transition-colors duration-300'>
+										{course.title}
+									</h3>
+
+									<p className='text-sm text-[#C7C3D6] mb-3'>
+										by {course.instructor || "Yuganta AI Team"}
+									</p>
+
+									<div className='flex items-center justify-between mb-4'>
+										<div className='flex items-center text-[#C7C3D6]'>
+											<div className='flex text-[#EC4899] mr-2'>
+												{"★".repeat(Math.round(course.rating || 4.5))}
+												{"☆".repeat(5 - Math.round(course.rating || 4.5))}
+											</div>
+											<span className='text-sm'>
+												({course.rating ? course.rating.toFixed(1) : '4.5'})
+											</span>
+										</div>
+										<span className='text-xs text-[#9A93B5]'>
+											{course.students || 0} Students
+										</span>
+									</div>
+
+									{/* Roadmap Button */}
+									<button
+										onClick={(e) => {
+											e.stopPropagation();
+											navigate(`/course-details/${course._id}`);
+										}}
+										className='w-full px-4 py-2 rounded-xl font-semibold transition-all duration-200 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white shadow-[0_4px_20px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_28px_rgba(139,92,246,0.6)] hover:scale-105'>
+										View Roadmap
+									</button>
+								</div>
 							</div>
-						</div>
-					))}
-				</div>
+						))}
+					</div>
+				)}
 			</div>
 		</section>
 	);

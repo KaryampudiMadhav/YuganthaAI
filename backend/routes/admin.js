@@ -5,7 +5,9 @@ import nodemailer from "nodemailer";
 import Mentor from "../models/Mentor.js";
 import User from "../models/User.js";
 import Instructor from "../models/Instructor.js";
+import Blog from "../models/Blog.js";
 import transporter from "../config/mailer.js";
+import upload from "../middleware/upload.js";
 
 const router = express.Router();
 
@@ -603,6 +605,164 @@ router.post("/assign-mentor", verifyAdmin, async (req, res) => {
 	} catch (error) {
 		console.error("Assign mentor error:", error);
 		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// ==================== BLOG MANAGEMENT ROUTES ====================
+
+// Get all blogs (admin)
+router.get("/blogs", verifyAdmin, async (req, res) => {
+	try {
+		const blogs = await Blog.find().sort({ createdAt: -1 });
+		res.json(blogs);
+	} catch (error) {
+		console.error("Get blogs error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Create new blog
+router.post("/blogs", verifyAdmin, async (req, res) => {
+	try {
+		const { title, excerpt, content, author, category, tags, readTime, featured, thumbnail, slug } = req.body;
+
+		if (!title || !excerpt || !content || !author || !category) {
+			return res.status(400).json({ message: "All required fields must be filled" });
+		}
+
+		// Use provided slug or generate from title
+		const blogSlug = slug || title
+			.toLowerCase()
+			.replace(/[^a-z0-9]+/g, "-")
+			.replace(/(^-|-$)/g, "");
+
+		// Check if slug already exists
+		const existingBlog = await Blog.findOne({ slug: blogSlug });
+		if (existingBlog) {
+			return res.status(400).json({ message: "A blog with similar title already exists" });
+		}
+
+		const blogData = {
+			title,
+			slug: blogSlug,
+			excerpt,
+			content,
+			author,
+			category,
+			tags: Array.isArray(tags) ? tags : [],
+			readTime: readTime || 5,
+			featured: Boolean(featured),
+			thumbnail: thumbnail || "",
+		};
+
+		const blog = new Blog(blogData);
+		await blog.save();
+
+		res.status(201).json(blog);
+	} catch (error) {
+		console.error("Create blog error:", error);
+		res.status(500).json({ message: "Server error", details: error.message });
+	}
+});
+
+// Update blog
+router.put("/blogs/:id", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { title, excerpt, content, author, category, tags, readTime, featured, thumbnail, slug } = req.body;
+
+		const blog = await Blog.findById(id);
+		if (!blog) {
+			return res.status(404).json({ message: "Blog not found" });
+		}
+
+		// Update slug if title changed or slug provided
+		if (slug) {
+			blog.slug = slug;
+		} else if (title && title !== blog.title) {
+			const newSlug = title
+				.toLowerCase()
+				.replace(/[^a-z0-9]+/g, "-")
+				.replace(/(^-|-$)/g, "");
+			
+			// Check if new slug conflicts with another blog
+			const slugExists = await Blog.findOne({ slug: newSlug, _id: { $ne: id } });
+			if (slugExists) {
+				return res.status(400).json({ message: "A blog with similar title already exists" });
+			}
+			blog.slug = newSlug;
+		}
+
+		if (title) blog.title = title;
+		if (excerpt) blog.excerpt = excerpt;
+		if (content) blog.content = content;
+		if (author) blog.author = author;
+		if (category) blog.category = category;
+		if (tags) blog.tags = Array.isArray(tags) ? tags : [];
+		if (readTime !== undefined) blog.readTime = readTime;
+		if (featured !== undefined) blog.featured = Boolean(featured);
+		if (thumbnail !== undefined) blog.thumbnail = thumbnail;
+
+		await blog.save();
+		res.json(blog);
+	} catch (error) {
+		console.error("Update blog error:", error);
+		res.status(500).json({ message: "Server error", details: error.message });
+	}
+});
+
+// Delete blog
+router.delete("/blogs/:id", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const blog = await Blog.findByIdAndDelete(id);
+
+		if (!blog) {
+			return res.status(404).json({ message: "Blog not found" });
+		}
+
+		res.json({ message: "Blog deleted successfully" });
+	} catch (error) {
+		console.error("Delete blog error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Toggle featured status
+router.put("/blogs/:id/toggle-featured", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const blog = await Blog.findById(id);
+
+		if (!blog) {
+			return res.status(404).json({ message: "Blog not found" });
+		}
+
+		blog.featured = !blog.featured;
+		await blog.save();
+
+		res.json(blog);
+	} catch (error) {
+		console.error("Toggle featured error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Upload image for blog
+router.post("/upload-image", verifyAdmin, upload.single("image"), async (req, res) => {
+	try {
+		if (!req.file) {
+			return res.status(400).json({ message: "No image file provided" });
+		}
+
+		res.json({
+			message: "Image uploaded successfully",
+			url: req.file.path,
+			publicId: req.file.filename,
+		});
+	} catch (error) {
+		console.error("Image upload error:", error);
+		res.status(500).json({ message: "Server error", details: error.message });
 	}
 });
 

@@ -25,27 +25,7 @@ export default function CoursesPage() {
 		try {
 			const response = await fetch(`${API_URL}/api/courses`);
 			const data = await response.json();
-
-			// Process data as per requirements
-			const processedData = data
-				.filter(course => course.category !== "Cloud Computing")
-				.map((course, index) => {
-					let title = course.title;
-					if (index === 0) title = "AI Agents Masterclass"; // Placeholder 1
-					if (index === 1) title = "Generative AI Complete Course"; // Placeholder 2
-
-					return {
-						...course,
-						title: title,
-						students: 500,
-						rating: 4.4,
-						instructor: "Yuganta AI Team",
-						// Ensure price display logic downstream doesn't show "Free"
-						// We'll handle the button text separately, but we can normalise data here
-					};
-				});
-
-			setCourses(processedData);
+			setCourses(data);
 			setLoading(false);
 		} catch (error) {
 			console.error("Error fetching courses:", error);
@@ -136,7 +116,7 @@ export default function CoursesPage() {
 	const filteredCourses = courses.filter((course) =>
 		course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
 		course.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-		course.instructor.toLowerCase().includes(searchQuery.toLowerCase())
+		(course.instructor && course.instructor.toLowerCase().includes(searchQuery.toLowerCase()))
 	);
 
 	// Animated images for the slider
@@ -319,8 +299,19 @@ export default function CoursesPage() {
 									<div className='text-white text-lg'>Loading courses...</div>
 								</div>
 							) : filteredCourses.length === 0 ? (
-								<div className='text-center py-12'>
-									<div className='text-white text-lg'>No courses found</div>
+								<div className="flex flex-col items-center justify-center py-20 text-center animate-fadeIn">
+									<div className="relative w-40 h-40 mb-6">
+										<div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-ping"></div>
+										<div className="relative z-10 w-full h-full bg-[#160B2E] border-2 border-purple-500/50 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/20">
+											<svg className="w-20 h-20 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+											</svg>
+										</div>
+									</div>
+									<h3 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-3">No Courses Found</h3>
+									<p className="text-gray-400 text-lg max-w-md mx-auto">
+										We are currently updating our course catalog. Please check back later for new exciting content!
+									</p>
 								</div>
 							) : (
 								<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6'>
@@ -370,9 +361,11 @@ export default function CoursesPage() {
 												</div>
 
 												{/* Title */}
-												<h3 className='font-bold text-lg mb-3 text-white line-clamp-2 min-h-[3.5rem]'>
-													{course.title}
-												</h3>
+												<Link to={`/course-details/${course._id}`}>
+													<h3 className='font-bold text-lg mb-3 text-white line-clamp-2 min-h-[3.5rem] hover:text-[#A855F7] transition-colors'>
+														{course.title}
+													</h3>
+												</Link>
 
 												{/* Rating and Students */}
 												<div className='flex items-center justify-between mb-4'>
@@ -383,25 +376,17 @@ export default function CoursesPage() {
 													<div className='flex items-center gap-1'>
 														<span className='text-yellow-400'>★</span>
 														<span className='text-gray-300 text-sm'>
-															{course.rating ? course.rating.toFixed(1) : '0.0'}
+															{course.rating ? course.rating.toFixed(1) : '4.5'}
 														</span>
 													</div>
 												</div>
 
 												{/* Enroll Button */}
-												<button
-													onClick={() => !enrolledCourseIds.includes(course._id) && handleEnroll(course._id)}
-													disabled={enrolling[course._id] || enrolledCourseIds.includes(course._id)}
-													className={`w-full py-3 rounded-lg font-semibold transition duration-300 ${enrolledCourseIds.includes(course._id)
-														? 'bg-green-600 cursor-default'
-														: 'bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] disabled:opacity-50'
-														} text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)]`}>
-													{enrolledCourseIds.includes(course._id)
-														? "✓ Enrolled"
-														: enrolling[course._id]
-															? "Enrolling..."
-															: "Enroll"}
-												</button>
+												<Link
+													to={`/course-details/${course._id}`}
+													className={`block w-full text-center py-3 rounded-lg font-semibold transition duration-300 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)]`}>
+													View Roadmap
+												</Link>
 											</div>
 										</div>
 									))}
