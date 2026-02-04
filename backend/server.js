@@ -21,7 +21,7 @@ const __dirname = path.dirname(__filename);
 dotenv.config();
 
 // Validate required environment variables
-const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET', 'EMAIL_USER', 'EMAIL_PASSWORD'];
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET', 'SENDGRID_API_KEY', 'SENDGRID_FROM_EMAIL'];
 const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
 
 if (missingEnvVars.length > 0) {
@@ -31,7 +31,8 @@ if (missingEnvVars.length > 0) {
 	process.exit(1);
 }
 
-console.log('✅ All required environment variables are configured');
+console.log('✅ All required environment variables are configured (including SendGrid)');
+console.log(`🔐 SendGrid from email: ${process.env.SENDGRID_FROM_EMAIL}`);
 
 const app = express();
 

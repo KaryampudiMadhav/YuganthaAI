@@ -2,36 +2,18 @@ import express from "express";
 import { body, validationResult } from "express-validator";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-import nodemailer from "nodemailer";
+import sgMail from "@sendgrid/mail";
 import Instructor from "../models/Instructor.js";
 
 const router = express.Router();
 
-// Email configuration - Gmail SMTP Relay
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 25,
-  secure: false,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASSWORD, // App Password ONLY
-  },
-  requireTLS: false,
-  tls: {
-    rejectUnauthorized: false
-  }
-});
-
-// Verify transporter configuration on startup
-transporter.verify((error, success) => {
-	if (error) {
-		console.log('❌ Email transporter verification failed:', error.message);
-		console.log('EMAIL_USER:', process.env.EMAIL_USER || 'NOT SET');
-		console.log('EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD ? '***SET***' : 'NOT SET');
-	} else {
-		console.log('✅ Email server is ready to send messages');
-	}
-});
+// Initialize SendGrid
+if (process.env.SENDGRID_API_KEY) {
+	sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+	console.log('✅ SendGrid API key configured');
+} else {
+	console.log('❌ SENDGRID_API_KEY not set');
+}
 
 // Generate JWT Token
 const generateToken = (id) => {
@@ -42,35 +24,37 @@ const generateToken = (id) => {
 
 // Function to send OTP email
 const sendOTPEmail = async (email, otp, instructorName = "Instructor") => {
-	const mailOptions = {
-		from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
-		to: email,
-		subject: "YuganthaAI - Password Setup OTP",
-		html: `
-			<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-				<h2>Password Setup - YuganthaAI</h2>
-				<p>Hello ${instructorName},</p>
-				<p>Please use the OTP below to set your password:</p>
-				
-				<div style="background-color: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
-					<p style="margin: 0; color: #666; font-size: 14px;">Your OTP (valid for 10 minutes):</p>
-					<p style="margin: 10px 0; font-size: 32px; font-weight: bold; letter-spacing: 4px; color: #333;">${otp}</p>
-				</div>
-				
-				<p>Go to the password setup page and enter this OTP along with your new password.</p>
-				<p><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/instructor/forgot-password" style="color: #007bff; text-decoration: none;">Set Your Password</a></p>
-				
-				<p style="color: #666; font-size: 12px; margin-top: 30px;">
-					This OTP will expire in 10 minutes.
-				</p>
+	const htmlContent = `
+		<div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+			<h2>Password Setup - YuganthaAI</h2>
+			<p>Hello ${instructorName},</p>
+			<p>Please use the OTP below to set your password:</p>
+			
+			<div style="background-color: #f0f0f0; padding: 20px; border-radius: 8px; margin: 20px 0; text-align: center;">
+				<p style="margin: 0; color: #666; font-size: 14px;">Your OTP (valid for 10 minutes):</p>
+				<p style="margin: 10px 0; font-size: 32px; font-weight: bold; letter-spacing: 4px; color: #333;">${otp}</p>
 			</div>
-		`,
+			
+			<p>Go to the password setup page and enter this OTP along with your new password.</p>
+			<p><a href="${process.env.FRONTEND_URL || 'http://localhost:5173'}/instructor/forgot-password" style="color: #007bff; text-decoration: none;">Set Your Password</a></p>
+			
+			<p style="color: #666; font-size: 12px; margin-top: 30px;">
+				This OTP will expire in 10 minutes.
+			</p>
+		</div>
+	`;
+
+	const msg = {
+		to: email,
+		from: process.env.SENDGRID_FROM_EMAIL || 'noreply@yuganthaai.com',
+		subject: "YuganthaAI - Password Setup OTP",
+		html: htmlContent,
 	};
 
 	try {
-		const info = await transporter.sendMail(mailOptions);
-		console.log(`✅ OTP email sent successfully to ${email}`);
-		console.log(`📧 Message ID: ${info.messageId}`);
+		const result = await sgMail.send(msg);
+		console.log(`✅ OTP email sent successfully to ${email} via SendGrid`);
+		console.log(`📧 Message ID: ${result[0].headers['x-message-id']}`);
 		return true;
 	} catch (error) {
 		console.error(`❌ Failed to send OTP email to ${email}:`, error.message);
