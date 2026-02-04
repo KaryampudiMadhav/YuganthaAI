@@ -15,18 +15,23 @@ console.log('Email Password:', process.env.EMAIL_PASSWORD ? '***hidden***' : 'NO
 console.log('Email Password Length:', process.env.EMAIL_PASSWORD?.length);
 console.log('Email Password Type:', typeof process.env.EMAIL_PASSWORD);
 
-// Email configuration - Gmail SMTP (port 465 for better Render compatibility)
+// Email configuration - Gmail SMTP
 const transporter = nodemailer.createTransport({
-	host: 'smtp.gmail.com',
-	port: 465,
-	secure: true,
+	service: 'gmail',
 	auth: {
 		user: process.env.EMAIL_USER?.trim(),
 		pass: process.env.EMAIL_PASSWORD?.trim(),
 	},
-	tls: {
-		rejectUnauthorized: false
+	pool: {
+		maxConnections: 3,
+		maxMessages: 100,
+		rateDelta: 20000,
+		rateLimit: 5,
 	},
+	maxConnections: 5,
+	maxMessages: 100,
+	socketTimeout: 60000,
+	connectionTimeout: 60000,
 	debug: true,
 	logger: true
 });

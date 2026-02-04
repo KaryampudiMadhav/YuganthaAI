@@ -7,27 +7,23 @@ import Mentor from "../models/Mentor.js";
 
 const router = express.Router();
 
-// Email configuration - Gmail SMTP (port 465 for better Render compatibility)
+// Email configuration - Gmail SMTP
 const transporter = nodemailer.createTransport({
-	host: 'smtp.gmail.com',
-	port: 465,
-	secure: true,
+	service: 'gmail',
 	auth: {
 		user: process.env.EMAIL_USER?.trim(),
 		pass: process.env.EMAIL_PASSWORD?.trim(),
 	},
-	tls: {
-		rejectUnauthorized: false,
-		minVersion: 'TLSv1.2'
+	pool: {
+		maxConnections: 3,
+		maxMessages: 100,
+		rateDelta: 20000,
+		rateLimit: 5,
 	},
 	maxConnections: 5,
 	maxMessages: 100,
-	retry: {
-		times: 3,
-		interval: 5000
-	},
-	connectionTimeout: 30000,
-	socketTimeout: 30000
+	socketTimeout: 60000,
+	connectionTimeout: 60000,
 });
 
 // Verify transporter configuration on startup
