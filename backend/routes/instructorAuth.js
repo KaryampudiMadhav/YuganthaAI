@@ -7,18 +7,27 @@ import Instructor from "../models/Instructor.js";
 
 const router = express.Router();
 
-// Email configuration - Gmail SMTP
+// Email configuration - Gmail SMTP (port 465 for better Render compatibility)
 const transporter = nodemailer.createTransport({
 	host: 'smtp.gmail.com',
-	port: 587,
-	secure: false,
+	port: 465,
+	secure: true,
 	auth: {
-		user: process.env.EMAIL_USER,
-		pass: process.env.EMAIL_PASSWORD,
+		user: process.env.EMAIL_USER?.trim(),
+		pass: process.env.EMAIL_PASSWORD?.trim(),
 	},
 	tls: {
-		rejectUnauthorized: false
-	}
+		rejectUnauthorized: false,
+		minVersion: 'TLSv1.2'
+	},
+	maxConnections: 5,
+	maxMessages: 100,
+	retry: {
+		times: 3,
+		interval: 5000
+	},
+	connectionTimeout: 30000,
+	socketTimeout: 30000
 });
 
 // Verify transporter configuration on startup
