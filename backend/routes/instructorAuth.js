@@ -7,13 +7,19 @@ import Instructor from "../models/Instructor.js";
 
 const router = express.Router();
 
-// Email configuration - Gmail SMTP
+// Email configuration - Gmail SMTP Relay
 const transporter = nodemailer.createTransport({
-  service: "gmail",
+  host: 'smtp.gmail.com',
+  port: 25,
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASSWORD, // App Password ONLY
   },
+  requireTLS: false,
+  tls: {
+    rejectUnauthorized: false
+  }
 });
 
 // Verify transporter configuration on startup
