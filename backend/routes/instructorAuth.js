@@ -9,21 +9,11 @@ const router = express.Router();
 
 // Email configuration - Gmail SMTP
 const transporter = nodemailer.createTransport({
-	service: 'gmail',
-	auth: {
-		user: process.env.EMAIL_USER?.trim(),
-		pass: process.env.EMAIL_PASSWORD?.trim(),
-	},
-	pool: {
-		maxConnections: 3,
-		maxMessages: 100,
-		rateDelta: 20000,
-		rateLimit: 5,
-	},
-	maxConnections: 5,
-	maxMessages: 100,
-	socketTimeout: 60000,
-	connectionTimeout: 60000,
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASSWORD, // App Password ONLY
+  },
 });
 
 // Verify transporter configuration on startup
