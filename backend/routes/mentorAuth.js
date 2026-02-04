@@ -41,6 +41,8 @@ const generateToken = (id) => {
 
 // Function to send OTP email
 const sendOTPEmail = async (email, otp, mentorName = "Mentor") => {
+	console.log(`\n📧 sendOTPEmail called for: ${email}, OTP: ${otp}`);
+	
 	const mailOptions = {
 		from: process.env.EMAIL_FROM || process.env.EMAIL_USER,
 		to: email,
@@ -67,12 +69,16 @@ const sendOTPEmail = async (email, otp, mentorName = "Mentor") => {
 	};
 
 	try {
+		console.log(`🔧 Transporter config - From: ${mailOptions.from}, To: ${mailOptions.to}`);
 		const info = await transporter.sendMail(mailOptions);
 		console.log(`✅ OTP email sent successfully to ${email}`);
 		console.log(`📧 Message ID: ${info.messageId}`);
 		return true;
 	} catch (error) {
-		console.error(`❌ Failed to send OTP email to ${email}:`, error.message);
+		console.error(`❌ Failed to send OTP email to ${email}`);
+		console.error(`Error Code: ${error.code}`);
+		console.error(`Error Message: ${error.message}`);
+		console.error(`Full Error:`, error);
 		throw new Error(`Failed to send OTP email: ${error.message}`);
 	}
 };
@@ -86,33 +92,45 @@ router.post(
 	async (req, res) => {
 		const errors = validationResult(req);
 		if (!errors.isEmpty()) {
+			console.log("❌ Validation errors:", errors.array());
 			return res.status(400).json({ errors: errors.array() });
 		}
 
 		const { email } = req.body;
+		console.log(`\n📧 Forgot Password Request for: ${email}`);
 
 		try {
+			console.log("🔍 Searching for mentor with email:", email);
 			const mentor = await Mentor.findOne({ email });
 
 			if (!mentor) {
+				console.log("❌ Mentor not found for email:", email);
 				return res.status(404).json({ message: "Mentor not found" });
 			}
+
+			console.log("✅ Mentor found:", mentor.name);
 
 			// Generate OTP for password reset
 			const otp = Math.floor(100000 + Math.random() * 900000).toString();
 			const otpExpiry = new Date(Date.now() + 10 * 60 * 1000); // 10 minutes
 
+			console.log(`📝 Generating OTP: ${otp}`);
 			mentor.resetToken = otp;
 			mentor.resetTokenExpiry = otpExpiry;
-			await mentor.save();
+			const savedMentor = await mentor.save();
+			console.log("✅ OTP saved to database");
 
 			// Send OTP email
+			console.log(`📤 Sending OTP email to ${email}...`);
 			await sendOTPEmail(email, otp, mentor.name);
 
+			console.log(`✅ OTP email sent successfully to ${email}`);
 			res.json({
 				message: "OTP sent to your email. Check your inbox.",
 			});
 		} catch (error) {
+			console.error("❌ Error in forgot-password endpoint:", error.message);
+			console.error("Full error:", error);
 			res.status(500).json({
 				message: "Server error",
 				error: error.message,

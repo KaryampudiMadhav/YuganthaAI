@@ -19,6 +19,19 @@ const __dirname = path.dirname(__filename);
 // Load env from backend/.env even if process cwd is project root
 dotenv.config();
 
+// Validate required environment variables
+const requiredEnvVars = ['MONGODB_URI', 'JWT_SECRET', 'EMAIL_USER', 'EMAIL_PASSWORD'];
+const missingEnvVars = requiredEnvVars.filter(varName => !process.env[varName]);
+
+if (missingEnvVars.length > 0) {
+	console.error('❌ FATAL ERROR: Missing required environment variables:');
+	missingEnvVars.forEach(varName => console.error(`   - ${varName}`));
+	console.error('Please set these variables in your .env file or deployment platform.');
+	process.exit(1);
+}
+
+console.log('✅ All required environment variables are configured');
+
 const app = express();
 
 // Connect to MongoDB
