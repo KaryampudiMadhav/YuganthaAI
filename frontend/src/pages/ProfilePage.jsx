@@ -71,7 +71,7 @@ export default function ProfilePage() {
 	}
 
 	return (
-		<div className='min-h-screen bg-[#0a0a0a] text-white pt-20 pb-12'>
+		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-20 pb-12 transition-colors duration-300'>
 			<div className='max-w-5xl mx-auto px-4 md:px-6 py-8'>
 				{/* Profile Header */}
 				<div className='bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl p-6 md:p-8 mb-8'>
@@ -97,32 +97,30 @@ export default function ProfilePage() {
 				</div>
 
 				{/* Tabs */}
-				<div className='flex space-x-1 mb-6 bg-[#1a1a1a] p-1 rounded-lg'>
+				<div className='flex space-x-1 mb-6 bg-[var(--card-bg)] p-1 rounded-lg transition-colors duration-300'>
 					<button
 						onClick={() => setActiveTab("profile")}
-						className={`flex-1 px-6 py-3 rounded-lg font-medium transition duration-200 ${
-							activeTab === "profile"
-								? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
-								: "text-gray-400 hover:text-white"
-						}`}>
+						className={`flex-1 px-6 py-3 rounded-lg font-medium transition duration-200 ${activeTab === "profile"
+							? "bg-gradient-to-r from-purple-500 to-pink-500 text-white"
+							: "text-gray-400 hover:text-white"
+							}`}>
 						Edit Profile
 					</button>
 					<button
 						onClick={() => setActiveTab("delete")}
-						className={`flex-1 px-6 py-3 rounded-lg font-medium transition duration-200 ${
-							activeTab === "delete"
-								? "bg-gradient-to-r from-red-500 to-red-600 text-white"
-								: "text-gray-400 hover:text-white"
-						}`}>
+						className={`flex-1 px-6 py-3 rounded-lg font-medium transition duration-200 ${activeTab === "delete"
+							? "bg-gradient-to-r from-red-500 to-red-600 text-white"
+							: "text-gray-400 hover:text-white"
+							}`}>
 						Delete Account
 					</button>
 				</div>
 
 				{/* Edit Profile Tab */}
 				{activeTab === "profile" && (
-					<div className='bg-[#1a1a1a] rounded-xl p-6 md:p-8'>
+					<div className='bg-[var(--card-bg)] rounded-xl p-6 md:p-8 transition-colors duration-300'>
 						<h2 className='text-xl md:text-2xl font-bold mb-6'>Personal Information</h2>
-						
+
 						<form onSubmit={handleUpdateProfile} className='space-y-6 mb-8'>
 							<div>
 								<label className='block text-sm font-medium mb-2'>Full Name</label>
@@ -131,7 +129,7 @@ export default function ProfilePage() {
 									name='fullName'
 									value={formData.fullName}
 									onChange={handleInputChange}
-									className='w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500'
+									className='w-full bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] focus:outline-none focus:border-purple-500 transition-colors duration-300'
 								/>
 							</div>
 
@@ -142,7 +140,7 @@ export default function ProfilePage() {
 									name='email'
 									value={formData.email}
 									onChange={handleInputChange}
-									className='w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500'
+									className='w-full bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] focus:outline-none focus:border-purple-500 transition-colors duration-300'
 								/>
 							</div>
 
@@ -156,7 +154,7 @@ export default function ProfilePage() {
 						<hr className='border-gray-700 my-8' />
 
 						<h2 className='text-xl md:text-2xl font-bold mb-6'>Change Password</h2>
-						
+
 						<form onSubmit={handleChangePassword} className='space-y-6'>
 							<div>
 								<label className='block text-sm font-medium mb-2'>Current Password</label>
@@ -165,7 +163,7 @@ export default function ProfilePage() {
 									name='currentPassword'
 									value={formData.currentPassword}
 									onChange={handleInputChange}
-									className='w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500'
+									className='w-full bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] focus:outline-none focus:border-purple-500 transition-colors duration-300'
 									placeholder='Enter current password'
 								/>
 							</div>
@@ -177,7 +175,7 @@ export default function ProfilePage() {
 									name='newPassword'
 									value={formData.newPassword}
 									onChange={handleInputChange}
-									className='w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500'
+									className='w-full bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] focus:outline-none focus:border-purple-500 transition-colors duration-300'
 									placeholder='Enter new password'
 								/>
 							</div>
@@ -189,7 +187,7 @@ export default function ProfilePage() {
 									name='confirmPassword'
 									value={formData.confirmPassword}
 									onChange={handleInputChange}
-									className='w-full bg-[#0a0a0a] border border-gray-700 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-purple-500'
+									className='w-full bg-[var(--bg-color)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] focus:outline-none focus:border-purple-500 transition-colors duration-300'
 									placeholder='Confirm new password'
 								/>
 							</div>
@@ -205,7 +203,7 @@ export default function ProfilePage() {
 
 				{/* Delete Account Tab */}
 				{activeTab === "delete" && (
-					<div className='bg-[#1a1a1a] rounded-xl p-6 md:p-8'>
+					<div className='bg-[var(--card-bg)] rounded-xl p-6 md:p-8 transition-colors duration-300'>
 						<div className='flex items-start space-x-4 mb-6'>
 							<svg
 								className='w-8 h-8 text-red-500 flex-shrink-0 mt-1'
@@ -269,7 +267,7 @@ export default function ProfilePage() {
 										type='text'
 										value={deleteConfirm}
 										onChange={(e) => setDeleteConfirm(e.target.value)}
-										className='w-full bg-[#0a0a0a] border border-red-500/50 rounded-lg px-4 py-3 text-white focus:outline-none focus:border-red-500'
+										className='w-full bg-[var(--bg-color)] border border-red-500/50 rounded-lg px-4 py-3 text-[var(--text-color)] focus:outline-none focus:border-red-500 transition-colors duration-300'
 										placeholder='Type DELETE here'
 									/>
 								</div>

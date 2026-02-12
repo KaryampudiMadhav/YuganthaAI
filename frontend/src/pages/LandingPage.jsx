@@ -33,13 +33,14 @@ export default function LandingPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+		<div className="min-h-screen transition-colors duration-300">
 			<StructuredData />
 			{/* Hero Section */}
 			<div className="relative min-h-screen flex items-center overflow-hidden">
 				{/* Animated Background */}
-				<div className="absolute inset-0 bg-gradient-to-r from-[#1a0f3a] via-[#2563EB] to-[#1E88E5] opacity-90"></div>
-				<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-20"></div>
+				{/* Animated Background */}
+				<div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-secondary)] via-[var(--bg-primary)] to-[var(--bg-secondary)] opacity-90 transition-colors duration-300"></div>
+				<div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-10 mix-blend-overlay"></div>
 
 				{/* Floating Animation Elements */}
 				<div className="absolute inset-0 overflow-hidden">
@@ -52,11 +53,11 @@ export default function LandingPage() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 						{/* Left Content */}
 						<div>
-							<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+							<h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)] mb-6 leading-tight">
 								Empowering Tomorrow's <span className="text-[#00D4FF]">Tech Leaders</span>
 							</h1>
-							<p className="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-					YugantaAI provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI designed specifically for college students to excel in the tech industry. Beyond courses, we offer hands-on experience through innovative real-world projects including AI-powered HVAC systems, chatbots, and agentic AI applications.</p>
+							<p className="text-lg md:text-xl text-[var(--text-muted)] mb-8 leading-relaxed">
+								YugantaAI provides cutting-edge courses in MERN Stack, GenAI, and Agentic AI designed specifically for college students to excel in the tech industry. Beyond courses, we offer hands-on experience through innovative real-world projects including AI-powered HVAC systems, chatbots, and agentic AI applications.</p>
 							<Link
 								to="/courses"
 								className="inline-block px-8 py-4 bg-gradient-to-r from-[#00BCD4] to-[#4DD0E1] text-white font-semibold rounded-full hover:shadow-[0_0_30px_rgba(0,188,212,0.5)] hover:scale-105 transition-all duration-200 text-lg"
@@ -84,7 +85,7 @@ export default function LandingPage() {
 						<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
 							Innovation & Development
 						</p>
-						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)]">
 							Our Projects
 						</h2>
 					</div>
@@ -168,7 +169,7 @@ export default function LandingPage() {
 						<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
 							We also provide courses
 						</p>
-						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)]">
 							Latest Courses
 						</h2>
 					</div>
@@ -219,7 +220,7 @@ export default function LandingPage() {
 			</div>
 
 			{/* Why yugantaAI Section */}
-			<div className="py-20 md:py-32 bg-gradient-to-b from-[#12091F] to-[#0B0614]">
+			<div className="py-20 md:py-32 bg-[var(--bg-color)] transition-colors duration-300">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 						{/* Left Content */}
@@ -227,16 +228,16 @@ export default function LandingPage() {
 							<p className="text-sm text-[#A855F7] font-semibold mb-4 uppercase tracking-wider">
 								Explore
 							</p>
-							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-8">
+							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)] mb-8">
 								Why yugantaAI?
 							</h2>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-6">
 								yugantaAI is a leading technology education platform committed to empowering college students with industry-relevant skills in AI and software development.
 							</p>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-6">
 								We offer a unique learning experience for students who want to stay ahead in the rapidly evolving tech landscape.
 							</p>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-8">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-8">
 								Our focus on practical, hands-on projects ensures that every student not only learns but masters the skills needed to excel in their careers.
 							</p>
 							<Link
@@ -277,16 +278,16 @@ export default function LandingPage() {
 							<p className="text-sm text-[#A855F7] font-semibold mb-4 uppercase tracking-wider">
 								For You
 							</p>
-							<h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+							<h2 className="text-4xl md:text-5xl font-bold text-[var(--text-color)] mb-8">
 								Why We Are The Right-Fit?
 							</h2>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-6">
 								We bring cutting-edge curriculum and industry expertise to deliver courses that prepare students for real-world challenges. Our teaching methodology focuses on practical implementation and project-based learning.
 							</p>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-6">
 								Using the latest tools and frameworks, we create comprehensive, engaging, and career-focused courses. Our quality standards ensure that every student receives top-notch education before certification.
 							</p>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-8">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-8">
 								We provide exceptional mentorship and support. Our structured yet flexible approach keeps students engaged and helps ensure they stay on track to achieve their learning goals.
 							</p>
 							<Link
@@ -301,7 +302,7 @@ export default function LandingPage() {
 			</div>
 
 			{/* Video Section */}
-			<div className="py-20 md:py-32 bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+			<div className="py-20 md:py-32 bg-[var(--bg-color)] transition-colors duration-300">
 				<div className="max-w-7xl mx-auto px-4 md:px-6">
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
 						{/* Left Video */}
@@ -321,13 +322,13 @@ export default function LandingPage() {
 							<p className="text-sm text-[#A855F7] font-semibold mb-4 uppercase tracking-wider">
 								Video
 							</p>
-							<h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+							<h2 className="text-4xl md:text-5xl font-bold text-[var(--text-color)] mb-8">
 								Why Is Learning With yugantaAI Important?
 							</h2>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed mb-6">
 								In today's rapidly evolving tech landscape, staying current with the latest technologies is crucial. Our courses transform the way students learn and prepare for their careers.
 							</p>
-							<p className="text-[#C7C3D6] text-lg leading-relaxed">
+							<p className="text-[var(--text-secondary)] text-lg leading-relaxed">
 								From foundational concepts to advanced applications, our comprehensive curriculum brings together theory and practice to help students excel in their chosen tech domains.
 							</p>
 						</div>
@@ -342,56 +343,56 @@ export default function LandingPage() {
 						<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
 							Testimonial
 						</p>
-						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+						<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)]">
 							What Our Students Say?
 						</h2>
 					</div>
 
 					<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 						{/* Testimonial 1 */}
-						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
+						<div className="bg-[var(--card-bg)] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
 							<div className="mb-6">
 								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
 									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
 								</svg>
 							</div>
-							<p className="text-[#C7C3D6] leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] leading-relaxed mb-6">
 								Great course! The MERN stack curriculum was well-structured and the hands-on projects helped me land my first internship. Highly recommend YugantaAI!
 							</p>
 							<div className="border-t border-[rgba(139,92,246,0.2)] pt-6">
-								<h4 className="text-white font-bold text-lg">Priya Sharma</h4>
+								<h4 className="text-[var(--text-color)] font-bold text-lg">Priya Sharma</h4>
 								<p className="text-[#A855F7]">Computer Science Student, IIT Delhi</p>
 							</div>
 						</div>
 
 						{/* Testimonial 2 */}
-						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
+						<div className="bg-[var(--card-bg)] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
 							<div className="mb-6">
 								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
 									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
 								</svg>
 							</div>
-							<p className="text-[#C7C3D6] leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] leading-relaxed mb-6">
 								The GenAI course opened up a whole new world for me. The instructors are knowledgeable and the support team is always there to help. Best decision I made!
 							</p>
 							<div className="border-t border-[rgba(139,92,246,0.2)] pt-6">
-								<h4 className="text-white font-bold text-lg">Rahul Verma</h4>
+								<h4 className="text-[var(--text-color)] font-bold text-lg">Rahul Verma</h4>
 								<p className="text-[#A855F7]">Engineering Student, BITS Pilani</p>
 							</div>
 						</div>
 
 						{/* Testimonial 3 */}
-						<div className="bg-[#1a1a2e] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
+						<div className="bg-[var(--card-bg)] rounded-2xl p-8 shadow-xl border border-[rgba(139,92,246,0.2)] hover:border-[#A855F7] transition-all duration-300">
 							<div className="mb-6">
 								<svg className="w-12 h-12 text-[#00BCD4]" fill="currentColor" viewBox="0 0 24 24">
 									<path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
 								</svg>
 							</div>
-							<p className="text-[#C7C3D6] leading-relaxed mb-6">
+							<p className="text-[var(--text-secondary)] leading-relaxed mb-6">
 								I completed the Agentic AI course and it was amazing! The practical approach and real-world projects gave me confidence to build my own AI applications.
 							</p>
 							<div className="border-t border-[rgba(139,92,246,0.2)] pt-6">
-								<h4 className="text-white font-bold text-lg">Ananya Reddy</h4>
+								<h4 className="text-[var(--text-color)] font-bold text-lg">Ananya Reddy</h4>
 								<p className="text-[#A855F7]">AI Enthusiast, NIT Warangal</p>
 							</div>
 						</div>

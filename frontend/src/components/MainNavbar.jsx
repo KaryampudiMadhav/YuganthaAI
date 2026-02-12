@@ -124,9 +124,9 @@ export default function MainNavbar() {
 						onClick={toggleTheme}
 						className='px-3 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] transition-all duration-200 text-sm'
 						aria-label='Toggle Theme'
-						title={theme === "dark" ? "Dark Mode" : "Light Mode"}
+						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
-						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark" ? "🌙" : "☀️"}</span>
+						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark-theme" ? "☀️" : "🌙"}</span>
 					</button>
 				</div>
 
@@ -136,9 +136,9 @@ export default function MainNavbar() {
 						onClick={toggleTheme}
 						className='p-2 rounded-lg border border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] transition-colors'
 						aria-label='Toggle Theme'
-						title={theme === "dark" ? "Dark Mode" : "Light Mode"}
+						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
-						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark" ? "🌙" : "☀️"}</span>
+						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark-theme" ? "☀️" : "🌙"}</span>
 					</button>
 					<button
 						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

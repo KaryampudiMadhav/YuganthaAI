@@ -1,6 +1,6 @@
 export default function CareersPage() {
     return (
-        <div className="min-h-screen bg-[#0B0614] text-white pt-24 px-6 flex flex-col items-center justify-center">
+        <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 px-6 flex flex-col items-center justify-center transition-colors duration-300">
             <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] bg-clip-text text-transparent">
                 Careers at Yuganta
             </h1>

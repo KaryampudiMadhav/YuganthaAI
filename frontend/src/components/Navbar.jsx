@@ -42,7 +42,7 @@ export default function Navbar() {
 	};
 
 	return (
-		<nav className='bg-[rgba(22,11,46,0.7)] backdrop-blur-lg text-white px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.15)] border-b border-[rgba(139,92,246,0.1)]'>
+		<nav className='bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300 backdrop-blur-lg px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-md border-b border-[var(--border-color)]'>
 			<div className='max-w-7xl mx-auto flex items-center justify-between'>
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
@@ -52,7 +52,7 @@ export default function Navbar() {
 						className='w-10 h-10 transition-transform group-hover:scale-110'
 					/>
 					<div className='text-lg md:text-xl font-bold'>
-						<span className='text-white'>Yuganta</span>
+						<span className='text-[var(--text-color)]'>Yuganta</span>
 						<span className='text-[#A855F7]'>AI</span>
 					</div>
 				</Link>

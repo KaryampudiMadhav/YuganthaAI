@@ -35,7 +35,7 @@ export default function CoursesNavbar() {
 	};
 
 	return (
-		<nav className='bg-[rgba(22,11,46,0.7)] backdrop-blur-lg text-white px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.15)] border-b border-[rgba(139,92,246,0.1)]'>
+		<nav className='bg-[var(--card-bg)] backdrop-blur-lg text-[var(--text-color)] px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.15)] border-b border-[var(--border-color)] transition-colors duration-300'>
 			<div className='max-w-7xl mx-auto flex items-center justify-between'>
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
@@ -71,9 +71,9 @@ export default function CoursesNavbar() {
 						onClick={toggleTheme}
 						className='px-3 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] transition-all duration-200 text-sm'
 						aria-label='Toggle Theme'
-						title={theme === "dark" ? "Dark Mode" : "Light Mode"}
+						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
-						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark" ? "🌙" : "☀️"}</span>
+						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark-theme" ? "☀️" : "🌙"}</span>
 					</button>
 					{isAuthenticated ? (
 						<div className='relative'>
@@ -140,9 +140,9 @@ export default function CoursesNavbar() {
 						onClick={toggleTheme}
 						className='p-2 rounded-lg border border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] transition-colors'
 						aria-label='Toggle Theme'
-						title={theme === "dark" ? "Dark Mode" : "Light Mode"}
+						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
-						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark" ? "🌙" : "☀️"}</span>
+						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark-theme" ? "☀️" : "🌙"}</span>
 					</button>
 					<button
 						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}

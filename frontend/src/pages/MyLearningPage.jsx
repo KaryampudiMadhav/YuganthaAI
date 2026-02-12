@@ -97,7 +97,7 @@ export default function MyLearningPage() {
 	}
 
 	return (
-		<div className='min-h-screen bg-[#0a0a0a] text-white pt-20'>
+		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-20 transition-colors duration-300'>
 			<div className='max-w-7xl mx-auto px-4 md:px-6 py-6 md:py-8'>
 				{/* Header with Search */}
 				<div className='flex flex-col md:flex-row items-start md:items-center justify-between mb-8 md:mb-12 gap-4'>
@@ -109,7 +109,7 @@ export default function MyLearningPage() {
 								placeholder='Search Courses'
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className='bg-[#1a1a1a] border border-gray-700 rounded-lg px-4 py-2 pl-10 text-white placeholder-gray-500 focus:outline-none focus:border-purple-500 w-full md:w-64'
+								className='bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-2 pl-10 text-[var(--text-color)] placeholder-gray-500 focus:outline-none focus:border-purple-500 w-full md:w-64 transition-colors duration-300'
 							/>
 							<svg
 								className='absolute left-3 top-2.5 w-5 h-5 text-gray-500'
@@ -133,7 +133,7 @@ export default function MyLearningPage() {
 				{/* Featured Course - Enrolled Programs Section */}
 				{featuredCourse && (
 					<section className='mb-16'>
-						<div className='bg-[#1a1a1a] rounded-2xl overflow-hidden shadow-2xl'>
+						<div className='bg-[var(--card-bg)] rounded-2xl overflow-hidden shadow-2xl transition-colors duration-300'>
 							<div className='flex flex-col lg:flex-row'>
 								<div className='lg:w-1/2 relative h-64 lg:h-auto'>
 									{featuredCourse.thumbnail ? (
@@ -188,7 +188,7 @@ export default function MyLearningPage() {
 								<Link
 									key={course._id}
 									to={`/courses/${course._id}`}
-									className='bg-[#1a1a1a] rounded-xl overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-gray-800 hover:border-purple-500'>
+									className='bg-[var(--card-bg)] rounded-xl overflow-hidden hover:shadow-2xl hover:scale-[1.02] transition-all duration-300 border border-[var(--border-color)] hover:border-purple-500'>
 									<div className='relative h-48 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900'>
 										{course.thumbnail ? (
 											<img
@@ -250,7 +250,7 @@ export default function MyLearningPage() {
 						return (
 							<div
 								key={course._id}
-								className='bg-[#0a0a0a] border-t border-gray-800 pt-8 mb-8'>
+								className='bg-[var(--bg-color)] border-t border-[var(--border-color)] pt-8 mb-8 transition-colors duration-300'>
 								<h3 className='text-2xl md:text-3xl font-semibold mb-4'>
 									{course.title}
 								</h3>
@@ -268,7 +268,7 @@ export default function MyLearningPage() {
 								</div>
 								<Link
 									to={`/courses/${course._id}`}
-									className='inline-block px-8 py-3 bg-[#1a1a1a] border border-gray-700 text-white rounded-lg font-semibold hover:bg-gray-800 transition'>
+									className='inline-block px-8 py-3 bg-[var(--card-bg)] border border-[var(--border-color)] text-[var(--text-color)] rounded-lg font-semibold hover:bg-gray-800 transition'>
 									Continue
 								</Link>
 							</div>
@@ -294,32 +294,32 @@ export default function MyLearningPage() {
 						<button
 							onClick={() => setSelectedTab("all")}
 							className={`pb-3 px-4 font-medium transition ${selectedTab === "all"
-									? "text-white border-b-2 border-white"
-									: "text-gray-400 hover:text-gray-300"
+								? "text-white border-b-2 border-white"
+								: "text-gray-400 hover:text-gray-300"
 								}`}>
 							All Courses
 						</button>
 						<button
 							onClick={() => setSelectedTab("completed")}
 							className={`pb-3 px-4 font-medium transition ${selectedTab === "completed"
-									? "text-white border-b-2 border-white"
-									: "text-gray-400 hover:text-gray-300"
+								? "text-white border-b-2 border-white"
+								: "text-gray-400 hover:text-gray-300"
 								}`}>
 							Completed
 						</button>
 						<button
 							onClick={() => setSelectedTab("in-progress")}
 							className={`pb-3 px-4 font-medium transition ${selectedTab === "in-progress"
-									? "text-white border-b-2 border-white"
-									: "text-gray-400 hover:text-gray-300"
+								? "text-white border-b-2 border-white"
+								: "text-gray-400 hover:text-gray-300"
 								}`}>
 							In progress
 						</button>
 						<button
 							onClick={() => setSelectedTab("yet-to-start")}
 							className={`pb-3 px-4 font-medium transition ${selectedTab === "yet-to-start"
-									? "text-white border-b-2 border-white"
-									: "text-gray-400 hover:text-gray-300"
+								? "text-white border-b-2 border-white"
+								: "text-gray-400 hover:text-gray-300"
 								}`}>
 							Yet to start
 						</button>
@@ -336,7 +336,7 @@ export default function MyLearningPage() {
 							return (
 								<div
 									key={course._id}
-									className='bg-[#1a1a1a] rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-gray-800 hover:border-purple-500'>
+									className='bg-[var(--card-bg)] rounded-xl overflow-hidden hover:shadow-2xl transition-all duration-300 border border-[var(--border-color)] hover:border-purple-500'>
 									<div className='relative h-48'>
 										{course.thumbnail ? (
 											<img
