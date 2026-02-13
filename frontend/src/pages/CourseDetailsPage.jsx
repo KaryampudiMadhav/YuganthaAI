@@ -2,6 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import LeadCaptureForm from "../components/LeadCaptureForm";
+import CoursesNavbar from "../components/CoursesNavbar";
 import API_URL from "../config/api";
 
 export default function CourseDetailsPage() {
@@ -109,17 +110,23 @@ export default function CourseDetailsPage() {
 
 	if (loading) {
 		return (
-			<div className='min-h-screen bg-[var(--bg-color)] flex items-center justify-center text-[var(--text-color)] transition-colors duration-300'>
-				Loading...
-			</div>
+			<>
+				<CoursesNavbar />
+				<div className='min-h-screen bg-[var(--bg-color)] flex items-center justify-center text-[var(--text-color)] transition-colors duration-300'>
+					Loading...
+				</div>
+			</>
 		);
 	}
 
 	if (!course) {
 		return (
-			<div className='min-h-screen bg-[var(--bg-color)] flex items-center justify-center text-[var(--text-color)] transition-colors duration-300'>
-				Course not found
-			</div>
+			<>
+				<CoursesNavbar />
+				<div className='min-h-screen bg-[var(--bg-color)] flex items-center justify-center text-[var(--text-color)] transition-colors duration-300'>
+					Course not found
+				</div>
+			</>
 		);
 	}
 
@@ -127,22 +134,28 @@ export default function CourseDetailsPage() {
 	const bgGradient = "from-[#8B5CF6] to-[#4C1D95]";
 
 	return (
-		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-20 transition-colors duration-300'>
-			{/* Hero Section */}
-			<section className='relative overflow-hidden py-20 px-4'>
-				<div
-					className={`absolute top-0 left-0 w-full h-full bg-gradient-to-br ${bgGradient} opacity-10 blur-3xl animate-pulse`}></div>
+		<>
+			<CoursesNavbar />
+			<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300'>
+				{/* Fixed Back Button */}
+				<div className='fixed top-24 left-4 z-30'>
+					<button
+						onClick={() => navigate("/courses")}
+						className='flex items-center gap-2 text-gray-400 hover:text-white bg-[var(--bg-secondary)]/80 backdrop-blur-md px-4 py-2 rounded-lg border border-white/10 transition-all group shadow-lg hover:shadow-purple-500/20'>
+						<span className='group-hover:-translate-x-1 transition-transform'>
+							←
+						</span>
+						Back to Courses
+					</button>
+				</div>
 
-				<div className='max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
-					<div>
-						<button
-							onClick={() => navigate("/courses")}
-							className='flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors group'>
-							<span className='group-hover:-translate-x-1 transition-transform'>
-								←
-							</span>
-							Back to Courses
-						</button>
+				{/* Hero Section */}
+				<section className='relative overflow-hidden py-20 px-4 pt-32'>
+					<div
+						className={`absolute top-0 left-0 w-full h-full bg-gradient-to-br ${bgGradient} opacity-10 blur-3xl animate-pulse`}></div>
+
+					<div className='max-w-7xl mx-auto relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center'>
+						<div>
 
 						<div className='inline-block px-3 py-1 mb-6 rounded-full bg-white/10 border border-white/20 text-sm font-medium backdrop-blur-md'>
 							{course.level || "All Levels"} Program
@@ -329,6 +342,7 @@ export default function CourseDetailsPage() {
 					onDownload={handleDownload}
 				/>
 			)}
-		</div>
+			</div>
+		</>
 	);
 }

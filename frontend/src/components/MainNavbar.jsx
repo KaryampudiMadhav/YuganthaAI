@@ -128,6 +128,63 @@ export default function MainNavbar() {
 					>
 						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark-theme" ? "☀️" : "🌙"}</span>
 					</button>
+					{isAuthenticated ? (
+						<div className='relative'>
+							<button
+								onClick={() => setShowProfileMenu(!showProfileMenu)}
+								className='flex items-center space-x-3 px-4 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] transition-all duration-200'>
+								<div className='w-8 h-8 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] rounded-full flex items-center justify-center text-white font-semibold'>
+									{user?.name?.charAt(0).toUpperCase() || 'U'}
+								</div>
+								<span className='text-sm font-medium'>{user?.name}</span>
+								<svg
+									className={`w-4 h-4 transition-transform ${showProfileMenu ? 'rotate-180' : ''}`}
+									fill='none'
+									stroke='currentColor'
+									viewBox='0 0 24 24'>
+									<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M19 9l-7 7-7-7' />
+								</svg>
+							</button>
+
+							{showProfileMenu && (
+								<div className='absolute right-0 mt-2 w-64 bg-[#1a0f2e] border border-[rgba(139,92,246,0.3)] rounded-xl shadow-xl py-2 z-50'>
+									<Link
+										to='/profile'
+										className='block px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										Profile
+									</Link>
+									<Link
+										to='/my-learning'
+										className='block px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										My Learning
+									</Link>
+									<Link
+										to='/mentorships'
+										className='block px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										My Mentorships
+									</Link>
+									<button
+										onClick={handleLogout}
+										className='w-full text-left px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										Logout
+									</button>
+								</div>
+							)}
+						</div>
+					) : (
+						<>
+							<Link
+								to='/login'
+								className='px-6 py-2 text-sm font-semibold text-[#C7C3D6] hover:text-[#A855F7] transition-colors'>
+								Login
+							</Link>
+							<Link
+								to='/signup'
+								className='px-6 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] rounded-xl text-sm font-semibold hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-200'>
+								Sign Up
+							</Link>
+						</>
+					)}
 				</div>
 
 				{/* Mobile actions */}
@@ -182,6 +239,52 @@ export default function MainNavbar() {
 									{service.label}
 								</Link>
 							))}
+						</div>
+
+						{/* Mobile Auth Buttons */}
+						<div className='border-t border-[rgba(139,92,246,0.2)] pt-2 mt-2'>
+							{isAuthenticated ? (
+								<>
+									<Link
+										to='/profile'
+										onClick={handleNavClick}
+										className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+										Profile
+									</Link>
+									<Link
+										to='/my-learning'
+										onClick={handleNavClick}
+										className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+										My Learning
+									</Link>
+									<Link
+										to='/mentorships'
+										onClick={handleNavClick}
+										className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+										My Mentorships
+									</Link>
+									<button
+										onClick={handleLogout}
+										className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all text-left w-full'>
+										Logout
+									</button>
+								</>
+							) : (
+								<>
+									<Link
+										to='/login'
+										onClick={handleNavClick}
+										className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+										Login
+									</Link>
+									<Link
+										to='/signup'
+										onClick={handleNavClick}
+										className='mx-4 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] rounded-xl text-sm font-semibold text-center'>
+										Sign Up
+									</Link>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
