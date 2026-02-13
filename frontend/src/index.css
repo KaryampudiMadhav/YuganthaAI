@@ -21,6 +21,11 @@
 	--border-primary: rgba(139, 92, 246, 0.25);
 	--border-secondary: #2A1F4D;
 	--icon-color: #FFFFFF;
+
+	/* Semantic Component Variables */
+	--nav-bg: #0B0614;
+	--dropdown-bg: #0B0614;
+	--dropdown-text: #C7C3D6;
 }
 
 /* Global base styles */
@@ -49,6 +54,11 @@ body {
 	--text-color: var(--text-primary);
 	--card-bg: var(--bg-card);
 	--border-color: var(--border-primary);
+
+	/* Semantic Component Variables (Dark) */
+	--nav-bg: #0B0614;
+	--dropdown-bg: #0B0614;
+	--dropdown-text: #C7C3D6;
 }
 
 .light-theme {
@@ -74,6 +84,11 @@ body {
 	/* Thick Blue for main text */
 	--card-bg: #FFFFFF;
 	--border-color: #A9B5DF;
+
+	/* Semantic Component Variables (Light) */
+	--nav-bg: #FFFFFF;
+	--dropdown-bg: #FFFFFF;
+	--dropdown-text: #1A1F3C;
 }
 
 .light-theme .text-white {
@@ -116,23 +131,6 @@ body {
 	background-color: var(--card-bg);
 }
 
-.light-theme .bg-\[rgba\(22\2c 11\2c 46\2c 0\.7\)\] {
-	background-color: var(--card-bg);
-}
-
-.light-theme .shadow-\[0_8px_32px_rgba\(139\2c 92\2c 246\2c 0\.15\)\] {
-	box-shadow: 0 8px 32px rgba(169, 181, 223, 0.25);
-}
-
-.light-theme .hover\:shadow-\[0_0_20px_rgba\(139\2c 92\2c 246\2c 0\.5\)\]:hover {
-	box-shadow: 0 0 20px rgba(169, 181, 223, 0.35);
-}
-
-.light-theme .bg-\[\#12091F\],
-.light-theme .bg-\[\#1a0f2e\],
-.light-theme .bg-\[\#1a0f3a\] {
-	background-color: var(--card-bg);
-}
 
 .light-theme .text-\[\#9A93B5\] {
 	color: var(--text-secondary);

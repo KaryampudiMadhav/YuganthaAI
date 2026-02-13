@@ -11,12 +11,12 @@ export const MentorProvider = ({ children }) => {
 		// Check if mentor is logged in on mount
 		const storedMentor = localStorage.getItem("mentor");
 		const loginTime = localStorage.getItem("mentorLoginTime");
-		
+
 		if (storedMentor && loginTime) {
 			const currentTime = new Date().getTime();
 			const timeDiff = currentTime - parseInt(loginTime);
 			const twoHours = 2 * 60 * 60 * 1000; // 2 hours in milliseconds
-			
+
 			// Check if 2 hours have passed
 			if (timeDiff >= twoHours) {
 				// Session expired, clear storage

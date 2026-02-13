@@ -21,23 +21,23 @@ export default function AboutPage() {
 			/>
 			<div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
 				{/* Hero Section */}
-				<div className="relative bg-gradient-to-r from-[#0B3A5C] via-[#1E88E5] to-[#0B3A5C] py-20 md:py-32 overflow-hidden">
+				<div className="relative bg-gradient-to-r from-[var(--bg-secondary)] via-[var(--bg-primary)] to-[var(--bg-secondary)] py-20 md:py-32 overflow-hidden">
 					<div className="absolute inset-0 bg-[url('/about.png')] bg-cover bg-center opacity-30"></div>
-					<div className="absolute inset-0 bg-gradient-to-r from-[#0B3A5C]/75 via-[#1E88E5]/75 to-[#0B3A5C]/75"></div>
+					<div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-secondary)]/75 via-[var(--bg-primary)]/75 to-[var(--bg-secondary)]/75"></div>
 					<div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
 						<div className="mb-6">
 							<div className="flex items-center gap-2 text-sm md:text-base">
-								<a href="/" className="text-[#C7C3D6] hover:text-[#A855F7] transition-colors">
+								<a href="/" className="text-[var(--text-muted)] hover:text-[#A855F7] transition-colors">
 									Home
 								</a>
-								<span className="text-[#C7C3D6]">/</span>
-								<span className="text-white">About Us</span>
+								<span className="text-[var(--text-muted)]">/</span>
+								<span className="text-[var(--text-color)]">About Us</span>
 							</div>
 						</div>
-						<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6">
+						<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[var(--text-color)] mb-6">
 							About Us
 						</h1>
-						<p className="text-lg md:text-xl text-[#C7C3D6] max-w-3xl">
+						<p className="text-lg md:text-xl text-[var(--text-muted)] max-w-3xl">
 							Yuganta AI builds AI-powered products and modern digital experiences that help businesses grow faster, operate smarter, and serve customers better.
 						</p>
 					</div>
@@ -54,7 +54,7 @@ export default function AboutPage() {
 									alt="Team collaboration"
 									className="w-full h-auto"
 								/>
-								<div className="absolute inset-0 bg-gradient-to-t from-[#0B0614]/80 to-transparent"></div>
+								<div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-primary)]/80 to-transparent"></div>
 								{/* Play Button Overlay (optional) */}
 								<div className="absolute inset-0 flex items-center justify-center">
 									<div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl cursor-pointer hover:scale-110 transition-transform">
@@ -81,30 +81,30 @@ export default function AboutPage() {
 								<p className="text-sm text-[#A855F7] font-semibold mb-2  tracking-wider">
 									Yuganta AI
 								</p>
-								<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+								<h2 className="text-4xl md:text-5xl font-bold text-[var(--text-color)] mb-4">
 									Vision
 								</h2>
-								<p className="text-[#C7C3D6] text-lg leading-relaxed">
+								<p className="text-[var(--text-muted)] text-lg leading-relaxed">
 									To empower every individual and organization with AI-driven intelligence, fostering a future where technology amplifies human potential.
 								</p>
 							</div>
 
 							{/* Mission */}
 							<div>
-								<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+								<h2 className="text-4xl md:text-5xl font-bold text-[var(--text-color)] mb-4">
 									Mission
 								</h2>
-								<p className="text-[#C7C3D6] text-lg leading-relaxed">
+								<p className="text-[var(--text-muted)] text-lg leading-relaxed">
 									We are dedicated to providing accessible, high-quality AI education and innovative solutions that bridge the gap between complex technology and real-world application.
 								</p>
 							</div>
 
 							{/* What We Do */}
 							<div>
-								<h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
+								<h2 className="text-4xl md:text-5xl font-bold text-[var(--text-color)] mb-4">
 									What We Do ?
 								</h2>
-								<p className="text-[#C7C3D6] text-lg leading-relaxed">
+								<p className="text-[var(--text-muted)] text-lg leading-relaxed">
 									We offer comprehensive AI training programs, mentorship, and enterprise solutions designed to equip learners and businesses with the skills needed to thrive in the AI era.
 								</p>
 							</div>
@@ -113,45 +113,45 @@ export default function AboutPage() {
 				</div>
 
 				{/* Statistics Section */}
-				<div className="bg-gradient-to-b from-[#12091F] to-[#1a0f3a] py-16 md:py-20">
+				<div className="bg-gradient-to-b from-[var(--bg-card)] to-[var(--bg-secondary)] py-16 md:py-20">
 					<div className="max-w-7xl mx-auto px-4 md:px-6">
 						<div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
 							{/* Projects */}
 							<div className="text-center">
-								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--text-color)] mb-3">
 									50<span className="text-[#A855F7]">+</span>
 								</div>
-								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+								<div className="text-lg md:text-xl text-[var(--text-muted)] font-medium">
 									Projects
 								</div>
 							</div>
 
 							{/* Customers */}
 							<div className="text-center">
-								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--text-color)] mb-3">
 									20<span className="text-[#A855F7]">+</span>
 								</div>
-								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+								<div className="text-lg md:text-xl text-[var(--text-muted)] font-medium">
 									Customers
 								</div>
 							</div>
 
 							{/* Ongoing Projects */}
 							<div className="text-center">
-								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--text-color)] mb-3">
 									10<span className="text-[#A855F7]">+</span>
 								</div>
-								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+								<div className="text-lg md:text-xl text-[var(--text-muted)] font-medium">
 									Ongoing Projects
 								</div>
 							</div>
 
 							{/* Experts */}
 							<div className="text-center">
-								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-white mb-3">
+								<div className="text-5xl md:text-6xl lg:text-7xl font-bold text-[var(--text-color)] mb-3">
 									50<span className="text-[#A855F7]">+</span>
 								</div>
-								<div className="text-lg md:text-xl text-[#C7C3D6] font-medium">
+								<div className="text-lg md:text-xl text-[var(--text-muted)] font-medium">
 									Experts
 								</div>
 							</div>
@@ -161,15 +161,15 @@ export default function AboutPage() {
 
 				{/* Newsletter Section */}
 				<div className="relative py-20 md:py-24 overflow-hidden">
-					<div className="absolute inset-0 bg-gradient-to-r from-[#2D1B69] via-[#1E88E5] to-[#00ACC1]"></div>
+					<div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-secondary)] via-[var(--bg-primary)] to-[var(--bg-secondary)]"></div>
 					<div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
 						<div className="flex flex-col lg:flex-row items-center justify-between gap-8">
 							{/* Left - Newsletter Text */}
 							<div className="text-center lg:text-left">
-								<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+								<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)] mb-2">
 									Subscribe
 								</h2>
-								<p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+								<p className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-color)]">
 									To Our Newsletter
 								</p>
 							</div>
@@ -182,7 +182,7 @@ export default function AboutPage() {
 									onChange={(e) => setEmail(e.target.value)}
 									placeholder="Your Email"
 									required
-									className="px-6 py-4 rounded-full bg-[rgba(255,255,255,0.2)] backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 w-full sm:w-80 text-lg"
+									className="px-6 py-4 rounded-full bg-[var(--card-bg)] backdrop-blur-sm border border-[var(--border-color)] text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#A855F7] w-full sm:w-80 text-lg"
 								/>
 								<button
 									type="submit"

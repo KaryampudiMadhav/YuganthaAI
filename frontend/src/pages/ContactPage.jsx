@@ -46,23 +46,23 @@ export default function ContactPage() {
 			/>
 			<div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
 				{/* Hero Section */}
-				<div className="relative bg-gradient-to-r from-[#0B3A5C] via-[#1E88E5] to-[#0B3A5C] py-20 md:py-32 overflow-hidden">
-					<div className="absolute inset-0 bg-[url('/contact.png')] bg-cover bg-center opacity-50"></div>
-					<div className="absolute inset-0 bg-gradient-to-r from-[#0B3A5C]/85 via-[#1E88E5]/85 to-[#0B3A5C]/85"></div>
+				<div className="relative bg-gradient-to-r from-[var(--bg-secondary)] via-[var(--bg-primary)] to-[var(--bg-secondary)] py-20 md:py-32 overflow-hidden">
+					<div className="absolute inset-0 bg-[url('/contact.png')] bg-cover bg-center opacity-20"></div>
+					<div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-secondary)]/85 via-[var(--bg-primary)]/85 to-[var(--bg-secondary)]/85"></div>
 					<div className="max-w-7xl mx-auto px-4 md:px-6 relative z-10">
 						<div className="mb-6">
 							<div className="flex items-center gap-2 text-sm md:text-base">
-								<a href="/" className="text-[#C7C3D6] hover:text-[#A855F7] transition-colors">
+								<a href="/" className="text-[var(--text-muted)] hover:text-[#A855F7] transition-colors">
 									Home
 								</a>
-								<span className="text-[#C7C3D6]">/</span>
-								<span className="text-white">Contact</span>
+								<span className="text-[var(--text-muted)]">/</span>
+								<span className="text-[var(--text-color)]">Contact</span>
 							</div>
 						</div>
-						<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4">
+						<h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[var(--text-color)] mb-4">
 							Contact
 						</h1>
-						<p className="text-lg md:text-xl text-[#C7C3D6] max-w-3xl">
+						<p className="text-lg md:text-xl text-[var(--text-muted)] max-w-3xl">
 							Feel free to reach us
 						</p>
 					</div>
@@ -73,7 +73,7 @@ export default function ContactPage() {
 					<div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 						{/* Left Side - Map */}
 						<div className="relative">
-							<div className="bg-[#12091F] border border-[rgba(139,92,246,0.3)] rounded-2xl overflow-hidden shadow-xl h-[400px] md:h-[500px]">
+							<div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl overflow-hidden shadow-xl h-[400px] md:h-[500px]">
 								<iframe
 									src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3824.8688762446947!2d81.52182431487373!3d16.547773888565867!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a37ce5e3fb4dd3d%3A0x3f64e5e9b36fca9d!2sChinnamiram%2C%20Bhimavaram%2C%20Andhra%20Pradesh%20534201!5e0!3m2!1sen!2sin!4v1234567890123!5m2!1sen!2sin"
 									width="100%"
@@ -97,7 +97,7 @@ export default function ContactPage() {
 
 						{/* Right Side - Contact Info */}
 						<div className="space-y-8">
-							<h2 className="text-4xl md:text-5xl font-bold text-white mb-8">
+							<h2 className="text-4xl md:text-5xl font-bold text-[var(--text-color)] mb-8">
 								Keep In Touch
 							</h2>
 
@@ -109,9 +109,9 @@ export default function ContactPage() {
 									</svg>
 								</div>
 								<div>
-									<h3 className="text-xl font-semibold text-white mb-2">Mobile</h3>
-									<p className="text-[#C7C3D6] mb-1">Monday to Friday, 10 AM to 06 PM</p>
-									<p className="text-[#C7C3D6]">Tollfree : <span className="text-white">8978946421</span></p>
+									<h3 className="text-xl font-semibold text-[var(--text-color)] mb-2">Mobile</h3>
+									<p className="text-[var(--text-muted)] mb-1">Monday to Friday, 10 AM to 06 PM</p>
+									<p className="text-[var(--text-muted)]">Tollfree : <span className="text-[var(--text-color)]">8978946421</span></p>
 								</div>
 							</div>
 
@@ -138,8 +138,8 @@ export default function ContactPage() {
 									</svg>
 								</div>
 								<div>
-									<h3 className="text-xl font-semibold text-white mb-2">India Location 01</h3>
-									<p className="text-[#C7C3D6] leading-relaxed">
+									<h3 className="text-xl font-semibold text-[var(--text-color)] mb-2">India Location 01</h3>
+									<p className="text-[var(--text-muted)] leading-relaxed">
 										Yuganta AI,<br />
 										Bhimavaram , Chinnamiram <br />
 										Near Sri Chaitanya College 534201,<br />
@@ -156,8 +156,8 @@ export default function ContactPage() {
 									</svg>
 								</div>
 								<div>
-									<h3 className="text-xl font-semibold text-white mb-2">India Location 02</h3>
-									<p className="text-[#C7C3D6] leading-relaxed">
+									<h3 className="text-xl font-semibold text-[var(--text-color)] mb-2">India Location 02</h3>
+									<p className="text-[var(--text-muted)] leading-relaxed">
 										Coming Soon...
 									</p>
 								</div>
@@ -173,7 +173,7 @@ export default function ContactPage() {
 							<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">
 								Message
 							</p>
-							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white">
+							<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)]">
 								Leave A Message
 							</h2>
 						</div>
@@ -188,7 +188,7 @@ export default function ContactPage() {
 									onChange={handleFormChange}
 									placeholder="Your email"
 									required
-									className="px-6 py-4 bg-[rgba(255,255,255,0.05)] backdrop-blur-sm border border-[rgba(139,92,246,0.2)] rounded-xl text-white placeholder-[#C7C3D6]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all"
+									className="px-6 py-4 bg-[var(--card-bg)] backdrop-blur-sm border border-[var(--border-color)] rounded-xl text-[var(--text-color)] placeholder-[var(--text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all"
 								/>
 								<input
 									type="text"
@@ -197,7 +197,7 @@ export default function ContactPage() {
 									onChange={handleFormChange}
 									placeholder="Your Name"
 									required
-									className="px-6 py-4 bg-[rgba(255,255,255,0.05)] backdrop-blur-sm border border-[rgba(139,92,246,0.2)] rounded-xl text-white placeholder-[#C7C3D6]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all"
+									className="px-6 py-4 bg-[var(--card-bg)] backdrop-blur-sm border border-[var(--border-color)] rounded-xl text-[var(--text-color)] placeholder-[var(--text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all"
 								/>
 							</div>
 
@@ -209,7 +209,7 @@ export default function ContactPage() {
 								onChange={handleFormChange}
 								placeholder="Subject"
 								required
-								className="w-full px-6 py-4 bg-[rgba(255,255,255,0.05)] backdrop-blur-sm border border-[rgba(139,92,246,0.2)] rounded-xl text-white placeholder-[#C7C3D6]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all"
+								className="w-full px-6 py-4 bg-[var(--card-bg)] backdrop-blur-sm border border-[var(--border-color)] rounded-xl text-[var(--text-color)] placeholder-[var(--text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all"
 							/>
 
 							{/* Message */}
@@ -220,7 +220,7 @@ export default function ContactPage() {
 								placeholder="Message"
 								required
 								rows="6"
-								className="w-full px-6 py-4 bg-[rgba(255,255,255,0.05)] backdrop-blur-sm border border-[rgba(139,92,246,0.2)] rounded-xl text-white placeholder-[#C7C3D6]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all resize-none"
+								className="w-full px-6 py-4 bg-[var(--card-bg)] backdrop-blur-sm border border-[var(--border-color)] rounded-xl text-[var(--text-color)] placeholder-[var(--text-muted)]/50 focus:outline-none focus:ring-2 focus:ring-[#A855F7] focus:border-transparent transition-all resize-none"
 							></textarea>
 
 							{/* Submit Button */}
@@ -238,15 +238,15 @@ export default function ContactPage() {
 
 				{/* Newsletter Section */}
 				<div className="relative py-20 md:py-24 overflow-hidden">
-					<div className="absolute inset-0 bg-gradient-to-r from-[#2D1B69] via-[#1E88E5] to-[#00ACC1]"></div>
+					<div className="absolute inset-0 bg-gradient-to-r from-[var(--bg-secondary)] via-[var(--bg-primary)] to-[var(--bg-secondary)]"></div>
 					<div className="max-w-6xl mx-auto px-4 md:px-6 relative z-10">
 						<div className="flex flex-col lg:flex-row items-center justify-between gap-8">
 							{/* Left - Newsletter Text */}
 							<div className="text-center lg:text-left">
-								<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-2">
+								<h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-[var(--text-color)] mb-2">
 									Subscribe
 								</h2>
-								<p className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">
+								<p className="text-3xl md:text-4xl lg:text-5xl font-bold text-[var(--text-color)]">
 									To Our Newsletter
 								</p>
 							</div>
@@ -259,7 +259,7 @@ export default function ContactPage() {
 									onChange={(e) => setEmail(e.target.value)}
 									placeholder="Your Email"
 									required
-									className="px-6 py-4 rounded-full bg-[rgba(255,255,255,0.2)] backdrop-blur-sm border border-white/30 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 w-full sm:w-80 text-lg"
+									className="px-6 py-4 rounded-full bg-[var(--card-bg)] backdrop-blur-sm border border-[var(--border-color)] text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#A855F7] w-full sm:w-80 text-lg"
 								/>
 								<button
 									type="submit"
