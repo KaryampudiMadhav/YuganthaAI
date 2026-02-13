@@ -55,7 +55,7 @@ export default function MainNavbar() {
 	};
 
 	return (
-		<nav className='bg-[rgba(22,11,46,0.7)] backdrop-blur-lg text-white px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.15)] border-b border-[rgba(139,92,246,0.1)]'>
+		<nav className='bg-nav-bg backdrop-blur-lg text-[var(--text-color)] px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.15)] border-b border-[rgba(139,92,246,0.1)] transition-colors duration-300'>
 			<div className='max-w-7xl mx-auto flex items-center justify-between'>
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
@@ -65,7 +65,7 @@ export default function MainNavbar() {
 						className='w-10 h-10 transition-transform group-hover:scale-110'
 					/>
 					<div className='text-lg md:text-xl font-bold'>
-						<span className='text-white'>Yuganta</span>
+						<span className='text-[var(--text-color)]'>Yuganta</span>
 						<span className='text-[#A855F7]'>AI</span>
 					</div>
 				</Link>
@@ -90,7 +90,7 @@ export default function MainNavbar() {
 						>
 							<button
 								onClick={() => setShowServicesDropdown(!showServicesDropdown)}
-								className='text-xs font-semibold uppercase tracking-wide text-[#C7C3D6] hover:text-[#A855F7] transition-all duration-200 whitespace-nowrap flex items-center gap-1'
+								className='text-xs font-semibold uppercase tracking-wide text-[var(--text-secondary)] hover:text-[#A855F7] transition-all duration-200 whitespace-nowrap flex items-center gap-1'
 							>
 								Services
 								<svg className={`w-4 h-4 transition-transform ${showServicesDropdown ? 'rotate-180' : ''}`} fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -99,7 +99,7 @@ export default function MainNavbar() {
 							</button>
 
 							{showServicesDropdown && (
-								<div className='absolute top-full left-0 mt-2 w-56 bg-[#1a0f3a] border border-[rgba(139,92,246,0.2)] rounded-lg shadow-xl py-2 z-50'>
+								<div className='absolute top-full left-0 mt-2 w-56 bg-[var(--dropdown-bg)] border border-[rgba(139,92,246,0.2)] rounded-lg shadow-xl py-2 z-50 transition-colors duration-300'>
 									{serviceItems.map((service) => (
 										<Link
 											key={service.label}
@@ -108,7 +108,7 @@ export default function MainNavbar() {
 												handleNavClick();
 												setShowServicesDropdown(false);
 											}}
-											className='block px-4 py-3 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] transition-all'>
+											className='block px-4 py-3 text-sm text-dropdown-text hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] transition-all'>
 											{service.label}
 										</Link>
 									))}
@@ -126,7 +126,39 @@ export default function MainNavbar() {
 						aria-label='Toggle Theme'
 						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
-						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark-theme" ? "☀️" : "🌙"}</span>
+						<span className="w-5 h-5 flex items-center justify-center">
+							{theme === "dark-theme" ? (
+								// Sun (White in Dark Mode)
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+									className="w-5 h-5 text-white"
+									strokeWidth={2}
+								>
+									<circle cx="12" cy="12" r="5" fill="white" />
+									<line x1="12" y1="1" x2="12" y2="4" stroke="white" />
+									<line x1="12" y1="20" x2="12" y2="23" stroke="white" />
+									<line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="white" />
+									<line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="white" />
+									<line x1="1" y1="12" x2="4" y2="12" stroke="white" />
+									<line x1="20" y1="12" x2="23" y2="12" stroke="white" />
+									<line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="white" />
+									<line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="white" />
+								</svg>
+							) : (
+								// Moon (Black in Light Mode)
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="black"
+									className="w-5 h-5"
+								>
+									<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+								</svg>
+							)}
+						</span>
 					</button>
 				</div>
 
@@ -138,7 +170,39 @@ export default function MainNavbar() {
 						aria-label='Toggle Theme'
 						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
-						<span className='text-lg text-[var(--icon-color)]'>{theme === "dark-theme" ? "☀️" : "🌙"}</span>
+						<span className="w-5 h-5 flex items-center justify-center">
+							{theme === "dark-theme" ? (
+								// Sun (White in Dark Mode)
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+									className="w-5 h-5 text-white"
+									strokeWidth={2}
+								>
+									<circle cx="12" cy="12" r="5" fill="white" />
+									<line x1="12" y1="1" x2="12" y2="4" stroke="white" />
+									<line x1="12" y1="20" x2="12" y2="23" stroke="white" />
+									<line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="white" />
+									<line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="white" />
+									<line x1="1" y1="12" x2="4" y2="12" stroke="white" />
+									<line x1="20" y1="12" x2="23" y2="12" stroke="white" />
+									<line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="white" />
+									<line x1="18.36" y1="5.64" x2="19.78" y2="4.22" stroke="white" />
+								</svg>
+							) : (
+								// Moon (Black in Light Mode)
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									viewBox="0 0 24 24"
+									fill="black"
+									className="w-5 h-5"
+								>
+									<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z" />
+								</svg>
+							)}
+						</span>
 					</button>
 					<button
 						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
@@ -178,7 +242,7 @@ export default function MainNavbar() {
 									key={service.label}
 									to={service.to}
 									onClick={handleNavClick}
-									className='px-4 py-2 pl-8 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all block'>
+									className='px-4 py-2 pl-8 text-sm text-dropdown-text hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all block'>
 									{service.label}
 								</Link>
 							))}

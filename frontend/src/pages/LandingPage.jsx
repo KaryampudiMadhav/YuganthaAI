@@ -92,7 +92,7 @@ export default function LandingPage() {
 
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 						{/* Court Booker */}
-						<Link to="/projects/court-booker" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/court-booker" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
 								<img
 									src="/court_booking.png"
@@ -109,7 +109,7 @@ export default function LandingPage() {
 						</Link>
 
 						{/* AI Agent Avatar */}
-						<Link to="/projects/ai-agent-avatar" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/ai-agent-avatar" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
 								<img
 									src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=300&fit=crop"
@@ -126,7 +126,7 @@ export default function LandingPage() {
 						</Link>
 
 						{/* HVAC Agent */}
-						<Link to="/projects/hvac-agent" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/hvac-agent" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
 								<img
 									src="/HVACimg.png"
@@ -143,7 +143,7 @@ export default function LandingPage() {
 						</Link>
 
 						{/* AI Learning Platform */}
-						<Link to="/projects/ai-learning-platform" className="bg-white rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/ai-learning-platform" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
 							<div className="mb-6">
 								<img
 									src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=300&fit=crop"
@@ -188,7 +188,7 @@ export default function LandingPage() {
 								<Link
 									key={course._id}
 									to={`/course-details/${course._id}`}
-									className="bg-white rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]"
+									className="bg-[var(--card-bg)] rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]"
 								>
 									<div className="mb-6 h-48 overflow-hidden rounded-2xl">
 										{course.thumbnail ? (

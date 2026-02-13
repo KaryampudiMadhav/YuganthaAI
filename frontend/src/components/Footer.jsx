@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 export default function Footer() {
 	return (
-		<footer className='bg-[#0B0614] border-t border-[rgba(139,92,246,0.2)] text-white py-8 md:py-12'>
+		<footer style={{ backgroundColor: '#0B0614', color: '#FFFFFF' }} className='border-t border-[rgba(139,92,246,0.2)] py-8 md:py-12'>
 			<div className='max-w-7xl mx-auto px-4 md:px-6'>
 				<div className='grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-8 md:mb-12'>
 					{/* Logo and Description */}
@@ -14,13 +14,13 @@ export default function Footer() {
 								className='w-10 h-10 transition-transform group-hover:scale-110'
 							/>
 							<div className='text-2xl font-bold'>
-								<span className='text-white'>Yuganta</span>
+								<span style={{ color: '#FFFFFF' }}>Yuganta</span>
 								<span className='bg-gradient-to-r from-[#A855F7] to-[#EC4899] bg-clip-text text-transparent'>
 									AI
 								</span>
 							</div>
 						</Link>
-						<p className='text-[#C7C3D6] mb-6 max-w-md leading-relaxed'>
+						<p style={{ color: '#C7C3D6' }} className='mb-6 max-w-md leading-relaxed'>
 							Empowering learners worldwide with cutting-edge AI and
 							technology courses. Master skills, build projects, and
 							advance your career with expert-led content.
@@ -28,7 +28,8 @@ export default function Footer() {
 						<div className='flex space-x-4'>
 							<a
 								href='#'
-								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
+								style={{ backgroundColor: '#12091F', borderColor: 'rgba(139,92,246,0.3)' }}
+								className='w-10 h-10 border hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -38,7 +39,8 @@ export default function Footer() {
 							</a>
 							<a
 								href='#'
-								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
+								style={{ backgroundColor: '#12091F', borderColor: 'rgba(139,92,246,0.3)' }}
+								className='w-10 h-10 border hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -48,7 +50,8 @@ export default function Footer() {
 							</a>
 							<a
 								href='#'
-								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
+								style={{ backgroundColor: '#12091F', borderColor: 'rgba(139,92,246,0.3)' }}
+								className='w-10 h-10 border hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -58,7 +61,8 @@ export default function Footer() {
 							</a>
 							<a
 								href='#'
-								className='w-10 h-10 bg-[#12091F] border border-[rgba(139,92,246,0.3)] hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
+								style={{ backgroundColor: '#12091F', borderColor: 'rgba(139,92,246,0.3)' }}
+								className='w-10 h-10 border hover:bg-[rgba(139,92,246,0.2)] hover:border-[#8B5CF6] rounded-full flex items-center justify-center transition-all duration-200'>
 								<svg
 									className='w-5 h-5'
 									fill='currentColor'
@@ -71,34 +75,38 @@ export default function Footer() {
 
 					{/* Quick Links */}
 					<div>
-						<h3 className='text-lg font-semibold mb-4 text-white'>Quick Links</h3>
+						<h3 style={{ color: '#FFFFFF' }} className='text-lg font-semibold mb-4'>Quick Links</h3>
 						<ul className='space-y-3'>
 							<li>
 								<Link
 									to='/courses'
-									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+									style={{ color: '#C7C3D6' }}
+									className='hover:text-[#A855F7] transition-colors duration-200'>
 									All Courses
 								</Link>
 							</li>
-							
+
 							<li>
 								<Link
 									to='/instructor'
-									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+									style={{ color: '#C7C3D6' }}
+									className='hover:text-[#A855F7] transition-colors duration-200'>
 									Become Instructor
 								</Link>
 							</li>
 							<li>
 								<Link
 									to='/about'
-									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+									style={{ color: '#C7C3D6' }}
+									className='hover:text-[#A855F7] transition-colors duration-200'>
 									About Us
 								</Link>
 							</li>
 							<li>
 								<Link
 									to='/contact'
-									className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+									style={{ color: '#C7C3D6' }}
+									className='hover:text-[#A855F7] transition-colors duration-200'>
 									Contact
 								</Link>
 							</li>
@@ -107,21 +115,21 @@ export default function Footer() {
 
 					{/* Categories */}
 					<div>
-						<h3 className='text-lg font-semibold mb-4 text-white'>Categories</h3>
+						<h3 style={{ color: '#FFFFFF' }} className='text-lg font-semibold mb-4'>Categories</h3>
 						<ul className='space-y-3'>
 							<li>
-								<Link to='/courses' className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+								<Link to='/courses' style={{ color: '#C7C3D6' }} className='hover:text-[#A855F7] transition-colors duration-200'>
 									AI & Machine Learning
 								</Link>
 							</li>
 							<li>
-								<Link to='/courses' className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+								<Link to='/courses' style={{ color: '#C7C3D6' }} className='hover:text-[#A855F7] transition-colors duration-200'>
 									Deep Learning
 								</Link>
 							</li>
-							
+
 							<li>
-								<Link to='/courses' className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+								<Link to='/courses' style={{ color: '#C7C3D6' }} className='hover:text-[#A855F7] transition-colors duration-200'>
 									Web Development
 								</Link>
 							</li>
@@ -129,13 +137,12 @@ export default function Footer() {
 					</div>
 				</div>
 
-				{/* Newsletter */}
 				<div className='border-t border-[rgba(139,92,246,0.2)] pt-8 mb-8'>
 					<div className='max-w-md'>
-						<h3 className='text-lg font-semibold mb-4 text-white'>
+						<h3 style={{ color: '#FFFFFF' }} className='text-lg font-semibold mb-4'>
 							Stay Updated
 						</h3>
-						<p className='text-[#C7C3D6] text-sm mb-4'>
+						<p style={{ color: '#C7C3D6' }} className='text-sm mb-4'>
 							Subscribe to our newsletter for the latest courses and
 							updates.
 						</p>
@@ -143,7 +150,8 @@ export default function Footer() {
 							<input
 								type='email'
 								placeholder='Enter your email'
-								className='flex-1 px-4 py-3 bg-[#0B0614] border border-[#2A1F4D] rounded-l-xl text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
+								style={{ backgroundColor: '#0B0614', color: '#FFFFFF', borderColor: '#2A1F4D' }}
+								className='flex-1 px-4 py-3 border rounded-l-xl placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:ring-2 focus:ring-[rgba(139,92,246,0.3)] transition-all duration-200'
 							/>
 							<button className='px-6 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] rounded-r-xl font-semibold transition-all duration-200 shadow-[0_4px_20px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_28px_rgba(139,92,246,0.6)]'>
 								Subscribe
@@ -155,29 +163,33 @@ export default function Footer() {
 				{/* Bottom Bar */}
 				<div className='border-t border-[rgba(139,92,246,0.2)] pt-8'>
 					<div className='flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0'>
-						<p className='text-[#C7C3D6] text-sm'>
+						<p style={{ color: '#C7C3D6' }} className='text-sm'>
 							© {new Date().getFullYear()} YugantaAI. All rights
 							reserved. Built  for learners worldwide.
 						</p>
 						<div className='flex space-x-6 text-sm'>
 							<a
 								href='#'
-								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+								style={{ color: '#C7C3D6' }}
+								className='hover:text-[#A855F7] transition-colors duration-200'>
 								Privacy Policy
 							</a>
 							<a
 								href='#'
-								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+								style={{ color: '#C7C3D6' }}
+								className='hover:text-[#A855F7] transition-colors duration-200'>
 								Terms of Service
 							</a>
 							<a
 								href='#'
-								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+								style={{ color: '#C7C3D6' }}
+								className='hover:text-[#A855F7] transition-colors duration-200'>
 								Cookie Policy
 							</a>
 							<a
 								href='#'
-								className='text-[#C7C3D6] hover:text-[#A855F7] transition-colors duration-200'>
+								style={{ color: '#C7C3D6' }}
+								className='hover:text-[#A855F7] transition-colors duration-200'>
 								Sitemap
 							</a>
 						</div>
