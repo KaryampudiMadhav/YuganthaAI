@@ -42,7 +42,7 @@ export default function FreeCourses() {
 	return (
 		<section
 			id='free-courses'
-			className='py-12 md:py-24 px-4 md:px-6 bg-gradient-to-b from-[#160B2E] via-[#0B0614] to-[#0B0614] relative overflow-hidden'>
+			className='py-12 md:py-24 px-4 md:px-6 bg-[var(--bg-color)] text-[var(--text-color)] relative overflow-hidden transition-colors duration-300'>
 			{/* Decorative background elements with animation */}
 			<div className='absolute top-0 left-0 w-96 h-96 bg-[#8B5CF6] opacity-5 blur-3xl rounded-full -translate-x-1/2 -translate-y-1/2 animate-[float_6s_ease-in-out_infinite]'></div>
 			<div className='absolute bottom-0 right-0 w-96 h-96 bg-[#EC4899] opacity-5 blur-3xl rounded-full translate-x-1/2 translate-y-1/2 animate-[float_8s_ease-in-out_infinite_2s]'></div>
@@ -63,13 +63,13 @@ export default function FreeCourses() {
 					<div className="flex flex-col items-center justify-center py-20 text-center animate-fadeIn">
 						<div className="relative w-40 h-40 mb-6">
 							<div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-ping"></div>
-							<div className="relative z-10 w-full h-full bg-[#160B2E] border-2 border-purple-500/50 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/20">
+							<div className="relative z-10 w-full h-full bg-[var(--card-bg)] border-2 border-purple-500/50 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/20 transition-colors duration-300">
 								<svg className="w-20 h-20 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 									<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
 								</svg>
 							</div>
 						</div>
-						<h3 className="text-3xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent mb-3">No Courses Found</h3>
+						<h3 className="text-3xl font-bold bg-gradient-to-r from-[var(--text-color)] to-[var(--text-muted)] bg-clip-text text-transparent mb-3">No Courses Found</h3>
 						<p className="text-gray-400 text-lg max-w-md mx-auto">
 							We are currently updating our course catalog. Please check back later for new exciting content!
 						</p>
@@ -79,7 +79,7 @@ export default function FreeCourses() {
 						{courses.map((course, idx) => (
 							<div
 								key={course.id || course._id}
-								className={`bg-[rgba(22,11,46,0.5)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden hover:shadow-[0_16px_48px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-300 group ${idx === 0
+								className={`bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-color)] rounded-2xl shadow-[0_8px_32px_rgba(139,92,246,0.15)] overflow-hidden hover:shadow-[0_16px_48px_rgba(139,92,246,0.3)] hover:-translate-y-2 transition-all duration-300 group ${idx === 0
 									? 'animate-stagger-1'
 									: idx === 1
 										? 'animate-stagger-2'
@@ -106,16 +106,16 @@ export default function FreeCourses() {
 										</span>
 									</div>
 
-									<h3 className='text-lg md:text-xl font-bold mb-2 text-white min-h-[50px] md:min-h-[60px] group-hover:text-[#A855F7] transition-colors duration-300'>
+									<h3 className='text-lg md:text-xl font-bold mb-2 text-[var(--text-color)] min-h-[50px] md:min-h-[60px] group-hover:text-[#A855F7] transition-colors duration-300'>
 										{course.title}
 									</h3>
 
-									<p className='text-sm text-[#C7C3D6] mb-3'>
+									<p className='text-sm text-[var(--text-muted)] mb-3'>
 										by {course.instructor || "Yuganta AI Team"}
 									</p>
 
 									<div className='flex items-center justify-between mb-4'>
-										<div className='flex items-center text-[#C7C3D6]'>
+										<div className='flex items-center text-[var(--text-muted)]'>
 											<div className='flex text-[#EC4899] mr-2'>
 												{"★".repeat(Math.round(course.rating || 4.5))}
 												{"☆".repeat(5 - Math.round(course.rating || 4.5))}

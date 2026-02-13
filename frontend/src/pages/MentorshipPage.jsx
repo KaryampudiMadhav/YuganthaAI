@@ -113,7 +113,7 @@ export default function MentorshipPage() {
   }, [activeTab, sessionData]);
 
   const renderEmptyState = () => (
-    <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-10 flex flex-col items-center justify-center text-center gap-4">
+    <div className="bg-[var(--card-bg)] border border-white/5 rounded-2xl p-10 flex flex-col items-center justify-center text-center gap-4 transition-colors duration-300">
       <div className="w-16 h-16 rounded-full bg-white/5 flex items-center justify-center text-3xl">😐</div>
       <div className="space-y-2">
         <h3 className="text-lg font-semibold">No sessions scheduled today</h3>
@@ -132,7 +132,7 @@ export default function MentorshipPage() {
   const renderSessionCard = (session) => (
     <div
       key={session.id}
-      className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-6 flex flex-col gap-3">
+      className="bg-[var(--card-bg)] border border-white/5 rounded-2xl p-6 flex flex-col gap-3 transition-colors duration-300">
       <div className="flex items-center justify-between gap-4">
         <div>
           <p className="text-xs uppercase tracking-[0.2em] text-gray-500">{session.status}</p>
@@ -217,9 +217,9 @@ export default function MentorshipPage() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-white pt-20 pb-16">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-20 pb-16 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 md:px-6 flex flex-col md:flex-row gap-8">
-        <aside className="md:w-64 w-full bg-[#0f0f0f] border border-white/5 rounded-2xl p-4 h-fit">
+        <aside className="md:w-64 w-full bg-[var(--card-bg)] border border-white/5 rounded-2xl p-4 h-fit transition-colors duration-300">
           <nav className="space-y-2">
             {navItems.map((item) => {
               const isActive = activeTab === item.key;
@@ -344,15 +344,15 @@ export default function MentorshipPage() {
           )}
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-6 space-y-2">
+            <div className="bg-[var(--card-bg)] border border-white/5 rounded-2xl p-6 space-y-2 transition-colors duration-300">
               <p className="text-gray-400 text-sm">Upcoming Sessions</p>
               <div className="flex items-center gap-2 text-4xl font-bold">{stats.upcoming}</div>
             </div>
-            <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-6 space-y-2">
+            <div className="bg-[var(--card-bg)] border border-white/5 rounded-2xl p-6 space-y-2 transition-colors duration-300">
               <p className="text-gray-400 text-sm">Completed Sessions</p>
               <div className="flex items-center gap-2 text-4xl font-bold">{stats.completed}</div>
             </div>
-            <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl p-6 space-y-2">
+            <div className="bg-[var(--card-bg)] border border-white/5 rounded-2xl p-6 space-y-2 transition-colors duration-300">
               <p className="text-gray-400 text-sm">Cancelled / Rescheduled</p>
               <div className="flex items-center gap-2 text-4xl font-bold">{stats.cancelled}</div>
             </div>
@@ -371,10 +371,10 @@ export default function MentorshipPage() {
       {/* Session Details Modal */}
       {showDetailsModal && selectedSession && (
         <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-[#0f0f0f] border border-white/10 rounded-2xl max-w-3xl w-full p-6 md:p-8 relative my-8 max-h-[90vh] overflow-y-auto">
+          <div className="bg-[var(--card-bg)] border border-white/10 rounded-2xl max-w-3xl w-full p-6 md:p-8 relative my-8 max-h-[90vh] overflow-y-auto transition-colors duration-300">
             <button
               onClick={() => setShowDetailsModal(false)}
-              className="absolute top-4 right-4 text-gray-400 hover:text-white transition z-10 bg-[#0f0f0f] rounded-full p-1">
+              className="absolute top-4 right-4 text-gray-400 hover:text-white transition z-10 bg-[var(--card-bg)] rounded-full p-1">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
               </svg>

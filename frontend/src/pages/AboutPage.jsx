@@ -19,7 +19,7 @@ export default function AboutPage() {
 				keywords="about yuganta ai, company vision, digital transformation, AI solutions, IT services"
 				url="/about"
 			/>
-			<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+			<div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
 				{/* Hero Section */}
 				<div className="relative bg-gradient-to-r from-[#0B3A5C] via-[#1E88E5] to-[#0B3A5C] py-20 md:py-32 overflow-hidden">
 					<div className="absolute inset-0 bg-[url('/about.png')] bg-cover bg-center opacity-30"></div>

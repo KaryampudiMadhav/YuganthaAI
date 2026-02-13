@@ -54,7 +54,7 @@ export default function CourseDetailsPage() {
 			}
 
 			// Create a clean, professional filename from course title
-			const cleanFileName = course.title 
+			const cleanFileName = course.title
 				? course.title.replace(/[^a-zA-Z0-9\s]/g, '').replace(/\s+/g, '_')
 				: 'Course_Brochure';
 
@@ -63,12 +63,12 @@ export default function CourseDetailsPage() {
 				// Remove fl_attachment if it exists
 				linkUrl = linkUrl.replace('/fl_attachment/', '/');
 				linkUrl = linkUrl.replace('fl_attachment/', '');
-				
+
 				// Ensure it uses /raw/upload/ for PDF files, not /image/upload/
 				if (linkUrl.includes('/image/upload/')) {
 					linkUrl = linkUrl.replace('/image/upload/', '/raw/upload/');
 				}
-				
+
 				// Add download flag with custom filename to the URL
 				if (!linkUrl.includes('?')) {
 					linkUrl += `?attachment=true&filename=${cleanFileName}.pdf`;
@@ -109,7 +109,7 @@ export default function CourseDetailsPage() {
 
 	if (loading) {
 		return (
-			<div className='min-h-screen bg-[#0B0614] flex items-center justify-center text-white'>
+			<div className='min-h-screen bg-[var(--bg-color)] flex items-center justify-center text-[var(--text-color)] transition-colors duration-300'>
 				Loading...
 			</div>
 		);
@@ -117,7 +117,7 @@ export default function CourseDetailsPage() {
 
 	if (!course) {
 		return (
-			<div className='min-h-screen bg-[#0B0614] flex items-center justify-center text-white'>
+			<div className='min-h-screen bg-[var(--bg-color)] flex items-center justify-center text-[var(--text-color)] transition-colors duration-300'>
 				Course not found
 			</div>
 		);
@@ -127,7 +127,7 @@ export default function CourseDetailsPage() {
 	const bgGradient = "from-[#8B5CF6] to-[#4C1D95]";
 
 	return (
-		<div className='min-h-screen bg-[#0B0614] text-white pt-20'>
+		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-20 transition-colors duration-300'>
 			{/* Hero Section */}
 			<section className='relative overflow-hidden py-20 px-4'>
 				<div
@@ -189,7 +189,7 @@ export default function CourseDetailsPage() {
 
 					{/* Stats Card / Graphics */}
 					<div className='relative hidden lg:block'>
-						<div className='bg-[#160B2E]/90 backdrop-blur-2xl p-8 rounded-3xl border border-purple-500/20 shadow-[0_0_40px_rgba(139,92,246,0.15)] relative z-10 text-center hover:transform hover:scale-[1.02] transition-all duration-300'>
+						<div className='bg-[var(--card-bg)]/90 backdrop-blur-2xl p-8 rounded-3xl border border-purple-500/20 shadow-[0_0_40px_rgba(139,92,246,0.15)] relative z-10 text-center hover:transform hover:scale-[1.02] transition-all duration-300'>
 							<div className='relative rounded-2xl overflow-hidden mb-6 shadow-lg group'>
 								{course.thumbnail && course.thumbnail.trim() ? (
 									<>
@@ -262,7 +262,7 @@ export default function CourseDetailsPage() {
 			</section>
 
 			{/* Description Section */}
-			<section className='py-20 px-4 bg-[#0B0614]'>
+			<section className='py-20 px-4 bg-[var(--bg-color)] transition-colors duration-300'>
 				<div className='max-w-4xl mx-auto'>
 					<h2 className='text-3xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-white to-purple-200'>
 						About the Program
@@ -281,7 +281,7 @@ export default function CourseDetailsPage() {
 								{course.modules.map((module, idx) => (
 									<div
 										key={idx}
-										className='bg-[#160B2E] border border-white/5 p-6 rounded-xl hover:border-purple-500/30 transition-colors'>
+										className='bg-[var(--bg-secondary)] border border-white/5 p-6 rounded-xl hover:border-purple-500/30 transition-colors'>
 										<div className='flex items-center gap-4'>
 											<span className='bg-purple-900/50 text-purple-300 w-8 h-8 flex items-center justify-center rounded-lg text-sm font-bold'>
 												{idx + 1}
@@ -306,7 +306,7 @@ export default function CourseDetailsPage() {
 			</section>
 
 			{/* Sticky Bottom Bar for Mobile */}
-			<div className='md:hidden fixed bottom-0 left-0 w-full bg-[#160B2E]/90 backdrop-blur-lg border-t border-white/10 p-4 z-40 flex gap-2'>
+			<div className='md:hidden fixed bottom-0 left-0 w-full bg-[var(--bg-secondary)]/90 backdrop-blur-lg border-t border-white/10 p-4 z-40 flex gap-2'>
 				<button
 					onClick={() => handleAction("Enrollment")}
 					className='flex-1 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] text-white py-3 rounded-lg font-bold shadow-lg'>

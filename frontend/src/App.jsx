@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import { InstructorProvider } from "./context/InstructorContext";
 import { MentorProvider } from "./context/MentorContext";
 import { ScrollToTop } from "./components/ScrollToTop";
@@ -79,9 +80,16 @@ function CoursesLayout({ children }) {
 }
 
 export default function App() {
+	const [theme, setTheme] = useState("dark-theme");
 	const [loading, setLoading] = useState(true);
 
+	// Initialize theme from localStorage or default
 	useEffect(() => {
+		const storedTheme = localStorage.getItem("theme");
+		if (storedTheme) {
+			setTheme(storedTheme);
+		}
+
 		// Simulate initial loading
 		const timer = setTimeout(() => {
 			setLoading(false);
@@ -90,250 +98,262 @@ export default function App() {
 		return () => clearTimeout(timer);
 	}, []);
 
+	// Apply theme to document body and save to localStorage
+	useEffect(() => {
+		document.body.className = theme;
+		localStorage.setItem("theme", theme);
+	}, [theme]);
+
+	const toggleTheme = () => {
+		setTheme((prevTheme) => (prevTheme === "light-theme" ? "dark-theme" : "light-theme"));
+	};
+
 	if (loading) {
 		return <LoadingSpinner />;
 	}
 
 	return (
-		<AuthProvider>
-			<InstructorProvider>
-				<MentorProvider>
-					<Router>
-						<ScrollToTop />
-						<Toaster
-							position="top-right"
-							toastOptions={{
-								duration: 3000,
-								style: {
-									background: '#1a1a1a',
-									color: '#fff',
-									border: '1px solid rgba(139, 92, 246, 0.3)',
-								},
-								success: {
-									iconTheme: {
-										primary: '#8b5cf6',
-										secondary: '#fff',
+		<ThemeProvider value={{ theme, toggleTheme }}>
+			<AuthProvider>
+				<InstructorProvider>
+					<MentorProvider>
+						<Router>
+							<ScrollToTop />
+							<Toaster
+								position="top-right"
+								toastOptions={{
+									duration: 3000,
+									style: {
+										background: '#1a1a1a',
+										color: '#fff',
+										border: '1px solid rgba(139, 92, 246, 0.3)',
 									},
-								},
-								error: {
-									iconTheme: {
-										primary: '#ef4444',
-										secondary: '#fff',
+									success: {
+										iconTheme: {
+											primary: '#8b5cf6',
+											secondary: '#fff',
+										},
 									},
-								},
-							}}
-						/>
-						<div className='min-h-screen'>
-							<Routes>
-											{/* Public Routes */}
-											<Route
-												path='/'
-												element={
-													<MainLayout>
-														<LandingPage />
-													</MainLayout>
-												}
-											/>
-											<Route
-												path='/login'
-												element={<LoginPage />}
-											/>
-											<Route
-												path='/signup'
-												element={<SignupPage />}
-											/>
-											<Route
-												path='/about'
-												element={
-													<MainLayout>
-														<AboutPage />
-													</MainLayout>
-												}
-											/>
-											<Route
-												path='/contact'
-												element={
-													<MainLayout>
-														<ContactPage />
-													</MainLayout>
-												}
-											/>
-											<Route
-												path='/careers'
-												element={
-													<MainLayout>
-														<CareersPage />
-													</MainLayout>
-												}
-											/>
+									error: {
+										iconTheme: {
+											primary: '#ef4444',
+											secondary: '#fff',
+										},
+									},
+								}}
+							/>
+							<div className='min-h-screen'>
+								<Routes>
+									{/* Public Routes */}
+									<Route
+										path='/'
+										element={
+											<MainLayout>
+												<LandingPage />
+											</MainLayout>
+										}
+									/>
+									<Route
+										path='/login'
+										element={<LoginPage />}
+									/>
+									<Route
+										path='/signup'
+										element={<SignupPage />}
+									/>
+									<Route
+										path='/about'
+										element={
+											<MainLayout>
+												<AboutPage />
+											</MainLayout>
+										}
+									/>
+									<Route
+										path='/contact'
+										element={
+											<MainLayout>
+												<ContactPage />
+											</MainLayout>
+										}
+									/>
+									<Route
+										path='/careers'
+										element={
+											<MainLayout>
+												<CareersPage />
+											</MainLayout>
+										}
+									/>
 
-											{/* Course Routes */}
-											<Route
-												path='/courses'
-												element={
-													<CoursesLayout>
-														<CoursesHomePage />
-													</CoursesLayout>
-												}
-											/>
-											<Route
-												path='/free-courses'
-												element={
-													<CoursesLayout>
-														<CoursesPage />
-													</CoursesLayout>
-												}
-											/>
-											<Route
-												path='/courses/:id'
-												element={
-													<CoursesLayout>
-														<CourseDetailPage />
-													</CoursesLayout>
-												}
-											/>
-											{/* New Course Details Route */}
-											<Route
-												path='/course-details/:courseId'
-												element={<CourseDetailsPage />}
-											/>
+									{/* Course Routes */}
+									<Route
+										path='/courses'
+										element={
+											<CoursesLayout>
+												<CoursesHomePage />
+											</CoursesLayout>
+										}
+									/>
+									<Route
+										path='/free-courses'
+										element={
+											<CoursesLayout>
+												<CoursesPage />
+											</CoursesLayout>
+										}
+									/>
+									<Route
+										path='/courses/:id'
+										element={
+											<CoursesLayout>
+												<CourseDetailPage />
+											</CoursesLayout>
+										}
+									/>
+									{/* New Course Details Route */}
+									<Route
+										path='/course-details/:courseId'
+										element={<CourseDetailsPage />}
+									/>
 
-											{/* Protected User Routes */}
-											<Route
-												path='/my-learning'
-												element={
-													<CoursesLayout>
-														<MyLearningPage />
-													</CoursesLayout>
-												}
-											/>
-											<Route
-												path='/mentorships'
-												element={
-													<CoursesLayout>
-														<MentorshipPage />
-													</CoursesLayout>
-												}
-											/>
-											<Route
-												path='/mentorships/book'
-												element={
-													<CoursesLayout>
-														<MentorshipBookingPage />
-													</CoursesLayout>
-												}
-											/>
-											<Route
-												path='/my-mentorship-sessions'
-												element={
-													<CoursesLayout>
-														<MyMentorshipSessionsPage />
-													</CoursesLayout>
-												}
-											/>
-											<Route
-												path='/profile'
-												element={
-													<CoursesLayout>
-														<ProfilePage />
-													</CoursesLayout>
-												}
-											/>
+									{/* Protected User Routes */}
+									<Route
+										path='/my-learning'
+										element={
+											<CoursesLayout>
+												<MyLearningPage />
+											</CoursesLayout>
+										}
+									/>
+									<Route
+										path='/mentorships'
+										element={
+											<CoursesLayout>
+												<MentorshipPage />
+											</CoursesLayout>
+										}
+									/>
+									<Route
+										path='/mentorships/book'
+										element={
+											<CoursesLayout>
+												<MentorshipBookingPage />
+											</CoursesLayout>
+										}
+									/>
+									<Route
+										path='/my-mentorship-sessions'
+										element={
+											<CoursesLayout>
+												<MyMentorshipSessionsPage />
+											</CoursesLayout>
+										}
+									/>
+									<Route
+										path='/profile'
+										element={
+											<CoursesLayout>
+												<ProfilePage />
+											</CoursesLayout>
+										}
+									/>
 
-											{/* Blog Routes */}
-											<Route
-												path='/blogs'
-												element={
-													<MainLayout>
-														<BlogsPage />
-													</MainLayout>
-												}
-											/>
-											<Route
-												path='/blogs/:slug'
-												element={
-													<MainLayout>
-														<BlogDetailPage />
-													</MainLayout>
-												}
-											/>
+									{/* Blog Routes */}
+									<Route
+										path='/blogs'
+										element={
+											<MainLayout>
+												<BlogsPage />
+											</MainLayout>
+										}
+									/>
+									<Route
+										path='/blogs/:slug'
+										element={
+											<MainLayout>
+												<BlogDetailPage />
+											</MainLayout>
+										}
+									/>
 
-											{/* Project Pages */}
-											<Route
-												path='/projects/court-booker'
-												element={
-													<MainLayout>
-														<CourtBookerPage />
-													</MainLayout>
-												}
-											/>
-											<Route
-												path='/projects/ai-agent-avatar'
-												element={
-													<MainLayout>
-														<AIAgentAvatarPage />
-													</MainLayout>
-												}
-											/>
-											<Route
-												path='/projects/hvac-agent'
-												element={
-													<MainLayout>
-														<HVACAgentPage />
-													</MainLayout>
-												}
-											/>
-											<Route
-												path='/projects/ai-learning-platform'
-												element={
-													<MainLayout>
-														<AILearningPlatformPage />
-													</MainLayout>
-												}
-											/>
+									{/* Project Pages */}
+									<Route
+										path='/projects/court-booker'
+										element={
+											<MainLayout>
+												<CourtBookerPage />
+											</MainLayout>
+										}
+									/>
+									<Route
+										path='/projects/ai-agent-avatar'
+										element={
+											<MainLayout>
+												<AIAgentAvatarPage />
+											</MainLayout>
+										}
+									/>
+									<Route
+										path='/projects/hvac-agent'
+										element={
+											<MainLayout>
+												<HVACAgentPage />
+											</MainLayout>
+										}
+									/>
+									<Route
+										path='/projects/ai-learning-platform'
+										element={
+											<MainLayout>
+												<AILearningPlatformPage />
+											</MainLayout>
+										}
+									/>
 
-											{/* Admin Routes */}
-											<Route path='/admin' element={<AdminLoginPage />} />
-											<Route path='/admin/login' element={<AdminLoginPage />} />
-											<Route path='/admin/dashboard' element={<AdminDashboard />} />
-											<Route path='/admin/mentors' element={<AdminMentorManagement />} />
-											<Route path='/admin/instructors' element={<AdminInstructorManagement />} />							<Route path='/admin/blogs' element={<AdminBlogManagement />} />											<Route path='/admin/assign-mentors' element={<AdminAssignMentors />} />
-											<Route path='/admin/mentorships' element={<AdminMentorAssignments />} />
-											<Route path='/admin/assign-instructors' element={<AdminAssignInstructors />} />
-											<Route path='/admin/registrations' element={<AdminRegistrations />} />
+									{/* Admin Routes */}
+									<Route path='/admin' element={<AdminLoginPage />} />
+									<Route path='/admin/login' element={<AdminLoginPage />} />
+									<Route path='/admin/dashboard' element={<AdminDashboard />} />
+									<Route path='/admin/mentors' element={<AdminMentorManagement />} />
+									<Route path='/admin/instructors' element={<AdminInstructorManagement />} />							<Route path='/admin/blogs' element={<AdminBlogManagement />} />											<Route path='/admin/assign-mentors' element={<AdminAssignMentors />} />
+									<Route path='/admin/mentorships' element={<AdminMentorAssignments />} />
+									<Route path='/admin/assign-instructors' element={<AdminAssignInstructors />} />
+									<Route path='/admin/registrations' element={<AdminRegistrations />} />
 
-											{/* Instructor Routes */}
-											<Route
-												path='/instructor'
-												element={<InstructorLoginPage />}
-											/>
-											<Route
-												path='/instructor/forgot-password'
-												element={<InstructorForgotPasswordPage />}
-											/>
-											<Route
-												path='/instructor/dashboard'
-												element={<InstructorDashboard />}
-											/>
+									{/* Instructor Routes */}
+									<Route
+										path='/instructor'
+										element={<InstructorLoginPage />}
+									/>
+									<Route
+										path='/instructor/forgot-password'
+										element={<InstructorForgotPasswordPage />}
+									/>
+									<Route
+										path='/instructor/dashboard'
+										element={<InstructorDashboard />}
+									/>
 
-											{/* Mentor Routes */}
-											<Route
-												path='/mentor/login'
-												element={<MentorLoginPage />}
-											/>
-											<Route
-												path='/mentor/forgot-password'
-												element={<MentorForgotPasswordPage />}
-											/>
-											<Route
-												path='/mentor/dashboard'
-												element={<MentorDashboard />}
-											/>
-										</Routes>
-									</div>
-								</Router>
-							</MentorProvider>
-						</InstructorProvider>
-					</AuthProvider>
+									{/* Mentor Routes */}
+									<Route
+										path='/mentor/login'
+										element={<MentorLoginPage />}
+									/>
+									<Route
+										path='/mentor/forgot-password'
+										element={<MentorForgotPasswordPage />}
+									/>
+									<Route
+										path='/mentor/dashboard'
+										element={<MentorDashboard />}
+									/>
+								</Routes>
+							</div>
+						</Router>
+					</MentorProvider>
+				</InstructorProvider>
+			</AuthProvider>
+		</ThemeProvider>
 	);
 }

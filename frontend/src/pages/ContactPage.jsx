@@ -44,7 +44,7 @@ export default function ContactPage() {
 				keywords="contact yuganta ai, get in touch, support, customer service, bhimavaram"
 				url="/contact"
 			/>
-			<div className="min-h-screen bg-gradient-to-b from-[#0B0614] to-[#12091F]">
+			<div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300">
 				{/* Hero Section */}
 				<div className="relative bg-gradient-to-r from-[#0B3A5C] via-[#1E88E5] to-[#0B3A5C] py-20 md:py-32 overflow-hidden">
 					<div className="absolute inset-0 bg-[url('/contact.png')] bg-cover bg-center opacity-50"></div>
@@ -167,7 +167,7 @@ export default function ContactPage() {
 				</div>
 
 				{/* Leave A Message Section */}
-				<div className="bg-gradient-to-b from-[#0B0614] to-[#12091F] py-16 md:py-24">
+				<div className="bg-[var(--bg-secondary)] py-16 md:py-24 transition-colors duration-300">
 					<div className="max-w-4xl mx-auto px-4 md:px-6">
 						<div className="text-center mb-12">
 							<p className="text-sm text-[#A855F7] font-semibold mb-2 uppercase tracking-wider">

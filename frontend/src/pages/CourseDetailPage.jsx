@@ -41,22 +41,22 @@ export default function CourseDetailPage() {
 
 	if (loading) {
 		return (
-			<div className='min-h-screen bg-[#0a0a0a] flex items-center justify-center'>
-				<div className='text-white text-xl'>Loading course...</div>
+			<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] flex items-center justify-center transition-colors duration-300'>
+				<div className='text-[var(--text-color)] text-xl'>Loading course...</div>
 			</div>
 		);
 	}
 
 	if (!course) {
 		return (
-			<div className='min-h-screen bg-[#0a0a0a] flex items-center justify-center'>
-				<div className='text-white text-xl'>Course not found</div>
+			<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] flex items-center justify-center transition-colors duration-300'>
+				<div className='text-[var(--text-color)] text-xl'>Course not found</div>
 			</div>
 		);
 	}
 
 	return (
-		<div className='min-h-screen bg-[#0a0a0a] text-white pt-20'>
+		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-20 transition-colors duration-300'>
 			{/* Navigation Breadcrumb */}
 			<div className='max-w-7xl mx-auto px-6 py-4'>
 				<div className='flex items-center space-x-2 text-sm text-gray-400'>
@@ -79,13 +79,12 @@ export default function CourseDetailPage() {
 						<div className='flex-1'>
 							<div className='mb-4'>
 								<span
-									className={`px-3 py-1 rounded-full text-sm ${
-										course.level === "Beginner"
+									className={`px-3 py-1 rounded-full text-sm ${course.level === "Beginner"
 											? "bg-green-500/20 text-green-300"
 											: course.level === "Intermediate"
-											? "bg-blue-500/20 text-blue-300"
-											: "bg-purple-500/20 text-purple-300"
-									}`}>
+												? "bg-blue-500/20 text-blue-300"
+												: "bg-purple-500/20 text-purple-300"
+										}`}>
 									{course.level}
 								</span>
 								<span className='ml-3 px-3 py-1 rounded-full text-sm bg-gray-800'>
@@ -163,7 +162,7 @@ export default function CourseDetailPage() {
 					<div className='grid grid-cols-1 lg:grid-cols-3 gap-6'>
 						{/* Video Player */}
 						<div className='lg:col-span-2'>
-							<div className='bg-[#1a1a1a] rounded-xl overflow-hidden'>
+							<div className='bg-[var(--card-bg)] rounded-xl overflow-hidden transition-colors duration-300'>
 								{selectedVideo ? (
 									<div>
 										<div className='relative bg-black aspect-video'>
@@ -223,7 +222,7 @@ export default function CourseDetailPage() {
 
 							{/* Module Content Below Video */}
 							{activeModule !== null && course.modules[activeModule] && (
-								<div className='mt-6 bg-[#1a1a1a] rounded-xl p-6'>
+								<div className='mt-6 bg-[var(--card-bg)] rounded-xl p-6 transition-colors duration-300'>
 									<div className='mb-4'>
 										<h3 className='text-xl font-bold text-blue-400 mb-2'>
 											Module {course.modules[activeModule].order}: {course.modules[activeModule].title}
@@ -256,7 +255,7 @@ export default function CourseDetailPage() {
 
 						{/* Modules Sidebar */}
 						<div className='lg:col-span-1'>
-							<div className='bg-[#1a1a1a] rounded-xl p-6'>
+							<div className='bg-[var(--card-bg)] rounded-xl p-6 transition-colors duration-300'>
 								<h3 className='text-xl font-bold mb-4'>
 									Course Content
 								</h3>
@@ -287,11 +286,10 @@ export default function CourseDetailPage() {
 														</div>
 													</div>
 													<svg
-														className={`w-5 h-5 transition-transform ${
-															activeModule === moduleIndex
+														className={`w-5 h-5 transition-transform ${activeModule === moduleIndex
 																? "rotate-180"
 																: ""
-														}`}
+															}`}
 														fill='none'
 														stroke='currentColor'
 														viewBox='0 0 24 24'>
@@ -321,12 +319,11 @@ export default function CourseDetailPage() {
 																				moduleIndex
 																			)
 																		}
-																		className={`w-full px-4 py-3 text-left hover:bg-gray-800 transition border-l-4 ${
-																			selectedVideo?.url ===
-																			video.url
+																		className={`w-full px-4 py-3 text-left hover:bg-gray-800 transition border-l-4 ${selectedVideo?.url ===
+																				video.url
 																				? "border-blue-500 bg-gray-800"
 																				: "border-transparent"
-																		}`}>
+																			}`}>
 																		<div className='flex items-start space-x-3'>
 																			<svg
 																				className='w-5 h-5 mt-0.5 flex-shrink-0 text-blue-400'
@@ -376,7 +373,7 @@ export default function CourseDetailPage() {
 						</div>
 					</div>
 				) : (
-					<div className='bg-[#1a1a1a] rounded-xl p-12 text-center'>
+					<div className='bg-[var(--card-bg)] rounded-xl p-12 text-center transition-colors duration-300'>
 						<svg
 							className='w-20 h-20 mx-auto mb-4 text-gray-600'
 							fill='none'

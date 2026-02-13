@@ -62,7 +62,7 @@ export default function BlogsPage() {
 	}
 
 	return (
-		<div className='min-h-screen bg-[#0a0a0a] text-white'>
+		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] transition-colors duration-300'>
 			{/* Header with back button and scrollable categories */}
 			<div className='bg-white border-b border-gray-200 sticky top-0 z-40'>
 				<div className='max-w-7xl mx-auto px-4 md:px-6'>
@@ -80,8 +80,8 @@ export default function BlogsPage() {
 								key={category}
 								onClick={() => setSelectedCategory(category)}
 								className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition ${selectedCategory === category
-										? "bg-gray-900 text-white"
-										: "bg-gray-100 text-gray-700 hover:bg-gray-200"
+									? "bg-gray-900 text-white"
+									: "bg-gray-100 text-gray-700 hover:bg-gray-200"
 									}`}>
 								{category}
 							</button>

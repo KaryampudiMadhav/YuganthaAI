@@ -129,7 +129,7 @@ export default function CoursesPage() {
 	];
 
 	return (
-		<div className='min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-20'>
+		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-20 transition-colors duration-300'>
 			{/* Hero Section */}
 			<section className='px-4 md:px-6 py-12 md:py-16 relative overflow-hidden'>
 				<div className='max-w-7xl mx-auto'>
@@ -194,7 +194,7 @@ export default function CoursesPage() {
 								placeholder='Search Course'
 								value={searchQuery}
 								onChange={(e) => setSearchQuery(e.target.value)}
-								className='w-full bg-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-3 pl-10 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300'
+								className='w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 pl-10 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300'
 							/>
 							<svg
 								className='absolute left-3 top-3.5 w-5 h-5 text-gray-500'
@@ -216,24 +216,24 @@ export default function CoursesPage() {
 						<button
 							onClick={() => setSelectedTab("all")}
 							className={`pb-3 px-2 font-medium transition ${selectedTab === "all"
-								? "text-white border-b-2 border-[#8B5CF6]"
-								: "text-[#C7C3D6] hover:text-white"
+								? "text-[var(--text-color)] border-b-2 border-[#8B5CF6]"
+								: "text-[var(--text-muted)] hover:text-[var(--text-color)]"
 								}`}>
 							All
 						</button>
 						<button
 							onClick={() => setSelectedTab("courses")}
 							className={`pb-3 px-2 font-medium transition ${selectedTab === "courses"
-								? "text-white border-b-2 border-[#8B5CF6]"
-								: "text-[#C7C3D6] hover:text-white"
+								? "text-[var(--text-color)] border-b-2 border-[#8B5CF6]"
+								: "text-[var(--text-muted)] hover:text-[var(--text-color)]"
 								}`}>
 							Courses
 						</button>
 						<button
 							onClick={() => setSelectedTab("learning-path")}
 							className={`pb-3 px-2 font-medium transition ${selectedTab === "learning-path"
-								? "text-white border-b-2 border-[#8B5CF6]"
-								: "text-[#C7C3D6] hover:text-white"
+								? "text-[var(--text-color)] border-b-2 border-[#8B5CF6]"
+								: "text-[var(--text-muted)] hover:text-[var(--text-color)]"
 								}`}>
 							Learning Path
 						</button>
@@ -243,7 +243,7 @@ export default function CoursesPage() {
 					<div className='flex flex-col lg:flex-row gap-8'>
 						{/* Sidebar Filters */}
 						<aside className='lg:w-64 flex-shrink-0'>
-							<div className='bg-[rgba(18,9,31,0.6)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-lg p-4 md:p-6'>
+							<div className='bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-color)] rounded-lg p-4 md:p-6 transition-colors duration-300'>
 								<div className='flex justify-between items-center mb-6'>
 									<h3 className='font-semibold text-lg'>
 										All Filters
@@ -302,7 +302,7 @@ export default function CoursesPage() {
 								<div className="flex flex-col items-center justify-center py-20 text-center animate-fadeIn">
 									<div className="relative w-40 h-40 mb-6">
 										<div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full opacity-20 animate-ping"></div>
-										<div className="relative z-10 w-full h-full bg-[#160B2E] border-2 border-purple-500/50 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/20">
+										<div className="relative z-10 w-full h-full bg-[var(--card-bg)] border-2 border-purple-500/50 rounded-full flex items-center justify-center shadow-lg shadow-purple-500/20 transition-colors duration-300">
 											<svg className="w-20 h-20 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
 											</svg>
@@ -318,7 +318,7 @@ export default function CoursesPage() {
 									{filteredCourses.map((course) => (
 										<div
 											key={course._id}
-											className='bg-gradient-to-br from-[rgba(18,9,31,0.8)] to-[rgba(11,6,20,0.8)] border border-[rgba(139,92,246,0.2)] rounded-lg overflow-hidden hover:shadow-[0_8px_32px_rgba(139,92,246,0.3)] hover:border-[rgba(139,92,246,0.4)] transition-all duration-300 group'>
+											className='bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg overflow-hidden hover:shadow-[0_8px_32px_rgba(139,92,246,0.3)] hover:border-[rgba(139,92,246,0.4)] transition-all duration-300 group'>
 											{/* Video/Thumbnail Section */}
 											<div className='relative h-48 overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900'>
 												{course.videoUrl ? (
@@ -362,7 +362,7 @@ export default function CoursesPage() {
 
 												{/* Title */}
 												<Link to={`/course-details/${course._id}`}>
-													<h3 className='font-bold text-lg mb-3 text-white line-clamp-2 min-h-[3.5rem] hover:text-[#A855F7] transition-colors'>
+													<h3 className='font-bold text-lg mb-3 text-[var(--text-color)] line-clamp-2 min-h-[3.5rem] hover:text-[#A855F7] transition-colors'>
 														{course.title}
 													</h3>
 												</Link>
