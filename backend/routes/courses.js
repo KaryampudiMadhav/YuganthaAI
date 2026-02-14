@@ -330,4 +330,256 @@ router.delete("/instructor/:id", protectInstructor, async (req, res) => {
 	}
 });
 
+// @route   POST /api/courses/instructor/:courseId/modules
+// @desc    Add a module to a course
+// @access  Private (Instructor)
+router.post("/instructor/:courseId/modules", protectInstructor, async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		// Check if instructor owns this course
+		if (course.instructorId.toString() !== req.instructor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized to modify this course" });
+		}
+
+		const { title, description, order, videos } = req.body;
+
+		const newModule = {
+			title,
+			description: description || "",
+			order: order || course.modules.length + 1,
+			videos: videos || []
+		};
+
+		course.modules.push(newModule);
+		await course.save();
+
+		res.json({ 
+			message: "Module added successfully", 
+			course,
+			module: course.modules[course.modules.length - 1]
+		});
+	} catch (error) {
+		console.error("Error adding module:", error);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   PUT /api/courses/instructor/:courseId/modules/:moduleId
+// @desc    Update a module in a course
+// @access  Private (Instructor)
+router.put("/instructor/:courseId/modules/:moduleId", protectInstructor, async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		// Check if instructor owns this course
+		if (course.instructorId.toString() !== req.instructor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized to modify this course" });
+		}
+
+		const moduleIndex = course.modules.findIndex(
+			m => m._id.toString() === req.params.moduleId
+		);
+
+		if (moduleIndex === -1) {
+			return res.status(404).json({ message: "Module not found" });
+		}
+
+		const { title, description, order, videos } = req.body;
+
+		if (title) course.modules[moduleIndex].title = title;
+		if (description !== undefined) course.modules[moduleIndex].description = description;
+		if (order) course.modules[moduleIndex].order = order;
+		if (videos) course.modules[moduleIndex].videos = videos;
+
+		await course.save();
+
+		res.json({ 
+			message: "Module updated successfully", 
+			course,
+			module: course.modules[moduleIndex]
+		});
+	} catch (error) {
+		console.error("Error updating module:", error);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   DELETE /api/courses/instructor/:courseId/modules/:moduleId
+// @desc    Delete a module from a course
+// @access  Private (Instructor)
+router.delete("/instructor/:courseId/modules/:moduleId", protectInstructor, async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		// Check if instructor owns this course
+		if (course.instructorId.toString() !== req.instructor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized to modify this course" });
+		}
+
+		course.modules = course.modules.filter(
+			m => m._id.toString() !== req.params.moduleId
+		);
+
+		await course.save();
+
+		res.json({ message: "Module deleted successfully", course });
+	} catch (error) {
+		console.error("Error deleting module:", error);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   POST /api/courses/instructor/:courseId/modules/:moduleId/videos
+// @desc    Add a video to a module
+// @access  Private (Instructor)
+router.post("/instructor/:courseId/modules/:moduleId/videos", protectInstructor, async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		// Check if instructor owns this course
+		if (course.instructorId.toString() !== req.instructor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized to modify this course" });
+		}
+
+		const moduleIndex = course.modules.findIndex(
+			m => m._id.toString() === req.params.moduleId
+		);
+
+		if (moduleIndex === -1) {
+			return res.status(404).json({ message: "Module not found" });
+		}
+
+		const { title, url, publicId, duration, description, order } = req.body;
+
+		const newVideo = {
+			title,
+			url: url || "",
+			publicId: publicId || "",
+			duration: duration || "",
+			description: description || "",
+			order: order || course.modules[moduleIndex].videos.length + 1
+		};
+
+		course.modules[moduleIndex].videos.push(newVideo);
+		await course.save();
+
+		res.json({ 
+			message: "Video added successfully", 
+			course,
+			video: course.modules[moduleIndex].videos[course.modules[moduleIndex].videos.length - 1]
+		});
+	} catch (error) {
+		console.error("Error adding video:", error);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   PUT /api/courses/instructor/:courseId/modules/:moduleId/videos/:videoId
+// @desc    Update a video in a module
+// @access  Private (Instructor)
+router.put("/instructor/:courseId/modules/:moduleId/videos/:videoId", protectInstructor, async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		// Check if instructor owns this course
+		if (course.instructorId.toString() !== req.instructor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized to modify this course" });
+		}
+
+		const moduleIndex = course.modules.findIndex(
+			m => m._id.toString() === req.params.moduleId
+		);
+
+		if (moduleIndex === -1) {
+			return res.status(404).json({ message: "Module not found" });
+		}
+
+		const videoIndex = course.modules[moduleIndex].videos.findIndex(
+			v => v._id.toString() === req.params.videoId
+		);
+
+		if (videoIndex === -1) {
+			return res.status(404).json({ message: "Video not found" });
+		}
+
+		const { title, url, publicId, duration, description, order } = req.body;
+
+		if (title) course.modules[moduleIndex].videos[videoIndex].title = title;
+		if (url !== undefined) course.modules[moduleIndex].videos[videoIndex].url = url;
+		if (publicId !== undefined) course.modules[moduleIndex].videos[videoIndex].publicId = publicId;
+		if (duration !== undefined) course.modules[moduleIndex].videos[videoIndex].duration = duration;
+		if (description !== undefined) course.modules[moduleIndex].videos[videoIndex].description = description;
+		if (order) course.modules[moduleIndex].videos[videoIndex].order = order;
+
+		await course.save();
+
+		res.json({ 
+			message: "Video updated successfully", 
+			course,
+			video: course.modules[moduleIndex].videos[videoIndex]
+		});
+	} catch (error) {
+		console.error("Error updating video:", error);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
+// @route   DELETE /api/courses/instructor/:courseId/modules/:moduleId/videos/:videoId
+// @desc    Delete a video from a module
+// @access  Private (Instructor)
+router.delete("/instructor/:courseId/modules/:moduleId/videos/:videoId", protectInstructor, async (req, res) => {
+	try {
+		const course = await Course.findById(req.params.courseId);
+
+		if (!course) {
+			return res.status(404).json({ message: "Course not found" });
+		}
+
+		// Check if instructor owns this course
+		if (course.instructorId.toString() !== req.instructor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized to modify this course" });
+		}
+
+		const moduleIndex = course.modules.findIndex(
+			m => m._id.toString() === req.params.moduleId
+		);
+
+		if (moduleIndex === -1) {
+			return res.status(404).json({ message: "Module not found" });
+		}
+
+		course.modules[moduleIndex].videos = course.modules[moduleIndex].videos.filter(
+			v => v._id.toString() !== req.params.videoId
+		);
+
+		await course.save();
+
+		res.json({ message: "Video deleted successfully", course });
+	} catch (error) {
+		console.error("Error deleting video:", error);
+		res.status(500).json({ message: "Server error", error: error.message });
+	}
+});
+
 export default router;
