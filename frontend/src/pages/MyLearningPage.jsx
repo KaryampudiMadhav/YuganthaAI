@@ -411,9 +411,14 @@ export default function MyLearningPage() {
 												</span>
 											</div>
 										</div>
-										<Link
-											to={`/courses/${course._id}`}
-											className='block w-full px-4 py-3 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 rounded-lg text-center font-semibold transition'>
+											<Link
+												to={`/courses/${course._id}`}
+												className={`block w-full px-4 py-3 rounded-lg text-center font-semibold transition ${
+													progress === 0
+														? "border border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500 hover:text-white"
+														: "bg-blue-500 text-white hover:bg-blue-600"
+												}`}
+>
 											{progress === 0
 												? "Start Course"
 												: progress === 100

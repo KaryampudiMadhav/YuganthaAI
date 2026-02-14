@@ -92,7 +92,7 @@ export default function LandingPage() {
 
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 						{/* Court Booker */}
-						<Link to="/projects/court-booker" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/court-booker" className="bg-[var(--card-bg)] border border-transparent rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/50 group">
 							<div className="mb-6">
 								<img
 									src="/court_booking.png"
@@ -100,16 +100,16 @@ export default function LandingPage() {
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
-							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+							<h3 className="text-xl font-bold text-[var(--text-color)] mb-3 transition-colors">
 								Court Booker
 							</h3>
-							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+							<p className="text-sm text-[var(--text-muted)] leading-relaxed transition-colors">
 								Smart booking system for sports courts and recreational facilities.
 							</p>
 						</Link>
 
 						{/* AI Agent Avatar */}
-						<Link to="/projects/ai-agent-avatar" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/ai-agent-avatar" className="bg-[var(--card-bg)] border border-transparent rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/50 group">
 							<div className="mb-6">
 								<img
 									src="https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=400&h=300&fit=crop"
@@ -117,16 +117,16 @@ export default function LandingPage() {
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
-							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+							<h3 className="text-xl font-bold text-[var(--text-color)] mb-3 transition-colors">
 								AI Agent Avatar
 							</h3>
-							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+							<p className="text-sm text-[var(--text-muted)] leading-relaxed transition-colors">
 								Interactive 3D avatars powered by advanced AI for immersive experiences.
 							</p>
 						</Link>
 
 						{/* HVAC Agent */}
-						<Link to="/projects/hvac-agent" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/hvac-agent" className="bg-[var(--card-bg)] border border-transparent rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/50 group">
 							<div className="mb-6">
 								<img
 									src="/HVACimg.png"
@@ -134,16 +134,16 @@ export default function LandingPage() {
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
-							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+							<h3 className="text-xl font-bold text-[var(--text-color)] mb-3 transition-colors">
 								HVAC Agent
 							</h3>
-							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+							<p className="text-sm text-[var(--text-muted)] leading-relaxed transition-colors">
 								Intelligent climate control systems optimization using AI.
 							</p>
 						</Link>
 
 						{/* AI Learning Platform */}
-						<Link to="/projects/ai-learning-platform" className="bg-[var(--card-bg)] rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]">
+						<Link to="/projects/ai-learning-platform" className="bg-[var(--card-bg)] border border-transparent rounded-3xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/50 group">
 							<div className="mb-6">
 								<img
 									src="https://images.unsplash.com/photo-1501504905252-473c47e087f8?w=400&h=300&fit=crop"
@@ -151,10 +151,10 @@ export default function LandingPage() {
 									className="w-full h-40 object-cover rounded-2xl"
 								/>
 							</div>
-							<h3 className="text-xl font-bold text-gray-900 group-hover:text-white mb-3 transition-colors">
+							<h3 className="text-xl font-bold text-[var(--text-color)] mb-3 transition-colors">
 								AI Learning Platform
 							</h3>
-							<p className="text-sm text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors">
+							<p className="text-sm text-[var(--text-muted)] leading-relaxed transition-colors">
 								Next-generation educational platform personalized with AI.
 							</p>
 						</Link>
@@ -186,10 +186,10 @@ export default function LandingPage() {
 						<div className="grid grid-cols-1 md:grid-cols-3 gap-8">
 							{courses.map((course) => (
 								<Link
-									key={course._id}
-									to={`/course-details/${course._id}`}
-									className="bg-[var(--card-bg)] rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 group hover:bg-gradient-to-br hover:from-[#2563EB] hover:to-[#1E40AF]"
-								>
+										key={course._id}
+										to={`/course-details/${course._id}`}
+										className="bg-[var(--card-bg)] border border-transparent rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 hover:border-blue-500/50 group"
+									>
 									<div className="mb-6 h-48 overflow-hidden rounded-2xl">
 										{course.thumbnail ? (
 											<img
@@ -203,14 +203,14 @@ export default function LandingPage() {
 											</div>
 										)}
 									</div>
-									<h3 className="text-2xl font-bold text-gray-900 group-hover:text-white mb-4 transition-colors line-clamp-2">
+										<h3 className="text-2xl font-bold text-[var(--text-color)] mb-4 transition-colors line-clamp-2">
 										{course.title}
 									</h3>
-									<p className="text-gray-600 group-hover:text-white/90 leading-relaxed transition-colors line-clamp-3">
+										<p className="text-[var(--text-muted)] leading-relaxed transition-colors line-clamp-3">
 										{course.description}
 									</p>
-									<div className="mt-6 pt-4 border-t border-gray-100 group-hover:border-white/20 flex items-center justify-between">
-										<span className="text-sm font-semibold text-[#A855F7] group-hover:text-white">View Details &rarr;</span>
+										<div className="mt-6 pt-4 border-t border-[var(--border-color)] flex items-center justify-between">
+											<span className="text-sm font-semibold text-blue-500">View Details &rarr;</span>
 									</div>
 								</Link>
 							))}

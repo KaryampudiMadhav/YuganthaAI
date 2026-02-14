@@ -300,7 +300,7 @@ export default function InstructorDashboard() {
 													onClick={() =>
 														handleEdit(course)
 													}
-													className='p-2 bg-blue-600 hover:bg-blue-700 rounded-lg transition duration-200'>
+													className='p-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition duration-200'>
 													<svg
 														className='w-4 h-4'
 														fill='none'

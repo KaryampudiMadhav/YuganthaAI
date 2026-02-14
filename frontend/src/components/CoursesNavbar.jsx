@@ -35,7 +35,7 @@ export default function CoursesNavbar() {
 	};
 
 	return (
-		<nav className='bg-[var(--card-bg)] backdrop-blur-lg text-[var(--text-color)] px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-[0_8px_32px_rgba(139,92,246,0.15)] border-b border-[var(--border-color)] transition-colors duration-300'>
+		<nav className='bg-[var(--card-bg)] backdrop-blur-lg text-[var(--text-color)] px-4 md:px-6 py-4 fixed w-full top-0 z-50 shadow-[0_8px_32px_rgba(59,130,246,0.15)] border-b border-[var(--border-color)] transition-colors duration-300'>
 			<div className='max-w-7xl mx-auto flex items-center justify-between'>
 				{/* Logo */}
 				<Link to='/' className='flex items-center space-x-2 group'>
@@ -46,7 +46,7 @@ export default function CoursesNavbar() {
 					/>
 					<div className='text-lg md:text-xl font-bold'>
 						<span className='text-white'>Yuganta</span>
-						<span className='text-[#A855F7]'>AI</span>
+						<span className='text-[#3B82F6]'>AI</span>
 					</div>
 				</Link>
 
@@ -58,7 +58,7 @@ export default function CoursesNavbar() {
 								key={item.label}
 								to={item.to}
 								onClick={handleNavClick}
-								className='text-xs font-semibold uppercase tracking-wide text-[#C7C3D6] hover:text-[#A855F7] transition-all duration-200 whitespace-nowrap relative after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#A855F7] after:transition-all after:duration-300 hover:after:w-full'>
+								className='text-xs font-semibold uppercase tracking-wide text-[#C7C3D6] hover:text-[#3B82F6] transition-all duration-200 whitespace-nowrap relative after:content-[""] after:absolute after:bottom-[-4px] after:left-0 after:w-0 after:h-[2px] after:bg-[#3B82F6] after:transition-all after:duration-300 hover:after:w-full'>
 								{item.label}
 							</Link>
 						))}
@@ -69,7 +69,7 @@ export default function CoursesNavbar() {
 				<div className='hidden md:flex items-center gap-4'>
 					<button
 						onClick={toggleTheme}
-						className='p-2 rounded-lg border border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] transition-colors'
+						className='p-2 rounded-lg border border-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] transition-colors'
 						aria-label='Toggle Theme'
 						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
@@ -111,8 +111,8 @@ export default function CoursesNavbar() {
 						<div className='relative'>
 							<button
 								onClick={() => setShowProfileMenu(!showProfileMenu)}
-								className='flex items-center space-x-3 px-4 py-2 border border-[#8B5CF6] rounded-xl hover:bg-[rgba(139,92,246,0.1)] transition-all duration-200'>
-								<div className='w-8 h-8 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] rounded-full flex items-center justify-center text-white font-semibold'>
+								className='flex items-center space-x-3 px-4 py-2 border border-[#3B82F6] rounded-xl hover:bg-[rgba(59,130,246,0.1)] transition-all duration-200'>
+								<div className='w-8 h-8 bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] rounded-full flex items-center justify-center text-white font-semibold'>
 									{user?.name?.charAt(0).toUpperCase() || 'U'}
 								</div>
 								<span className='text-sm font-medium'>{user?.name}</span>
@@ -126,25 +126,25 @@ export default function CoursesNavbar() {
 							</button>
 
 							{showProfileMenu && (
-								<div className='absolute right-0 mt-2 w-64 bg-[#1a0f2e] border border-[rgba(139,92,246,0.3)] rounded-xl shadow-xl py-2 z-50'>
+								<div className='absolute right-0 mt-2 w-64 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-xl shadow-lg py-2 z-50'>
 									<Link
 										to='/profile'
-										className='block px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										className='block px-4 py-3 text-sm text-[var(--text-color)] hover:bg-[var(--card-bg-hover)] hover:text-blue-500 transition-colors'>
 										Profile
 									</Link>
 									<Link
 										to='/my-learning'
-										className='block px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										className='block px-4 py-3 text-sm text-[var(--text-color)] hover:bg-[var(--card-bg-hover)] hover:text-blue-500 transition-colors'>
 										My Learning
 									</Link>
 									<Link
 										to='/mentorships'
-										className='block px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										className='block px-4 py-3 text-sm text-[var(--text-color)] hover:bg-[var(--card-bg-hover)] hover:text-blue-500 transition-colors'>
 										My Mentorships
 									</Link>
 									<button
 										onClick={handleLogout}
-										className='w-full text-left px-4 py-3 text-sm text-[#C7C3D6] hover:bg-[rgba(139,92,246,0.1)] hover:text-[#A855F7] transition-colors'>
+										className='w-full text-left px-4 py-3 text-sm text-red-500 hover:bg-red-500/10 transition-colors'>
 										Logout
 									</button>
 								</div>
@@ -154,12 +154,12 @@ export default function CoursesNavbar() {
 						<>
 							<Link
 								to='/login'
-								className='px-6 py-2 text-sm font-semibold text-[#C7C3D6] hover:text-[#A855F7] transition-colors'>
+								className='px-6 py-2 text-sm font-semibold text-[#C7C3D6] hover:text-[#3B82F6] transition-colors'>
 								Login
 							</Link>
 							<Link
 								to='/signup'
-								className='px-6 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] rounded-xl text-sm font-semibold hover:shadow-[0_0_20px_rgba(139,92,246,0.5)] transition-all duration-200'>
+								className='px-6 py-2 bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] rounded-xl text-sm font-semibold hover:shadow-[0_0_20px_rgba(59,130,246,0.5)] transition-all duration-200'>
 								Sign Up
 							</Link>
 						</>
@@ -170,7 +170,7 @@ export default function CoursesNavbar() {
 				<div className='md:hidden flex items-center gap-2'>
 					<button
 						onClick={toggleTheme}
-						className='p-2 rounded-lg border border-[#8B5CF6] hover:bg-[rgba(139,92,246,0.1)] transition-colors'
+						className='p-2 rounded-lg border border-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] transition-colors'
 						aria-label='Toggle Theme'
 						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
 					>
@@ -178,7 +178,7 @@ export default function CoursesNavbar() {
 					</button>
 					<button
 						onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-						className='p-2 rounded-lg hover:bg-[rgba(139,92,246,0.1)] transition-colors'>
+						className='p-2 rounded-lg hover:bg-[rgba(59,130,246,0.1)] transition-colors'>
 						<svg className='w-6 h-6' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
 							{mobileMenuOpen ? (
 								<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M6 18L18 6M6 6l12 12' />
@@ -192,14 +192,14 @@ export default function CoursesNavbar() {
 
 			{/* Mobile Menu */}
 			{mobileMenuOpen && (
-				<div className='md:hidden mt-4 pb-4 border-t border-[rgba(139,92,246,0.2)]'>
+				<div className='md:hidden mt-4 pb-4 border-t border-[rgba(59,130,246,0.2)]'>
 					<div className='flex flex-col space-y-2 mt-4'>
 						{navItems.map((item) => (
 							<Link
 								key={item.label}
 								to={item.to}
 								onClick={handleNavClick}
-								className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+								className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] rounded-lg transition-all'>
 								{item.label}
 							</Link>
 						))}
@@ -208,24 +208,24 @@ export default function CoursesNavbar() {
 								<Link
 									to='/profile'
 									onClick={handleNavClick}
-									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] rounded-lg transition-all'>
 									Profile
 								</Link>
 								<Link
 									to='/my-learning'
 									onClick={handleNavClick}
-									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] rounded-lg transition-all'>
 									My Learning
 								</Link>
 								<Link
 									to='/mentorships'
 									onClick={handleNavClick}
-									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] rounded-lg transition-all'>
 									My Mentorships
 								</Link>
 								<button
 									onClick={handleLogout}
-									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all text-left'>
+									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] rounded-lg transition-all text-left'>
 									Logout
 								</button>
 							</>
@@ -234,13 +234,13 @@ export default function CoursesNavbar() {
 								<Link
 									to='/login'
 									onClick={handleNavClick}
-									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] rounded-lg transition-all'>
+									className='px-4 py-2 text-sm text-[#C7C3D6] hover:text-[#3B82F6] hover:bg-[rgba(59,130,246,0.1)] rounded-lg transition-all'>
 									Login
 								</Link>
 								<Link
 									to='/signup'
 									onClick={handleNavClick}
-									className='mx-4 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] rounded-xl text-sm font-semibold text-center'>
+									className='mx-4 py-2 bg-gradient-to-r from-[#3B82F6] to-[#60A5FA] rounded-xl text-sm font-semibold text-center'>
 									Sign Up
 								</Link>
 							</>

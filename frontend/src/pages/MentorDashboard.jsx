@@ -394,7 +394,7 @@ export default function MentorDashboard() {
 																setRescheduleSessionId(session._id);
 																setShowRescheduleModal(true);
 															}}
-															className='flex-1 px-3 py-1.5 bg-blue-600 hover:bg-blue-700 rounded-lg transition text-sm font-medium'>
+															className='flex-1 px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition text-sm font-medium'>
 															Reschedule
 														</button>
 

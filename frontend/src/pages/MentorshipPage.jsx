@@ -123,7 +123,7 @@ export default function MentorshipPage() {
       </div>
       <Link
         to="/mentorships/book"
-        className="px-5 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition">
+        className="px-5 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition">
         Book Session
       </Link>
     </div>
@@ -206,10 +206,10 @@ export default function MentorshipPage() {
             setSelectedSession(session);
             setShowDetailsModal(true);
           }}
-          className="px-4 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition">
+          className="px-4 py-2 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition">
           Join / Details
         </button>
-        <button className="px-4 py-2 border border-white/10 rounded-lg text-sm text-gray-200 hover:bg-white/5 transition">
+        <button className="px-4 py-2 border border-[var(--border-color)] rounded-lg text-sm text-[var(--text-color)] hover:bg-[var(--card-bg-hover)] transition">
           Reschedule
         </button>
       </div>
@@ -252,7 +252,7 @@ export default function MentorshipPage() {
               <h1 className="text-3xl font-bold">My Mentorship Progress</h1>
               <Link
                 to="/mentorships/book"
-                className="px-5 py-3 bg-white text-black rounded-lg font-semibold hover:bg-gray-200 transition shrink-0 text-center md:text-left">
+                className="px-5 py-3 bg-blue-500 text-white rounded-lg font-semibold hover:bg-blue-600 transition shrink-0 text-center md:text-left">
                 Book Session
               </Link>
             </div>
@@ -260,21 +260,21 @@ export default function MentorshipPage() {
 
           {/* Assigned Instructor Card */}
           {assignedInstructor && (
-            <div className="bg-gradient-to-r from-blue-600/20 via-purple-600/20 to-pink-600/20 border border-blue-500/40 rounded-2xl p-8 shadow-lg">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-8 transition-colors duration-300">
               <div className="flex items-start justify-between gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <p className="text-xs text-blue-300 uppercase tracking-widest font-bold">Assigned Instructor</p>
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <p className="text-xs text-[var(--text-muted)] uppercase tracking-widest font-bold">Assigned Instructor</p>
                   </div>
-                  <h2 className="text-3xl font-bold text-white mb-2">{assignedInstructor.name}</h2>
-                  <p className="text-blue-200 font-semibold text-lg mb-3">{assignedInstructor.expertise}</p>
+                  <h2 className="text-3xl font-bold text-[var(--text-color)] mb-2">{assignedInstructor.name}</h2>
+                  <p className="text-[var(--text-muted)] font-semibold text-lg mb-3">{assignedInstructor.expertise}</p>
                   {assignedInstructor.bio && (
-                    <p className="text-gray-300 text-sm leading-relaxed">{assignedInstructor.bio}</p>
+                    <p className="text-[var(--text-muted)] text-sm leading-relaxed">{assignedInstructor.bio}</p>
                   )}
                   <div className="mt-4">
-                    <p className="text-xs text-blue-300 uppercase tracking-wider font-semibold mb-2">Contact</p>
-                    <a href={`mailto:${assignedInstructor.email}`} className="text-blue-300 hover:text-blue-200 transition text-sm">
+                    <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider font-semibold mb-2">Contact</p>
+                    <a href={`mailto:${assignedInstructor.email}`} className="text-blue-600 hover:text-blue-700 transition text-sm">
                       {assignedInstructor.email}
                     </a>
                   </div>
@@ -284,7 +284,7 @@ export default function MentorshipPage() {
                     <img
                       src={assignedInstructor.avatar}
                       alt={assignedInstructor.name}
-                      className="w-24 h-24 rounded-xl object-cover border-2 border-blue-500/50"
+                      className="w-24 h-24 rounded-xl object-cover border border-[var(--border-color)]"
                     />
                   </div>
                 )}
@@ -294,21 +294,21 @@ export default function MentorshipPage() {
 
           {/* Assigned Mentor Card */}
           {assignedMentor ? (
-            <div className="bg-gradient-to-r from-purple-600/20 via-pink-600/20 to-rose-600/20 border border-purple-500/40 rounded-2xl p-8 shadow-lg">
+            <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-8 transition-colors duration-300">
               <div className="flex items-start justify-between gap-6">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                    <p className="text-xs text-purple-300 uppercase tracking-widest font-bold">Assigned Mentor</p>
+                    <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                    <p className="text-xs text-[var(--text-muted)] uppercase tracking-widest font-bold">Assigned Mentor</p>
                   </div>
-                  <h2 className="text-3xl font-bold text-white mb-2">{assignedMentor.name}</h2>
-                  <p className="text-purple-200 font-semibold text-lg mb-3">{assignedMentor.expertise}</p>
+                  <h2 className="text-3xl font-bold text-[var(--text-color)] mb-2">{assignedMentor.name}</h2>
+                  <p className="text-[var(--text-muted)] font-semibold text-lg mb-3">{assignedMentor.expertise}</p>
                   {assignedMentor.bio && (
-                    <p className="text-gray-300 text-sm leading-relaxed">{assignedMentor.bio}</p>
+                    <p className="text-[var(--text-muted)] text-sm leading-relaxed">{assignedMentor.bio}</p>
                   )}
                   <div className="mt-4">
-                    <p className="text-xs text-purple-300 uppercase tracking-wider font-semibold mb-2">Contact</p>
-                    <a href={`mailto:${assignedMentor.email}`} className="text-purple-300 hover:text-purple-200 transition text-sm">
+                    <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider font-semibold mb-2">Contact</p>
+                    <a href={`mailto:${assignedMentor.email}`} className="text-blue-600 hover:text-blue-700 transition text-sm">
                       {assignedMentor.email}
                     </a>
                   </div>
@@ -318,7 +318,7 @@ export default function MentorshipPage() {
                     <img
                       src={assignedMentor.avatar}
                       alt={assignedMentor.name}
-                      className="w-24 h-24 rounded-xl object-cover border-2 border-purple-500/50"
+                      className="w-24 h-24 rounded-xl object-cover border border-[var(--border-color)]"
                     />
                   </div>
                 )}
@@ -326,15 +326,15 @@ export default function MentorshipPage() {
             </div>
           ) : (
             !assignedInstructor && (
-              <div className="bg-yellow-600/10 border border-yellow-500/40 rounded-2xl p-8">
+              <div className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-2xl p-8 transition-colors duration-300">
                 <div className="flex items-start justify-between gap-4">
                   <div>
-                    <p className="text-xs text-yellow-300 uppercase tracking-widest font-bold mb-2">Mentor Assignment Status</p>
-                    <h3 className="text-2xl font-bold text-yellow-200 mb-2">No Mentor Assigned Yet</h3>
-                    <p className="text-gray-300 text-sm mb-4">
+                    <p className="text-xs text-[var(--text-muted)] uppercase tracking-widest font-bold mb-2">Mentor Assignment Status</p>
+                    <h3 className="text-2xl font-bold text-[var(--text-color)] mb-2">No Mentor Assigned Yet</h3>
+                    <p className="text-[var(--text-muted)] text-sm mb-4">
                       An admin will assign you a mentor soon. You'll receive a notification once your mentor is assigned.
                     </p>
-                    <p className="text-xs text-yellow-300 uppercase tracking-wider font-semibold">
+                    <p className="text-xs text-[var(--text-muted)] uppercase tracking-wider font-semibold">
                       ⏱️ Pending Assignment
                     </p>
                   </div>
@@ -507,7 +507,7 @@ export default function MentorshipPage() {
                     href={selectedSession.meetingLink}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex-1 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-semibold transition text-center">
+                    className="flex-1 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white rounded-lg font-semibold transition text-center">
                     Join Meeting Now
                   </a>
                 ) : (

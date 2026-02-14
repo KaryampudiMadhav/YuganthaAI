@@ -137,7 +137,7 @@ export default function CoursesPage() {
 						{/* Left Content */}
 						<div className='flex-1'>
 							<h1 className='text-4xl md:text-6xl font-bold mb-6'>
-								<span className='bg-gradient-to-r from-[#A855F7] via-[#EC4899] to-[#D946EF] bg-clip-text text-transparent'>
+								<span className='bg-gradient-to-r from-[#2373f3] via-[#549ffb] to-[#6caffb] bg-clip-text text-transparent'>
 									Courses
 								</span>
 							</h1>
@@ -382,11 +382,21 @@ export default function CoursesPage() {
 												</div>
 
 												{/* Enroll Button */}
-												<Link
-													to={`/course-details/${course._id}`}
-													className={`block w-full text-center py-3 rounded-lg font-semibold transition duration-300 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)]`}>
-													View Roadmap
-												</Link>
+												{(() => {
+													const isEnrolled = enrolledCourseIds.includes(course._id);
+													return (
+														<Link
+															to={isEnrolled ? "/my-learning" : `/course-details/${course._id}`}
+															className={`block w-full text-center py-3 rounded-lg font-semibold transition duration-300 ${
+																isEnrolled
+																	? "bg-blue-500 text-white hover:bg-blue-600"
+																	: "border border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500 hover:text-white"
+															}`}
+														>
+															{isEnrolled ? "Resume Learning" : "View Roadmap"}
+														</Link>
+													);
+												})()}
 											</div>
 										</div>
 									))}

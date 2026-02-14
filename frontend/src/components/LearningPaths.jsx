@@ -34,7 +34,7 @@ export default function LearningPaths() {
 						</p>
 						<button
 							onClick={() => navigate('/courses')}
-							className='bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white px-8 py-3.5 rounded-xl font-semibold transition-all duration-200 shadow-[0_4px_24px_rgba(139,92,246,0.4)] hover:shadow-[0_8px_40px_rgba(139,92,246,0.6)] hover:-translate-y-1'>
+							className='border border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500 hover:text-white px-8 py-3.5 rounded-xl font-semibold transition-all duration-200'>
 							Get Started for FREE
 						</button>
 					</div>

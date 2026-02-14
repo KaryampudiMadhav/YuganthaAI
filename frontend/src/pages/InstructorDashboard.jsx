@@ -646,83 +646,128 @@ export default function InstructorDashboard() {
 					</div>
 
 					{/* Courses Table */}
-					<div className='overflow-x-auto'>
-						<table className='w-full text-left text-[#C7C3D6]'>
-							<thead className='border-b border-[rgba(139,92,246,0.2)] bg-[rgba(139,92,246,0.05)]'>
-								<tr>
-									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
-										Course
-									</th>
-									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
-										Level
-									</th>
-									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
-										Modules
-									</th>
-									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
-										Price
-									</th>
-									<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
-										Actions
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								{courses.map((course) => (
-									<tr
-										key={course._id}
-										className='border-b border-[rgba(139,92,246,0.1)] hover:bg-[rgba(139,92,246,0.05)] transition-colors duration-200'>
-										<td className='py-5 px-6'>
-											<div className='flex items-center space-x-4'>
-												<img
-													src={
-														course.thumbnail ||
-														"https://via.placeholder.com/60"
-													}
-													alt={course.title}
-													className='w-14 h-14 rounded-lg object-cover border border-[rgba(139,92,246,0.2)] shadow-[0_4px_12px_rgba(0,0,0,0.3)]'
-												/>
-												<div>
-													<div className='font-semibold text-white'>
-														{course.title}
-													</div>
-													<div className='text-xs text-[#9A93B5] mt-1'>
-														{course.category}
+					{courses.length === 0 ? (
+						<div className='text-center py-16 border-2 border-dashed border-[rgba(139,92,246,0.2)] rounded-xl'>
+							<svg
+								className='w-20 h-20 mx-auto text-[#A855F7] opacity-50 mb-4'
+								fill='none'
+								stroke='currentColor'
+								viewBox='0 0 24 24'>
+								<path
+									strokeLinecap='round'
+									strokeLinejoin='round'
+									strokeWidth={1.5}
+									d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'
+								/>
+							</svg>
+							<h3 className='text-xl font-bold text-white mb-2'>
+								No Courses Yet
+							</h3>
+							<p className='text-[#C7C3D6] mb-6'>
+								Create your first course to start teaching
+							</p>
+							<button
+								onClick={() => {
+									resetFormData();
+									setFormData({
+										title: "",
+										description: "",
+										instructor: instructor?.name || "",
+										duration: "",
+										level: "Beginner",
+										price: "Free",
+										thumbnail: "",
+										category: "AI & ML",
+										videoUrl: "",
+										videoPublicId: "",
+										brochureLink: "",
+										modules: [],
+									});
+									setShowAddModal(true);
+								}}
+								className='px-6 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_16px_rgba(139,92,246,0.3)] hover:shadow-[0_6px_24px_rgba(139,92,246,0.5)] inline-flex items-center space-x-2'>
+								<svg
+									className='w-5 h-5'
+									fill='none'
+									stroke='currentColor'
+									viewBox='0 0 24 24'>
+									<path
+										strokeLinecap='round'
+										strokeLinejoin='round'
+										strokeWidth={2.5}
+										d='M12 4v16m8-8H4'
+									/>
+								</svg>
+								<span>Create Your First Course</span>
+							</button>
+						</div>
+					) : (
+						<div className='overflow-x-auto'>
+							<table className='w-full text-left text-[#C7C3D6]'>
+								<thead className='border-b border-[rgba(139,92,246,0.2)] bg-[rgba(139,92,246,0.05)]'>
+									<tr>
+										<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
+											Course
+										</th>
+										<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
+											Level
+										</th>
+										<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
+											Modules
+										</th>
+										<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
+											Students
+										</th>
+										<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
+											Price
+										</th>
+										<th className='pb-4 px-6 text-white font-semibold text-sm uppercase tracking-wide'>
+											Actions
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									{courses.map((course) => (
+										<tr
+											key={course._id}
+											className='border-b border-[rgba(139,92,246,0.1)] hover:bg-[rgba(139,92,246,0.05)] transition-colors duration-200'>
+											<td className='py-5 px-6'>
+												<div className='flex items-center space-x-4'>
+													<img
+														src={
+															course.thumbnail ||
+															"https://via.placeholder.com/60"
+														}
+														alt={course.title}
+														className='w-14 h-14 rounded-lg object-cover border border-[rgba(139,92,246,0.2)] shadow-[0_4px_12px_rgba(0,0,0,0.3)]'
+													/>
+													<div>
+														<div className='font-semibold text-white'>
+															{course.title}
+														</div>
+														<div className='text-xs text-[#9A93B5] mt-1'>
+															{course.category}
+														</div>
 													</div>
 												</div>
-											</div>
-										</td>
-										<td className='py-4 px-4'>
-											<span
-												className={`px-2 py-1 rounded-full text-xs ${
-													course.level === "Beginner"
-														? "bg-green-500/20 text-green-300"
-														: course.level ===
-															  "Intermediate"
-															? "bg-[rgba(168,85,247,0.2)] text-[#A855F7]"
-															: "bg-[rgba(236,72,153,0.2)] text-[#EC4899]"
-												}`}>
-												{course.level}
-											</span>
-										</td>
-										<td className='py-4 px-4 text-gray-300'>
-											{course.modules?.length || 0}{" "}
-											modules
-										</td>
-										<td className='py-4 px-4 text-gray-300'>
-											{course.price === "Free"
-												? "Free"
-												: `$${course.price}`}
-										</td>
-										<td className='py-4 px-4'>
-											<div className='flex space-x-2'>
-												<button
-													onClick={() =>
-														handleEdit(course)
-													}
-													className='p-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] rounded-lg transition-all duration-300 shadow-[0_2px_8px_rgba(139,92,246,0.3)]'>
+											</td>
+											<td className='py-4 px-4'>
+												<span
+													className={`px-3 py-1 rounded-full text-xs font-semibold ${
+														course.level === "Beginner"
+															? "bg-green-500/20 text-green-300 border border-green-500/30"
+															: course.level ===
+																  "Intermediate"
+																? "bg-[rgba(168,85,247,0.2)] text-[#A855F7] border border-[rgba(168,85,247,0.3)]"
+																: "bg-[rgba(236,72,153,0.2)] text-[#EC4899] border border-[rgba(236,72,153,0.3)]"
+													}`}>
+													{course.level}
+												</span>
+											</td>
+											<td className='py-4 px-4'>
+												<div className='flex items-center space-x-2'>
 													<svg
-														className='w-4 h-4 text-white'
+														className='w-4 h-4 text-[#A855F7]'
 														fill='none'
 														stroke='currentColor'
 														viewBox='0 0 24 24'>
@@ -730,9 +775,60 @@ export default function InstructorDashboard() {
 															strokeLinecap='round'
 															strokeLinejoin='round'
 															strokeWidth={2}
-															d='M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z'
+															d='M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10'
 														/>
 													</svg>
+													<span className='text-white font-medium'>
+														{course.modules?.length || 0}
+													</span>
+												</div>
+											</td>
+											<td className='py-4 px-4'>
+												<div className='flex items-center space-x-2'>
+													<svg
+														className='w-4 h-4 text-[#EC4899]'
+														fill='none'
+														stroke='currentColor'
+														viewBox='0 0 24 24'>
+														<path
+															strokeLinecap='round'
+															strokeLinejoin='round'
+															strokeWidth={2}
+															d='M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z'
+														/>
+													</svg>
+													<span className='text-white font-medium'>
+														{course.students || 0}
+													</span>
+												</div>
+											</td>
+											<td className='py-4 px-4'>
+												<span className='px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/20 text-blue-300 border border-blue-500/30'>
+													{course.price === "Free"
+														? "Free"
+														: `$${course.price}`}
+												</span>
+											</td>
+											<td className='py-4 px-4'>
+												<div className='flex space-x-2'>
+													<button
+														onClick={() =>
+															handleEdit(course)
+														}
+														className='p-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] rounded-lg transition-all duration-300 shadow-[0_2px_8px_rgba(139,92,246,0.3)] group'
+														title='Edit course and manage modules'>
+														<svg
+															className='w-4 h-4 text-white group-hover:scale-110 transition-transform'
+															fill='none'
+															stroke='currentColor'
+															viewBox='0 0 24 24'>
+															<path
+																strokeLinecap='round'
+																strokeLinejoin='round'
+																strokeWidth={2}
+																d='M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z'
+															/>
+														</svg>
 												</button>
 												<button
 													onClick={() =>
@@ -759,11 +855,12 @@ export default function InstructorDashboard() {
 							</tbody>
 						</table>
 					</div>
-				</div>
+				)}
+			</div>
 
-				{/* Mentorship Sessions Section */}
-				<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)] mt-10'>
-					<div className='flex items-center justify-between mb-8'>
+			{/* Mentorship Sessions Section */}
+			<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)] mt-10'>
+				<div className='flex items-center justify-between mb-8'>
 						<div>
 							<h2 className='text-2xl font-bold text-white mb-1'>
 								My Mentorship Sessions

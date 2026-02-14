@@ -135,7 +135,7 @@ export default function FreeCourses() {
 											e.stopPropagation();
 											navigate(`/course-details/${course._id}`);
 										}}
-										className='w-full px-4 py-2 rounded-xl font-semibold transition-all duration-200 bg-gradient-to-r from-[#8B5CF6] to-[#EC4899] hover:from-[#A855F7] hover:to-[#D946EF] text-white shadow-[0_4px_20px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_28px_rgba(139,92,246,0.6)] hover:scale-105'>
+										className='w-full px-4 py-2 rounded-xl font-semibold transition-all duration-200 border border-blue-500 text-blue-500 bg-transparent hover:bg-blue-500 hover:text-white'>
 										View Roadmap
 									</button>
 								</div>
