@@ -36,7 +36,9 @@ export default function InstructorForgotPasswordPage() {
 				return;
 			}
 
-			setMessage(data.message);
+			setMessage(
+				`${data.message} If you don't see it, please check your Spam or Junk folder.`
+			);
 			setStep(2);
 		} catch (err) {
 			setError("Network error. Please try again.");
@@ -50,11 +52,21 @@ export default function InstructorForgotPasswordPage() {
 		e.preventDefault();
 		setError("");
 
-		if (!otp || otp.length !== 6) {
+		// Trim and validate OTP
+		const trimmedOtp = otp.trim();
+		
+		if (!trimmedOtp || trimmedOtp.length !== 6) {
 			setError("Please enter a valid 6-digit OTP");
 			return;
 		}
 
+		if (!/^\d{6}$/.test(trimmedOtp)) {
+			setError("OTP must contain only numbers");
+			return;
+		}
+
+		// Store trimmed OTP and proceed
+		setOtp(trimmedOtp);
 		setStep(3);
 		setMessage("");
 	};
@@ -81,7 +93,7 @@ export default function InstructorForgotPasswordPage() {
 				{
 					method: "POST",
 					headers: { "Content-Type": "application/json" },
-					body: JSON.stringify({ email, otp, password }),
+					body: JSON.stringify({ email, otp: otp.trim(), password }),
 				}
 			);
 

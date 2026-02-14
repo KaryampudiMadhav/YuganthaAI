@@ -9,6 +9,7 @@ export default function AdminInstructorManagement() {
   const [instructors, setInstructors] = useState([]);
   const [form, setForm] = useState({ name: "", expertise: "", email: "", bio: "" });
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState({});
 
   useEffect(() => {
     const authed = localStorage.getItem("adminAuthed") === "true";
@@ -75,7 +76,7 @@ export default function AdminInstructorManagement() {
       }
 
       const data = await response.json();
-      setInstructors((prev) => [data, ...prev]);
+      setInstructors((prev) => [data.instructor, ...prev]);
       setForm({ name: "", expertise: "", email: "", bio: "" });
       toast.success("Instructor created successfully! They can now setup their password using the forgot password link.");
     } catch (error) {
@@ -85,10 +86,22 @@ export default function AdminInstructorManagement() {
   };
 
   const handleDelete = async (id) => {
+    if (!id) {
+      console.error("Instructor ID is missing");
+      toast.error("Invalid instructor ID");
+      return;
+    }
+
     if (!confirm("Are you sure you want to delete this instructor?")) return;
 
+    setActionLoading((prev) => ({ ...prev, [id]: true }));
     try {
       const token = localStorage.getItem("adminToken");
+      if (!token) {
+        handleLogout();
+        return;
+      }
+
       const response = await fetch(`${API_URL}/api/admin/instructors/${id}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
@@ -99,7 +112,8 @@ export default function AdminInstructorManagement() {
           handleLogout();
           return;
         }
-        throw new Error("Failed to delete instructor");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to delete instructor");
       }
 
       setInstructors((prev) => prev.filter((i) => i._id !== id));
@@ -107,12 +121,26 @@ export default function AdminInstructorManagement() {
     } catch (error) {
       console.error("Delete error:", error);
       toast.error("Failed to delete instructor");
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [id]: false }));
     }
   };
 
   const handleToggleActive = async (id, currentActive) => {
+    if (!id) {
+      console.error("Instructor ID is missing");
+      toast.error("Invalid instructor ID");
+      return;
+    }
+
+    setActionLoading((prev) => ({ ...prev, [id]: true }));
     try {
       const token = localStorage.getItem("adminToken");
+      if (!token) {
+        handleLogout();
+        return;
+      }
+
       const toggleEndpoint = currentActive ? "deactivate" : "activate";
       const response = await fetch(
         `${API_URL}/api/admin/instructors/${id}/${toggleEndpoint}`,
@@ -129,7 +157,8 @@ export default function AdminInstructorManagement() {
           handleLogout();
           return;
         }
-        throw new Error("Failed to update");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to update");
       }
 
       const updated = await response.json();
@@ -138,6 +167,8 @@ export default function AdminInstructorManagement() {
     } catch (error) {
       console.error("Update error:", error);
       toast.error("Failed to update instructor status");
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [id]: false }));
     }
   };
 
@@ -265,7 +296,7 @@ export default function AdminInstructorManagement() {
                 <p className="text-center py-12 text-[#9A93B5]">No instructors yet. Add one above to get started.</p>
               ) : (
                 instructors.map((item) => (
-                  <div key={item._id} className="py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[rgba(139,92,246,0.05)] px-4 rounded-lg transition duration-300">
+                  <div key={item._id || Math.random()} className="py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 hover:bg-[rgba(139,92,246,0.05)] px-4 rounded-lg transition duration-300">
                     <div className="flex-1 min-w-0">
                       <p className="text-lg font-semibold text-white truncate">{item.name}</p>
                       <p className="text-sm text-[#A855F7] font-medium">{item.expertise}</p>
@@ -281,12 +312,24 @@ export default function AdminInstructorManagement() {
                       </span>
                       <button
                         onClick={() => handleToggleActive(item._id, item.active)}
-                        className="px-4 py-2 rounded-lg bg-transparent border border-[#8B5CF6] text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(139,92,246,0.3)]">
+                        disabled={actionLoading[item._id]}
+                        className="px-4 py-2 rounded-lg bg-transparent border border-[#8B5CF6] text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(139,92,246,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        {actionLoading[item._id] ? (
+                          <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        ) : null}
                         {item.active ? "Deactivate" : "Activate"}
                       </button>
                       <button
                         onClick={() => handleDelete(item._id)}
-                        className="px-4 py-2 rounded-lg bg-transparent border border-[#EC4899] text-[#EC4899] hover:bg-[rgba(236,72,153,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(236,72,153,0.3)]">
+                        disabled={actionLoading[item._id]}
+                        className="px-4 py-2 rounded-lg bg-transparent border border-[#EC4899] text-[#EC4899] hover:bg-[rgba(236,72,153,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(236,72,153,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        {actionLoading[item._id] ? (
+                          <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        ) : null}
                         Delete
                       </button>
                     </div>

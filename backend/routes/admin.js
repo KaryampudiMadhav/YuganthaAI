@@ -101,17 +101,24 @@ const verifyAdmin = (req, res, next) => {
 	const token = req.header("Authorization")?.replace("Bearer ", "");
 
 	if (!token) {
+		console.warn("❌ No authorization token provided");
 		return res.status(401).json({ message: "No token, authorization denied" });
 	}
 
 	try {
 		const decoded = jwt.verify(token, process.env.JWT_SECRET);
+		console.log("🔍 Decoded token:", { email: decoded.email, role: decoded.role });
+		
 		if (decoded.role !== "admin") {
-			return res.status(403).json({ message: "Access denied" });
+			console.warn("❌ Token role is not admin, received:", decoded.role);
+			return res.status(403).json({ message: "Access denied - admin role required" });
 		}
+		
 		req.admin = decoded;
+		console.log("✅ Admin verified:", decoded.email);
 		next();
 	} catch (error) {
+		console.error("❌ Token verification error:", error.message);
 		res.status(401).json({ message: "Token is not valid" });
 	}
 };
@@ -152,6 +159,56 @@ router.post("/mentors", verifyAdmin, async (req, res) => {
 		res.status(201).json(mentor);
 	} catch (error) {
 		console.error("Add mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Activate mentor
+router.put("/mentors/:id/activate", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const mentor = await Mentor.findByIdAndUpdate(
+			id,
+			{ active: true },
+			{ new: true }
+		);
+
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		res.json({
+			message: "Mentor activated successfully",
+			mentor,
+		});
+	} catch (error) {
+		console.error("Activate mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Deactivate mentor
+router.put("/mentors/:id/deactivate", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+
+		const mentor = await Mentor.findByIdAndUpdate(
+			id,
+			{ active: false },
+			{ new: true }
+		);
+
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		res.json({
+			message: "Mentor deactivated successfully",
+			mentor,
+		});
+	} catch (error) {
+		console.error("Deactivate mentor error:", error);
 		res.status(500).json({ message: "Server error" });
 	}
 });
@@ -426,153 +483,6 @@ router.delete("/instructors/:id", verifyAdmin, async (req, res) => {
 	} catch (error) {
 		console.error("Delete instructor error:", error);
 		res.status(500).json({ message: "Server error", details: error.message });
-	}
-});
-
-// Get all mentors
-router.get("/mentors", verifyAdmin, async (req, res) => {
-	try {
-		const mentors = await Mentor.find()
-			.select("-password")
-			.sort({ createdAt: -1 });
-		res.json(mentors);
-	} catch (error) {
-		console.error("Get mentors error:", error);
-		res.status(500).json({ message: "Server error" });
-	}
-});
-
-// Create mentor (admin adds mentor)
-router.post("/mentors", verifyAdmin, async (req, res) => {
-	try {
-		const { name, email, expertise, bio, avatar } = req.body;
-
-		if (!name || !email || !expertise) {
-			return res.status(400).json({ message: "Name, email, and expertise are required" });
-		}
-
-		const existingMentor = await Mentor.findOne({ email });
-		if (existingMentor) {
-			return res.status(400).json({ message: "Mentor with this email already exists" });
-		}
-
-		const mentor = new Mentor({
-			name,
-			email,
-			expertise,
-			bio: bio || "",
-			avatar: avatar || "",
-			active: true,
-			approved: true, // Admin-created mentors are pre-approved
-		});
-
-		await mentor.save();
-
-		res.status(201).json({
-			message: "Mentor created successfully. They can now set their password using the forgot password option.",
-			_id: mentor._id,
-			name: mentor.name,
-			email: mentor.email,
-			expertise: mentor.expertise,
-			active: mentor.active,
-			approved: mentor.approved,
-		});
-	} catch (error) {
-		console.error("Create mentor error:", error);
-		res.status(500).json({ message: "Server error" });
-	}
-});
-
-// Approve mentor
-router.put("/mentors/:id/approve", verifyAdmin, async (req, res) => {
-	try {
-		const { id } = req.params;
-
-		const mentor = await Mentor.findByIdAndUpdate(
-			id,
-			{ approved: true },
-			{ new: true }
-		).select("-password");
-
-		if (!mentor) {
-			return res.status(404).json({ message: "Mentor not found" });
-		}
-
-		res.json({
-			message: "Mentor approved successfully",
-			mentor,
-		});
-	} catch (error) {
-		console.error("Approve mentor error:", error);
-		res.status(500).json({ message: "Server error" });
-	}
-});
-
-// Deactivate mentor
-router.put("/mentors/:id/deactivate", verifyAdmin, async (req, res) => {
-	try {
-		const { id } = req.params;
-
-		const mentor = await Mentor.findByIdAndUpdate(
-			id,
-			{ active: false },
-			{ new: true }
-		).select("-password");
-
-		if (!mentor) {
-			return res.status(404).json({ message: "Mentor not found" });
-		}
-
-		res.json({
-			message: "Mentor deactivated successfully",
-			mentor,
-		});
-	} catch (error) {
-		console.error("Deactivate mentor error:", error);
-		res.status(500).json({ message: "Server error" });
-	}
-});
-
-// Activate mentor
-router.put("/mentors/:id/activate", verifyAdmin, async (req, res) => {
-	try {
-		const { id } = req.params;
-
-		const mentor = await Mentor.findByIdAndUpdate(
-			id,
-			{ active: true },
-			{ new: true }
-		).select("-password");
-
-		if (!mentor) {
-			return res.status(404).json({ message: "Mentor not found" });
-		}
-
-		res.json({
-			message: "Mentor activated successfully",
-			mentor,
-		});
-	} catch (error) {
-		console.error("Activate mentor error:", error);
-		res.status(500).json({ message: "Server error" });
-	}
-});
-
-// Delete mentor
-router.delete("/mentors/:id", verifyAdmin, async (req, res) => {
-	try {
-		const { id } = req.params;
-
-		const mentor = await Mentor.findByIdAndDelete(id);
-
-		if (!mentor) {
-			return res.status(404).json({ message: "Mentor not found" });
-		}
-
-		res.json({ message: "Mentor deleted successfully" });
-	} catch (error) {
-		console.error("Delete mentor error:", error);
-		res.status(500).json({ message: "Server error" });
 	}
 });
 

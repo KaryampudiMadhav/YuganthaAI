@@ -249,12 +249,26 @@ router.post(
 			}
 
 			// Check if OTP is valid and not expired
-			if (instructor.resetToken !== otp || !instructor.resetTokenExpiry) {
+			console.log("🔍 Reset password verification:");
+			console.log("📧 Email:", email);
+			console.log("🔐 Stored token:", instructor.resetToken);
+			console.log("🔐 Provided OTP:", otp);
+			console.log("🕐 Token expiry:", instructor.resetTokenExpiry);
+			console.log("🕐 Current time:", new Date());
+			console.log("✅ OTP Match:", instructor.resetToken === otp);
+			console.log("✅ Expiry exists:", !!instructor.resetTokenExpiry);
+			console.log("✅ Not expired:", instructor.resetTokenExpiry ? new Date() <= instructor.resetTokenExpiry : false);
+
+			if (!instructor.resetToken || !instructor.resetTokenExpiry) {
+				return res.status(400).json({ message: "No OTP found. Please request a password reset first." });
+			}
+
+			if (instructor.resetToken !== otp) {
 				return res.status(400).json({ message: "Invalid OTP" });
 			}
 
 			if (new Date() > instructor.resetTokenExpiry) {
-				return res.status(400).json({ message: "OTP has expired" });
+				return res.status(400).json({ message: "OTP has expired. Please request a new one." });
 			}
 
 			// Reset password

@@ -15,8 +15,8 @@ import Footer from "./components/Footer";
 import LoadingSpinner from "./components/LoadingSpinner";
 import LandingPage from "./pages/LandingPage";
 import CoursesPage from "./pages/CoursesPage";
-import CourseDetailPage from "./pages/CourseDetailPage"; // Existing
-import CourseDetailsPage from "./pages/CourseDetailsPage"; // New
+import CourseDetailPage from "./pages/CourseDetailPage"; 
+import CourseDetailsPage from "./pages/CourseDetailsPage";
 import MyLearningPage from "./pages/MyLearningPage";
 import MentorshipPage from "./pages/MentorshipPage";
 import MentorshipBookingPage from "./pages/MentorshipBookingPage";
@@ -36,7 +36,7 @@ import AdminInstructorManagement from "./pages/AdminInstructorManagement";
 import AdminAssignMentors from "./pages/AdminAssignInstructors";
 import AdminAssignInstructors from "./pages/AdminAssignInstructors";
 import AdminMentorAssignments from "./pages/AdminMentorAssignments";
-import AdminRegistrations from "./pages/AdminRegistrations"; // New
+import AdminRegistrations from "./pages/AdminRegistrations";
 import AdminBlogManagement from "./pages/AdminBlogManagement";
 import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
 import BlogsPage from "./pages/BlogsPage";
@@ -324,6 +324,10 @@ export default function App() {
 									{/* Instructor Routes */}
 									<Route
 										path='/instructor'
+										element={<InstructorLoginPage />}
+									/>
+									<Route
+										path='/instructor/login'
 										element={<InstructorLoginPage />}
 									/>
 									<Route

@@ -9,6 +9,7 @@ export default function AdminMentorManagement() {
   const [mentors, setMentors] = useState([]);
   const [form, setForm] = useState({ name: "", expertise: "", email: "", bio: "" });
   const [loading, setLoading] = useState(true);
+  const [actionLoading, setActionLoading] = useState({});
 
   useEffect(() => {
     const authed = localStorage.getItem("adminAuthed") === "true";
@@ -75,7 +76,7 @@ export default function AdminMentorManagement() {
       }
 
       const data = await response.json();
-      setMentors((prev) => [data, ...prev]);
+      setMentors((prev) => [data.mentor || data, ...prev]);
       setForm({ name: "", expertise: "", email: "", bio: "" });
       toast.success("Mentor created successfully! They can now setup their password using the forgot password link.");
     } catch (error) {
@@ -85,8 +86,15 @@ export default function AdminMentorManagement() {
   };
 
   const handleDelete = async (id) => {
+    if (!id) {
+      console.error("Mentor ID is missing");
+      toast.error("Invalid mentor ID");
+      return;
+    }
+
     if (!confirm("Are you sure you want to delete this mentor?")) return;
 
+    setActionLoading((prev) => ({ ...prev, [id]: true }));
     try {
       const token = localStorage.getItem("adminToken");
       const response = await fetch(`${API_URL}/api/admin/mentors/${id}`, {
@@ -99,18 +107,28 @@ export default function AdminMentorManagement() {
           handleLogout();
           return;
         }
-        throw new Error("Failed to delete mentor");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to delete mentor");
       }
 
       setMentors((prev) => prev.filter((m) => m._id !== id));
       toast.success("Mentor deleted successfully");
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("Failed to delete mentor");
+      toast.error(error.message || "Failed to delete mentor");
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [id]: false }));
     }
   };
 
   const handleToggleActive = async (id, currentActive) => {
+    if (!id) {
+      console.error("Mentor ID is missing");
+      toast.error("Invalid mentor ID");
+      return;
+    }
+
+    setActionLoading((prev) => ({ ...prev, [id]: true }));
     try {
       const token = localStorage.getItem("adminToken");
       const toggleEndpoint = currentActive ? "deactivate" : "activate";
@@ -129,15 +147,19 @@ export default function AdminMentorManagement() {
           handleLogout();
           return;
         }
-        throw new Error("Failed to update");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || "Failed to update mentor status");
       }
 
-      const updated = await response.json();
+      const data = await response.json();
+      const updated = data.mentor || data;
       setMentors((prev) => prev.map((m) => (m._id === id ? updated : m)));
       toast.success(`Mentor ${currentActive ? 'deactivated' : 'activated'} successfully`);
     } catch (error) {
       console.error("Update error:", error);
-      toast.error("Failed to update mentor status");
+      toast.error(error.message || "Failed to update mentor status");
+    } finally {
+      setActionLoading((prev) => ({ ...prev, [id]: false }));
     }
   };
 
@@ -281,12 +303,24 @@ export default function AdminMentorManagement() {
                       </span>
                       <button
                         onClick={() => handleToggleActive(item._id, item.active)}
-                        className="px-4 py-2 rounded-lg bg-transparent border border-[#8B5CF6] text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(139,92,246,0.3)]">
+                        disabled={actionLoading[item._id]}
+                        className="px-4 py-2 rounded-lg bg-transparent border border-[#8B5CF6] text-[#A855F7] hover:bg-[rgba(139,92,246,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(139,92,246,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        {actionLoading[item._id] ? (
+                          <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        ) : null}
                         {item.active ? "Deactivate" : "Activate"}
                       </button>
                       <button
                         onClick={() => handleDelete(item._id)}
-                        className="px-4 py-2 rounded-lg bg-transparent border border-[#EC4899] text-[#EC4899] hover:bg-[rgba(236,72,153,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(236,72,153,0.3)]">
+                        disabled={actionLoading[item._id]}
+                        className="px-4 py-2 rounded-lg bg-transparent border border-[#EC4899] text-[#EC4899] hover:bg-[rgba(236,72,153,0.1)] font-semibold transition-all duration-300 text-sm hover:shadow-[0_0_12px_rgba(236,72,153,0.3)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2">
+                        {actionLoading[item._id] ? (
+                          <svg className="w-4 h-4 animate-spin" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                          </svg>
+                        ) : null}
                         Delete
                       </button>
                     </div>

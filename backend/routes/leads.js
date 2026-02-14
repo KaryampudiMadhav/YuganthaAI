@@ -117,8 +117,62 @@ router.put("/:id", async (req, res) => {
 			{ status },
 			{ new: true },
 		);
-		res.json(lead);
+
+		// If status is changed to "Enrolled", automatically enroll the user if they have an account
+		if (status === "Enrolled") {
+			const User = (await import("../models/User.js")).default;
+			const Course = (await import("../models/Course.js")).default;
+
+			// Find user by email
+			const user = await User.findOne({ email: lead.email });
+
+			if (user) {
+				// Check if already enrolled
+				const alreadyEnrolled = user.enrolledCourses.find(
+					(course) => course.courseId.toString() === lead.courseId
+				);
+
+				if (!alreadyEnrolled) {
+					// Enroll user in the course
+					user.enrolledCourses.push({
+						courseId: lead.courseId,
+						enrolledAt: Date.now(),
+						progress: 0,
+						completed: false,
+					});
+
+					await user.save();
+
+					// Increment student count in course
+					await Course.findByIdAndUpdate(lead.courseId, {
+						$inc: { students: 1 }
+					});
+
+					return res.json({
+						lead,
+						enrolled: true,
+						message: "Lead status updated and student enrolled in course successfully"
+					});
+				} else {
+					return res.json({
+						lead,
+						enrolled: true,
+						alreadyEnrolled: true,
+						message: "Lead status updated. Student was already enrolled in this course"
+					});
+				}
+			} else {
+				return res.json({
+					lead,
+					enrolled: false,
+					message: "Lead status updated. Note: Student doesn't have an account yet. They need to register first to access the course."
+				});
+			}
+		}
+
+		res.json({ lead, message: "Lead status updated successfully" });
 	} catch (error) {
+		console.error("Error updating lead:", error);
 		res.status(500).json({ message: "Server error" });
 	}
 });

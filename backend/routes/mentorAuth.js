@@ -152,12 +152,26 @@ router.post(
 			}
 
 			// Check if OTP is valid and not expired
-			if (mentor.resetToken !== otp || !mentor.resetTokenExpiry) {
+			console.log("🔍 Reset password verification (Mentor):");
+			console.log("📧 Email:", email);
+			console.log("🔐 Stored token:", mentor.resetToken);
+			console.log("🔐 Provided OTP:", otp);
+			console.log("🕐 Token expiry:", mentor.resetTokenExpiry);
+			console.log("🕐 Current time:", new Date());
+			console.log("✅ OTP Match:", mentor.resetToken === otp);
+			console.log("✅ Expiry exists:", !!mentor.resetTokenExpiry);
+			console.log("✅ Not expired:", mentor.resetTokenExpiry ? new Date() <= mentor.resetTokenExpiry : false);
+
+			if (!mentor.resetToken || !mentor.resetTokenExpiry) {
+				return res.status(400).json({ message: "No OTP found. Please request a password reset first." });
+			}
+
+			if (mentor.resetToken !== otp) {
 				return res.status(400).json({ message: "Invalid OTP" });
 			}
 
 			if (new Date() > mentor.resetTokenExpiry) {
-				return res.status(400).json({ message: "OTP has expired" });
+				return res.status(400).json({ message: "OTP has expired. Please request a new one." });
 			}
 
 			// Hash password before saving
