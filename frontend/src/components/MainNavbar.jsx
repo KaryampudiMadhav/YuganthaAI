@@ -124,7 +124,7 @@ export default function MainNavbar() {
 						onClick={toggleTheme}
 						className='px-3 py-2 border border-[#3B82F6] rounded-xl hover:bg-[rgba(59,130,246,0.1)] transition-all duration-200 text-sm'
 						aria-label='Toggle Theme'
-						title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
+						title={theme === "Light-theme" ? "Dark Mode" : "Light Mode"}
 					>
 						<span className="w-5 h-5 flex items-center justify-center">
 							{theme === "dark-theme" ? (

@@ -171,6 +171,10 @@ export default function MentorshipBookingPage() {
     const now = new Date();
     now.setHours(0, 0, 0, 0); // Reset to start of today
 
+    // Calculate minimum bookable date (today + 7 days)
+    const minBookableDate = new Date(now);
+    minBookableDate.setDate(now.getDate() + 7);
+
     const cells = [];
     for (let i = 0; i < startWeekday; i += 1) {
       cells.push({ key: `blank-${i}`, label: "", isSelectable: false });
@@ -178,8 +182,9 @@ export default function MentorshipBookingPage() {
     for (let d = 1; d <= daysInMonth; d += 1) {
       const cellDate = new Date(year, month, d);
       cellDate.setHours(0, 0, 0, 0);
-      const isPast = cellDate < now;
-      cells.push({ key: `day-${d}`, label: d, isSelectable: !isPast });
+      // Date must be at least 7 days in the future
+      const isBookable = cellDate >= minBookableDate;
+      cells.push({ key: `day-${d}`, label: d, isSelectable: isBookable });
     }
     return cells;
   }, [currentMonth]);
@@ -192,6 +197,19 @@ export default function MentorshipBookingPage() {
   const handleSelectDate = (dayLabel) => {
     if (!dayLabel) return;
     const chosen = new Date(currentMonth.getFullYear(), currentMonth.getMonth(), dayLabel);
+    chosen.setHours(0, 0, 0, 0);
+    
+    // Validate 7-day advance booking requirement
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const minBookableDate = new Date(today);
+    minBookableDate.setDate(today.getDate() + 7);
+    
+    if (chosen < minBookableDate) {
+      toast.error("Sessions must be booked at least 7 days in advance. Please select a later date.");
+      return;
+    }
+    
     setSelectedDate(chosen.toISOString());
     setSelectedSlot(null);
     setShowDetails(false);
@@ -409,6 +427,19 @@ export default function MentorshipBookingPage() {
 
               <div className="space-y-3">
                 <p className="text-sm text-gray-400">Time zone: {program.timezone}</p>
+                
+                {/* 7-Day Advance Booking Notice */}
+                <div className="mt-3 p-3 rounded-lg border bg-blue-500/10 border-blue-500/30">
+                  <div className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm font-semibold text-blue-300">Advance Booking Required</p>
+                  </div>
+                  <p className="text-xs text-blue-200 mt-1 ml-7">
+                    Sessions must be booked at least 7 days in advance
+                  </p>
+                </div>
               </div>
             </div>
 

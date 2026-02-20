@@ -34,6 +34,20 @@ router.post("/", protect, async (req, res) => {
 	try {
 		const { instructorId, mentorId, title, date, time, notes } = req.body;
 
+		// Validate that the session is at least 7 days in the future
+		const sessionDate = new Date(date);
+		const today = new Date();
+		today.setHours(0, 0, 0, 0);
+		
+		const minBookableDate = new Date(today);
+		minBookableDate.setDate(today.getDate() + 7);
+		
+		if (sessionDate < minBookableDate) {
+			return res.status(400).json({ 
+				message: "Sessions must be booked at least 7 days in advance. Please choose a date that is at least 7 days from today." 
+			});
+		}
+
 		// Check if this specific date/time slot is already booked by ANY user
 		const existingBooking = await MentorshipSession.findOne({
 			date,

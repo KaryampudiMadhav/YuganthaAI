@@ -142,7 +142,7 @@ export default function CoursesPage() {
 								</span>
 							</h1>
 
-							<p className='text-gray-300 text-lg mb-12 max-w-xl'>
+							<p className='text-gray-600 text-lg mb-12 max-w-xl'>
 								Kickstart your AI career with foundational
 								tracks and skill-specific short courses, all
 								taught by leading experts in the field.
