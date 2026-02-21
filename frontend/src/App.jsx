@@ -84,7 +84,6 @@ export default function App() {
 	const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark-theme");
 	const [loading, setLoading] = useState(true);
 
-	// Simulate initial loading
 	useEffect(() => {
 		const timer = setTimeout(() => {
 			setLoading(false);
