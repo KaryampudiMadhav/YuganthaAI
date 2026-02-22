@@ -335,6 +335,30 @@ router.put("/:id/complete", protectMentor, async (req, res) => {
 	}
 });
 
+// Support PATCH method for marking complete to align with frontend calls
+router.patch("/:id/complete", protectMentor, async (req, res) => {
+	try {
+		const session = await MentorshipSession.findById(req.params.id);
+
+		if (!session) {
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		if (session.mentorId.toString() !== req.mentor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized" });
+		}
+
+		session.status = "completed";
+		session.completedAt = new Date();
+		await session.save();
+
+		res.json(session);
+	} catch (error) {
+		console.error("Error completing session:", error);
+		res.status(500).json({ message: "Error completing session" });
+	}
+});
+
 // @route   GET /api/mentorship-sessions/mentor-bookings
 // @desc    Get all student bookings for this mentor
 // @access  Private (Mentor)
@@ -383,6 +407,76 @@ router.put("/:id/cancel", protect, async (req, res) => {
 	}
 });
 
+ 
+
+router.patch("/:id/reject", protectMentor, async (req, res) => {
+	try {
+		const { reason } = req.body;
+		const session = await MentorshipSession.findById(req.params.id);
+
+		if (!session) {
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		if (session.mentorId.toString() !== req.mentor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized" });
+		}
+
+		if (!["upcoming","pending","mentor_assigned","scheduled","rescheduled"].includes(session.status)) {
+			return res.status(400).json({ message: "This session cannot be rejected" });
+		}
+
+		session.status = "rejected";
+		session.rejectionReason = reason || "Mentor unavailable";
+		await session.save();
+
+		res.json(session);
+	} catch (error) {
+		console.error("Error rejecting session:", error);
+		res.status(500).json({ message: "Error rejecting session" });
+	}
+});
+
+ 
+
+router.patch("/:id/reschedule", protectMentor, async (req, res) => {
+	try {
+		const { newDate, newTime, reason } = req.body;
+		const session = await MentorshipSession.findById(req.params.id);
+
+		if (!session) {
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		if (session.mentorId.toString() !== req.mentor._id.toString()) {
+			return res.status(403).json({ message: "Not authorized" });
+		}
+
+		const existingBooking = await MentorshipSession.findOne({
+			date: newDate,
+			time: newTime,
+			status: { $in: ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"] },
+			_id: { $ne: session._id }
+		});
+
+		if (existingBooking) {
+			return res.status(400).json({ message: "The new time slot is already booked. Please choose a different time." });
+		}
+
+		session.originalDate = session.date;
+		session.originalTime = session.time;
+		session.date = newDate;
+		session.time = newTime;
+		session.status = "rescheduled";
+		session.rescheduleReason = reason || "Mentor requested reschedule";
+		await session.save();
+
+		res.json(session);
+	} catch (error) {
+		console.error("Error rescheduling session:", error);
+		res.status(500).json({ message: "Error rescheduling session" });
+	}
+});
 // @route   PUT /api/mentorship-sessions/:id/add-meet-link
 // @desc    Add a meet link to a session (mentor only)
 // @access  Private (Mentor)
