@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useMentor } from "../context/MentorContext";
 import toast from "react-hot-toast";
 import API_URL from "../config/api";
+import { useTheme } from "../context/ThemeContext";
 
 export default function MentorDashboard() {
 	const [mentorshipSessions, setMentorshipSessions] = useState([]);
@@ -24,6 +25,7 @@ export default function MentorDashboard() {
 	const [completingId, setCompletingId] = useState(null);
 
 	const { mentor, logout, isAuthenticated } = useMentor();
+	const { theme, toggleTheme } = useTheme();
 	const navigate = useNavigate();
 
 	useEffect(() => {
@@ -211,9 +213,9 @@ export default function MentorDashboard() {
 	}
 
 	return (
-		<div className='min-h-screen bg-[#0B0614]'>
+		<div className='min-h-screen bg-[var(--bg-color)] text-[var(--text-color)]'>
 			{/* Header */}
-			<header className='sticky top-0 z-40 bg-[#12091F]/95 backdrop-blur-md border-b border-[rgba(139,92,246,0.2)] shadow-[0_4px_16px_rgba(139,92,246,0.1)]'>
+			<header className='sticky top-0 z-40 bg-[var(--nav-bg)]/95 backdrop-blur-md border-b border-[var(--border-primary)] shadow-[0_4px_16px_rgba(139,92,246,0.1)]'>
 				<div className='max-w-7xl mx-auto px-4 md:px-6 py-4 flex items-center justify-between'>
 					<Link 
 						to='/mentor/dashboard'
@@ -234,9 +236,54 @@ export default function MentorDashboard() {
 						Mentor Dashboard
 					</span>
 
-					<div className='flex items-center space-x-6'>
+					<div className='flex items-center space-x-4'>
+						<button
+							onClick={toggleTheme}
+							className='px-3 py-2 border border-[#3B82F6] rounded-lg hover:bg-[rgba(59,130,246,0.1)] transition-all duration-200 text-sm'
+							aria-label='Toggle Theme'
+							title={theme === "dark-theme" ? "Dark Mode" : "Light Mode"}
+						>
+							<span className='w-5 h-5 flex items-center justify-center'>
+								{theme === "dark-theme" ? (
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										fill='none'
+										viewBox='0 0 24 24'
+										stroke='currentColor'
+										className='w-5 h-5 text-white'
+										strokeWidth={2}
+									>
+										<circle cx='12' cy='12' r='5' fill='white' />
+										<line x1='12' y1='1' x2='12' y2='4' stroke='white' />
+										<line x1='12' y1='20' x2='12' y2='23' stroke='white' />
+										<line x1='4.22' y1='4.22' x2='5.64' y2='5.64' stroke='white' />
+										<line x1='18.36' y1='18.36' x2='19.78' y2='19.78' stroke='white' />
+										<line x1='1' y1='12' x2='4' y2='12' stroke='white' />
+										<line x1='20' y1='12' x2='23' y2='12' stroke='white' />
+										<line x1='4.22' y1='19.78' x2='5.64' y2='18.36' stroke='white' />
+										<line x1='18.36' y1='5.64' x2='19.78' y2='4.22' stroke='white' />
+									</svg>
+								) : (
+									<svg
+										xmlns='http://www.w3.org/2000/svg'
+										viewBox='0 0 24 24'
+										fill='black'
+										className='w-5 h-5'
+									>
+										<path d='M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z' />
+									</svg>
+								)}
+							</span>
+						</button>
 						<div className='flex items-center space-x-3 px-4 py-2 bg-[rgba(139,92,246,0.1)] rounded-lg border border-[rgba(139,92,246,0.2)] hover:bg-[rgba(139,92,246,0.15)] transition duration-300'>
-							<div className='w-9 h-9 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] rounded-full flex items-center justify-center text-sm font-bold text-white shadow-[0_4px_12px_rgba(139,92,246,0.4)]'>
+							<div
+								className={
+									(theme === "light-theme"
+										? "bg-gray-200 text-gray-800"
+										: "bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] text-white") +
+									" w-9 h-9 rounded-full flex items-center justify-center text-sm font-bold shadow-[0_4px_12px_rgba(139,92,246,0.4)]"
+								}
+							>
 								{mentor.name?.charAt(0).toUpperCase() || mentor.email?.charAt(0).toUpperCase()}
 							</div>
 							<div className='text-sm font-medium text-[#C7C3D6]'>{mentor.name || mentor.email}</div>
@@ -251,7 +298,7 @@ export default function MentorDashboard() {
 			</header>
 
 			{/* Main Content */}
-			<div className='max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12'>
+				<div className='max-w-7xl mx-auto px-4 md:px-6 py-8 md:py-12'>
 				{/* Stats Cards */}
 				<div className='grid grid-cols-1 md:grid-cols-3 gap-6 mb-10'>
 					<div className='bg-gradient-to-br from-[rgba(139,92,246,0.15)] to-[rgba(139,92,246,0.05)] border border-[rgba(139,92,246,0.25)] rounded-2xl p-6 text-white hover:shadow-[0_8px_32px_rgba(139,92,246,0.2)] hover:-translate-y-1 transition-all duration-300'>
@@ -290,7 +337,7 @@ export default function MentorDashboard() {
 				</div>
 
 				{/* Session Management */}
-				<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)]'>
+				<div className='bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)]'>
 					<div className='flex items-center justify-between mb-8'>
 						<div>
 							<h2 className='text-2xl font-bold text-white mb-1'>
@@ -307,7 +354,7 @@ export default function MentorDashboard() {
 							<p className='text-[#C7C3D6] mt-4'>Loading sessions...</p>
 						</div>
 					) : upcomingSessions.length === 0 ? (
-						<div className='text-center py-12'>
+														<div className='text-center py-12'>
 							<svg className='w-16 h-16 mx-auto text-[#9A93B5] opacity-50 mb-4' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
 								<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />
 							</svg>
@@ -363,13 +410,19 @@ export default function MentorDashboard() {
 																	onChange={(e) =>
 																		setMeetingLinkInput(e.target.value)
 																	}
-																	className='flex-1 px-3 py-1.5 bg-[#1a1a2e] border border-[rgba(139,92,246,0.3)] rounded-lg text-white text-sm placeholder-[#9A93B5] focus:outline-none focus:border-[#A855F7]'
+																	className='flex-1 px-3 py-1.5 bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-lg text-white text-sm placeholder-[#9A93B5] focus:outline-none focus:border-[#A855F7]'
 																/>
 																<button
 																	onClick={() =>
 																		handleAddMeetingLink(session._id)
 																	}
-																	className='px-3 py-1.5 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-lg transition-all duration-300 text-sm font-semibold shadow-[0_2px_8px_rgba(139,92,246,0.3)]'>
+																	className={
+																		(theme === "light-theme"
+																			? "bg-blue-600 hover:bg-blue-700 text-[#ffffff]"
+																			: "bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white") +
+																		" px-3 py-1.5 rounded-lg transition-all duration-300 text-sm font-semibold shadow-[0_2px_8px_rgba(139,92,246,0.3)]"
+																	}
+																>
 																	Save
 																</button>
 																<button
@@ -386,7 +439,13 @@ export default function MentorDashboard() {
 																onClick={() =>
 																	setEditingMeetingLink(session._id)
 																}
-																className='px-4 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-lg transition-all duration-300 text-sm font-semibold shadow-[0_2px_8px_rgba(139,92,246,0.3)] w-full'>
+																className={
+																	(theme === "light-theme"
+																		? "bg-blue-600 hover:bg-blue-700 text-[#ffffff]"
+																		: "bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white") +
+																	" px-4 py-2 rounded-lg transition-all duration-300 text-sm font-semibold shadow-[0_2px_8px_rgba(139,92,246,0.3)] w-full"
+																}
+															>
 																+ Add Meeting Link
 															</button>
 														)
@@ -442,7 +501,7 @@ export default function MentorDashboard() {
 
 				{/* Completed Sessions */}
 				{completedSessions.length > 0 && (
-					<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(34,197,94,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(34,197,94,0.1)] mt-8'>
+					<div className='bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(34,197,94,0.1)] mt-8'>
 						<div className='mb-6'>
 							<h2 className='text-2xl font-bold text-white mb-1'>
 								Completed Sessions
@@ -493,7 +552,7 @@ export default function MentorDashboard() {
 				{/* Reschedule Modal */}
 				{showRescheduleModal && (
 					<div className='fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4'>
-						<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl p-8 w-full max-w-md shadow-[0_16px_64px_rgba(139,92,246,0.3)]'>
+						<div className='bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-2xl p-8 w-full max-w-md shadow-[0_16px_64px_rgba(139,92,246,0.3)]'>
 							<h2 className='text-2xl font-bold text-white mb-6 flex items-center'>
 								<svg className='w-6 h-6 mr-2 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
 									<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' />
@@ -512,7 +571,7 @@ export default function MentorDashboard() {
 												newDate: e.target.value,
 											})
 										}
-										className='w-full px-4 py-3 bg-[#1a1a2e] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:border-[#A855F7] transition'
+										className='w-full px-4 py-3 bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:border-[#A855F7] transition'
 									/>
 								</div>
 								<div>
@@ -526,7 +585,7 @@ export default function MentorDashboard() {
 												newTime: e.target.value,
 											})
 										}
-										className='w-full px-4 py-3 bg-[#1a1a2e] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:border-[#A855F7] transition'
+										className='w-full px-4 py-3 bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-lg text-white focus:outline-none focus:border-[#A855F7] transition'
 									/>
 								</div>
 								<div>
@@ -541,7 +600,7 @@ export default function MentorDashboard() {
 											})
 										}
 										rows='3'
-										className='w-full px-4 py-3 bg-[#1a1a2e] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#A855F7] transition'
+										className='w-full px-4 py-3 bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#A855F7] transition'
 									/>
 								</div>
 							</div>
@@ -549,7 +608,7 @@ export default function MentorDashboard() {
 								<button
 									onClick={handleReschedule}
 									disabled={rescheduleSubmitting}
-									className='flex-1 px-4 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_16px_rgba(139,92,246,0.3)]'>
+									className='flex-1 px-4 py-3 bg-pink-500 text-white hover:bg-pink-500 dark:bg-pink-500 rounded-lg transition font-semibold shadow-[0_4px_16px_rgba(139,92,246,0.3)]'>
 									Confirm Reschedule
 								</button>
 								<button
@@ -573,7 +632,7 @@ export default function MentorDashboard() {
 				{/* Reject Modal */}
 				{showRejectModal && (
 					<div className='fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4'>
-						<div className='bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(239,68,68,0.3)] rounded-2xl p-8 w-full max-w-md shadow-[0_16px_64px_rgba(239,68,68,0.3)]'>
+						<div className='bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-2xl p-8 w-full max-w-md shadow-[0_16px_64px_rgba(239,68,68,0.3)]'>
 							<h2 className='text-2xl font-bold text-white mb-6 flex items-center'>
 								<svg className='w-6 h-6 mr-2 text-[#EF4444]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
 									<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z' />
@@ -588,7 +647,7 @@ export default function MentorDashboard() {
 										value={rejectionReason}
 										onChange={(e) => setRejectionReason(e.target.value)}
 										rows='4'
-										className='w-full px-4 py-3 bg-[#1a1a2e] border border-[rgba(239,68,68,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#EF4444] transition'
+										className='w-full px-4 py-3 bg-[var(--card-bg)] border border-[rgba(239,68,68,0.3)] rounded-lg text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#EF4444] transition'
 									/>
 								</div>
 							</div>
