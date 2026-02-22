@@ -38,7 +38,16 @@ const mentorshipSessionSchema = new mongoose.Schema({
 	},
 	status: {
 		type: String,
-		enum: ["upcoming", "completed", "cancelled", "rejected", "rescheduled"],
+		enum: [
+			"upcoming",          // legacy
+			"completed",
+			"cancelled",
+			"rejected",
+			"rescheduled",
+			"pending",           // new
+			"mentor_assigned",   // new
+			"scheduled"          // new
+		],
 		default: "upcoming",
 	},
 	bookedDate: {

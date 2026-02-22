@@ -125,13 +125,13 @@ export default function MentorshipBookingPage() {
           subtitle: `Mentorship Session - ${mentor.expertise}`,
         }));
       } else if (response.status === 404) {
-        setError("No mentor has been assigned to your account yet. Please contact the admin.");
+        setAssignedMentor(null);
       } else {
-        setError("Failed to load mentor information");
+        console.error("Failed to load mentor information:", response.status, response.statusText);
       }
     } catch (error) {
       console.error("Error fetching mentor:", error);
-      setError("Error loading mentor information");
+      setAssignedMentor(null);
     } finally {
       setLoading(false);
     }
@@ -248,7 +248,8 @@ export default function MentorshipBookingPage() {
     endOfWeek.setDate(startOfWeek.getDate() + 7);
 
     const weeklyBookings = existingSessions.filter(session => {
-      if (session.status !== 'upcoming') return false;
+      const activeStatuses = ['upcoming','pending','mentor_assigned','scheduled','rescheduled'];
+      if (!activeStatuses.includes(session.status)) return false;
       const sessionDate = new Date(session.bookedDate);
       return sessionDate >= startOfWeek && sessionDate < endOfWeek;
     });
@@ -334,7 +335,8 @@ export default function MentorshipBookingPage() {
     endOfWeek.setDate(startOfWeek.getDate() + 7);
 
     return existingSessions.filter(session => {
-      if (session.status !== 'upcoming') return false;
+      const activeStatuses = ['upcoming','pending','mentor_assigned','scheduled','rescheduled'];
+      if (!activeStatuses.includes(session.status)) return false;
       const sessionDate = new Date(session.bookedDate);
       return sessionDate >= startOfWeek && sessionDate < endOfWeek;
     }).length;
@@ -345,7 +347,7 @@ export default function MentorshipBookingPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-28 pb-16 flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-28 pb-16 flex items-center justify-center">
         <p className="text-gray-400">Loading mentor information...</p>
       </div>
     );
@@ -353,13 +355,13 @@ export default function MentorshipBookingPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-28 pb-16">
+      <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-28 pb-16">
         <div className="max-w-6xl mx-auto px-4 md:px-6">
           <div className="bg-red-500/20 border border-red-500/40 rounded-2xl p-8 text-center">
             <p className="text-red-300 text-lg">{error}</p>
             <button
               onClick={() => navigate("/mentorships")}
-              className="mt-4 px-6 py-2 bg-white text-black rounded-lg font-semibold hover:bg-gray-200">
+              className="mt-4 px-6 py-2 bg-white text-gray-800 rounded-lg font-semibold hover:bg-gray-200">
               Go Back
             </button>
           </div>
@@ -369,7 +371,7 @@ export default function MentorshipBookingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-28 pb-16">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-28 pb-16">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         {!showDetails ? (
           <div className="bg-[#0f0f0f] border border-white/5 rounded-2xl overflow-hidden grid grid-cols-1 lg:grid-cols-2">

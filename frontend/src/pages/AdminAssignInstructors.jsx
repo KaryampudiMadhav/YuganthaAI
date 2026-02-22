@@ -127,7 +127,7 @@ export default function AdminAssignMentors() {
   const filteredInstructors = filteredMentors;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#12091F] via-[#0B0614] to-[#160B2E] text-white pt-28 pb-16">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-28 pb-16">
       <AdminNavbar />
       <div className="max-w-7xl mx-auto px-4 md:px-6 space-y-8">
         {/* Header */}
@@ -165,7 +165,7 @@ export default function AdminAssignMentors() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
               {/* Users List */}
               <div className="lg:col-span-1">
-                <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+                <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
                   {/* Header */}
                   <div className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 p-5 border-b border-[rgba(139,92,246,0.2)]">
                     <div className="flex items-center gap-3">
@@ -181,7 +181,7 @@ export default function AdminAssignMentors() {
                       placeholder="Search user..."
                       value={searchUserQuery}
                       onChange={(e) => setSearchUserQuery(e.target.value)}
-                      className="w-full bg-[rgba(11,6,20,0.5)] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
+                      className="w-full bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-2.5 text-sm text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
                     />
                   </div>
 
@@ -218,7 +218,7 @@ export default function AdminAssignMentors() {
 
               {/* Mentors List */}
               <div className="lg:col-span-1">
-                <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+                <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden flex flex-col h-[600px] shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
                   {/* Header */}
                   <div className="bg-gradient-to-r from-[#8B5CF6]/10 to-[#EC4899]/10 p-5 border-b border-[rgba(139,92,246,0.2)]">
                     <div className="flex items-center gap-3">
@@ -234,7 +234,7 @@ export default function AdminAssignMentors() {
                       placeholder="Search mentor..."
                       value={searchMentorQuery}
                       onChange={(e) => setSearchMentorQuery(e.target.value)}
-                      className="w-full bg-[rgba(11,6,20,0.5)] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-2.5 text-sm text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
+                      className="w-full bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-lg px-4 py-2.5 text-sm text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
                     />
                   </div>
 
@@ -270,7 +270,7 @@ export default function AdminAssignMentors() {
 
               {/* Assignment Panel */}
               <div className="lg:col-span-1">
-                <div className="bg-gradient-to-br from-[#8B5CF6]/10 via-[#A855F7]/10 to-[#8B5CF6]/5 border border-[rgba(168,85,247,0.3)] rounded-2xl p-6 h-[600px] flex flex-col justify-between shadow-[0_8px_32px_rgba(168,85,247,0.2)]">
+                <div className="bg-[var(--card-bg)] border border-[rgba(168,85,247,0.3)] rounded-2xl p-6 h-[600px] flex flex-col justify-between shadow-[0_8px_32px_rgba(168,85,247,0.2)]">
                   <div className="space-y-6">
                     <div>
                       <p className="text-xs text-[#A855F7] uppercase tracking-wider mb-3 font-bold flex items-center gap-2">
@@ -278,7 +278,7 @@ export default function AdminAssignMentors() {
                         From User
                       </p>
                       {selectedUser ? (
-                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(168,85,247,0.3)] shadow-[0_4px_16px_rgba(168,85,247,0.15)]">
+                        <div className="bg-[var(--card-bg)] rounded-xl p-4 border border-[rgba(168,85,247,0.3)] shadow-[0_4px_16px_rgba(168,85,247,0.15)]">
                           <p className="font-bold text-white">{selectedUser.fullName}</p>
                           <p className="text-sm text-[#9A93B5] mt-1">{selectedUser.email}</p>
                           {selectedUser.assignedMentor && (
@@ -289,7 +289,7 @@ export default function AdminAssignMentors() {
                           )}
                         </div>
                       ) : (
-                        <div className="bg-[rgba(11,6,20,0.3)] rounded-xl p-4 border border-dashed border-[rgba(139,92,246,0.3)] text-[#9A93B5] text-sm">
+                        <div className="bg-[var(--card-bg)] rounded-xl p-4 border border-dashed border-[rgba(139,92,246,0.3)] text-[#9A93B5] text-sm">
                           Select a user from the list
                         </div>
                       )}
@@ -307,13 +307,13 @@ export default function AdminAssignMentors() {
                         To Mentor
                       </p>
                       {selectedMentor ? (
-                        <div className="bg-[rgba(11,6,20,0.6)] rounded-xl p-4 border border-[rgba(168,85,247,0.3)] shadow-[0_4px_16px_rgba(168,85,247,0.15)]">
+                        <div className="bg-[var(--card-bg)] rounded-xl p-4 border border-[rgba(168,85,247,0.3)] shadow-[0_4px_16px_rgba(168,85,247,0.15)]">
                           <p className="font-bold text-white">{selectedMentor.name}</p>
                           <p className="text-sm text-[#A855F7] mt-1 font-medium">{selectedMentor.expertise}</p>
                           <p className="text-xs text-[#9A93B5] mt-2">{selectedMentor.email}</p>
                         </div>
                       ) : (
-                        <div className="bg-[rgba(11,6,20,0.3)] rounded-xl p-4 border border-dashed border-[rgba(168,85,247,0.3)] text-[#9A93B5] text-sm">
+                        <div className="bg-[var(--card-bg)] rounded-xl p-4 border border-dashed border-[rgba(168,85,247,0.3)] text-[#9A93B5] text-sm">
                           Select a mentor from the list
                         </div>
                       )}

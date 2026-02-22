@@ -52,7 +52,7 @@ router.post("/", protect, async (req, res) => {
 		const existingBooking = await MentorshipSession.findOne({
 			date,
 			time,
-			status: "upcoming"
+			status: { $in: ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"] }
 		});
 
 		if (existingBooking) {
@@ -61,7 +61,7 @@ router.post("/", protect, async (req, res) => {
 			});
 		}
 
-		// Check how many upcoming sessions the user has this week
+		// Check how many active sessions the user has this week
 		const now = new Date();
 		const startOfWeek = new Date(now);
 		startOfWeek.setDate(now.getDate() - now.getDay()); // Sunday
@@ -72,7 +72,7 @@ router.post("/", protect, async (req, res) => {
 
 		const userWeeklyBookings = await MentorshipSession.countDocuments({
 			userId: req.user._id,
-			status: "upcoming",
+			status: { $in: ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"] },
 			bookedDate: {
 				$gte: startOfWeek,
 				$lt: endOfWeek
@@ -93,7 +93,7 @@ router.post("/", protect, async (req, res) => {
 			date,
 			time,
 			notes,
-			status: "upcoming",
+			status: "pending",
 		});
 
 		res.status(201).json(session);
@@ -126,7 +126,7 @@ router.get("/user", protect, async (req, res) => {
 router.get("/booked-slots", protect, async (req, res) => {
 	try {
 		const bookedSessions = await MentorshipSession.find({
-			status: "upcoming"
+			status: { $in: ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"] }
 		}).select("date time");
 
 		// Create a simple array of booked slots
@@ -261,7 +261,7 @@ router.put("/:id/reschedule", protectInstructor, async (req, res) => {
 		const existingBooking = await MentorshipSession.findOne({
 			date: newDate,
 			time: newTime,
-			status: "upcoming",
+			status: { $in: ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"] },
 			_id: { $ne: session._id } // Exclude current session
 		});
 
@@ -351,6 +351,38 @@ router.get("/mentor-bookings", protectMentor, async (req, res) => {
 	}
 });
 
+// @route   PUT /api/mentorship-sessions/:id/cancel
+// @desc    Cancel a session (user only)
+// @access  Private (User)
+router.put("/:id/cancel", protect, async (req, res) => {
+	try {
+		const session = await MentorshipSession.findById(req.params.id);
+
+		if (!session) {
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		// Verify session belongs to this user
+		if (session.userId.toString() !== req.user._id.toString()) {
+			return res.status(403).json({ message: "Not authorized" });
+		}
+
+		// Only allow cancelling for active, not-yet-completed sessions
+		const cancellableStatuses = ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"];
+		if (!cancellableStatuses.includes(session.status)) {
+			return res.status(400).json({ message: "This session cannot be cancelled" });
+		}
+
+		session.status = "cancelled";
+		await session.save();
+
+		res.json(session);
+	} catch (error) {
+		console.error("Error cancelling session:", error);
+		res.status(500).json({ message: "Error cancelling session" });
+	}
+});
+
 // @route   PUT /api/mentorship-sessions/:id/add-meet-link
 // @desc    Add a meet link to a session (mentor only)
 // @access  Private (Mentor)
@@ -374,6 +406,8 @@ router.put("/:id/add-meet-link", protectMentor, async (req, res) => {
 		}
 
 		session.meetingLink = meetingLink;
+		// Update status to scheduled when link is added
+		session.status = "scheduled";
 		await session.save();
 
 		// Populate the data before sending response

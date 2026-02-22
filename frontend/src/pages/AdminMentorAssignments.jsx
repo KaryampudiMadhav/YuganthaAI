@@ -130,7 +130,7 @@ export default function AdminMentorAssignments() {
   }, [mentorAssignments, mentorGroups]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#12091F] via-[#0B0614] to-[#160B2E] text-white pt-28 pb-16">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-28 pb-16">
       <AdminNavbar />
       <div className="max-w-7xl mx-auto px-4 md:px-6 space-y-8">
         {/* Header */}
@@ -149,7 +149,7 @@ export default function AdminMentorAssignments() {
 
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-          <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+          <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-primary)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#8B5CF6] to-[#A855F7] flex items-center justify-center shadow-[0_0_16px_rgba(139,92,246,0.4)]">
                 <Users className="w-5 h-5 text-white" />
@@ -158,7 +158,7 @@ export default function AdminMentorAssignments() {
             </div>
             <div className="text-4xl font-bold text-white">{stats.total}</div>
           </div>
-          <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(34,197,94,0.3)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(34,197,94,0.1)]">
+          <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-primary)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(34,197,94,0.1)]">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-green-500 to-emerald-500 flex items-center justify-center shadow-[0_0_16px_rgba(34,197,94,0.4)]">
                 <CheckCircle className="w-5 h-5 text-white" />
@@ -167,7 +167,7 @@ export default function AdminMentorAssignments() {
             </div>
             <div className="text-4xl font-bold text-white">{stats.assigned}</div>
           </div>
-          <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(234,179,8,0.3)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(234,179,8,0.1)]">
+          <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-primary)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(234,179,8,0.1)]">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-yellow-500 to-orange-500 flex items-center justify-center shadow-[0_0_16px_rgba(234,179,8,0.4)]">
                 <AlertCircle className="w-5 h-5 text-white" />
@@ -176,7 +176,7 @@ export default function AdminMentorAssignments() {
             </div>
             <div className="text-4xl font-bold text-white">{stats.unassigned}</div>
           </div>
-          <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(236,72,153,0.2)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(236,72,153,0.1)]">
+          <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-primary)] rounded-2xl p-6 shadow-[0_8px_32px_rgba(236,72,153,0.1)]">
             <div className="flex items-center gap-3 mb-3">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#EC4899] to-[#D946EF] flex items-center justify-center shadow-[0_0_16px_rgba(236,72,153,0.4)]">
                 <Zap className="w-5 h-5 text-white" />
@@ -195,19 +195,19 @@ export default function AdminMentorAssignments() {
         ) : (
           <div className="space-y-8">
             {/* Search and Filter */}
-            <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl p-6 space-y-4 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+            <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-primary)] rounded-2xl p-6 space-y-4 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
               <div className="flex flex-col md:flex-row gap-4">
                 <input
                   type="text"
                   placeholder="Search by student name, email, or mentor..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 bg-[rgba(11,6,20,0.5)] border border-[rgba(139,92,246,0.3)] rounded-xl px-5 py-3 text-white placeholder-[#9A93B5] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
+                  className="flex-1 bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-xl px-5 py-3 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all"
                 />
                 <select
                   value={filterBy}
                   onChange={(e) => setFilterBy(e.target.value)}
-                  className="bg-[rgba(11,6,20,0.5)] border border-[rgba(139,92,246,0.3)] rounded-xl px-5 py-3 text-white focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all">
+                  className="bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-xl px-5 py-3 text-[var(--text-color)] focus:outline-none focus:border-[#8B5CF6] focus:shadow-[0_0_12px_rgba(139,92,246,0.3)] transition-all">
                   <option value="all">All</option>
                   <option value="assigned">Assigned</option>
                   <option value="unassigned">Unassigned</option>
@@ -270,7 +270,7 @@ export default function AdminMentorAssignments() {
                         </div>
 
                         {/* Students List */}
-                        <div className="divide-y divide-[rgba(139,92,246,0.1)] bg-[rgba(11,6,20,0.3)]">
+                        <div className="divide-y divide-[rgba(139,92,246,0.1)] bg-[var(--card-bg)]">
                           {group.students.map((assignment, studentIdx) => (
                             <div
                               key={assignment.userId}
@@ -303,7 +303,7 @@ export default function AdminMentorAssignments() {
                     ))}
                 </div>
               ) : (
-                <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 text-center shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+                <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-primary)] rounded-2xl p-8 text-center shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
                   <p className="text-[#9A93B5]">No mentors have been assigned students yet</p>
                 </div>
               )}
@@ -322,7 +322,7 @@ export default function AdminMentorAssignments() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl overflow-hidden border bg-gradient-to-br from-yellow-500/5 to-red-500/5 border-yellow-500/40 shadow-[0_8px_32px_rgba(234,179,8,0.15)]">
+                <div className="rounded-2xl overflow-hidden border bg-[var(--card-bg)] border-[var(--border-primary)] shadow-[0_8px_32px_rgba(234,179,8,0.15)]">
                   <div className="px-8 py-5 bg-gradient-to-r from-yellow-600/30 to-red-600/30 border-b border-[rgba(234,179,8,0.2)]">
                     <div className="flex items-center gap-3">
                       <div className="w-10 h-10 rounded-full bg-yellow-500 flex items-center justify-center text-xl shadow-[0_0_16px_rgba(234,179,8,0.4)]">
@@ -376,7 +376,7 @@ export default function AdminMentorAssignments() {
                   <p className="text-[#9A93B5]">No results found</p>
                 </div>
               ) : (
-                <div className="bg-[rgba(22,11,46,0.4)] backdrop-blur-xl border border-[rgba(139,92,246,0.2)] rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+                <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-[var(--border-primary)] rounded-2xl overflow-hidden shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
                   <div className="divide-y divide-[rgba(139,92,246,0.1)]">
                     {filteredAssignments.map((assignment) => (
                       <div

@@ -179,8 +179,8 @@ export default function MentorDashboard() {
 		}
 	};
 
-	const upcomingSessions = mentorshipSessions.filter(
-		(s) => s.status === "upcoming"
+	const upcomingSessions = mentorshipSessions.filter((s) =>
+		["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"].includes(s.status)
 	);
 	const completedSessions = mentorshipSessions.filter(
 		(s) => s.status === "completed"

@@ -88,7 +88,7 @@ export default function AdminRegistrations() {
     );
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-24 pb-12">
+        <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 pb-12">
             <AdminNavbar />
             <div className="max-w-7xl mx-auto px-6">
                 <div className="flex justify-between items-center mb-8">
@@ -100,7 +100,7 @@ export default function AdminRegistrations() {
                         <input
                             type="text"
                             placeholder="Search leads..."
-                            className="bg-[#160B2E] border border-white/10 rounded-lg px-4 py-2 w-64 focus:border-purple-500 outline-none"
+                            className="bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-2 w-64 focus:border-purple-500 outline-none"
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
                         />
@@ -126,7 +126,7 @@ export default function AdminRegistrations() {
                 {loading ? (
                     <div className="text-center py-20 text-gray-400">Loading leads...</div>
                 ) : (
-                    <div className="bg-[#12091F]/50 backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
+                    <div className="bg-[var(--card-bg)] backdrop-blur-xl border border-white/5 rounded-2xl overflow-hidden shadow-2xl">
                         <div className="overflow-x-auto">
                             <table className="w-full text-left">
                                 <thead className="bg-white/5 text-gray-300 text-sm uppercase tracking-wider">
@@ -174,7 +174,7 @@ export default function AdminRegistrations() {
                                             </td>
                                             <td className="px-6 py-4">
                                                 <select
-                                                    className="bg-[#0B0614] border border-white/10 rounded px-2 py-1 text-xs outline-none focus:border-purple-500"
+                                                    className="bg-[var(--card-bg)] border border-white/10 rounded px-2 py-1 text-xs outline-none focus:border-purple-500"
                                                     value={lead.status}
                                                     onChange={(e) => handleStatusUpdate(lead._id, e.target.value)}
                                                 >

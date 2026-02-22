@@ -240,7 +240,10 @@ export default function MyLearningPage() {
 				<section className='mb-12'>
 					<div className='flex items-center justify-between mb-6'>
 						<h2 className='text-2xl md:text-3xl font-bold'>Start Learning</h2>
-						<button className='px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition'>
+						<button
+							type="button"
+							onClick={() => navigate("/mentorships/book")}
+							className='px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 rounded-lg font-semibold hover:from-pink-600 hover:to-purple-700 transition'>
 							Book Mentorship
 						</button>
 					</div>

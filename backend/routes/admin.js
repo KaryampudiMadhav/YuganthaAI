@@ -5,6 +5,7 @@ import Mentor from "../models/Mentor.js";
 import User from "../models/User.js";
 import Instructor from "../models/Instructor.js";
 import Blog from "../models/Blog.js";
+import MentorshipSession from "../models/MentorshipSession.js";
 import sgMail from "../config/mailer.js";
 import upload from "../middleware/upload.js";
 
@@ -126,7 +127,12 @@ const verifyAdmin = (req, res, next) => {
 // Get all mentors
 router.get("/mentors", verifyAdmin, async (req, res) => {
 	try {
-		const mentors = await Mentor.find().sort({ createdAt: -1 });
+		const { topic } = req.query;
+		const filter = {};
+		if (topic && typeof topic === "string" && topic.trim()) {
+			filter.expertise = { $regex: topic.trim(), $options: "i" };
+		}
+		const mentors = await Mentor.find(filter).sort({ createdAt: -1 });
 		res.json(mentors);
 	} catch (error) {
 		console.error("Get mentors error:", error);
@@ -250,6 +256,54 @@ router.delete("/mentors/:id", verifyAdmin, async (req, res) => {
 		res.json({ message: "Mentor deleted successfully" });
 	} catch (error) {
 		console.error("Delete mentor error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Get all mentorship sessions
+router.get("/mentorship-sessions", verifyAdmin, async (req, res) => {
+	try {
+		const sessions = await MentorshipSession.find()
+			.populate("userId", "fullName email")
+			.populate("mentorId", "name email expertise")
+			.sort({ bookedDate: -1 });
+		res.json(sessions);
+	} catch (error) {
+		console.error("Get mentorship sessions error:", error);
+		res.status(500).json({ message: "Server error" });
+	}
+});
+
+// Assign or reassign mentor to a session
+router.put("/mentorship-sessions/:id/assign-mentor", verifyAdmin, async (req, res) => {
+	try {
+		const { id } = req.params;
+		const { mentorId } = req.body;
+
+		if (!mentorId) {
+			return res.status(400).json({ message: "mentorId is required" });
+		}
+
+		const session = await MentorshipSession.findById(id);
+		if (!session) {
+			return res.status(404).json({ message: "Session not found" });
+		}
+
+		const mentor = await Mentor.findById(mentorId);
+		if (!mentor) {
+			return res.status(404).json({ message: "Mentor not found" });
+		}
+
+		session.mentorId = mentorId;
+		session.status = "mentor_assigned";
+		await session.save();
+
+		await session.populate("userId", "fullName email");
+		await session.populate("mentorId", "name email expertise");
+
+		res.json({ message: "Mentor assigned successfully", session });
+	} catch (error) {
+		console.error("Assign mentor to session error:", error);
 		res.status(500).json({ message: "Server error" });
 	}
 });

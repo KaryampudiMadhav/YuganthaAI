@@ -260,7 +260,7 @@ export default function AdminBlogManagement() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-24 md:pt-28 pb-16">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 md:pt-28 pb-16">
       <AdminNavbar />
       <div className="max-w-7xl mx-auto px-4 md:px-6 space-y-10">
         {/* Header */}
@@ -309,7 +309,7 @@ export default function AdminBlogManagement() {
         </div>
 
         {/* Blog List */}
-        <div className="bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8">
+        <div className="bg-[var(--card-bg)] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8">
           <h2 className="text-2xl font-bold mb-6">All Blogs</h2>
           
           {loading ? (
@@ -375,8 +375,8 @@ export default function AdminBlogManagement() {
 
       {/* Add/Edit Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
-          <div className="bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4 overflow-y-auto">
+          <div className="bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-2xl p-8 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-3xl font-bold">{editingBlog ? "Edit Blog" : "Create New Blog"}</h2>
               <button onClick={resetForm} className="text-[#9A93B5] hover:text-white transition">
@@ -393,7 +393,7 @@ export default function AdminBlogManagement() {
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+                  className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
                   placeholder="Enter blog title"
                   required
                 />
@@ -404,7 +404,7 @@ export default function AdminBlogManagement() {
                 <textarea
                   value={formData.excerpt}
                   onChange={(e) => setFormData({ ...formData, excerpt: e.target.value })}
-                  className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] resize-none"
+                  className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] resize-none"
                   placeholder="Short description (shown in blog list)"
                   rows="3"
                   required
@@ -416,7 +416,7 @@ export default function AdminBlogManagement() {
                 <textarea
                   value={formData.content}
                   onChange={(e) => setFormData({ ...formData, content: e.target.value })}
-                  className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] resize-none"
+                  className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] resize-none"
                   placeholder="Full blog content (supports markdown)"
                   rows="10"
                   required
@@ -430,7 +430,7 @@ export default function AdminBlogManagement() {
                     type="text"
                     value={formData.author}
                     onChange={(e) => setFormData({ ...formData, author: e.target.value })}
-                    className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+                    className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
                     placeholder="Author name"
                     required
                   />
@@ -441,7 +441,7 @@ export default function AdminBlogManagement() {
                   <select
                     value={formData.category}
                     onChange={(e) => setFormData({ ...formData, category: e.target.value })}
-                    className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+                    className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
                     required>
                     {categories.map((cat) => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -455,7 +455,7 @@ export default function AdminBlogManagement() {
                     type="text"
                     value={formData.readTime}
                     onChange={(e) => setFormData({ ...formData, readTime: e.target.value })}
-                    className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+                    className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
                     placeholder="e.g., 5 min read"
                   />
                 </div>
@@ -466,7 +466,7 @@ export default function AdminBlogManagement() {
                     type="file"
                     accept="image/*"
                     onChange={handleImageChange}
-                    className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#8B5CF6] file:text-white file:cursor-pointer hover:file:bg-[#A855F7]"
+                    className="w-full bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:bg-[#8B5CF6] file:text-white file:cursor-pointer hover:file:bg-[#A855F7]"
                   />
                   {imagePreview && (
                     <img src={imagePreview} alt="Preview" className="mt-3 w-32 h-32 object-cover rounded-lg" />
@@ -482,7 +482,7 @@ export default function AdminBlogManagement() {
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyPress={(e) => e.key === "Enter" && (e.preventDefault(), handleAddTag())}
-                    className="flex-1 bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
+                    className="flex-1 bg-[var(--card-bg)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-color)] placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6]"
                     placeholder="Add a tag"
                   />
                   <button
@@ -508,7 +508,7 @@ export default function AdminBlogManagement() {
                   id="featured"
                   checked={formData.featured}
                   onChange={(e) => setFormData({ ...formData, featured: e.target.checked })}
-                  className="w-5 h-5 rounded border-[#2A1F4D] bg-[#0B0614] text-[#8B5CF6] focus:ring-2 focus:ring-[#8B5CF6]"
+                  className="w-5 h-5 rounded border-[var(--border-color)] bg-[var(--card-bg)] text-[#8B5CF6] focus:ring-2 focus:ring-[#8B5CF6]"
                 />
                 <label htmlFor="featured" className="text-sm font-semibold text-[#C7C3D6]">
                   Mark as Featured Blog

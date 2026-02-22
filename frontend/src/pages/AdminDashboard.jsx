@@ -24,7 +24,7 @@ export default function AdminDashboard() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white flex items-center justify-center">
+      <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] flex items-center justify-center">
         <div className="text-center">
           <div className="inline-block animate-spin mb-4">
             <svg className='w-12 h-12 text-[#A855F7]' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
@@ -38,7 +38,7 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-24 md:pt-28 pb-16">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 md:pt-28 pb-16">
       <AdminNavbar />
       <div className="max-w-7xl mx-auto px-4 md:px-6 space-y-12">
         {/* Header */}
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
           {/* Mentors Management Card */}
           <Link
             to="/admin/mentors"
-            className="group bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.3)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)] hover:shadow-[0_12px_48px_rgba(139,92,246,0.25)] hover:border-[rgba(139,92,246,0.6)] transition-all duration-300 hover:-translate-y-2">
+            className="group bg-[var(--card-bg)] border border-[rgba(139,92,246,0.3)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)] hover:shadow-[0_12px_48px_rgba(139,92,246,0.25)] hover:border-[rgba(139,92,246,0.6)] transition-all duration-300 hover:-translate-y-2">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <p className="text-sm text-[#9A93B5] font-semibold uppercase tracking-wider mb-2">Management</p>
@@ -100,7 +100,7 @@ export default function AdminDashboard() {
           {/* Instructors Management Card */}
           <Link
             to="/admin/instructors"
-            className="group bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(236,72,153,0.3)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(236,72,153,0.1)] hover:shadow-[0_12px_48px_rgba(236,72,153,0.25)] hover:border-[rgba(236,72,153,0.6)] transition-all duration-300 hover:-translate-y-2">
+            className="group bg-[var(--card-bg)] border border-[rgba(236,72,153,0.3)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(236,72,153,0.1)] hover:shadow-[0_12px_48px_rgba(236,72,153,0.25)] hover:border-[rgba(236,72,153,0.6)] transition-all duration-300 hover:-translate-y-2">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <p className="text-sm text-[#9A93B5] font-semibold uppercase tracking-wider mb-2">Management</p>
@@ -147,7 +147,7 @@ export default function AdminDashboard() {
           {/* Assign Mentors Card */}
           <Link
             to="/admin/assign-mentors"
-            className="group bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(236,72,153,0.3)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(236,72,153,0.1)] hover:shadow-[0_12px_48px_rgba(236,72,153,0.25)] hover:border-[rgba(236,72,153,0.6)] transition-all duration-300 hover:-translate-y-2">
+            className="group bg-[var(--card-bg)] border border-[rgba(236,72,153,0.3)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(236,72,153,0.1)] hover:shadow-[0_12px_48px_rgba(236,72,153,0.25)] hover:border-[rgba(236,72,153,0.6)] transition-all duration-300 hover:-translate-y-2">
             <div className="flex items-start justify-between mb-6">
               <div>
                 <p className="text-sm text-[#9A93B5] font-semibold uppercase tracking-wider mb-2">Assignment</p>
@@ -194,7 +194,7 @@ export default function AdminDashboard() {
 
         {/* Quick Stats Row */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-xl p-6">
+          <div className="bg-[var(--card-bg)] border border-[rgba(139,92,246,0.2)] rounded-xl p-6">
             <p className="text-sm text-[#9A93B5] font-semibold mb-3">System Status</p>
             <div className="flex items-center gap-3">
               <div className="w-3 h-3 rounded-full bg-[#22c55e] animate-pulse"></div>
@@ -202,12 +202,12 @@ export default function AdminDashboard() {
             </div>
           </div>
 
-          <div className="bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-xl p-6">
+          <div className="bg-[var(--card-bg)] border border-[rgba(139,92,246,0.2)] rounded-xl p-6">
             <p className="text-sm text-[#9A93B5] font-semibold mb-3">Support</p>
             <p className="text-white">Need help? Contact admin support for assistance.</p>
           </div>
 
-          <div className="bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-xl p-6">
+          <div className="bg-[var(--card-bg)] border border-[rgba(139,92,246,0.2)] rounded-xl p-6">
             <p className="text-sm text-[#9A93B5] font-semibold mb-3">Documentation</p>
             <p className="text-white">View platform documentation and guides.</p>
           </div>

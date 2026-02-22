@@ -101,7 +101,8 @@ export default function MentorshipPage() {
   };
 
   const stats = useMemo(() => {
-    const upcoming = sessionData.filter((s) => s.status === "upcoming").length;
+    const active = ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"];
+    const upcoming = sessionData.filter((s) => active.includes(s.status)).length;
     const completed = sessionData.filter((s) => s.status === "completed").length;
     const cancelled = sessionData.filter((s) => s.status === "cancelled" || s.status === "rejected" || s.status === "rescheduled").length;
     return { upcoming, completed, cancelled };
@@ -109,6 +110,10 @@ export default function MentorshipPage() {
 
   const filteredSessions = useMemo(() => {
     if (activeTab === "my-mentorships") return sessionData;
+    if (activeTab === "upcoming") {
+      const active = ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"];
+      return sessionData.filter((s) => active.includes(s.status));
+    }
     return sessionData.filter((s) => s.status === activeTab);
   }, [activeTab, sessionData]);
 

@@ -170,7 +170,7 @@ export default function AdminMentorManagement() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white pt-24 md:pt-28 pb-16">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] pt-24 md:pt-28 pb-16">
       <AdminNavbar />
       <div className="max-w-7xl mx-auto px-4 md:px-6 space-y-10">
         {/* Header */}
@@ -220,7 +220,7 @@ export default function AdminMentorManagement() {
         </div>
 
         {/* Add Form */}
-        <div className="bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+        <div className="bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-white mb-1">Add New Mentor</h2>
             <p className="text-[#C7C3D6] text-sm">Create a new mentor account for your platform</p>
@@ -229,14 +229,14 @@ export default function AdminMentorManagement() {
             <input
               value={form.name}
               onChange={(e) => setForm((f) => ({ ...f, name: e.target.value }))}
-              className="bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3.5 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
+              className="bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-lg px-4 py-3.5 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
               placeholder="Full Name"
               required
             />
             <input
               value={form.expertise}
               onChange={(e) => setForm((f) => ({ ...f, expertise: e.target.value }))}
-              className="bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3.5 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
+              className="bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-lg px-4 py-3.5 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
               placeholder="Expertise/Subject"
               required
             />
@@ -244,14 +244,14 @@ export default function AdminMentorManagement() {
               type="email"
               value={form.email}
               onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-              className="bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3.5 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
+              className="bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-lg px-4 py-3.5 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
               placeholder="Email Address"
               required
             />
             <input
               value={form.bio}
               onChange={(e) => setForm((f) => ({ ...f, bio: e.target.value }))}
-              className="bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3.5 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
+              className="bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-lg px-4 py-3.5 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300"
               placeholder="Bio (optional)"
             />
             <button
@@ -266,12 +266,11 @@ export default function AdminMentorManagement() {
         </div>
 
         {/* List */}
-        <div className="bg-gradient-to-br from-[#12091F] to-[#0B0614] border border-[rgba(139,92,246,0.2)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
+        <div className="bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-2xl p-8 shadow-[0_8px_32px_rgba(139,92,246,0.1)]">
           <div className="mb-6">
             <h2 className="text-2xl font-bold text-white mb-1">All Mentors</h2>
             <p className="text-[#C7C3D6] text-sm">{mentors.length} mentor{mentors.length !== 1 ? 's' : ''} on platform</p>
           </div>
-          
           {loading ? (
             <div className="text-center py-12">
               <div className="inline-block animate-spin">
@@ -282,7 +281,7 @@ export default function AdminMentorManagement() {
               <p className="text-[#C7C3D6] mt-3">Loading...</p>
             </div>
           ) : (
-            <div className="space-y-0 divide-y divide-[rgba(139,92,246,0.1)]">
+            <div className="space-y-0">
               {mentors.length === 0 ? (
                 <p className="text-center py-12 text-[#9A93B5]">No mentors yet. Add one above to get started.</p>
               ) : (

@@ -45,7 +45,7 @@ export default function AdminLoginPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0B0614] via-[#160B2E] to-[#1a0f3a] text-white flex items-center justify-center px-4 py-12">
+    <div className="min-h-screen bg-[var(--bg-color)] text-[var(--text-color)] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-md space-y-8">
         {/* Logo Section */}
         <div className="text-center space-y-3">
@@ -60,7 +60,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Login Card */}
-        <div className="bg-[#12091F] border border-[rgba(139,92,246,0.25)] backdrop-blur-xl rounded-2xl p-10 space-y-6 shadow-[0_8px_32px_rgba(139,92,246,0.2)]">
+        <div className="bg-[var(--card-bg)] border border-[var(--border-primary)] backdrop-blur-xl rounded-2xl p-10 space-y-6 shadow-[0_8px_32px_rgba(139,92,246,0.2)]">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2.5">
               <label className="text-sm font-semibold text-[#C7C3D6]" htmlFor="email">Email Address</label>
@@ -69,7 +69,7 @@ export default function AdminLoginPage() {
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3.5 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300 hover:border-[rgba(139,92,246,0.5)]"
+                className="w-full bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-lg px-4 py-3.5 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300 hover:border-[rgba(139,92,246,0.5)]"
                 placeholder={ADMIN_EMAIL}
                 autoComplete="username"
                 required
@@ -83,7 +83,7 @@ export default function AdminLoginPage() {
                 type="password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full bg-[#0B0614] border border-[#2A1F4D] rounded-lg px-4 py-3.5 text-white placeholder-[#9A93B5] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300 hover:border-[rgba(139,92,246,0.5)]"
+                className="w-full bg-[var(--card-bg)] border border-[var(--border-primary)] rounded-lg px-4 py-3.5 text-[var(--text-color)] placeholder-[var(--text-muted)] focus:outline-none focus:ring-2 focus:ring-[#8B5CF6] focus:border-[#8B5CF6] transition duration-300 hover:border-[rgba(139,92,246,0.5)]"
                 placeholder="••••••••"
                 autoComplete="current-password"
                 required

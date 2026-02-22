@@ -9,7 +9,6 @@ export default function MyMentorshipSessionsPage() {
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filterStatus, setFilterStatus] = useState("upcoming");
-  const [mentor, setMentor] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -17,50 +16,72 @@ export default function MyMentorshipSessionsPage() {
       navigate("/login", { replace: true });
       return;
     }
-    fetchSessions();
-  }, [navigate]);
-
-  const fetchSessions = async () => {
-    try {
-      setLoading(true);
-      const token = localStorage.getItem("token");
-      
-      const response = await fetch(`${API_URL}/api/mentorship-sessions/user`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      if (response.status === 401) {
-        navigate("/login", { replace: true });
-        return;
-      }
-
-      if (response.ok) {
-        const data = await response.json();
-        setSessions(data);
-        
-        // Get mentor info from first session if available
-        if (data.length > 0 && data[0].mentorId) {
-          setMentor(data[0].mentorId);
+    (async () => {
+      try {
+        setLoading(true);
+        const tokenInner = localStorage.getItem("token");
+        const response = await fetch(`${API_URL}/api/mentorship-sessions/user`, {
+          headers: { Authorization: `Bearer ${tokenInner}` },
+        });
+        if (response.status === 401) {
+          navigate("/login", { replace: true });
+          return;
         }
+        if (response.ok) {
+          const data = await response.json();
+          setSessions(data);
+        }
+      } catch (error) {
+        console.error("Error fetching sessions:", error);
+        toast.error("Failed to fetch sessions");
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      console.error("Error fetching sessions:", error);
-      toast.error("Failed to fetch sessions");
-    } finally {
-      setLoading(false);
-    }
-  };
+    })();
+  }, [navigate]);
 
   // Filter sessions by status
   const filteredSessions = useMemo(() => {
+    if (filterStatus === "upcoming") {
+      const active = ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"];
+      return sessions.filter((s) => active.includes(s.status));
+    }
     return sessions.filter((session) => session.status === filterStatus);
   }, [sessions, filterStatus]);
+
+  const handleCancel = async (sessionId) => {
+    const confirmed = window.confirm("Cancel this session? This action cannot be undone.");
+    if (!confirmed) return;
+    try {
+      const token = localStorage.getItem("token");
+      const res = await fetch(`${API_URL}/api/mentorship-sessions/${sessionId}/cancel`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err.message || "Failed to cancel session");
+      }
+      const updated = await res.json();
+      setSessions((prev) => prev.map((s) => (s._id === updated._id ? updated : s)));
+      toast.success("Session cancelled");
+      // If user is on 'completed' tab, leave it; otherwise, keep selection
+    } catch (e) {
+      console.error(e);
+      toast.error(e.message || "Error cancelling session");
+    }
+  };
 
   // Stats
   const stats = useMemo(() => {
     return {
       total: sessions.length,
-      upcoming: sessions.filter((s) => s.status === "upcoming").length,
+      upcoming: sessions.filter((s) =>
+        ["upcoming", "pending", "mentor_assigned", "scheduled", "rescheduled"].includes(s.status)
+      ).length,
       completed: sessions.filter((s) => s.status === "completed").length,
       withMeetLink: sessions.filter((s) => s.meetingLink).length,
     };
@@ -233,7 +254,7 @@ export default function MyMentorshipSessionsPage() {
                     </div>
                   </div>
 
-                  {/* Meet Link Section */}
+                  {/* Meet Link / Actions Section */}
                   <div className="md:col-span-1">
                     <div className="h-full flex flex-col justify-between">
                       {session.meetingLink ? (
@@ -254,6 +275,15 @@ export default function MyMentorshipSessionsPage() {
                           <p className="text-xs text-[#9A93B5] text-center mt-2">
                             Mentor has shared the meeting link
                           </p>
+                          {["upcoming","pending","mentor_assigned","scheduled","rescheduled"].includes(session.status) && (
+                            <button
+                              type="button"
+                              onClick={() => handleCancel(session._id)}
+                              className="w-full px-4 py-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500/10 font-semibold transition"
+                            >
+                              Cancel Session
+                            </button>
+                          )}
                         </div>
                       ) : (
                         <div className="space-y-3 p-4 bg-[rgba(255,193,7,0.1)] border border-[rgba(255,193,7,0.2)] rounded-lg">
@@ -264,6 +294,15 @@ export default function MyMentorshipSessionsPage() {
                               Your mentor will share the meet link soon
                             </p>
                           </div>
+                          {["upcoming","pending","mentor_assigned","scheduled","rescheduled"].includes(session.status) && (
+                            <button
+                              type="button"
+                              onClick={() => handleCancel(session._id)}
+                              className="w-full px-4 py-2 rounded-lg border border-red-500 text-red-400 hover:bg-red-500/10 font-semibold transition"
+                            >
+                              Cancel Session
+                            </button>
+                          )}
                         </div>
                       )}
                     </div>

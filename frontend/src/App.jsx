@@ -38,6 +38,7 @@ import AdminAssignInstructors from "./pages/AdminAssignInstructors";
 import AdminMentorAssignments from "./pages/AdminMentorAssignments";
 import AdminRegistrations from "./pages/AdminRegistrations";
 import AdminBlogManagement from "./pages/AdminBlogManagement";
+import AdminMentorshipBookings from "./pages/AdminMentorshipBookings";
 import InstructorForgotPasswordPage from "./pages/InstructorForgotPasswordPage";
 import BlogsPage from "./pages/BlogsPage";
 import BlogDetailPage from "./pages/BlogDetailPage";
@@ -80,21 +81,13 @@ function CoursesLayout({ children }) {
 }
 
 export default function App() {
-	const [theme, setTheme] = useState("dark-theme");
+	const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "dark-theme");
 	const [loading, setLoading] = useState(true);
 
-	// Initialize theme from localStorage or default
 	useEffect(() => {
-		const storedTheme = localStorage.getItem("theme");
-		if (storedTheme) {
-			setTheme(storedTheme);
-		}
-
-		// Simulate initial loading
 		const timer = setTimeout(() => {
 			setLoading(false);
 		}, 2000);
-
 		return () => clearTimeout(timer);
 	}, []);
 
@@ -318,6 +311,7 @@ export default function App() {
 									<Route path='/admin/mentors' element={<AdminMentorManagement />} />
 									<Route path='/admin/instructors' element={<AdminInstructorManagement />} />							<Route path='/admin/blogs' element={<AdminBlogManagement />} />											<Route path='/admin/assign-mentors' element={<AdminAssignMentors />} />
 									<Route path='/admin/mentorships' element={<AdminMentorAssignments />} />
+									<Route path='/admin/bookings' element={<AdminMentorshipBookings />} />
 									<Route path='/admin/assign-instructors' element={<AdminAssignInstructors />} />
 									<Route path='/admin/registrations' element={<AdminRegistrations />} />
 
