@@ -374,8 +374,11 @@ export default function MentorDashboard() {
 																onClick={() =>
 																	setEditingMeetingLink(session._id)
 																}
-																className='px-4 py-2 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-lg transition-all duration-300 text-sm font-semibold shadow-[0_2px_8px_rgba(139,92,246,0.3)] w-full'>
-																+ Add Meeting Link
+																className='group flex items-center justify-center gap-2 w-full px-4 py-2.5 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-xl transition-all duration-300 text-sm font-semibold shadow-[0_4px_14px_rgba(139,92,246,0.4)] hover:shadow-[0_6px_20px_rgba(168,85,247,0.5)] hover:-translate-y-0.5 active:translate-y-0 active:shadow-[0_2px_8px_rgba(139,92,246,0.3)]'>
+																	<svg className='w-4 h-4 transition-transform duration-300 group-hover:rotate-12' fill='none' stroke='currentColor' viewBox='0 0 24 24'>
+																		<path strokeLinecap='round' strokeLinejoin='round' strokeWidth={2} d='M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1' />
+																	</svg>
+																	Add Meeting Link
 															</button>
 														)
 													) : (

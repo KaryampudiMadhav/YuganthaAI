@@ -205,13 +205,13 @@ body {
 }
 
 .light-theme .from-\[\#8B5CF6\] {
-	--tw-gradient-from: var(--accent-primary-light);
-	--tw-gradient-to: rgba(169, 181, 223, 0);
+	--tw-gradient-from: #ab89fa;
+	--tw-gradient-to: rgba(139, 92, 246, 0); 
 	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
 
 .light-theme .to-\[\#A855F7\] {
-	--tw-gradient-to: var(--accent-primary);
+	--tw-gradient-to: #b978f6;
 }
 
 .light-theme .from-\[\#EC4899\] {
@@ -299,6 +299,151 @@ body {
 	background-color: rgba(59, 130, 246, 0.08);
 }
 
+/* ============================================================
+   Mentor Dashboard – Light Theme Overrides
+   ============================================================ */
+
+/* Main page background */
+.light-theme .bg-\[\#0B0614\] {
+	background-color: #F0F4F8;
+}
+
+/* Header background (with opacity modifier uses bg-[#12091F]/95) */
+.light-theme .bg-\[\#12091F\]\/95 {
+	background-color: rgba(255, 255, 255, 0.97) !important;
+}
+
+/* Card gradient — from-[#12091F] */
+.light-theme .from-\[\#12091F\] {
+	--tw-gradient-from: #FFFFFF;
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(255,255,255,0));
+}
+
+/* Card gradient — to-[#0B0614] */
+.light-theme .to-\[\#0B0614\] {
+	--tw-gradient-to: #F0F4F8;
+}
+
+/* Input / textarea backgrounds in modals */
+.light-theme .bg-\[\#1a1a2e\] {
+	background-color: #F3F4F6;
+	color: #1A1F3C;
+}
+
+/* Table header row background */
+.light-theme .bg-\[rgba\(139\2c 92\2c 246\2c 0\.05\)\] {
+	background-color: rgba(139, 92, 246, 0.07);
+}
+
+/* Table row hover */
+.light-theme .hover\:bg-\[rgba\(139\2c 92\2c 246\2c 0\.05\)\]:hover {
+	background-color: rgba(139, 92, 246, 0.06);
+}
+
+/* Green stats card gradient */
+.light-theme .from-\[rgba\(34\2c 197\2c 94\2c 0\.15\)\] {
+	--tw-gradient-from: rgba(34, 197, 94, 0.1);
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(34,197,94,0));
+}
+.light-theme .to-\[rgba\(34\2c 197\2c 94\2c 0\.05\)\] {
+	--tw-gradient-to: rgba(34, 197, 94, 0.04);
+}
+
+/* Red stats card gradient */
+.light-theme .from-\[rgba\(239\2c 68\2c 68\2c 0\.15\)\] {
+	--tw-gradient-from: rgba(239, 68, 68, 0.1);
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(239,68,68,0));
+}
+.light-theme .to-\[rgba\(239\2c 68\2c 68\2c 0\.05\)\] {
+	--tw-gradient-to: rgba(239, 68, 68, 0.04);
+}
+
+/* Purple stats card gradient */
+.light-theme .from-\[rgba\(139\2c 92\2c 246\2c 0\.15\)\] {
+	--tw-gradient-from: rgba(139, 92, 246, 0.1);
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(139,92,246,0));
+}
+.light-theme .to-\[rgba\(139\2c 92\2c 246\2c 0\.05\)\] {
+	--tw-gradient-to: rgba(139, 92, 246, 0.04);
+}
+
+/* Green section border */
+.light-theme .border-\[rgba\(34\2c 197\2c 94\2c 0\.2\)\] {
+	border-color: rgba(34, 197, 94, 0.35);
+}
+.light-theme .border-\[rgba\(34\2c 197\2c 94\2c 0\.1\)\] {
+	border-color: rgba(34, 197, 94, 0.2);
+}
+.light-theme .hover\:bg-\[rgba\(34\2c 197\2c 94\2c 0\.05\)\]:hover {
+	background-color: rgba(34, 197, 94, 0.06);
+}
+
+/* Red section border */
+.light-theme .border-\[rgba\(239\2c 68\2c 68\2c 0\.2\)\] {
+	border-color: rgba(239, 68, 68, 0.35);
+}
+.light-theme .border-\[rgba\(239\2c 68\2c 68\2c 0\.25\)\] {
+	border-color: rgba(239, 68, 68, 0.4);
+}
+.light-theme .border-\[rgba\(239\2c 68\2c 68\2c 0\.3\)\] {
+	border-color: rgba(239, 68, 68, 0.45);
+}
+
+/* Modal overlay backdrop */
+.light-theme .bg-black\/70 {
+	background-color: rgba(0, 0, 0, 0.45);
+}
+
+/* Placeholder text in inputs */
+.light-theme .placeholder-\[\#9A93B5\]::placeholder {
+	color: #6B7280;
+}
+
+/* Input focus border for purple */
+.light-theme .focus\:border-\[\#A855F7\]:focus {
+	border-color: #7C3AED;
+}
+
+/* Input focus border for red */
+.light-theme .focus\:border-\[\#EF4444\]:focus {
+	border-color: #DC2626;
+}
+
+/* green-300 badge text in light theme */
+.light-theme .text-green-300 {
+	color: #15803D;
+}
+
+/* stat card number gradients stay colorful in light */
+.light-theme .from-\[\#22C55E\] {
+	--tw-gradient-from: #16A34A;
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(22,163,74,0));
+}
+.light-theme .to-\[\#16A34A\] {
+	--tw-gradient-to: #15803D;
+}
+.light-theme .from-\[\#EF4444\] {
+	--tw-gradient-from: #DC2626;
+	--tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to, rgba(220,38,38,0));
+}
+.light-theme .to-\[\#DC2626\] {
+	--tw-gradient-to: #B91C1C;
+}
+
+/* Divider line in header */
+.light-theme .bg-\[rgba\(139\2c 92\2c 246\2c 0\.2\)\] {
+	background-color: rgba(139, 92, 246, 0.25);
+}
+
+/* User avatar pill in header */
+.light-theme .bg-\[rgba\(139\2c 92\2c 246\2c 0\.1\)\] {
+	background-color: rgba(139, 92, 246, 0.1);
+}
+.light-theme .hover\:bg-\[rgba\(139\2c 92\2c 246\2c 0\.15\)\]:hover {
+	background-color: rgba(139, 92, 246, 0.15);
+}
+
+
 .light-theme .border-blue-500\/30 {
 	border-color: rgba(59, 130, 246, 0.3);
 }
@@ -357,7 +502,11 @@ body {
 }
 
 .light-theme .hover\:from-\[\#A855F7\]:hover {
-	--tw-gradient-from: #9333EA;
+	--tw-gradient-from: #A855F7;
+}
+
+.light-theme .hover\:to-\[\#EC4899\]:hover {
+	--tw-gradient-to: #EC4899;
 }
 
 .light-theme .hover\:to-\[\#D946EF\]:hover {
