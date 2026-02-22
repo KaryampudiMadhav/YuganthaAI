@@ -19,6 +19,9 @@ export default function MentorDashboard() {
 	const [rejectSessionId, setRejectSessionId] = useState(null);
 	const [rejectionReason, setRejectionReason] = useState("");
 	const [loading, setLoading] = useState(true);
+	const [rescheduleSubmitting, setRescheduleSubmitting] = useState(false);
+	const [rejectSubmitting, setRejectSubmitting] = useState(false);
+	const [completingId, setCompletingId] = useState(null);
 
 	const { mentor, logout, isAuthenticated } = useMentor();
 	const navigate = useNavigate();
@@ -92,6 +95,7 @@ export default function MentorDashboard() {
 
 	const handleReschedule = async () => {
 		try {
+			setRescheduleSubmitting(true);
 			const token = localStorage.getItem("mentorToken");
 			const response = await fetch(
 				`${API_URL}/api/mentorship-sessions/${rescheduleSessionId}/reschedule`,
@@ -121,11 +125,14 @@ export default function MentorDashboard() {
 		} catch (error) {
 			console.error("Error rescheduling:", error);
 			toast.error("Failed to reschedule session");
+		} finally {
+			setRescheduleSubmitting(false);
 		}
 	};
 
 	const handleRejectSession = async () => {
 		try {
+			setRejectSubmitting(true);
 			const token = localStorage.getItem("mentorToken");
 			const response = await fetch(
 				`${API_URL}/api/mentorship-sessions/${rejectSessionId}/reject`,
@@ -151,11 +158,14 @@ export default function MentorDashboard() {
 		} catch (error) {
 			console.error("Error rejecting:", error);
 			toast.error("Failed to reject session");
+		} finally {
+			setRejectSubmitting(false);
 		}
 	};
 
 	const handleCompleteSession = async (sessionId) => {
 		try {
+			setCompletingId(sessionId);
 			const token = localStorage.getItem("mentorToken");
 			const response = await fetch(
 				`${API_URL}/api/mentorship-sessions/${sessionId}/complete`,
@@ -176,6 +186,8 @@ export default function MentorDashboard() {
 		} catch (error) {
 			console.error("Error completing session:", error);
 			toast.error("Failed to complete session");
+		} finally {
+			setCompletingId(null);
 		}
 	};
 
@@ -394,6 +406,7 @@ export default function MentorDashboard() {
 																setRescheduleSessionId(session._id);
 																setShowRescheduleModal(true);
 															}}
+															disabled={rescheduleSubmitting}
 															className='flex-1 px-3 py-1.5 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition text-sm font-medium'>
 															Reschedule
 														</button>
@@ -403,6 +416,7 @@ export default function MentorDashboard() {
 																setRejectSessionId(session._id);
 																setShowRejectModal(true);
 															}}
+															disabled={rejectSubmitting}
 															className='flex-1 px-3 py-1.5 bg-red-600 hover:bg-red-700 rounded-lg transition text-sm font-medium'>
 															Reject
 														</button>
@@ -412,6 +426,7 @@ export default function MentorDashboard() {
 														onClick={() =>
 															handleCompleteSession(session._id)
 														}
+														disabled={completingId === session._id}
 														className='px-3 py-1.5 bg-green-600 hover:bg-green-700 rounded-lg transition text-sm font-medium'>
 														Mark Complete
 													</button>
@@ -533,6 +548,7 @@ export default function MentorDashboard() {
 							<div className='flex gap-3 mt-6'>
 								<button
 									onClick={handleReschedule}
+									disabled={rescheduleSubmitting}
 									className='flex-1 px-4 py-3 bg-gradient-to-r from-[#8B5CF6] to-[#A855F7] hover:from-[#A855F7] hover:to-[#EC4899] text-white rounded-lg transition-all duration-300 font-semibold shadow-[0_4px_16px_rgba(139,92,246,0.3)]'>
 									Confirm Reschedule
 								</button>
@@ -579,6 +595,7 @@ export default function MentorDashboard() {
 							<div className='flex gap-3 mt-6'>
 								<button
 									onClick={handleRejectSession}
+									disabled={rejectSubmitting}
 									className='flex-1 px-4 py-3 bg-red-600 hover:bg-red-700 rounded-lg transition font-semibold shadow-[0_4px_16px_rgba(239,68,68,0.3)]'>
 									Confirm Rejection
 								</button>
